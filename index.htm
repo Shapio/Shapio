@@ -3,47 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shapio</title>
+<title>Shapio — Prêtez, empruntez, faites confiance.</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--g:#085041;--gm:#1D9E75;--gl:#E1F5EE;--ga:#5DCAA5;--cr:#F7F5F0;--dk:#111410;--mu:#6B7068;--bd:rgba(8,80,65,0.12);}
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--dk);overflow-x:hidden;}
-.page{display:none;min-height:100vh;animation:fadeIn 0.25s ease;scroll-margin-top:0;}
+html,body{font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--dk);overflow-x:hidden;}
+.page{display:none;}
 .page.active{display:block;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* ── LANDING ── */
+/* NAV */
 nav{position:sticky;top:0;z-index:100;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,245,240,0.95);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--bd);}
 .nav-logo{font-family:'DM Serif Display',serif;font-size:22px;color:var(--dk);}
 .nav-logo span{color:var(--gm);}
 .nav-links{display:flex;gap:28px;}
-.nav-links a{font-size:13px;color:var(--mu);text-decoration:none;transition:color 0.2s;}
+.nav-links a{font-size:13px;color:var(--mu);text-decoration:none;transition:color 0.2s;cursor:pointer;}
 .nav-links a:hover{color:var(--g);}
 .nav-cta{padding:9px 20px;border-radius:100px;background:var(--g);color:white;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;cursor:pointer;transition:background 0.2s;}
 .nav-cta:hover{background:var(--gm);}
-.hero{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+
+/* HERO */
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;min-height:92vh;}
 .hblob{position:absolute;border-radius:50%;background:var(--gl);z-index:0;}
-.hblob1{width:600px;height:600px;top:-200px;right:-200px;opacity:0.5;z-index:0;}
-.hblob2{width:400px;height:400px;bottom:-100px;left:-150px;opacity:0.25;z-index:0;}
+.hblob1{width:600px;height:600px;top:-200px;right:-200px;opacity:0.4;}
+.hblob2{width:400px;height:400px;bottom:-100px;left:-150px;opacity:0.2;}
 .hero>*{position:relative;z-index:1;}
-.hero>*{position:relative;z-index:1;} .hero-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;background:var(--gl);border:0.5px solid #9FE1CB;font-size:12px;font-weight:500;color:var(--g);margin-bottom:22px;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;background:var(--gl);border:0.5px solid #9FE1CB;font-size:12px;font-weight:500;color:var(--g);margin-bottom:22px;}
 .tdot{width:6px;height:6px;border-radius:50%;background:var(--gm);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(38px,6vw,70px);line-height:1.05;letter-spacing:-1.5px;color:var(--dk);max-width:780px;margin-bottom:18px;}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(36px,5.5vw,68px);line-height:1.05;letter-spacing:-1.5px;color:var(--dk);max-width:780px;margin-bottom:18px;}
 .hero h1 em{font-style:italic;color:var(--gm);}
-.hero-sub{font-size:16px;font-weight:300;color:var(--mu);max-width:440px;line-height:1.6;margin-bottom:36px;}
-.hero-acts{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:16px;}
+.hero-sub{font-size:16px;font-weight:300;color:var(--mu);max-width:440px;line-height:1.6;margin-bottom:32px;}
+.hero-acts{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:14px;}
 .btn-p{padding:13px 28px;border-radius:100px;background:var(--g);color:white;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;cursor:pointer;transition:all 0.2s;}
 .btn-p:hover{background:var(--gm);transform:translateY(-1px);}
 .btn-gh{padding:13px 28px;border-radius:100px;background:transparent;color:var(--dk);font-size:14px;font-family:'DM Sans',sans-serif;border:0.5px solid rgba(8,80,65,0.2);cursor:pointer;transition:background 0.2s;}
 .btn-gh:hover{background:white;}
 .hero-pts{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:100px;background:white;border:0.5px solid var(--bd);font-size:13px;color:var(--mu);}
 .hero-pts strong{color:var(--gm);font-weight:600;}
-.sp{padding:20px 48px;display:flex;align-items:center;justify-content:center;gap:48px;border-top:0.5px solid var(--bd);border-bottom:0.5px solid var(--bd);background:white;flex-wrap:wrap;}
+
+/* SOCIAL PROOF */
+.sp{padding:18px 48px;display:flex;align-items:center;justify-content:center;gap:48px;border-top:0.5px solid var(--bd);border-bottom:0.5px solid var(--bd);background:white;flex-wrap:wrap;}
 .sp-item{text-align:center;}
 .sp-num{font-family:'DM Serif Display',serif;font-size:26px;color:var(--dk);}
 .sp-lbl{font-size:12px;color:var(--mu);margin-top:2px;}
+
+/* SECTIONS */
 .lsec{padding:80px 48px;}
 .stag{display:inline-block;padding:5px 14px;border-radius:100px;background:var(--gl);color:var(--g);font-size:11px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:14px;}
 .lsec h2{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);letter-spacing:-0.8px;color:var(--dk);margin-bottom:10px;max-width:500px;}
@@ -55,6 +60,8 @@ nav{position:sticky;top:0;z-index:100;padding:16px 48px;display:flex;align-items
 .step-n{font-family:'DM Serif Display',serif;font-size:34px;color:var(--gl);margin-bottom:10px;}
 .step h3{font-size:15px;font-weight:500;color:var(--dk);margin-bottom:5px;}
 .step p{font-size:12px;color:var(--mu);line-height:1.6;font-weight:300;}
+
+/* POINTS */
 .pts-sec{padding:80px 48px;background:var(--g);position:relative;overflow:hidden;}
 .pts-sec .stag{background:rgba(255,255,255,0.15);color:white;}
 .pts-ttl{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);letter-spacing:-0.8px;color:white;margin-bottom:10px;}
@@ -69,6 +76,8 @@ nav{position:sticky;top:0;z-index:100;padding:16px 48px;display:flex;align-items
 .pbg{position:absolute;border-radius:50%;background:rgba(255,255,255,0.03);}
 .pbg1{width:500px;height:500px;top:-200px;right:-100px;}
 .pbg2{width:300px;height:300px;bottom:-100px;left:200px;}
+
+/* TRUST */
 .tr-sec{padding:80px 48px;background:white;}
 .tr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
 .tr-card{border-radius:14px;padding:22px;border:0.5px solid var(--bd);background:var(--cr);transition:border-color 0.2s;}
@@ -76,6 +85,8 @@ nav{position:sticky;top:0;z-index:100;padding:16px 48px;display:flex;align-items
 .tr-ico{width:38px;height:38px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px;}
 .tr-card h4{font-size:14px;font-weight:500;color:var(--dk);margin-bottom:4px;}
 .tr-card p{font-size:12px;color:var(--mu);line-height:1.5;font-weight:300;}
+
+/* FOOTER CTA */
 .fcta{padding:70px 48px;text-align:center;background:var(--cr);border-top:0.5px solid var(--bd);}
 .fcta h2{font-family:'DM Serif Display',serif;font-size:clamp(26px,4vw,40px);letter-spacing:-0.8px;color:var(--dk);margin-bottom:10px;}
 .fcta h2 em{font-style:italic;color:var(--gm);}
@@ -85,10 +96,10 @@ footer{padding:24px 48px;display:flex;align-items:center;justify-content:space-b
 .flogo span{color:var(--gm);}
 footer p{font-size:12px;color:var(--mu);}
 .flinks{display:flex;gap:18px;}
-.flinks a{font-size:12px;color:var(--mu);text-decoration:none;}
+.flinks a{font-size:12px;color:var(--mu);text-decoration:none;cursor:pointer;}
 .flinks a:hover{color:var(--g);}
 
-/* ── ONBOARDING ── */
+/* ONBOARDING */
 .onboard{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 20px;background:var(--cr);}
 .ocard{background:white;border-radius:22px;padding:34px;width:100%;max-width:420px;border:0.5px solid var(--bd);}
 .ologo{font-family:'DM Serif Display',serif;font-size:22px;color:var(--dk);margin-bottom:4px;}
@@ -112,7 +123,7 @@ footer p{font-size:12px;color:var(--mu);}
 .obtn{width:100%;padding:13px;border-radius:12px;background:var(--g);color:white;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;cursor:pointer;transition:all 0.2s;margin-top:8px;}
 .obtn:hover{background:var(--gm);}
 .onote{font-size:11px;color:#ccc;text-align:center;margin-top:8px;}
-.oback{background:none;border:none;color:var(--mu);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:14px;padding:0;}
+.oback{background:none;border:none;color:var(--mu);font-size:13px;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:14px;padding:0;display:flex;align-items:center;gap:4px;}
 .otp-row{display:flex;gap:10px;justify-content:center;margin:8px 0 18px;}
 .otp{width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;}
 .otp.f{border-color:var(--gm);background:var(--gl);color:var(--g);}
@@ -130,7 +141,7 @@ footer p{font-size:12px;color:var(--mu);}
 .skip{text-align:center;font-size:12px;color:var(--mu);cursor:pointer;margin-top:6px;}
 .skip span{color:var(--gm);}
 
-/* ── APP SHELL ── */
+/* APP */
 .app{max-width:430px;margin:0 auto;min-height:100vh;background:white;display:flex;flex-direction:column;border-left:0.5px solid var(--bd);border-right:0.5px solid var(--bd);}
 .atop{padding:13px 18px 10px;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid #f0f0ed;flex-shrink:0;}
 .alogo{font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);}
@@ -146,7 +157,7 @@ footer p{font-size:12px;color:var(--mu);}
 .nlbl{font-size:9px;color:var(--mu);font-weight:500;}
 .ni.active .nlbl{color:var(--gm);}
 
-/* ── HOME ── */
+/* HOME */
 .wbanner{margin:12px 14px;background:var(--g);border-radius:14px;padding:14px 16px;}
 .wbt{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
 .wbttl{font-family:'DM Serif Display',serif;font-size:16px;color:white;}
@@ -183,15 +194,14 @@ footer p{font-size:12px;color:var(--mu);}
 .bname{font-size:12px;font-weight:500;color:var(--dk);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .bowner{font-size:10px;color:var(--mu);margin-top:2px;}
 
-/* ── SWIPE ── */
-.swipe-wrap{padding:0 14px;display:flex;flex-direction:column;align-items:center;}
+/* SWIPE */
 .mode-toggle{display:flex;margin:10px 14px;border-radius:9px;overflow:hidden;border:0.5px solid #e5e5e0;background:#f7f7f4;}
 .mtbtn{flex:1;padding:7px;font-size:11px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;background:transparent;cursor:pointer;color:var(--mu);transition:all 0.2s;}
 .mtbtn.active{background:white;color:var(--dk);border-radius:7px;border:0.5px solid #e5e5e0;}
 .filters{display:flex;gap:6px;padding:0 14px 10px;overflow-x:auto;}
-.fchip{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;font-family:'DM Sans',sans-serif;border:0.5px solid #e5e5e0;background:#f7f7f4;color:var(--mu);white-space:nowrap;cursor:pointer;transition:all 0.15s;}
+.fchip{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;font-family:'DM Sans',sans-serif;border:0.5px solid #e5e5e0;background:#f7f7f4;color:var(--mu);white-space:nowrap;cursor:pointer;}
 .fchip.active{background:var(--gm);color:var(--gl);border-color:var(--g);}
-.cstack{flex:1;width:100%;position:relative;display:flex;align-items:center;justify-content:center;min-height:380px;}
+.cstack{width:100%;position:relative;display:flex;align-items:center;justify-content:center;min-height:380px;padding:0 14px;}
 .scard{width:100%;border-radius:18px;border:0.5px solid #e5e5e0;background:white;overflow:hidden;position:absolute;transition:transform 0.35s cubic-bezier(.4,0,.2,1),opacity 0.35s;}
 .scard.back{transform:scale(0.96) translateY(9px);z-index:1;}
 .scard.front{z-index:2;}
@@ -215,8 +225,7 @@ footer p{font-size:12px;color:var(--mu);}
 .slike{width:60px;height:60px;background:var(--gm);font-size:23px;}
 .ssave{width:48px;height:48px;background:#f7f7f4;border:0.5px solid #e5e5e0;font-size:17px;}
 
-/* ── FICHE OBJET ── */
-.fiche{background:white;}
+/* FICHE */
 .fphoto{height:260px;display:flex;align-items:center;justify-content:center;font-size:86px;position:relative;}
 .fback{position:absolute;top:13px;left:13px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.9);border:0.5px solid #e5e5e0;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;color:var(--mu);}
 .fsave{position:absolute;top:13px;right:13px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.9);border:0.5px solid #e5e5e0;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;}
@@ -230,7 +239,7 @@ footer p{font-size:12px;color:var(--mu);}
 .fptsn{font-size:19px;font-weight:600;color:var(--gm);line-height:1;}
 .fptsl{font-size:9px;color:var(--g);margin-top:1px;}
 .fmeta{display:flex;align-items:center;gap:10px;margin-bottom:11px;}
-.fmc{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);}
+.fmc{font-size:11px;color:var(--mu);}
 .fmdot{width:4px;height:4px;border-radius:50%;background:#ccc;}
 .fstates{display:flex;gap:6px;margin-bottom:13px;}
 .fst{padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;}
@@ -261,27 +270,16 @@ footer p{font-size:12px;color:var(--mu);}
 .fbarin{font-size:17px;font-weight:600;color:var(--gm);}
 .fbarl{font-size:10px;color:var(--mu);}
 .fmsgbtn{width:42px;height:42px;border-radius:11px;background:#f7f7f4;border:0.5px solid #e5e5e0;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;flex-shrink:0;}
-.faskbtn{flex:2;padding:13px;border-radius:11px;background:var(--gm);color:var(--gl);border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all 0.2s;}
-.faskbtn:hover{background:var(--g);}
-.confirm-ov{display:none;min-height:300px;background:rgba(0,0,0,0.88);flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px;margin:0 14px;border-radius:18px;}
-.confirm-ov.show{display:flex;}
-.covttl{font-family:'DM Serif Display',serif;font-size:20px;color:white;text-align:center;}
-.covpts{font-size:28px;font-weight:600;color:var(--ga);}
-.covsub{font-size:12px;color:rgba(255,255,255,0.6);text-align:center;line-height:1.5;}
-.covbtn{width:100%;padding:12px;border-radius:11px;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;border:none;}
-.covmain{background:var(--gm);color:white;}
-.covcan{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2)!important;}
+.faskbtn{flex:2;padding:13px;border-radius:11px;background:var(--gm);color:var(--gl);border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;}
 
-/* ── MESSAGES ── */
-.msg-screen{background:white;}
+/* MESSAGES */
 .msg-hdr{padding:14px 18px;border-bottom:0.5px solid #f0f0ed;}
 .msg-hdr h2{font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);}
 .match-row{display:flex;gap:10px;padding:12px 14px;border-bottom:0.5px solid #f0f0ed;overflow-x:auto;}
 .mchip{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;cursor:pointer;}
 .mchipav{width:50px;height:50px;border-radius:50%;border:2px solid var(--gm);display:flex;align-items:center;justify-content:center;font-size:22px;background:#f7f7f4;}
 .mchip span{font-size:10px;color:var(--mu);}
-.convlist{flex:1;}
-.conv{padding:12px 18px;display:flex;gap:10px;align-items:center;border-bottom:0.5px solid #f0f0ed;cursor:pointer;transition:background 0.1s;}
+.conv{padding:12px 18px;display:flex;gap:10px;align-items:center;border-bottom:0.5px solid #f0f0ed;cursor:pointer;}
 .conv:hover{background:#f7f7f4;}
 .convav{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;background:#f7f7f4;flex-shrink:0;border:0.5px solid #ebebea;}
 .convinfo{flex:1;min-width:0;}
@@ -290,8 +288,7 @@ footer p{font-size:12px;color:var(--mu);}
 .convtime{font-size:11px;color:var(--mu);flex-shrink:0;}
 .undot{width:8px;height:8px;border-radius:50%;background:var(--gm);flex-shrink:0;}
 
-/* ── CHAT ── */
-.chat-screen{background:white;display:flex;flex-direction:column;}
+/* CHAT */
 .chat-hdr{padding:11px 14px;display:flex;align-items:center;gap:10px;border-bottom:0.5px solid #f0f0ed;flex-shrink:0;}
 .cback{font-size:17px;cursor:pointer;padding:4px;color:var(--mu);background:none;border:none;}
 .chatav{width:34px;height:34px;border-radius:50%;background:#f7f7f4;display:flex;align-items:center;justify-content:center;font-size:15px;}
@@ -309,17 +306,14 @@ footer p{font-size:12px;color:var(--mu);}
 .rcpts{display:flex;flex-direction:column;gap:3px;}
 .rcpt{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--dk);}
 .rcdot{width:7px;height:7px;border-radius:50%;}
-.rcl{height:10px;width:1px;background:#d0d0cc;margin-left:3px;}
+.rcl{width:1px;height:10px;background:#d0d0cc;margin-left:3px;}
 .rcbtns{display:flex;gap:7px;margin-top:9px;}
-.rcbtn{flex:1;padding:7px;border-radius:8px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;border:0.5px solid #e5e5e0;background:white;color:var(--dk);display:flex;align-items:center;justify-content:center;gap:3px;}
-.rcbtn.waze{border-color:#9FE1CB;color:var(--g);}
-.rcbtn.maps{border-color:#9FE1CB;color:var(--g);}
+.rcbtn{flex:1;padding:7px;border-radius:8px;font-size:11px;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;border:0.5px solid #9FE1CB;background:white;color:var(--g);}
 .chatinput{padding:9px 12px 13px;display:flex;gap:7px;align-items:center;border-top:0.5px solid #f0f0ed;}
 .chatinput input{flex:1;padding:9px 13px;border-radius:20px;border:0.5px solid #e5e5e0;background:#f7f7f4;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;}
 .sendbtn{width:34px;height:34px;border-radius:50%;background:var(--gm);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:13px;color:white;flex-shrink:0;}
 
-/* ── WALLET ── */
-.wallet{background:white;}
+/* WALLET */
 .wallhdr{padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between;}
 .wallhdr h2{font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);}
 .wallcard{margin:0 14px 14px;background:var(--g);border-radius:16px;padding:18px;color:white;}
@@ -337,7 +331,7 @@ footer p{font-size:12px;color:var(--mu);}
 .wcchip-v.bl{color:#FAC775;}
 .wcchip-v.gr{color:var(--ga);}
 .walltabs{display:flex;margin:0 14px 12px;gap:5px;}
-.wtab{flex:1;padding:7px;border-radius:9px;font-size:11px;font-weight:500;font-family:'DM Sans',sans-serif;border:0.5px solid #e5e5e0;background:#f7f7f4;color:var(--mu);cursor:pointer;text-align:center;transition:all 0.15s;}
+.wtab{flex:1;padding:7px;border-radius:9px;font-size:11px;font-weight:500;font-family:'DM Sans',sans-serif;border:0.5px solid #e5e5e0;background:#f7f7f4;color:var(--mu);cursor:pointer;text-align:center;}
 .wtab.active{background:var(--g);color:white;border-color:var(--g);}
 .walllbl{font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;}
 .txlist{padding:0 14px;display:flex;flex-direction:column;gap:6px;margin-bottom:14px;}
@@ -346,7 +340,6 @@ footer p{font-size:12px;color:var(--mu);}
 .txig{background:var(--gl);}
 .txia{background:#FAEEDA;}
 .txir{background:#FCEBEB;}
-.txii{background:#F1EFE8;}
 .txinfo{flex:1;}
 .txttl{font-size:13px;font-weight:500;color:var(--dk);}
 .txsub{font-size:11px;color:var(--mu);margin-top:1px;}
@@ -357,8 +350,7 @@ footer p{font-size:12px;color:var(--mu);}
 .wallinfo{margin:0 14px 16px;background:var(--gl);border-radius:11px;padding:11px 13px;border:0.5px solid #9FE1CB;}
 .wallinfo p{font-size:12px;color:var(--g);line-height:1.5;}
 
-/* ── PROFIL ── */
-.profil{background:white;}
+/* PROFIL */
 .pcover{height:100px;background:var(--g);position:relative;display:flex;align-items:flex-end;justify-content:flex-end;padding:0 14px 10px;}
 .peditbtn{display:inline-flex;align-items:center;gap:4px;padding:6px 13px;border-radius:20px;background:rgba(255,255,255,0.15);color:white;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;border:0.5px solid rgba(255,255,255,0.35);}
 .pavwrap{position:relative;display:inline-block;margin:-28px 0 0 18px;}
@@ -374,7 +366,7 @@ footer p{font-size:12px;color:var(--mu);}
 .pstn{font-size:17px;font-weight:500;color:var(--dk);}
 .pstl{font-size:9px;color:var(--mu);margin-top:1px;}
 .ptabbar{display:flex;border-bottom:0.5px solid #f0f0ed;margin-bottom:12px;}
-.ptab{flex:1;padding:10px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;background:transparent;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;}
+.ptab{flex:1;padding:10px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;background:transparent;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;}
 .ptab.active{color:var(--gm);border-bottom-color:var(--gm);}
 .ptrust{margin:0 18px 14px;background:#f7f7f4;border-radius:11px;padding:11px 13px;border:0.5px solid #ebebea;}
 .ptrow{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
@@ -412,8 +404,8 @@ footer p{font-size:12px;color:var(--mu);}
 @media(max-width:600px){
   nav{padding:14px 16px;}
   .nav-links{display:none;}
-  .hero{padding:80px 16px 50px;}
-  .sp{padding:14px;gap:18px;}
+  .hero{padding:60px 16px 40px;}
+  .sp{padding:14px;gap:20px;}
   .lsec{padding:56px 18px;}
   .steps{grid-template-columns:1fr;}
   .pts-sec{padding:56px 18px;}
@@ -428,15 +420,21 @@ footer p{font-size:12px;color:var(--mu);}
 </head>
 <body>
 
-<!-- ═══ LANDING ═══ -->
+<!-- LANDING -->
 <div class="page active" id="p-landing">
   <nav>
     <div class="nav-logo">Sha<span>p</span>io</div>
-    <div class="nav-links"><a href="#section-how" onclick="scrollTo('section-how')">Comment ça marche</a><a href="#section-pts" onclick="scrollTo('section-pts')">Les points</a><a href="#section-trust" onclick="scrollTo('section-trust')">Confiance</a></div>
+    <div class="nav-links">
+      <a onclick="document.getElementById('section-how').scrollIntoView({behavior:'smooth'})">Comment ça marche</a>
+      <a onclick="document.getElementById('section-pts').scrollIntoView({behavior:'smooth'})">Les points</a>
+      <a onclick="document.getElementById('section-trust').scrollIntoView({behavior:'smooth'})">Confiance</a>
+    </div>
     <button class="nav-cta" onclick="go('p-s1')">Rejoindre la bêta</button>
   </nav>
+
   <div class="hero">
-    <div class="hblob hblob1"></div><div class="hblob hblob2"></div>
+    <div class="hblob hblob1"></div>
+    <div class="hblob hblob2"></div>
     <div class="hero-tag"><div class="tdot"></div>Bêta bientôt disponible en France</div>
     <h1>Prêtez ce que vous n'utilisez pas.<br><em>Empruntez</em> ce dont vous avez besoin.</h1>
     <p class="hero-sub">Une communauté de voisins qui partagent leurs objets — sans argent, juste des points.</p>
@@ -446,12 +444,14 @@ footer p{font-size:12px;color:var(--mu);}
     </div>
     <div class="hero-pts">🎁 <strong>50 points offerts</strong> à chaque nouvel inscrit</div>
   </div>
+
   <div class="sp">
     <div class="sp-item"><div class="sp-num">0€</div><div class="sp-lbl">Zéro argent échangé</div></div>
     <div class="sp-item"><div class="sp-num">50 pts</div><div class="sp-lbl">Offerts à l'inscription</div></div>
     <div class="sp-item"><div class="sp-num">✓</div><div class="sp-lbl">Profils vérifiés</div></div>
     <div class="sp-item"><div class="sp-num">France</div><div class="sp-lbl">Lancement national</div></div>
   </div>
+
   <section class="lsec" id="section-how">
     <div class="stag">Comment ça marche</div>
     <h2>Simple comme un <em>coup de fil</em> à un voisin.</h2>
@@ -462,6 +462,7 @@ footer p{font-size:12px;color:var(--mu);}
       <div class="step"><div class="step-n">03</div><h3>Échangez en confiance</h3><p>Profils vérifiés, notes et avis, messagerie intégrée.</p></div>
     </div>
   </section>
+
   <section class="pts-sec" id="section-pts">
     <div class="pbg pbg1"></div><div class="pbg pbg2"></div>
     <div class="stag">Le système de points</div>
@@ -473,6 +474,7 @@ footer p{font-size:12px;color:var(--mu);}
       <div class="pts-card"><div class="pts-ico">🔒</div><h4>Points sécurisés</h4><p>Les points sont bloqués à la demande et libérés au retour de l'objet.</p><span class="pts-hl">Plafond à 100 pts</span></div>
     </div>
   </section>
+
   <section class="tr-sec" id="section-trust">
     <div class="stag">Confiance & sécurité</div>
     <h2>Prêtez l'esprit <em>tranquille.</em></h2>
@@ -484,19 +486,25 @@ footer p{font-size:12px;color:var(--mu);}
       <div class="tr-card"><div class="tr-ico">🛡</div><h4>Points bloqués</h4><p>Transfert au retour confirmé. Litige arbitré sous 24h.</p></div>
     </div>
   </section>
+
   <section class="fcta">
     <h2>Prêt à rejoindre la <em>communauté</em> ?</h2>
     <p>50 points de bienvenue dès le lancement.</p>
     <button class="btn-p" onclick="go('p-s1')">Créer mon compte gratuit</button>
   </section>
+
   <footer>
     <div class="flogo">Sha<span>p</span>io</div>
     <p>© 2026 Shapio — France</p>
-    <div class="flinks"><a href="#" onclick="showLegal('mentions')">Mentions légales</a><a href="#" onclick="showLegal('confidentialite')">Confidentialité</a><a href="#" onclick="showLegal('contact')">Contact</a></div>
+    <div class="flinks">
+      <a onclick="showLegal('mentions')">Mentions légales</a>
+      <a onclick="showLegal('confidentialite')">Confidentialité</a>
+      <a onclick="showLegal('contact')">Contact</a>
+    </div>
   </footer>
 </div>
 
-<!-- ═══ SIGNUP 1 ═══ -->
+<!-- SIGNUP 1 -->
 <div class="page" id="p-s1">
 <div class="onboard"><div class="ocard">
   <div class="ologo">Sha<span>p</span>io</div>
@@ -513,7 +521,7 @@ footer p{font-size:12px;color:var(--mu);}
 </div></div>
 </div>
 
-<!-- ═══ SIGNUP 2 ═══ -->
+<!-- SIGNUP 2 -->
 <div class="page" id="p-s2">
 <div class="onboard"><div class="ocard">
   <button class="oback" onclick="go('p-s1')">← Retour</button>
@@ -530,7 +538,7 @@ footer p{font-size:12px;color:var(--mu);}
 </div></div>
 </div>
 
-<!-- ═══ SIGNUP 3 ═══ -->
+<!-- SIGNUP 3 -->
 <div class="page" id="p-s3">
 <div class="onboard"><div class="ocard">
   <button class="oback" onclick="go('p-s2')">← Retour</button>
@@ -545,7 +553,7 @@ footer p{font-size:12px;color:var(--mu);}
 </div></div>
 </div>
 
-<!-- ═══ SIGNUP 4 ═══ -->
+<!-- SIGNUP 4 -->
 <div class="page" id="p-s4">
 <div class="onboard"><div class="ocard">
   <div class="ologo">Sha<span>p</span>io</div>
@@ -564,15 +572,12 @@ footer p{font-size:12px;color:var(--mu);}
 </div></div>
 </div>
 
-<!-- ═══ APP ═══ -->
+<!-- APP -->
 <div class="page" id="p-app">
 <div class="app">
   <div class="atop">
     <div class="alogo">Sha<span>p</span>io</div>
-    <div class="atr">
-      <div class="ppill">50 pts</div>
-      <div class="ibtn">🔔</div>
-    </div>
+    <div class="atr"><div class="ppill">50 pts</div><div class="ibtn">🔔</div></div>
   </div>
 
   <!-- HOME -->
@@ -603,7 +608,7 @@ footer p{font-size:12px;color:var(--mu);}
     </div>
   </div>
 
-  <!-- SWIPE/EXPLORE -->
+  <!-- SWIPE -->
   <div class="ascreen" id="as-swipe">
     <div class="mode-toggle">
       <button class="mtbtn active" id="mt-swipe" onclick="setSwipeMode('swipe')">▶ Swipe</button>
@@ -612,7 +617,6 @@ footer p{font-size:12px;color:var(--mu);}
     <div class="filters">
       <span class="fchip active">Tout</span><span class="fchip">Tech</span><span class="fchip">Maison</span><span class="fchip">Sport</span><span class="fchip">Jardinage</span>
     </div>
-    <!-- SWIPE MODE -->
     <div id="swipe-mode">
       <div class="cstack" id="cstack">
         <div class="scard back" id="cback"><div class="cphoto" style="background:#EEEDFE;"><span>🎮</span></div><div class="cbody"><div class="ctitle">Manette PS5</div></div></div>
@@ -626,9 +630,8 @@ footer p{font-size:12px;color:var(--mu);}
         </div>
       </div>
       <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;"><span style="font-size:11px;color:var(--mu);">← Passer</span><span style="font-size:11px;color:var(--mu);">Vouloir →</span></div>
-      <div class="sactions"><button class="sabtn sask" onclick="swipe('left')">✕</button><button class="sabtn slike" onclick="swipe('right')">♥</button><button class="sabtn ssave" onclick="swipe('save')">★</button></div>
+      <div class="sactions"><button class="sabtn sask" onclick="swipe('left')">✕</button><button class="sabtn slike" onclick="swipe('right')">♥</button><button class="sabtn ssave">★</button></div>
     </div>
-    <!-- BROWSE MODE -->
     <div id="browse-mode" style="display:none;">
       <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;">24 objets à moins de 5 km</div>
       <div class="bgrid">
@@ -636,13 +639,10 @@ footer p{font-size:12px;color:var(--mu);}
         <div class="bcard" onclick="openFiche()"><div class="bimg" style="background:#EEEDFE;"><span>🎮</span><div class="bpts">8 pts</div></div><div class="binfo"><div class="bname">Manette PS5</div><div class="bowner">Thomas R. ★ 4.7 · 0.8km</div></div></div>
         <div class="bcard" onclick="openFiche()"><div class="bimg" style="background:#FAEEDA;"><span>🔧</span><div class="bpts">10 pts</div></div><div class="binfo"><div class="bname">Perceuse Bosch</div><div class="bowner">Karim B. ★ 5.0 · 1.1km</div></div></div>
         <div class="bcard" onclick="openFiche()"><div class="bimg" style="background:#FAECE7;"><span>🏕</span><div class="bpts">20 pts</div></div><div class="binfo"><div class="bname">Tente 4 places</div><div class="bowner">Sophie M. ★ 4.8 · 3.2km</div></div></div>
-        <div class="bcard" onclick="openFiche()"><div class="bimg" style="background:#E1F5EE;"><span>🧹</span><div class="bpts">12 pts</div></div><div class="binfo"><div class="bname">Aspirateur Dyson</div><div class="bowner">Lucas D. ★ 4.6 · 1.7km</div></div></div>
-        <div class="bcard" onclick="openFiche()"><div class="bimg" style="background:#EEEDFE;"><span>📷</span><div class="bpts">25 pts</div></div><div class="binfo"><div class="bname">Appareil Sony A7</div><div class="bowner">Inès F. ★ 4.9 · 4.1km</div></div></div>
       </div>
     </div>
-    <!-- MATCH OVERLAY -->
     <div id="match-ov" style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px;padding:28px;text-align:center;">
-      <div style="font-family:'DM Serif Display',serif;font-size:26px;color:white;margin-bottom:12px;">C'est un<br><span style="color:var(--ga);">MotoMatch !</span></div>
+      <div style="font-family:'DM Serif Display',serif;font-size:26px;color:white;margin-bottom:12px;">C'est un match !</div>
       <div style="font-size:48px;margin-bottom:12px;">🚁</div>
       <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:18px;">Marie a accepté ta demande<br><strong style="color:white;">15 pts seront bloqués</strong> jusqu'au retour</div>
       <button onclick="closeMatch()" style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer un message</button>
@@ -650,88 +650,75 @@ footer p{font-size:12px;color:var(--mu);}
     </div>
   </div>
 
-  <!-- FICHE OBJET -->
+  <!-- FICHE -->
   <div class="ascreen" id="as-fiche">
-    <div class="fiche">
-      <div class="fphoto" style="background:#E1F5EE;"><span>🚁</span>
-        <div class="fback" onclick="backFromFiche()">←</div>
-        <div class="fsave" id="fsavebtn" onclick="toggleFSave()">♡</div>
-        <div class="fdots"><div class="fdot active"></div><div class="fdot"></div><div class="fdot"></div></div>
+    <div class="fphoto" style="background:#E1F5EE;"><span>🚁</span>
+      <div class="fback" onclick="backFromFiche()">←</div>
+      <div class="fsave" id="fsavebtn" onclick="toggleFSave()">♡</div>
+      <div class="fdots"><div class="fdot active"></div><div class="fdot"></div><div class="fdot"></div></div>
+    </div>
+    <div class="fbody">
+      <div class="ftrow"><div class="ftitle">Drone DJI Mini 3 Pro</div><div class="fpts"><div class="fptsn">15</div><div class="fptsl">pts/jour</div></div></div>
+      <div class="fmeta"><div class="fmc">📍 2.3 km</div><div class="fmdot"></div><div class="fmc">⭐ 4.9 (12 avis)</div><div class="fmdot"></div><div class="fmc">🔄 8 prêts</div></div>
+      <div class="fstates"><div class="fst fst-g">Disponible</div><div class="fst fst-gr">Très bon état</div></div>
+      <div class="fdesc">Drone compact 4K avec stabilisateur. Autonomie ~34 min. Livré avec 2 batteries, chargeur et pochette.</div>
+      <div class="fdiv"></div>
+      <div class="fslbl">Prêté par</div>
+      <div class="fownercard">
+        <div class="foav">ML</div>
+        <div class="foinfo"><div class="foname">Marie L. <div class="fobadge">✓ Vérifié</div></div><div class="fosub">⭐ 4.9 · 23 prêts · Membre depuis 2024</div></div>
+        <span style="font-size:14px;color:var(--mu);">›</span>
       </div>
-      <div class="fbody">
-        <div class="ftrow"><div class="ftitle">Drone DJI Mini 3 Pro</div><div class="fpts"><div class="fptsn">15</div><div class="fptsl">pts/jour</div></div></div>
-        <div class="fmeta"><div class="fmc">📍 2.3 km</div><div class="fmdot"></div><div class="fmc">⭐ 4.9 (12 avis)</div><div class="fmdot"></div><div class="fmc">🔄 8 prêts</div></div>
-        <div class="fstates"><div class="fst fst-g">Disponible</div><div class="fst fst-gr">Très bon état</div></div>
-        <div class="fdesc">Drone compact 4K avec stabilisateur. Autonomie ~34 min. Livré avec 2 batteries, chargeur et pochette. Je peux faire une démo si besoin !</div>
-        <div class="fdiv"></div>
-        <div class="fslbl">Prêté par</div>
-        <div class="fownercard" onclick="setTab('profil')">
-          <div class="foav">ML</div>
-          <div class="foinfo"><div class="foname">Marie L. <div class="fobadge">✓ Vérifié</div></div><div class="fosub">⭐ 4.9 · 23 prêts · Membre depuis 2024</div></div>
-          <span style="font-size:14px;color:var(--mu);">›</span>
-        </div>
-        <div class="fslbl">Disponibilités</div>
-        <div class="fdispo">
-          <div class="fdc"><div class="fdcd">Weekends</div><div class="fdct">Toute la journée</div></div>
-          <div class="fdc"><div class="fdcd">Semaine</div><div class="fdct">Après 18h</div></div>
-          <div class="fdc" style="grid-column:span 2;"><div class="fdcd">Durée max</div><div class="fdct">3 jours consécutifs</div></div>
-        </div>
-        <div class="fslbl">Avis récents</div>
-        <div class="frevs">
-          <div class="frev"><div class="frevh"><div class="frevav">TR</div><div class="frevn">Thomas R.</div><div class="frevs2">★★★★★</div></div><div class="frevt">Drone en parfait état, Marie très sympa !</div></div>
-          <div class="frev"><div class="frevh"><div class="frevav">SB</div><div class="frevn">Sophie B.</div><div class="frevs2">★★★★★</div></div><div class="frevt">Super expérience, objet comme décrit.</div></div>
-        </div>
+      <div class="fslbl">Disponibilités</div>
+      <div class="fdispo">
+        <div class="fdc"><div class="fdcd">Weekends</div><div class="fdct">Toute la journée</div></div>
+        <div class="fdc"><div class="fdcd">Semaine</div><div class="fdct">Après 18h</div></div>
+        <div class="fdc" style="grid-column:span 2;"><div class="fdcd">Durée max</div><div class="fdct">3 jours consécutifs</div></div>
       </div>
-      <div id="fiche-confirm" style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px 14px;padding:26px;text-align:center;">
-        <div style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:10px;">Confirmer la demande</div>
-        <div style="font-size:36px;margin-bottom:8px;">🚁</div>
-        <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:6px;">Drone DJI Mini 3 · Marie L.</div>
-        <div style="font-size:26px;font-weight:600;color:var(--ga);margin-bottom:8px;">15 pts / jour</div>
-        <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:16px;">Ces points seront bloqués jusqu'au retour confirmé.</div>
-        <button onclick="hideFicheConfirm()" style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer la demande</button>
-        <button onclick="hideFicheConfirm()" style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Annuler</button>
+      <div class="fslbl">Avis récents</div>
+      <div class="frevs">
+        <div class="frev"><div class="frevh"><div class="frevav">TR</div><div class="frevn">Thomas R.</div><div class="frevs2">★★★★★</div></div><div class="frevt">Drone en parfait état, Marie très sympa !</div></div>
+        <div class="frev"><div class="frevh"><div class="frevav">SB</div><div class="frevn">Sophie B.</div><div class="frevs2">★★★★★</div></div><div class="frevt">Super expérience, objet comme décrit.</div></div>
       </div>
-      <div class="fbar" id="fbar">
-        <div class="fbarinfo"><div class="fbarin">15 pts</div><div class="fbarl">par jour · bloqués<br>jusqu'au retour</div></div>
-        <div class="fmsgbtn" onclick="setTab('msgs')">💬</div>
-        <button class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
-      </div>
+    </div>
+    <div id="fiche-confirm" style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px 14px;padding:26px;text-align:center;">
+      <div style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:10px;">Confirmer la demande</div>
+      <div style="font-size:36px;margin-bottom:8px;">🚁</div>
+      <div style="font-size:26px;font-weight:600;color:var(--ga);margin-bottom:8px;">15 pts / jour</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:16px;">Ces points seront bloqués jusqu'au retour confirmé.</div>
+      <button onclick="hideFicheConfirm()" style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer la demande</button>
+      <button onclick="hideFicheConfirm()" style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Annuler</button>
+    </div>
+    <div class="fbar" id="fbar">
+      <div class="fbarinfo"><div class="fbarin">15 pts</div><div class="fbarl">par jour · bloqués jusqu'au retour</div></div>
+      <div class="fmsgbtn" onclick="setTab('msgs')">💬</div>
+      <button class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
     </div>
   </div>
 
   <!-- MESSAGES -->
   <div class="ascreen" id="as-msgs">
-    <div class="msg-screen">
-      <div class="msg-hdr"><h2>Messages</h2></div>
-      <div class="match-row">
-        <div class="mchip"><div class="mchipav">🚁</div><span>Marie</span></div>
-        <div class="mchip"><div class="mchipav">🎮</div><span>Thomas</span></div>
-        <div class="mchip"><div class="mchipav">🔧</div><span>Karim</span></div>
-        <div class="mchip"><div class="mchipav">😊</div><span>Sophie</span></div>
-      </div>
-      <div class="convlist">
-        <div class="conv" onclick="setTab('chat')">
-          <div class="convav">🚁</div>
-          <div class="convinfo"><div class="convname">Marie L.</div><div class="convprev">J'ai partagé un itinéraire pour ce weekend !</div></div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span class="convtime">14:23</span><div class="undot"></div></div>
-        </div>
-        <div class="conv">
-          <div class="convav">🎮</div>
-          <div class="convinfo"><div class="convname">Thomas R.</div><div class="convprev">Ok pour samedi, à bientôt !</div></div>
-          <span class="convtime">11:05</span>
-        </div>
-        <div class="conv">
-          <div class="convav">🔧</div>
-          <div class="convinfo"><div class="convname">Karim B.</div><div class="convprev">Merci pour le prêt, tout s'est bien passé</div></div>
-          <span class="convtime">Hier</span>
-        </div>
-      </div>
+    <div class="msg-hdr"><h2>Messages</h2></div>
+    <div class="match-row">
+      <div class="mchip"><div class="mchipav">🚁</div><span>Marie</span></div>
+      <div class="mchip"><div class="mchipav">🎮</div><span>Thomas</span></div>
+      <div class="mchip"><div class="mchipav">🔧</div><span>Karim</span></div>
+    </div>
+    <div class="conv" onclick="setTab('chat')">
+      <div class="convav">🚁</div>
+      <div class="convinfo"><div class="convname">Marie L.</div><div class="convprev">J'ai partagé un itinéraire pour ce weekend !</div></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span class="convtime">14:23</span><div class="undot"></div></div>
+    </div>
+    <div class="conv">
+      <div class="convav">🎮</div>
+      <div class="convinfo"><div class="convname">Thomas R.</div><div class="convprev">Ok pour samedi !</div></div>
+      <span class="convtime">11:05</span>
     </div>
   </div>
 
   <!-- CHAT -->
   <div class="ascreen" id="as-chat">
-    <div class="chat-screen" style="display:flex;flex-direction:column;height:100%;">
+    <div style="display:flex;flex-direction:column;height:100%;">
       <div class="chat-hdr">
         <button class="cback" onclick="setTab('msgs')">←</button>
         <div class="chatav">🚁</div>
@@ -739,7 +726,7 @@ footer p{font-size:12px;color:var(--mu);}
         <div class="chat-acts"><div class="chatact">🎙</div><div class="chatact">📍</div></div>
       </div>
       <div class="chatmsgs">
-        <div><div class="mb min">Salut ! J'ai partagé un itinéraire pour ce weekend, ça te dit ?</div><div class="mt">Hier, 18:42</div></div>
+        <div><div class="mb min">Salut ! J'ai partagé un itinéraire pour ce weekend !</div><div class="mt">Hier, 18:42</div></div>
         <div style="align-self:flex-end"><div class="mb mout">Carrément ! Montre-moi ça 🚁</div><div class="mt r">Hier, 18:45</div></div>
         <div class="rcard">
           <div class="rchdr">📍 Itinéraire partagé</div>
@@ -750,13 +737,10 @@ footer p{font-size:12px;color:var(--mu);}
             <div class="rcl"></div>
             <div class="rcpt"><div class="rcdot" style="background:#E24B4A;"></div>Colmar</div>
           </div>
-          <div style="font-size:11px;color:var(--mu);margin-top:8px;">85 km · ~2h · Route panoramique</div>
-          <div class="rcbtns">
-            <button class="rcbtn waze">🗺 Waze</button>
-            <button class="rcbtn maps">📌 Maps</button>
-          </div>
+          <div style="font-size:11px;color:var(--mu);margin-top:8px;">85 km · ~2h</div>
+          <div class="rcbtns"><button class="rcbtn">🗺 Waze</button><button class="rcbtn">📌 Maps</button></div>
         </div>
-        <div><div class="mb min">C'est parfait ! Le col du Ballon est magnifique 🔥</div><div class="mt">14:23</div></div>
+        <div><div class="mb min">Le col du Ballon est magnifique 🔥</div><div class="mt">14:23</div></div>
       </div>
       <div class="chatinput"><input type="text" placeholder="Message…"/><button class="sendbtn">↑</button></div>
     </div>
@@ -764,95 +748,87 @@ footer p{font-size:12px;color:var(--mu);}
 
   <!-- WALLET -->
   <div class="ascreen" id="as-wallet">
-    <div class="wallet">
-      <div class="wallhdr"><h2>Mon wallet</h2><div style="font-size:12px;color:var(--mu);">Avril 2025</div></div>
-      <div class="wallcard">
-        <div class="wcl">Solde disponible</div>
-        <div class="wcmain"><div class="wcn">72</div><div class="wcu">points</div></div>
-        <div class="wcbarbg"><div class="wcbar"></div></div>
-        <div class="wcbarlbls"><span>0</span><span>Plafond : 100 pts</span></div>
-        <div class="wcrow">
-          <div class="wcchip"><div class="wcchip-l">Bloqués</div><div class="wcchip-v bl">15 pts</div></div>
-          <div class="wcchip"><div class="wcchip-l">Gagnés ce mois</div><div class="wcchip-v gr">+37 pts</div></div>
-          <div class="wcchip"><div class="wcchip-l">Dépensés</div><div class="wcchip-v">15 pts</div></div>
-        </div>
+    <div class="wallhdr"><h2>Mon wallet</h2><div style="font-size:12px;color:var(--mu);">Avril 2026</div></div>
+    <div class="wallcard">
+      <div class="wcl">Solde disponible</div>
+      <div class="wcmain"><div class="wcn">72</div><div class="wcu">points</div></div>
+      <div class="wcbarbg"><div class="wcbar"></div></div>
+      <div class="wcbarlbls"><span>0</span><span>Plafond : 100 pts</span></div>
+      <div class="wcrow">
+        <div class="wcchip"><div class="wcchip-l">Bloqués</div><div class="wcchip-v bl">15 pts</div></div>
+        <div class="wcchip"><div class="wcchip-l">Gagnés ce mois</div><div class="wcchip-v gr">+37 pts</div></div>
+        <div class="wcchip"><div class="wcchip-l">Dépensés</div><div class="wcchip-v">15 pts</div></div>
       </div>
-      <div class="walltabs">
-        <div class="wtab active">Tout</div><div class="wtab">Reçus</div><div class="wtab">Dépensés</div><div class="wtab">Bloqués</div>
-      </div>
-      <div class="walllbl">Transactions récentes</div>
-      <div class="txlist">
-        <div class="tx"><div class="txico txia">🔒</div><div class="txinfo"><div class="txttl">Drone DJI Mini 3</div><div class="txsub">Bloqués · en attente retour</div></div><div class="txpts txbl">–15 pts</div></div>
-        <div class="tx"><div class="txico txig">✓</div><div class="txinfo"><div class="txttl">Perceuse Bosch</div><div class="txsub">Prêt terminé · 3 jours</div></div><div class="txpts txp">+12 pts</div></div>
-        <div class="tx"><div class="txico txig">✓</div><div class="txinfo"><div class="txttl">Tente 4 places</div><div class="txsub">Prêt terminé · 2 jours</div></div><div class="txpts txp">+25 pts</div></div>
-        <div class="tx"><div class="txico txir">↓</div><div class="txinfo"><div class="txttl">Manette PS5</div><div class="txsub">Emprunt terminé · 1 jour</div></div><div class="txpts txm">–8 pts</div></div>
-        <div class="tx"><div class="txico txig">🎁</div><div class="txinfo"><div class="txttl">Bonus inscription</div><div class="txsub">Bienvenue sur Shapio !</div></div><div class="txpts txp">+50 pts</div></div>
-      </div>
-      <div class="wallinfo"><p>Les points bloqués sont libérés automatiquement dès que le prêteur confirme le retour. En cas de litige, l'équipe Shapio intervient sous 24h.</p></div>
     </div>
+    <div class="walltabs"><div class="wtab active">Tout</div><div class="wtab">Reçus</div><div class="wtab">Dépensés</div><div class="wtab">Bloqués</div></div>
+    <div class="walllbl">Transactions récentes</div>
+    <div class="txlist">
+      <div class="tx"><div class="txico txia">🔒</div><div class="txinfo"><div class="txttl">Drone DJI Mini 3</div><div class="txsub">Bloqués · en attente retour</div></div><div class="txpts txbl">–15 pts</div></div>
+      <div class="tx"><div class="txico txig">✓</div><div class="txinfo"><div class="txttl">Perceuse Bosch</div><div class="txsub">Prêt terminé · 3 jours</div></div><div class="txpts txp">+12 pts</div></div>
+      <div class="tx"><div class="txico txig">✓</div><div class="txinfo"><div class="txttl">Tente 4 places</div><div class="txsub">Prêt terminé · 2 jours</div></div><div class="txpts txp">+25 pts</div></div>
+      <div class="tx"><div class="txico txir">↓</div><div class="txinfo"><div class="txttl">Manette PS5</div><div class="txsub">Emprunt terminé · 1 jour</div></div><div class="txpts txm">–8 pts</div></div>
+      <div class="tx"><div class="txico txig">🎁</div><div class="txinfo"><div class="txttl">Bonus inscription</div><div class="txsub">Bienvenue sur Shapio !</div></div><div class="txpts txp">+50 pts</div></div>
+    </div>
+    <div class="wallinfo"><p>Les points bloqués sont libérés automatiquement dès que le prêteur confirme le retour. En cas de litige, Shapio intervient sous 24h.</p></div>
   </div>
 
   <!-- PROFIL -->
   <div class="ascreen" id="as-profil">
-    <div class="profil">
-      <div class="pcover"><button class="peditbtn">✏ Modifier le profil</button></div>
-      <div class="pavwrap"><div class="pav">KM</div><div class="pavedit">+</div></div>
-      <div class="phead">
-        <div class="pnrow"><div class="pname">Karim M.</div><div class="pvbadge">✓ Vérifié</div></div>
-        <div class="psub">📍 Mulhouse · Membre depuis avril 2025</div>
-        <div class="pstats">
-          <div class="pstat"><div class="pstn">72</div><div class="pstl">points</div></div>
-          <div class="pstat"><div class="pstn">12</div><div class="pstl">prêts</div></div>
-          <div class="pstat"><div class="pstn">5</div><div class="pstl">emprunts</div></div>
-          <div class="pstat"><div class="pstn" style="color:#BA7517;">4.9</div><div class="pstl">note</div></div>
-        </div>
+    <div class="pcover"><button class="peditbtn">✏ Modifier le profil</button></div>
+    <div class="pavwrap"><div class="pav">KM</div><div class="pavedit">+</div></div>
+    <div class="phead">
+      <div class="pnrow"><div class="pname">Karim M.</div><div class="pvbadge">✓ Vérifié</div></div>
+      <div class="psub">📍 Mulhouse · Membre depuis avril 2025</div>
+      <div class="pstats">
+        <div class="pstat"><div class="pstn">72</div><div class="pstl">points</div></div>
+        <div class="pstat"><div class="pstn">12</div><div class="pstl">prêts</div></div>
+        <div class="pstat"><div class="pstn">5</div><div class="pstl">emprunts</div></div>
+        <div class="pstat"><div class="pstn" style="color:#BA7517;">4.9</div><div class="pstl">note</div></div>
       </div>
-      <div class="ptabbar">
-        <button class="ptab active" onclick="ptab('objets',this)">Mes objets</button>
-        <button class="ptab" onclick="ptab('avis',this)">Avis</button>
-        <button class="ptab" onclick="ptab('settings',this)">Paramètres</button>
+    </div>
+    <div class="ptabbar">
+      <button class="ptab active" onclick="ptab('objets',this)">Mes objets</button>
+      <button class="ptab" onclick="ptab('avis',this)">Avis</button>
+      <button class="ptab" onclick="ptab('settings',this)">Paramètres</button>
+    </div>
+    <div id="pt-objets">
+      <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">Vérification</div>
+      <div class="ptrust">
+        <div class="ptrow"><div class="ptico ptdone">✓</div><div class="ptlbl">Numéro de téléphone</div></div>
+        <div class="ptrow"><div class="ptico ptdone">✓</div><div class="ptlbl">Adresse vérifiée</div></div>
+        <div class="ptrow"><div class="ptico ptdone">✓</div><div class="ptlbl">Pièce d'identité</div></div>
+        <div class="ptrow"><div class="ptico ptpend">–</div><div class="ptlbl" style="color:var(--mu);">Selfie de confirmation</div><div class="ptact">Ajouter</div></div>
       </div>
-      <div id="pt-objets">
-        <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">Vérification</div>
-        <div class="ptrust">
-          <div class="ptrow"><div class="ptico ptdone">✓</div><div class="ptlbl">Numéro de téléphone</div></div>
-          <div class="ptrow"><div class="ptico ptdone">✓</div><div class="ptlbl">Adresse vérifiée</div></div>
-          <div class="ptrow"><div class="ptico ptdone">✓</div><div class="ptlbl">Pièce d'identité</div></div>
-          <div class="ptrow"><div class="ptico ptpend">–</div><div class="ptlbl" style="color:var(--mu);">Selfie de confirmation</div><div class="ptact">Ajouter</div></div>
-        </div>
-        <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">Mes objets</div>
-        <div class="pogrid">
-          <div class="pocard" onclick="openFiche()"><div class="poimg" style="background:#E1F5EE;"><span>🚁</span><div class="popts">15 pts</div><div class="post post-on">Dispo</div></div><div class="poinfo"><div class="ponm">Drone DJI Mini 3</div><div class="popr">8 prêts</div></div></div>
-          <div class="pocard" onclick="openFiche()"><div class="poimg" style="background:#EEEDFE;"><span>💻</span><div class="popts">20 pts</div><div class="post post-on">Dispo</div></div><div class="poinfo"><div class="ponm">MacBook Pro</div><div class="popr">3 prêts</div></div></div>
-          <div class="pocard" onclick="openFiche()"><div class="poimg" style="background:#FAEEDA;"><span>🔧</span><div class="popts">10 pts</div><div class="post post-off">Indispo</div></div><div class="poinfo"><div class="ponm">Perceuse Bosch</div><div class="popr">5 prêts</div></div></div>
-          <div class="pocard" style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:120px;background:#f7f7f4;cursor:pointer;"><div style="text-align:center;"><div style="font-size:20px;color:var(--mu);">+</div><div style="font-size:11px;color:var(--mu);margin-top:3px;">Ajouter</div></div></div>
-        </div>
+      <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">Mes objets</div>
+      <div class="pogrid">
+        <div class="pocard" onclick="openFiche()"><div class="poimg" style="background:#E1F5EE;"><span>🚁</span><div class="popts">15 pts</div><div class="post post-on">Dispo</div></div><div class="poinfo"><div class="ponm">Drone DJI Mini 3</div><div class="popr">8 prêts</div></div></div>
+        <div class="pocard" onclick="openFiche()"><div class="poimg" style="background:#EEEDFE;"><span>💻</span><div class="popts">20 pts</div><div class="post post-on">Dispo</div></div><div class="poinfo"><div class="ponm">MacBook Pro</div><div class="popr">3 prêts</div></div></div>
+        <div class="pocard" onclick="openFiche()"><div class="poimg" style="background:#FAEEDA;"><span>🔧</span><div class="popts">10 pts</div><div class="post post-off">Indispo</div></div><div class="poinfo"><div class="ponm">Perceuse Bosch</div><div class="popr">5 prêts</div></div></div>
+        <div class="pocard" style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:120px;background:#f7f7f4;cursor:pointer;"><div style="text-align:center;"><div style="font-size:20px;color:var(--mu);">+</div><div style="font-size:11px;color:var(--mu);margin-top:3px;">Ajouter</div></div></div>
       </div>
-      <div id="pt-avis" style="display:none;">
-        <div style="display:flex;align-items:center;gap:10px;padding:0 18px 12px;">
-          <div style="font-size:34px;font-weight:500;color:var(--dk);">4.9</div>
-          <div><div style="font-size:14px;color:#BA7517;">★★★★★</div><div style="font-size:11px;color:var(--mu);">12 avis reçus</div></div>
-        </div>
-        <div class="pavis">
-          <div class="paviscard"><div class="pavish"><div class="pavisav">TR</div><div class="pavisnm">Thomas R.</div><div class="pavisst">★★★★★</div></div><div class="pavist">Prêt rapide, objet parfait. Karim très sympa !</div></div>
-          <div class="paviscard"><div class="pavish"><div class="pavisav">SB</div><div class="pavisnm">Sophie B.</div><div class="pavisst">★★★★★</div></div><div class="pavist">Super expérience, communication impeccable.</div></div>
-          <div class="paviscard"><div class="pavish"><div class="pavisav">LF</div><div class="pavisnm">Lucas F.</div><div class="pavisst">★★★★☆</div></div><div class="pavist">Très bon prêt, petit retard mais rien de grave.</div></div>
-        </div>
+    </div>
+    <div id="pt-avis" style="display:none;">
+      <div style="display:flex;align-items:center;gap:10px;padding:0 18px 12px;">
+        <div style="font-size:34px;font-weight:500;color:var(--dk);">4.9</div>
+        <div><div style="font-size:14px;color:#BA7517;">★★★★★</div><div style="font-size:11px;color:var(--mu);">12 avis reçus</div></div>
       </div>
-      <div id="pt-settings" style="display:none;">
-        <div class="psettings">
-          <div class="psi"><div class="psiico">👤</div><div class="psilbl">Informations personnelles</div><div class="psiarr">›</div></div>
-          <div class="psi"><div class="psiico">🔔</div><div class="psilbl">Notifications</div><div class="psiarr">›</div></div>
-          <div class="psi"><div class="psiico">📍</div><div class="psilbl">Rayon de recherche</div><div class="psiarr">›</div></div>
-          <div class="psi"><div class="psiico">🔒</div><div class="psilbl">Confidentialité</div><div class="psiarr">›</div></div>
-          <div class="psi"><div class="psiico">❓</div><div class="psilbl">Aide & support</div><div class="psiarr">›</div></div>
-          <div class="psi danger"><div class="psiico">↪</div><div class="psilbl">Se déconnecter</div></div>
-        </div>
+      <div class="pavis">
+        <div class="paviscard"><div class="pavish"><div class="pavisav">TR</div><div class="pavisnm">Thomas R.</div><div class="pavisst">★★★★★</div></div><div class="pavist">Prêt rapide, objet parfait. Karim très sympa !</div></div>
+        <div class="paviscard"><div class="pavish"><div class="pavisav">SB</div><div class="pavisnm">Sophie B.</div><div class="pavisst">★★★★★</div></div><div class="pavist">Super expérience, communication impeccable.</div></div>
+      </div>
+    </div>
+    <div id="pt-settings" style="display:none;">
+      <div class="psettings">
+        <div class="psi"><div class="psiico">👤</div><div class="psilbl">Informations personnelles</div><div class="psiarr">›</div></div>
+        <div class="psi"><div class="psiico">🔔</div><div class="psilbl">Notifications</div><div class="psiarr">›</div></div>
+        <div class="psi"><div class="psiico">📍</div><div class="psilbl">Rayon de recherche</div><div class="psiarr">›</div></div>
+        <div class="psi"><div class="psiico">🔒</div><div class="psilbl">Confidentialité</div><div class="psiarr">›</div></div>
+        <div class="psi danger"><div class="psiico">↪</div><div class="psilbl">Se déconnecter</div></div>
       </div>
     </div>
   </div>
 
-  <!-- NAV BAR -->
+  <!-- NAV -->
   <div class="anav">
     <div class="ni active" id="ni-home" onclick="setTab('home')"><div class="nico">🏠</div><div class="nlbl">Accueil</div></div>
     <div class="ni" id="ni-swipe" onclick="setTab('swipe')"><div class="nico">🔍</div><div class="nlbl">Explorer</div></div>
@@ -864,226 +840,90 @@ footer p{font-size:12px;color:var(--mu);}
 </div>
 
 <script>
-let prevTab = 'home';
-
-function scrollTo(id) {
-  document.getElementById(id).scrollIntoView({behavior:'smooth'});
-}
-function showLegal(type) {
-  const contents = {
-    mentions:`
-      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Mentions légales</h3>
-      <p style="font-size:12px;color:#6B7068;margin-bottom:20px;">Dernière mise à jour : avril 2026</p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Éditeur du site</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Shapio est un service édité par un particulier domicilié en France.<br>
-        Email : <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a><br>
-        Site web : <a href="https://shapio.fr" style="color:#1D9E75;">shapio.fr</a>
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Hébergeur</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Vercel Inc.<br>
-        340 Pine Street, Suite 900<br>
-        San Francisco, CA 94104, États-Unis<br>
-        <a href="https://vercel.com" style="color:#1D9E75;">vercel.com</a>
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Propriété intellectuelle</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        L'ensemble du contenu présent sur shapio.fr (textes, visuels, logo, interface) est la propriété exclusive de Shapio. Toute reproduction, même partielle, est interdite sans autorisation préalable.
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Responsabilité</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Shapio est actuellement en phase bêta. Le service est fourni "tel quel" sans garantie de disponibilité continue. L'éditeur ne saurait être tenu responsable de tout dommage direct ou indirect lié à l'utilisation du site.
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Droit applicable</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.
-      </p>`,
-
-    confidentialite:`
-      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Politique de confidentialité</h3>
-      <p style="font-size:12px;color:#6B7068;margin-bottom:20px;">Dernière mise à jour : avril 2026</p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Qui sommes-nous ?</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Shapio est une plateforme de prêt d'objets entre particuliers, accessible sur shapio.fr. Le responsable du traitement des données est l'éditeur du site, joignable à <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a>.
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Données collectées</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Lors de l'inscription à la liste d'attente, nous collectons :<br>
-        • Prénom et nom<br>
-        • Adresse email<br>
-        • Ville ou code postal<br><br>
-        Ces informations sont collectées avec votre consentement explicite.
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Finalités du traitement</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Vos données sont utilisées exclusivement pour :<br>
-        • Vous informer du lancement de Shapio<br>
-        • Vous envoyer des mises à jour sur l'avancement du projet<br><br>
-        Elles ne sont jamais vendues, louées ou transmises à des tiers à des fins commerciales.
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Conservation des données</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Vos données sont conservées jusqu'à votre désinscription ou jusqu'à 3 ans après le dernier contact. Vous pouvez demander leur suppression à tout moment.
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Vos droits (RGPD)</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :<br>
-        • <strong>Accès</strong> : consulter les données vous concernant<br>
-        • <strong>Rectification</strong> : corriger des données inexactes<br>
-        • <strong>Suppression</strong> : demander l'effacement de vos données<br>
-        • <strong>Opposition</strong> : vous opposer au traitement<br>
-        • <strong>Portabilité</strong> : recevoir vos données dans un format lisible<br><br>
-        Pour exercer ces droits : <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a>
-      </p>
-
-      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Cookies</h4>
-      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
-        Ce site n'utilise pas de cookies de tracking ou publicitaires. Seuls des cookies techniques strictement nécessaires au bon fonctionnement du site peuvent être utilisés.
-      </p>`,
-
-    contact:`
-      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Nous contacter</h3>
-
-      <p style="font-size:14px;color:#6B7068;line-height:1.6;margin-bottom:24px;">
-        Une question, une suggestion ou un problème ? On vous répond dans les 48h.
-      </p>
-
-      <div style="background:#E1F5EE;border-radius:14px;padding:18px;margin-bottom:16px;border:0.5px solid #9FE1CB;">
-        <div style="font-size:12px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Email</div>
-        <a href="mailto:contact@shapio.fr" style="font-size:15px;color:#1D9E75;font-weight:500;text-decoration:none;">contact@shapio.fr</a>
-        <div style="font-size:12px;color:#0F6E56;margin-top:4px;">Réponse sous 48h</div>
-      </div>
-
-      <div style="background:#f7f7f4;border-radius:14px;padding:18px;margin-bottom:16px;border:0.5px solid #e5e5e0;">
-        <div style="font-size:12px;font-weight:600;color:#444441;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Pour les questions sur</div>
-        <p style="font-size:13px;color:#6B7068;line-height:1.6;">
-          • Mon compte et mes données personnelles<br>
-          • Le système de points<br>
-          • Un litige ou un problème de prêt<br>
-          • Proposer un partenariat<br>
-          • Signaler un bug ou une amélioration
-        </p>
-      </div>
-
-      <p style="font-size:12px;color:#aaa;text-align:center;">Shapio · shapio.fr · © 2026</p>`
-  };
-  const overlay = document.createElement('div');
-  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
-  overlay.innerHTML = `<div style="background:white;border-radius:20px;padding:28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;position:relative;">
-    <button onclick="this.closest('div').parentElement.remove()" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>
-    ${contents[type]}
-    <button onclick="this.closest('div').parentElement.remove()" style="margin-top:16px;padding:10px 24px;border-radius:100px;background:#085041;color:white;border:none;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Fermer</button>
-  </div>`;
-  document.body.appendChild(overlay);
-}
-
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+let prevTab='home';
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function setTab(tab){
+  document.querySelectorAll('.ascreen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('active'));
+  const m={home:'as-home',swipe:'as-swipe',msgs:'as-msgs',chat:'as-chat',wallet:'as-wallet',profil:'as-profil',fiche:'as-fiche'};
+  const nm={home:'ni-home',swipe:'ni-swipe',msgs:'ni-msgs',wallet:'ni-wallet',profil:'ni-profil'};
+  if(m[tab])document.getElementById(m[tab]).classList.add('active');
+  if(nm[tab])document.getElementById(nm[tab]).classList.add('active');
+  if(tab!=='chat'&&tab!=='fiche')prevTab=tab;
   window.scrollTo(0,0);
 }
-
-function setTab(tab) {
-  document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-  const map = {home:'as-home',swipe:'as-swipe',msgs:'as-msgs',chat:'as-chat',wallet:'as-wallet',profil:'as-profil',fiche:'as-fiche'};
-  const nimap = {home:'ni-home',swipe:'ni-swipe',msgs:'ni-msgs',wallet:'ni-wallet',profil:'ni-profil'};
-  if(map[tab]) document.getElementById(map[tab]).classList.add('active');
-  if(nimap[tab]) document.getElementById(nimap[tab]).classList.add('active');
-  if(tab !== 'chat' && tab !== 'fiche') prevTab = tab;
-  window.scrollTo(0,0);
-}
-
-function openFiche() {
-  prevTab = document.querySelector('.ni.active')?.id?.replace('ni-','') || 'home';
-  setTab('fiche');
-}
-function backFromFiche() { setTab(prevTab || 'home'); }
-
-function toggleFSave() {
-  const b = document.getElementById('fsavebtn');
-  b.textContent = b.textContent === '♡' ? '♥' : '♡';
-  b.style.color = b.textContent === '♥' ? 'var(--gm)' : '';
-}
-
-function showFicheConfirm() {
-  document.getElementById('fiche-confirm').style.display = 'block';
-  document.getElementById('fbar').style.display = 'none';
-}
-function hideFicheConfirm() {
-  document.getElementById('fiche-confirm').style.display = 'none';
-  document.getElementById('fbar').style.display = 'flex';
-}
-
-// SWIPE
-const cards = [
+function openFiche(){prevTab=document.querySelector('.ni.active')?.id?.replace('ni-','')||'home';setTab('fiche');}
+function backFromFiche(){setTab(prevTab||'home');}
+function toggleFSave(){const b=document.getElementById('fsavebtn');b.textContent=b.textContent==='♡'?'♥':'♡';b.style.color=b.textContent==='♥'?'var(--gm)':'';}
+function showFicheConfirm(){document.getElementById('fiche-confirm').style.display='block';document.getElementById('fbar').style.display='none';}
+function hideFicheConfirm(){document.getElementById('fiche-confirm').style.display='none';document.getElementById('fbar').style.display='flex';}
+const cards=[
   {icon:'🚁',bg:'#E1F5EE',pts:15,dist:'2.3 km',title:'Drone DJI Mini 3',owner:'Marie L.',note:'4.9',tags:['Tech','Caméra 4K','Débutant ok']},
   {icon:'🎮',bg:'#EEEDFE',pts:8,dist:'0.8 km',title:'Manette PS5',owner:'Thomas R.',note:'4.7',tags:['Gaming','Bon état']},
   {icon:'🔧',bg:'#FAEEDA',pts:10,dist:'1.1 km',title:'Perceuse Bosch',owner:'Karim B.',note:'5.0',tags:['Bricolage','Accessoires']},
   {icon:'🏕',bg:'#FAECE7',pts:20,dist:'3.2 km',title:'Tente 4 places',owner:'Sophie M.',note:'4.8',tags:['Sport','Camping']},
-  {icon:'🧹',bg:'#E1F5EE',pts:12,dist:'1.7 km',title:'Aspirateur Dyson',owner:'Lucas D.',note:'4.6',tags:['Maison','Sans fil']},
 ];
-let ci = 0;
-function renderCard(i, el) {
-  const c = cards[i % cards.length];
-  el.innerHTML = `<div class="cphoto" style="background:${c.bg}"><span style="font-size:68px">${c.icon}</span><div class="cbadge">${c.pts} pts</div><div class="cdist">${c.dist}</div></div><div class="cbody"><div class="ctitle">${c.title}</div><div class="cowner"><div class="cav">${c.owner.split(' ').map(w=>w[0]).join('')}</div><span>${c.owner}</span><span class="cstars">★★★★★</span><span style="font-size:11px;color:var(--mu)">${c.note}</span></div><div class="ctags">${c.tags.map(t=>`<span class="ctag">${t}</span>`).join('')}</div></div>`;
+let ci=0;
+function renderCard(i,el){const c=cards[i%cards.length];el.innerHTML=`<div class="cphoto" style="background:${c.bg}"><span style="font-size:68px">${c.icon}</span><div class="cbadge">${c.pts} pts</div><div class="cdist">${c.dist}</div></div><div class="cbody"><div class="ctitle">${c.title}</div><div class="cowner"><div class="cav">${c.owner.split(' ').map(w=>w[0]).join('')}</div><span>${c.owner}</span><span class="cstars">★★★★★</span><span style="font-size:11px;color:var(--mu)">${c.note}</span></div><div class="ctags">${c.tags.map(t=>`<span class="ctag">${t}</span>`).join('')}</div></div>`;}
+function swipe(dir){
+  const f=document.getElementById('cfront');
+  if(dir==='right'){f.classList.add('swright');setTimeout(()=>{f.classList.remove('swright');document.getElementById('swipe-mode').style.display='none';document.getElementById('match-ov').style.display='block';},350);}
+  else{f.classList.add('swleft');setTimeout(()=>{ci++;f.classList.remove('swleft');renderCard(ci,f);renderCard(ci+1,document.getElementById('cback'));},350);}
 }
-function swipe(dir) {
-  const f = document.getElementById('cfront');
-  const b = document.getElementById('cback');
-  if(dir==='right') {
-    f.classList.add('swright');
-    setTimeout(()=>{
-      f.classList.remove('swright');
-      document.getElementById('swipe-mode').style.display='none';
-      document.getElementById('match-ov').style.display='block';
-    },350);
-  } else {
-    f.classList.add('swleft');
-    setTimeout(()=>{
-      ci++;
-      f.classList.remove('swleft');
-      renderCard(ci,f);
-      renderCard(ci+1,b);
-    },350);
-  }
-}
-function closeMatch() {
-  document.getElementById('match-ov').style.display='none';
-  document.getElementById('swipe-mode').style.display='block';
-  const f = document.getElementById('cfront');
-  ci++;
-  renderCard(ci,f);
-  renderCard(ci+1,document.getElementById('cback'));
-}
-function setSwipeMode(m) {
-  if(m==='swipe'){
-    document.getElementById('swipe-mode').style.display='block';
-    document.getElementById('browse-mode').style.display='none';
-    document.getElementById('mt-swipe').classList.add('active');
-    document.getElementById('mt-browse').classList.remove('active');
-  } else {
-    document.getElementById('swipe-mode').style.display='none';
-    document.getElementById('browse-mode').style.display='block';
-    document.getElementById('mt-browse').classList.add('active');
-    document.getElementById('mt-swipe').classList.remove('active');
-  }
+function closeMatch(){document.getElementById('match-ov').style.display='none';document.getElementById('swipe-mode').style.display='block';ci++;renderCard(ci,document.getElementById('cfront'));renderCard(ci+1,document.getElementById('cback'));}
+function setSwipeMode(m){
+  if(m==='swipe'){document.getElementById('swipe-mode').style.display='block';document.getElementById('browse-mode').style.display='none';document.getElementById('mt-swipe').classList.add('active');document.getElementById('mt-browse').classList.remove('active');}
+  else{document.getElementById('swipe-mode').style.display='none';document.getElementById('browse-mode').style.display='block';document.getElementById('mt-browse').classList.add('active');document.getElementById('mt-swipe').classList.remove('active');}
 }
 function tvc(el){el.classList.toggle('sel');el.querySelector('.vcchk').textContent=el.classList.contains('sel')?'✓':'';}
-function ptab(name,btn){
-  ['objets','avis','settings'].forEach(t=>document.getElementById('pt-'+t).style.display=t===name?'':'none');
-  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
-  btn.classList.add('active');
+function ptab(name,btn){['objets','avis','settings'].forEach(t=>document.getElementById('pt-'+t).style.display=t===name?'':'none');document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
+
+function showLegal(type){
+  const contents={
+    mentions:`<h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Mentions légales</h3>
+<p style="font-size:12px;color:#6B7068;margin-bottom:20px;">Dernière mise à jour : avril 2026</p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Éditeur du site</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">Shapio est un service édité par un particulier domicilié en France.<br>Email : <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a><br>Site web : <a href="https://shapio.fr" style="color:#1D9E75;">shapio.fr</a></p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Hébergeur</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">Vercel Inc.<br>340 Pine Street, Suite 900<br>San Francisco, CA 94104, États-Unis</p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Propriété intellectuelle</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">L'ensemble du contenu présent sur shapio.fr est la propriété exclusive de Shapio. Toute reproduction est interdite sans autorisation.</p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Droit applicable</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;">Les présentes mentions légales sont soumises au droit français.</p>`,
+
+    confidentialite:`<h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Politique de confidentialité</h3>
+<p style="font-size:12px;color:#6B7068;margin-bottom:20px;">Dernière mise à jour : avril 2026</p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Qui sommes-nous ?</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">Shapio est une plateforme de prêt d'objets entre particuliers. Contact : <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a></p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Données collectées</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">Lors de l'inscription : prénom, nom, email, ville. Ces informations sont collectées avec votre consentement explicite.</p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Finalités</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">Vos données sont utilisées uniquement pour vous informer du lancement de Shapio. Elles ne sont jamais vendues ni transmises à des tiers.</p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Vos droits (RGPD)</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">Vous disposez des droits d'accès, rectification, suppression, opposition et portabilité.<br>Pour les exercer : <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a></p>
+<h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Cookies</h4>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;">Ce site n'utilise pas de cookies de tracking ou publicitaires.</p>`,
+
+    contact:`<h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Nous contacter</h3>
+<p style="font-size:14px;color:#6B7068;line-height:1.6;margin-bottom:24px;">Une question, une suggestion ou un problème ? On vous répond dans les 48h.</p>
+<div style="background:#E1F5EE;border-radius:14px;padding:18px;margin-bottom:16px;border:0.5px solid #9FE1CB;">
+<div style="font-size:12px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Email</div>
+<a href="mailto:contact@shapio.fr" style="font-size:15px;color:#1D9E75;font-weight:500;text-decoration:none;">contact@shapio.fr</a>
+<div style="font-size:12px;color:#0F6E56;margin-top:4px;">Réponse sous 48h</div>
+</div>
+<div style="background:#f7f7f4;border-radius:14px;padding:18px;border:0.5px solid #e5e5e0;">
+<div style="font-size:12px;font-weight:600;color:#444441;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Sujets fréquents</div>
+<p style="font-size:13px;color:#6B7068;line-height:1.8;">• Mon compte et mes données personnelles<br>• Le système de points<br>• Un litige ou un problème de prêt<br>• Proposer un partenariat<br>• Signaler un bug</p>
+</div>`
+  };
+  const overlay=document.createElement('div');
+  overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML=`<div style="background:white;border-radius:20px;padding:28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;position:relative;font-family:'DM Sans',sans-serif;">
+<button onclick="this.closest('div').parentElement.remove()" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>
+${contents[type]}
+<button onclick="this.closest('div').parentElement.remove()" style="margin-top:20px;padding:10px 24px;border-radius:100px;background:#085041;color:white;border:none;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Fermer</button>
+</div>`;
+  document.body.appendChild(overlay);
 }
 </script>
 </body>
