@@ -1,0 +1,15 @@
+@media(max-width:600px) {
+  nav { padding: 14px 16px; }
+  .nav-links { display: none; }
+  .hero { padding: 60px 16px 40px; }
+  .sp { padding: 14px; gap: 20px; }
+  .lsec { padding: 56px 18px; }
+  .steps { grid-template-columns: 1fr; }
+  .pts-sec { padding: 56px 18px; }
+  .pts-grid { grid-template-columns: 1fr; }
+  .tr-sec { padding: 56px 18px; }
+  .tr-grid { grid-template-columns: 1fr; }
+  .fcta { padding: 56px 18px; }
+  footer { padding: 20px 16px; flex-direction: column; gap: 12px; text-align: center; }
+  .flinks { justify-content: center; }
+}

@@ -1,0 +1,78 @@
+/* MESSAGES */
+.msg-hdr { padding: 14px 18px; border-bottom: 0.5px solid #f0f0ed; }
+.msg-hdr h2 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--dk); }
+
+.match-row { display: flex; gap: 10px; padding: 12px 14px; border-bottom: 0.5px solid #f0f0ed; overflow-x: auto; }
+.mchip { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; cursor: pointer; }
+.mchipav {
+  width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; background: #f7f7f4;
+}
+.mchip span { font-size: 10px; color: var(--mu); }
+
+.conv {
+  padding: 12px 18px; display: flex; gap: 10px; align-items: center;
+  border-bottom: 0.5px solid #f0f0ed; cursor: pointer;
+}
+.conv:hover { background: #f7f7f4; }
+.convav {
+  width: 46px; height: 46px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; background: #f7f7f4; flex-shrink: 0; border: 0.5px solid #ebebea;
+}
+.convinfo { flex: 1; min-width: 0; }
+.convname { font-size: 14px; font-weight: 500; color: var(--dk); }
+.convprev { font-size: 12px; color: var(--mu); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.convtime { font-size: 11px; color: var(--mu); flex-shrink: 0; }
+.undot { width: 8px; height: 8px; border-radius: 50%; background: var(--gm); flex-shrink: 0; }
+
+/* CHAT */
+.chat-hdr {
+  padding: 11px 14px; display: flex; align-items: center; gap: 10px;
+  border-bottom: 0.5px solid #f0f0ed; flex-shrink: 0;
+}
+.cback { font-size: 17px; cursor: pointer; padding: 4px; color: var(--mu); background: none; border: none; }
+.chatav { width: 34px; height: 34px; border-radius: 50%; background: #f7f7f4; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.chatname { font-size: 15px; font-weight: 500; color: var(--dk); flex: 1; }
+.chat-acts { display: flex; gap: 7px; }
+.chatact {
+  width: 30px; height: 30px; border-radius: 50%; background: #f7f7f4;
+  border: 0.5px solid #ebebea; display: flex; align-items: center;
+  justify-content: center; cursor: pointer; font-size: 13px;
+}
+
+.chatmsgs { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 9px; }
+.mb { max-width: 78%; padding: 9px 13px; border-radius: 16px; font-size: 13px; line-height: 1.45; }
+.min { align-self: flex-start; background: #f7f7f4; border-bottom-left-radius: 4px; color: var(--dk); border: 0.5px solid #ebebea; }
+.mout { align-self: flex-end; background: var(--gm); color: white; border-bottom-right-radius: 4px; }
+.mt { font-size: 10px; color: var(--mu); margin-top: 2px; }
+.mt.r { text-align: right; }
+
+.rcard {
+  align-self: center; width: 92%; background: #f7f7f4; border: 0.5px solid #e5e5e0;
+  border-radius: 13px; padding: 11px 13px; margin: 4px 0;
+}
+.rchdr { font-size: 11px; color: var(--mu); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 7px; }
+.rcpts { display: flex; flex-direction: column; gap: 3px; }
+.rcpt { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--dk); }
+.rcdot { width: 7px; height: 7px; border-radius: 50%; }
+.rcl { width: 1px; height: 10px; background: #d0d0cc; margin-left: 3px; }
+.rcbtns { display: flex; gap: 7px; margin-top: 9px; }
+.rcbtn {
+  flex: 1; padding: 7px; border-radius: 8px; font-size: 11px; font-weight: 600;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  border: 0.5px solid #9FE1CB; background: white; color: var(--g);
+}
+
+.chatinput { padding: 9px 12px 13px; display: flex; gap: 7px; align-items: center; border-top: 0.5px solid #f0f0ed; }
+.chatinput input {
+  flex: 1; padding: 9px 13px; border-radius: 20px; border: 0.5px solid #e5e5e0;
+  background: #f7f7f4; font-size: 13px; font-family: 'DM Sans', sans-serif;
+  color: var(--dk); outline: none;
+}
+.sendbtn {
+  width: 34px; height: 34px; border-radius: 50%; background: var(--gm);
+  border: none; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 13px; color: white; flex-shrink: 0;
+}

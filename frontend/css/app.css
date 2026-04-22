@@ -1,0 +1,59 @@
+/* APP SHELL */
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  border-left: 0.5px solid var(--bd);
+  border-right: 0.5px solid var(--bd);
+}
+
+.atop {
+  padding: 13px 18px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 0.5px solid #f0f0ed;
+  flex-shrink: 0;
+}
+
+.alogo { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--dk); }
+.alogo span { color: var(--gm); }
+
+.atr { display: flex; gap: 8px; align-items: center; }
+
+.ppill {
+  display: flex; align-items: center; gap: 4px;
+  padding: 5px 10px; border-radius: 20px;
+  background: var(--gl); border: 0.5px solid #9FE1CB;
+  font-size: 12px; font-weight: 600; color: var(--g);
+}
+
+.ibtn {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 0.5px solid #e8e8e4; background: #f7f7f4;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 13px;
+}
+
+.ascreen { display: none; flex: 1; overflow-y: auto; }
+.ascreen.active { display: block; }
+
+.anav {
+  padding: 10px 0 14px;
+  display: flex;
+  justify-content: space-around;
+  border-top: 0.5px solid #f0f0ed;
+  flex-shrink: 0;
+}
+
+.ni {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  cursor: pointer; padding: 4px 14px; border-radius: 10px;
+}
+
+.nico { font-size: 18px; }
+.nlbl { font-size: 9px; color: var(--mu); font-weight: 500; }
+.ni.active .nlbl { color: var(--gm); }
