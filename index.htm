@@ -9,7 +9,7 @@
 :root{--g:#085041;--gm:#1D9E75;--gl:#E1F5EE;--ga:#5DCAA5;--cr:#F7F5F0;--dk:#111410;--mu:#6B7068;--bd:rgba(8,80,65,0.12);}
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;font-family:'DM Sans',sans-serif;background:var(--cr);color:var(--dk);overflow-x:hidden;}
-.page{display:none;min-height:100vh;animation:fadeIn 0.25s ease;}
+.page{display:none;min-height:100vh;animation:fadeIn 0.25s ease;scroll-margin-top:0;}
 .page.active{display:block;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
@@ -22,12 +22,12 @@ nav{position:sticky;top:0;z-index:100;padding:16px 48px;display:flex;align-items
 .nav-links a:hover{color:var(--g);}
 .nav-cta{padding:9px 20px;border-radius:100px;background:var(--g);color:white;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;border:none;cursor:pointer;transition:background 0.2s;}
 .nav-cta:hover{background:var(--gm);}
-.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:90px 24px 60px;text-align:center;position:relative;overflow:hidden;min-height:90vh;}
-.hblob{position:absolute;border-radius:50%;background:var(--gl);}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hblob{position:absolute;border-radius:50%;background:var(--gl);z-index:0;}
 .hblob1{width:600px;height:600px;top:-200px;right:-200px;opacity:0.5;z-index:0;}
 .hblob2{width:400px;height:400px;bottom:-100px;left:-150px;opacity:0.25;z-index:0;}
 .hero>*{position:relative;z-index:1;}
-.hero-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;background:var(--gl);border:0.5px solid #9FE1CB;font-size:12px;font-weight:500;color:var(--g);margin-bottom:22px;}
+.hero>*{position:relative;z-index:1;} .hero-tag{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:100px;background:var(--gl);border:0.5px solid #9FE1CB;font-size:12px;font-weight:500;color:var(--g);margin-bottom:22px;}
 .tdot{width:6px;height:6px;border-radius:50%;background:var(--gm);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(38px,6vw,70px);line-height:1.05;letter-spacing:-1.5px;color:var(--dk);max-width:780px;margin-bottom:18px;}
@@ -432,7 +432,7 @@ footer p{font-size:12px;color:var(--mu);}
 <div class="page active" id="p-landing">
   <nav>
     <div class="nav-logo">Sha<span>p</span>io</div>
-    <div class="nav-links"><a href="#">Comment ça marche</a><a href="#">Les points</a><a href="#">Confiance</a></div>
+    <div class="nav-links"><a href="#section-how" onclick="scrollTo('section-how')">Comment ça marche</a><a href="#section-pts" onclick="scrollTo('section-pts')">Les points</a><a href="#section-trust" onclick="scrollTo('section-trust')">Confiance</a></div>
     <button class="nav-cta" onclick="go('p-s1')">Rejoindre la bêta</button>
   </nav>
   <div class="hero">
@@ -442,17 +442,17 @@ footer p{font-size:12px;color:var(--mu);}
     <p class="hero-sub">Une communauté de voisins qui partagent leurs objets — sans argent, juste des points.</p>
     <div class="hero-acts">
       <button class="btn-p" onclick="go('p-s1')">Créer mon compte gratuit</button>
-      <button class="btn-gh">Voir comment ça marche →</button>
+      <button class="btn-gh" onclick="document.getElementById('section-how').scrollIntoView({behavior:'smooth'})">Voir comment ça marche →</button>
     </div>
     <div class="hero-pts">🎁 <strong>50 points offerts</strong> à chaque nouvel inscrit</div>
   </div>
   <div class="sp">
     <div class="sp-item"><div class="sp-num">0€</div><div class="sp-lbl">Zéro argent échangé</div></div>
     <div class="sp-item"><div class="sp-num">50 pts</div><div class="sp-lbl">Offerts à l'inscription</div></div>
-    <div class="sp-item"><div class="sp-num">100%</div><div class="sp-lbl">Profils vérifiés</div></div>
+    <div class="sp-item"><div class="sp-num">✓</div><div class="sp-lbl">Profils vérifiés</div></div>
     <div class="sp-item"><div class="sp-num">France</div><div class="sp-lbl">Lancement national</div></div>
   </div>
-  <section class="lsec">
+  <section class="lsec" id="section-how">
     <div class="stag">Comment ça marche</div>
     <h2>Simple comme un <em>coup de fil</em> à un voisin.</h2>
     <p class="lsec-sub">Shapio rend le partage aussi naturel que demander un service à un ami.</p>
@@ -462,7 +462,7 @@ footer p{font-size:12px;color:var(--mu);}
       <div class="step"><div class="step-n">03</div><h3>Échangez en confiance</h3><p>Profils vérifiés, notes et avis, messagerie intégrée.</p></div>
     </div>
   </section>
-  <section class="pts-sec">
+  <section class="pts-sec" id="section-pts">
     <div class="pbg pbg1"></div><div class="pbg pbg2"></div>
     <div class="stag">Le système de points</div>
     <div class="pts-ttl">Une monnaie <em>équitable</em><br>pour tout le monde.</div>
@@ -473,7 +473,7 @@ footer p{font-size:12px;color:var(--mu);}
       <div class="pts-card"><div class="pts-ico">🔒</div><h4>Points sécurisés</h4><p>Les points sont bloqués à la demande et libérés au retour de l'objet.</p><span class="pts-hl">Plafond à 100 pts</span></div>
     </div>
   </section>
-  <section class="tr-sec">
+  <section class="tr-sec" id="section-trust">
     <div class="stag">Confiance & sécurité</div>
     <h2>Prêtez l'esprit <em>tranquille.</em></h2>
     <p class="lsec-sub">Plusieurs niveaux de vérification pour chaque échange.</p>
@@ -491,8 +491,8 @@ footer p{font-size:12px;color:var(--mu);}
   </section>
   <footer>
     <div class="flogo">Sha<span>p</span>io</div>
-    <p>© 2025 Shapio — France</p>
-    <div class="flinks"><a href="#">Mentions légales</a><a href="#">Confidentialité</a><a href="#">Contact</a></div>
+    <p>© 2026 Shapio — France</p>
+    <div class="flinks"><a href="#" onclick="showLegal('mentions')">Mentions légales</a><a href="#" onclick="showLegal('confidentialite')">Confidentialité</a><a href="#" onclick="showLegal('contact')">Contact</a></div>
   </footer>
 </div>
 
@@ -500,6 +500,7 @@ footer p{font-size:12px;color:var(--mu);}
 <div class="page" id="p-s1">
 <div class="onboard"><div class="ocard">
   <div class="ologo">Sha<span>p</span>io</div>
+  <button class="oback" onclick="go('p-landing')">← Retour au site</button>
   <div class="ostep">Étape 1 sur 3 · Informations</div>
   <div class="prog"><div class="pseg act"></div><div class="pseg"></div><div class="pseg"></div></div>
   <h2>Tes informations</h2>
@@ -865,7 +866,128 @@ footer p{font-size:12px;color:var(--mu);}
 <script>
 let prevTab = 'home';
 
-function go(id) {
+function scrollTo(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+function showLegal(type) {
+  const contents = {
+    mentions:`
+      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Mentions légales</h3>
+      <p style="font-size:12px;color:#6B7068;margin-bottom:20px;">Dernière mise à jour : avril 2026</p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Éditeur du site</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Shapio est un service édité par un particulier domicilié en France.<br>
+        Email : <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a><br>
+        Site web : <a href="https://shapio.fr" style="color:#1D9E75;">shapio.fr</a>
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Hébergeur</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Vercel Inc.<br>
+        340 Pine Street, Suite 900<br>
+        San Francisco, CA 94104, États-Unis<br>
+        <a href="https://vercel.com" style="color:#1D9E75;">vercel.com</a>
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Propriété intellectuelle</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        L'ensemble du contenu présent sur shapio.fr (textes, visuels, logo, interface) est la propriété exclusive de Shapio. Toute reproduction, même partielle, est interdite sans autorisation préalable.
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Responsabilité</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Shapio est actuellement en phase bêta. Le service est fourni "tel quel" sans garantie de disponibilité continue. L'éditeur ne saurait être tenu responsable de tout dommage direct ou indirect lié à l'utilisation du site.
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Droit applicable</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Les présentes mentions légales sont soumises au droit français. En cas de litige, les tribunaux français seront seuls compétents.
+      </p>`,
+
+    confidentialite:`
+      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Politique de confidentialité</h3>
+      <p style="font-size:12px;color:#6B7068;margin-bottom:20px;">Dernière mise à jour : avril 2026</p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Qui sommes-nous ?</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Shapio est une plateforme de prêt d'objets entre particuliers, accessible sur shapio.fr. Le responsable du traitement des données est l'éditeur du site, joignable à <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a>.
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Données collectées</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Lors de l'inscription à la liste d'attente, nous collectons :<br>
+        • Prénom et nom<br>
+        • Adresse email<br>
+        • Ville ou code postal<br><br>
+        Ces informations sont collectées avec votre consentement explicite.
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Finalités du traitement</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Vos données sont utilisées exclusivement pour :<br>
+        • Vous informer du lancement de Shapio<br>
+        • Vous envoyer des mises à jour sur l'avancement du projet<br><br>
+        Elles ne sont jamais vendues, louées ou transmises à des tiers à des fins commerciales.
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Conservation des données</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Vos données sont conservées jusqu'à votre désinscription ou jusqu'à 3 ans après le dernier contact. Vous pouvez demander leur suppression à tout moment.
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Vos droits (RGPD)</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Conformément au Règlement Général sur la Protection des Données (RGPD), vous disposez des droits suivants :<br>
+        • <strong>Accès</strong> : consulter les données vous concernant<br>
+        • <strong>Rectification</strong> : corriger des données inexactes<br>
+        • <strong>Suppression</strong> : demander l'effacement de vos données<br>
+        • <strong>Opposition</strong> : vous opposer au traitement<br>
+        • <strong>Portabilité</strong> : recevoir vos données dans un format lisible<br><br>
+        Pour exercer ces droits : <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a>
+      </p>
+
+      <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Cookies</h4>
+      <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">
+        Ce site n'utilise pas de cookies de tracking ou publicitaires. Seuls des cookies techniques strictement nécessaires au bon fonctionnement du site peuvent être utilisés.
+      </p>`,
+
+    contact:`
+      <h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Nous contacter</h3>
+
+      <p style="font-size:14px;color:#6B7068;line-height:1.6;margin-bottom:24px;">
+        Une question, une suggestion ou un problème ? On vous répond dans les 48h.
+      </p>
+
+      <div style="background:#E1F5EE;border-radius:14px;padding:18px;margin-bottom:16px;border:0.5px solid #9FE1CB;">
+        <div style="font-size:12px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Email</div>
+        <a href="mailto:contact@shapio.fr" style="font-size:15px;color:#1D9E75;font-weight:500;text-decoration:none;">contact@shapio.fr</a>
+        <div style="font-size:12px;color:#0F6E56;margin-top:4px;">Réponse sous 48h</div>
+      </div>
+
+      <div style="background:#f7f7f4;border-radius:14px;padding:18px;margin-bottom:16px;border:0.5px solid #e5e5e0;">
+        <div style="font-size:12px;font-weight:600;color:#444441;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Pour les questions sur</div>
+        <p style="font-size:13px;color:#6B7068;line-height:1.6;">
+          • Mon compte et mes données personnelles<br>
+          • Le système de points<br>
+          • Un litige ou un problème de prêt<br>
+          • Proposer un partenariat<br>
+          • Signaler un bug ou une amélioration
+        </p>
+      </div>
+
+      <p style="font-size:12px;color:#aaa;text-align:center;">Shapio · shapio.fr · © 2026</p>`
+  };
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `<div style="background:white;border-radius:20px;padding:28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;position:relative;">
+    <button onclick="this.closest('div').parentElement.remove()" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>
+    ${contents[type]}
+    <button onclick="this.closest('div').parentElement.remove()" style="margin-top:16px;padding:10px 24px;border-radius:100px;background:#085041;color:white;border:none;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Fermer</button>
+  </div>`;
+  document.body.appendChild(overlay);
+}
+
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
