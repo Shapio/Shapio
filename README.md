@@ -6,10 +6,158 @@ Plateforme de prêt d'objets entre particuliers. Pas d'argent, juste des points.
 
 | Couche | Technologie |
 |--------|-------------|
-| Frontend | HTML5, CSS3, JavaScript ES6 (vanilla) |
+| Frontend | HTML5, CSS3, JavaScript ES6 (vanilla, modules) |
 | Backend | Node.js, Express.js |
 | Base de données | SQLite (via sql.js) |
 | Auth | JWT (jsonwebtoken) + bcrypt |
+
+## Installation rapide
+
+```bash
+# 1. Cloner et installer
+git clone <url-du-repo>
+cd Shapio
+npm install
+
+# 2. Configurer l'environnement
+cp .env.example .env
+# Modifier JWT_SECRET dans .env
+
+# 3. Initialiser la DB avec les données de test
+npm run db:init
+
+# 4. Lancer le serveur
+npm run dev
+```
+
+Ouvrir `http://localhost:3000` dans le navigateur.
+
+## Comptes de test
+
+| Email | Mot de passe | Points | Description |
+|-------|-------------|--------|-------------|
+| **karim@shapio.fr** | password123 | 72 pts | Compte principal, 3 objets, messages, avis |
+| marie@shapio.fr | password123 | 85 pts | Prêteuse active, drone + trottinette |
+| thomas@shapio.fr | password123 | 60 pts | Manette PS5 + guitare |
+| sophie@shapio.fr | password123 | 45 pts | Tente + appareil photo + vélo |
+| lucas@shapio.fr | password123 | 55 pts | Aspirateur + tondeuse |
+
+**Pour tester** : se connecter avec `karim@shapio.fr` / `password123`. Ce compte a des conversations, des transactions et des avis pré-chargés.
+
+## Fonctionnalités opérationnelles
+
+| Fonctionnalité | Statut | Détails |
+|----------------|--------|---------|
+| Inscription | Fonctionnel | 4 étapes : infos, téléphone, OTP, mot de passe |
+| Connexion | Fonctionnel | Email + mot de passe, JWT persisté |
+| Déconnexion | Fonctionnel | Paramètres > Se déconnecter |
+| Page d'accueil | Fonctionnel | Objets chargés depuis l'API |
+| Swipe | Fonctionnel | Swipe gauche/droite, filtre par catégorie |
+| Fiche objet | Fonctionnel | Détail complet + avis depuis l'API |
+| Demande d'emprunt | Fonctionnel | Bloque les points, crée le prêt |
+| Messages | Fonctionnel | Conversations réelles, envoi de messages |
+| Chat | Fonctionnel | Échange de messages en temps réel |
+| Wallet | Fonctionnel | Solde, transactions, historique |
+| Profil | Fonctionnel | Stats, objets, avis, vérifications |
+| Ajout d'objet | Fonctionnel | Formulaire complet |
+| Vérification téléphone | Mock (dev) | Code toujours `1234` |
+
+## Vérification téléphone — Stratégie de test gratuit
+
+### Mode actuel (dev)
+
+La vérification SMS est **simulée** : le code OTP est toujours **`1234`**. Aucun SMS n'est envoyé. Le code est affiché dans la console du serveur et sur la page d'inscription.
+
+### Passer en production
+
+Pour activer les vrais SMS, voici les options par ordre de recommandation :
+
+#### Option 1 : Twilio (recommandé)
+
+1. Créer un compte sur [twilio.com](https://www.twilio.com)
+2. Obtenir un numéro Twilio (trial = gratuit, ~100 SMS)
+3. Installer le SDK : `npm install twilio`
+4. Ajouter dans `.env` :
+   ```
+   SMS_PROVIDER=twilio
+   TWILIO_ACCOUNT_SID=ACxxxxxxxx
+   TWILIO_AUTH_TOKEN=xxxxxxxx
+   TWILIO_PHONE_NUMBER=+1xxxxxxxxxx
+   ```
+5. Modifier `backend/routes/phone.js` : remplacer le bloc `// TODO: En production` par :
+   ```js
+   const twilio = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+   await twilio.messages.create({
+     body: `Shapio: votre code est ${code}`,
+     to: phone,
+     from: process.env.TWILIO_PHONE_NUMBER
+   });
+   ```
+
+#### Option 2 : OVH SMS (moins cher en France)
+
+1. Activer les SMS sur [ovh.com/manager](https://www.ovh.com/manager)
+2. Installer : `npm install @ovh-api/sms`
+3. Configurer les clés API OVH dans `.env`
+
+#### Option 3 : Firebase Auth (gratuit jusqu'à 10k/mois)
+
+1. Créer un projet Firebase
+2. Activer Phone Auth dans la console Firebase
+3. Utiliser le SDK Firebase côté client
+
+### Test entre les deux modes
+
+La variable `SMS_PROVIDER` dans `.env` contrôle le mode :
+- Absente ou différente de `twilio` → **mode dev** (code = 1234)
+- `SMS_PROVIDER=twilio` → **mode production** (vrai SMS)
+
+## Consulter la base de données
+
+### Via l'API (navigateur)
+
+L'API expose un explorateur de DB en lecture seule :
+
+```bash
+# Lister les tables
+curl http://localhost:3000/api/db/tables
+
+# Voir le contenu d'une table (sans les mots de passe pour users)
+curl http://localhost:3000/api/db/table/users
+curl http://localhost:3000/api/db/table/items
+curl http://localhost:3000/api/db/table/loans
+curl http://localhost:3000/api/db/table/transactions
+curl http://localhost:3000/api/db/table/messages
+curl http://localhost:3000/api/db/table/reviews
+curl http://localhost:3000/api/db/table/swipes
+
+# Pagination
+curl "http://localhost:3000/api/db/table/items?limit=10&offset=0"
+
+# Requête SQL libre (SELECT uniquement)
+curl "http://localhost:3000/api/db/query?sql=SELECT%20*%20FROM%20users%20WHERE%20city='Mulhouse'"
+```
+
+Ou directement dans le navigateur :
+- `http://localhost:3000/api/db/tables`
+- `http://localhost:3000/api/db/table/users`
+- `http://localhost:3000/api/db/table/transactions`
+
+### Via un outil graphique
+
+Le fichier SQLite est à `backend/database/shapio.db`. Tu peux l'ouvrir avec :
+
+- **DB Browser for SQLite** (gratuit) : [sqlitebrowser.org](https://sqlitebrowser.org)
+- **TablePlus** (Mac, freemium) : [tableplus.com](https://tableplus.com)
+- **DBeaver** (gratuit) : [dbeaver.io](https://dbeaver.io)
+- **Extension VS Code** : "SQLite Viewer" ou "SQLite"
+
+### Réinitialiser la DB
+
+```bash
+rm backend/database/shapio.db
+npm run db:init
+```
 
 ## Structure du projet
 
@@ -17,185 +165,106 @@ Plateforme de prêt d'objets entre particuliers. Pas d'argent, juste des points.
 Shapio/
 ├── backend/
 │   ├── server.js              # Point d'entrée Express
-│   ├── config/
-│   │   └── database.js        # Config SQLite (sql.js)
-│   ├── middleware/
-│   │   └── auth.js            # Middleware JWT
+│   ├── config/database.js     # Config SQLite (sql.js)
+│   ├── middleware/auth.js      # Middleware JWT
 │   ├── routes/
-│   │   ├── auth.js            # POST /api/auth/login, /register
-│   │   ├── items.js           # CRUD /api/items
-│   │   ├── users.js           # GET /api/users/me, /:id
-│   │   ├── messages.js        # GET/POST /api/messages
-│   │   ├── wallet.js          # GET /api/wallet
-│   │   └── loans.js           # POST /api/loans, /:id/return
+│   │   ├── auth.js            # Login / Register
+│   │   ├── items.js           # CRUD objets
+│   │   ├── users.js           # Profil utilisateur
+│   │   ├── messages.js        # Messagerie
+│   │   ├── wallet.js          # Points & transactions
+│   │   ├── loans.js           # Emprunts & retours
+│   │   ├── phone.js           # Vérification téléphone (mock)
+│   │   ├── swipes.js          # Swipe like/pass
+│   │   └── db.js              # Explorateur de DB
 │   └── database/
 │       ├── schema.sql         # Schéma des tables
-│       └── init.js            # Script de seed
+│       └── init.js            # Seed de données de test
 ├── frontend/
 │   ├── index.html             # SPA principale
-│   ├── css/
-│   │   ├── main.css           # Import de tous les modules
-│   │   ├── variables.css      # Variables CSS (couleurs)
-│   │   ├── base.css           # Reset & styles de base
-│   │   ├── nav.css            # Navigation landing
-│   │   ├── hero.css           # Section hero
-│   │   ├── sections.css       # Sections landing (how, points, trust)
-│   │   ├── onboarding.css     # Formulaires login/signup
-│   │   ├── app.css            # Shell de l'app mobile
-│   │   ├── home.css           # Écran d'accueil
-│   │   ├── swipe.css          # Écran swipe/explorer
-│   │   ├── fiche.css          # Détail d'un objet
-│   │   ├── messages.css       # Messages & chat
-│   │   ├── wallet.css         # Wallet de points
-│   │   ├── profile.css        # Profil utilisateur
-│   │   └── responsive.css     # Media queries
+│   ├── css/                   # 14 modules CSS
+│   │   ├── main.css           # Point d'entrée (@import)
+│   │   ├── variables.css      # Design tokens
+│   │   └── ...
 │   └── js/
-│       ├── app.js             # Point d'entrée (imports + exports globaux)
-│       ├── router.js          # Navigation entre pages/écrans
-│       ├── api.js             # Client API (fetch vers le backend)
-│       ├── swipe.js           # Logique du swipe de cartes
-│       ├── fiche.js           # Interactions page détail
-│       ├── profile.js         # Tabs du profil
+│       ├── app.js             # Logique principale (tout connecté à l'API)
+│       ├── api.js             # Client HTTP
 │       └── modals.js          # Modales légales
 ├── package.json
 ├── .env.example
-├── .gitignore
-└── README.md
+└── .gitignore
 ```
-
-## Installation
-
-### Prérequis
-
-- **Node.js** >= 16
-- **npm** >= 8
-
-### Setup
-
-```bash
-# 1. Cloner le repo
-git clone <url-du-repo>
-cd Shapio
-
-# 2. Installer les dépendances
-npm install
-
-# 3. Configurer l'environnement
-cp .env.example .env
-# Modifier JWT_SECRET dans .env avec une valeur secrète
-
-# 4. Initialiser la base de données avec les données de démo
-npm run db:init
-
-# 5. Lancer le serveur
-npm run dev
-```
-
-Le serveur démarre sur `http://localhost:3000`.
-
-### Comptes de démo
-
-| Email | Mot de passe | Rôle |
-|-------|-------------|------|
-| karim@shapio.fr | password123 | Utilisateur principal (72 pts) |
-| marie@shapio.fr | password123 | Prêteuse active (85 pts) |
-| thomas@shapio.fr | password123 | Utilisateur standard (60 pts) |
-| sophie@shapio.fr | password123 | Prêteuse (45 pts) |
 
 ## API
 
-Toutes les routes sont préfixées par `/api`. Les routes protégées nécessitent un header `Authorization: Bearer <token>`.
+Toutes les routes sont préfixées par `/api`. Les routes marquées **Auth** nécessitent `Authorization: Bearer <token>`.
 
 ### Auth
+| Méthode | Route | Auth | Description |
+|---------|-------|------|-------------|
+| POST | `/api/auth/register` | Non | `{ first_name, last_name, email, password, city }` |
+| POST | `/api/auth/login` | Non | `{ email, password }` → `{ token, userId }` |
 
-| Méthode | Route | Description | Auth |
-|---------|-------|-------------|------|
-| POST | `/api/auth/register` | Créer un compte | Non |
-| POST | `/api/auth/login` | Se connecter | Non |
-
-**Register body** : `{ first_name, last_name, email, password, city }`
-
-**Login body** : `{ email, password }`
-
-**Réponse** : `{ token, userId }`
-
-### Items (objets)
-
-| Méthode | Route | Description | Auth |
-|---------|-------|-------------|------|
-| GET | `/api/items` | Lister les objets disponibles | Non |
-| GET | `/api/items/:id` | Détail d'un objet + avis | Non |
-| POST | `/api/items` | Créer un objet | Oui |
-| PATCH | `/api/items/:id` | Modifier un objet | Oui |
-| DELETE | `/api/items/:id` | Supprimer un objet | Oui |
-
-**Query params GET** : `?category=Tech&limit=20&offset=0`
+### Items
+| Méthode | Route | Auth | Description |
+|---------|-------|------|-------------|
+| GET | `/api/items?category=Tech&limit=20` | Non | Liste des objets disponibles |
+| GET | `/api/items/:id` | Non | Détail + avis |
+| POST | `/api/items` | Oui | Créer un objet |
+| PATCH | `/api/items/:id` | Oui | Modifier |
+| DELETE | `/api/items/:id` | Oui | Supprimer |
 
 ### Users
-
-| Méthode | Route | Description | Auth |
-|---------|-------|-------------|------|
-| GET | `/api/users/me` | Mon profil complet | Oui |
-| GET | `/api/users/:id` | Profil public | Non |
-
-### Wallet
-
-| Méthode | Route | Description | Auth |
-|---------|-------|-------------|------|
-| GET | `/api/wallet` | Solde, transactions, stats | Oui |
+| Méthode | Route | Auth | Description |
+|---------|-------|------|-------------|
+| GET | `/api/users/me` | Oui | Mon profil + objets + avis |
+| GET | `/api/users/:id` | Non | Profil public |
 
 ### Messages
+| Méthode | Route | Auth | Description |
+|---------|-------|------|-------------|
+| GET | `/api/messages/conversations` | Oui | Liste des conversations |
+| GET | `/api/messages/:userId` | Oui | Messages avec un user |
+| POST | `/api/messages/:userId` | Oui | Envoyer `{ content }` |
 
-| Méthode | Route | Description | Auth |
-|---------|-------|-------------|------|
-| GET | `/api/messages/conversations` | Liste des conversations | Oui |
-| GET | `/api/messages/:userId` | Messages avec un user | Oui |
-| POST | `/api/messages/:userId` | Envoyer un message | Oui |
+### Wallet
+| Méthode | Route | Auth | Description |
+|---------|-------|------|-------------|
+| GET | `/api/wallet` | Oui | Solde + transactions |
 
-### Loans (prêts)
+### Loans
+| Méthode | Route | Auth | Description |
+|---------|-------|------|-------------|
+| POST | `/api/loans` | Oui | `{ item_id, days }` — emprunter |
+| POST | `/api/loans/:id/return` | Oui | Confirmer le retour (prêteur) |
 
-| Méthode | Route | Description | Auth |
-|---------|-------|-------------|------|
-| POST | `/api/loans` | Demander un emprunt | Oui |
-| POST | `/api/loans/:id/return` | Confirmer le retour | Oui |
+### Phone
+| Méthode | Route | Auth | Description |
+|---------|-------|------|-------------|
+| POST | `/api/phone/send-code` | Non | `{ phone }` — envoyer OTP (dev: 1234) |
+| POST | `/api/phone/verify` | Non | `{ phone, code }` — vérifier |
+| POST | `/api/phone/confirm` | Oui | `{ phone }` — associer au compte |
 
-**Emprunt body** : `{ item_id, days }`
+### Swipes
+| Méthode | Route | Auth | Description |
+|---------|-------|------|-------------|
+| POST | `/api/swipes` | Oui | `{ item_id, direction }` |
+| GET | `/api/swipes/unswiped?category=Tech` | Oui | Objets pas encore swipés |
+
+### DB Explorer
+| Méthode | Route | Description |
+|---------|-------|-------------|
+| GET | `/api/db/tables` | Lister les tables |
+| GET | `/api/db/table/:name?limit=50` | Contenu d'une table |
+| GET | `/api/db/query?sql=SELECT...` | Requête SQL (SELECT only) |
 
 ## Scripts npm
 
 | Commande | Description |
 |----------|-------------|
-| `npm start` | Lancer le serveur en production |
-| `npm run dev` | Lancer avec auto-reload (--watch) |
-| `npm run db:init` | Initialiser la DB avec les données de démo |
-
-## Base de données
-
-### Tables
-
-- **users** : comptes utilisateurs, points, vérifications
-- **items** : objets disponibles au prêt
-- **loans** : prêts en cours/terminés
-- **transactions** : historique des mouvements de points
-- **messages** : messagerie entre utilisateurs
-- **reviews** : avis sur les prêts
-- **swipes** : historique des swipes (like/pass)
-
-### Système de points
-
-1. Chaque nouvel inscrit reçoit **50 points**
-2. Le prêteur fixe le prix en **points/jour**
-3. Les points sont **bloqués** lors de l'emprunt
-4. Les points sont **transférés** au prêteur à la confirmation du retour
-5. Plafond : **100 points** par utilisateur
-
-## Contribuer
-
-1. Créer une branche : `git checkout -b feature/ma-feature`
-2. Développer et tester localement
-3. Commiter : `git commit -m "feat: description"`
-4. Pousser : `git push origin feature/ma-feature`
-5. Ouvrir une Pull Request
+| `npm start` | Production |
+| `npm run dev` | Dev avec auto-reload (--watch) |
+| `npm run db:init` | Réinitialiser la DB avec les données de test |
 
 ## Licence
 

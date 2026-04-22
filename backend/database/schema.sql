@@ -88,6 +88,16 @@ CREATE TABLE IF NOT EXISTS reviews (
   FOREIGN KEY (target_id) REFERENCES users(id)
 );
 
+CREATE TABLE IF NOT EXISTS phone_codes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER,
+  phone TEXT NOT NULL,
+  code TEXT NOT NULL,
+  verified INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now')),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE IF NOT EXISTS swipes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER NOT NULL,

@@ -41,6 +41,9 @@ async function start() {
   app.use('/api/messages', require('./routes/messages'));
   app.use('/api/wallet', require('./routes/wallet'));
   app.use('/api/loans', require('./routes/loans'));
+  app.use('/api/phone', require('./routes/phone'));
+  app.use('/api/swipes', require('./routes/swipes'));
+  app.use('/api/db', require('./routes/db'));
 
   // SPA fallback
   app.get('*', (req, res) => {

@@ -5,16 +5,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shapio — Prêtez, empruntez, faites confiance.</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
   <script type="module" src="js/app.js"></script>
 </head>
 
 <body>
 
-  <!-- LANDING -->
+  <!-- ═══ LANDING ═══ -->
   <div class="page active" id="p-landing">
     <nav>
       <div class="nav-logo">Sha<span>p</span>io</div>
@@ -27,36 +25,21 @@
     </nav>
 
     <div class="hero">
-      <div class="hero-tag">
-        <div class="tdot"></div>Bêta bientôt disponible en France
-      </div>
+      <div class="hero-tag"><div class="tdot"></div>Bêta bientôt disponible en France</div>
       <h1>Prêtez ce que vous n'utilisez pas.<br><em>Empruntez</em> ce dont vous avez besoin.</h1>
       <p class="hero-sub">Une communauté de voisins qui partagent leurs objets — sans argent, juste des points.</p>
       <div class="hero-acts">
         <button class="btn-p" onclick="go('p-s1')">Créer mon compte gratuit</button>
-        <button class="btn-gh" onclick="document.getElementById('section-how').scrollIntoView({behavior:'smooth'})">Voir
-          comment ça marche →</button>
+        <button class="btn-gh" onclick="document.getElementById('section-how').scrollIntoView({behavior:'smooth'})">Voir comment ça marche →</button>
       </div>
       <div class="hero-pts">🎁 <strong>50 points offerts</strong> à chaque nouvel inscrit</div>
     </div>
 
     <div class="sp">
-      <div class="sp-item">
-        <div class="sp-num">0€</div>
-        <div class="sp-lbl">Zéro argent échangé</div>
-      </div>
-      <div class="sp-item">
-        <div class="sp-num">50 pts</div>
-        <div class="sp-lbl">Offerts à l'inscription</div>
-      </div>
-      <div class="sp-item">
-        <div class="sp-num">✓</div>
-        <div class="sp-lbl">Profils vérifiés</div>
-      </div>
-      <div class="sp-item">
-        <div class="sp-num">France</div>
-        <div class="sp-lbl">Lancement national</div>
-      </div>
+      <div class="sp-item"><div class="sp-num">0€</div><div class="sp-lbl">Zéro argent échangé</div></div>
+      <div class="sp-item"><div class="sp-num">50 pts</div><div class="sp-lbl">Offerts à l'inscription</div></div>
+      <div class="sp-item"><div class="sp-num">✓</div><div class="sp-lbl">Profils vérifiés</div></div>
+      <div class="sp-item"><div class="sp-num">France</div><div class="sp-lbl">Lancement national</div></div>
     </div>
 
     <section class="lsec" id="section-how">
@@ -64,49 +47,21 @@
       <h2>Simple comme un <em>coup de fil</em> à un voisin.</h2>
       <p class="lsec-sub">Shapio rend le partage aussi naturel que demander un service à un ami.</p>
       <div class="steps">
-        <div class="step">
-          <div class="step-n">01</div>
-          <h3>Publiez vos objets</h3>
-          <p>Drone, perceuse, appareil photo… Fixez vous-même le prix en points.</p>
-        </div>
-        <div class="step">
-          <div class="step-n">02</div>
-          <h3>Swipez pour emprunter</h3>
-          <p>Parcourez les objets autour de vous et demandez en un tap.</p>
-        </div>
-        <div class="step">
-          <div class="step-n">03</div>
-          <h3>Échangez en confiance</h3>
-          <p>Profils vérifiés, notes et avis, messagerie intégrée.</p>
-        </div>
+        <div class="step"><div class="step-n">01</div><h3>Publiez vos objets</h3><p>Drone, perceuse, appareil photo… Fixez vous-même le prix en points.</p></div>
+        <div class="step"><div class="step-n">02</div><h3>Swipez pour emprunter</h3><p>Parcourez les objets autour de vous et demandez en un tap.</p></div>
+        <div class="step"><div class="step-n">03</div><h3>Échangez en confiance</h3><p>Profils vérifiés, notes et avis, messagerie intégrée.</p></div>
       </div>
     </section>
 
     <section class="pts-sec" id="section-pts">
-      <div class="pbg pbg1"></div>
-      <div class="pbg pbg2"></div>
+      <div class="pbg pbg1"></div><div class="pbg pbg2"></div>
       <div class="stag">Le système de points</div>
       <div class="pts-ttl">Une monnaie <em>équitable</em><br>pour tout le monde.</div>
       <p class="pts-sub2">Pas d'argent, pas d'inégalités. Juste des points qui créent du lien.</p>
       <div class="pts-grid">
-        <div class="pts-card">
-          <div class="pts-ico">🎁</div>
-          <h4>Bienvenue</h4>
-          <p>Chaque nouveau membre reçoit des points pour emprunter dès le premier jour.</p><span class="pts-hl">50 pts
-            offerts</span>
-        </div>
-        <div class="pts-card">
-          <div class="pts-ico">📦</div>
-          <h4>Prêtez, gagnez</h4>
-          <p>Chaque prêt rapporte des points fixés par vous. Plus vous prêtez, plus vous empruntez.</p><span
-            class="pts-hl">Vous fixez le prix</span>
-        </div>
-        <div class="pts-card">
-          <div class="pts-ico">🔒</div>
-          <h4>Points sécurisés</h4>
-          <p>Les points sont bloqués à la demande et libérés au retour de l'objet.</p><span class="pts-hl">Plafond à 100
-            pts</span>
-        </div>
+        <div class="pts-card"><div class="pts-ico">🎁</div><h4>Bienvenue</h4><p>Chaque nouveau membre reçoit des points pour emprunter dès le premier jour.</p><span class="pts-hl">50 pts offerts</span></div>
+        <div class="pts-card"><div class="pts-ico">📦</div><h4>Prêtez, gagnez</h4><p>Chaque prêt rapporte des points fixés par vous.</p><span class="pts-hl">Vous fixez le prix</span></div>
+        <div class="pts-card"><div class="pts-ico">🔒</div><h4>Points sécurisés</h4><p>Les points sont bloqués à la demande et libérés au retour.</p><span class="pts-hl">Plafond à 100 pts</span></div>
       </div>
     </section>
 
@@ -115,26 +70,10 @@
       <h2>Prêtez l'esprit <em>tranquille.</em></h2>
       <p class="lsec-sub">Plusieurs niveaux de vérification pour chaque échange.</p>
       <div class="tr-grid">
-        <div class="tr-card">
-          <div class="tr-ico">📱</div>
-          <h4>Vérification téléphone</h4>
-          <p>Chaque compte est lié à un numéro réel.</p>
-        </div>
-        <div class="tr-card">
-          <div class="tr-ico">🪪</div>
-          <h4>Pièce d'identité</h4>
-          <p>Badge vert pour les membres vérifiés.</p>
-        </div>
-        <div class="tr-card">
-          <div class="tr-ico">⭐</div>
-          <h4>Notes & avis</h4>
-          <p>La réputation se construit prêt après prêt.</p>
-        </div>
-        <div class="tr-card">
-          <div class="tr-ico">🛡</div>
-          <h4>Points bloqués</h4>
-          <p>Transfert au retour confirmé. Litige arbitré sous 24h.</p>
-        </div>
+        <div class="tr-card"><div class="tr-ico">📱</div><h4>Vérification téléphone</h4><p>Chaque compte est lié à un numéro réel.</p></div>
+        <div class="tr-card"><div class="tr-ico">🪪</div><h4>Pièce d'identité</h4><p>Badge vert pour les membres vérifiés.</p></div>
+        <div class="tr-card"><div class="tr-ico">⭐</div><h4>Notes & avis</h4><p>La réputation se construit prêt après prêt.</p></div>
+        <div class="tr-card"><div class="tr-ico">🛡</div><h4>Points bloqués</h4><p>Transfert au retour confirmé. Litige arbitré sous 24h.</p></div>
       </div>
     </section>
 
@@ -155,7 +94,7 @@
     </footer>
   </div>
 
-  <!-- CONNEXION -->
+  <!-- ═══ CONNEXION ═══ -->
   <div class="page" id="p-connexion">
     <div class="onboard">
       <div class="ocard">
@@ -163,144 +102,108 @@
         <button class="oback" onclick="go('p-landing')">← Retour au site</button>
         <h2>Se connecter</h2>
         <p class="osub">Accédez à votre compte Shapio.</p>
-        <div class="fl"><label>Email</label><input type="email" placeholder="votre@email.com" /></div>
-        <div class="fl"><label>Mot de passe</label><input type="password" placeholder="••••••••" /></div>
-        <button class="obtn" onclick="go('p-app')">Se connecter →</button>
-        <p class="onote">Pas encore de compte ? <span style="color:var(--gm);cursor:pointer;" onclick="go('p-s1')">Créer
-            un compte</span></p>
+        <div class="fl"><label>Email</label><input id="login-email" type="email" placeholder="karim@shapio.fr" /></div>
+        <div class="fl"><label>Mot de passe</label><input id="login-password" type="password" placeholder="password123" /></div>
+        <div id="login-error" style="color:#E24B4A;font-size:12px;margin-bottom:6px;min-height:16px;"></div>
+        <button id="login-btn" class="obtn" onclick="handleLogin()">Se connecter →</button>
+        <p class="onote">Pas encore de compte ? <span style="color:var(--gm);cursor:pointer;" onclick="go('p-s1')">Créer un compte</span></p>
       </div>
     </div>
   </div>
 
-  <!-- SIGNUP 1 -->
+  <!-- ═══ SIGNUP 1 — Infos ═══ -->
   <div class="page" id="p-s1">
     <div class="onboard">
       <div class="ocard">
         <div class="ologo">Sha<span>p</span>io</div>
         <button class="oback" onclick="go('p-landing')">← Retour au site</button>
-        <div class="ostep">Étape 1 sur 3 · Informations</div>
-        <div class="prog">
-          <div class="pseg act"></div>
-          <div class="pseg"></div>
-          <div class="pseg"></div>
-        </div>
+        <div class="ostep">Étape 1 sur 4 · Informations</div>
+        <div class="prog"><div class="pseg act"></div><div class="pseg"></div><div class="pseg"></div><div class="pseg"></div></div>
         <h2>Tes informations</h2>
         <p class="osub">Ces données restent privées et ne sont jamais partagées.</p>
         <div class="frow">
-          <div class="fl"><label>Prénom</label><input type="text" placeholder="Thomas" /></div>
-          <div class="fl"><label>Nom</label><input type="text" placeholder="Dupont" /></div>
+          <div class="fl"><label>Prénom</label><input id="reg-firstname" type="text" placeholder="Thomas" /></div>
+          <div class="fl"><label>Nom</label><input id="reg-lastname" type="text" placeholder="Dupont" /></div>
         </div>
-        <div class="fl"><label>Email</label><input type="email" placeholder="thomas@email.com" /></div>
-        <div class="fl"><label>Ville</label><input type="text" placeholder="Paris, Lyon…" /></div>
-        <button class="obtn" onclick="go('p-s2')">Continuer →</button>
-        <p class="onote">Déjà membre ? <span style="color:var(--gm);cursor:pointer;" onclick="go('p-app')">Se
-            connecter</span></p>
+        <div class="fl"><label>Email</label><input id="reg-email" type="email" placeholder="thomas@email.com" /></div>
+        <div class="fl"><label>Ville</label><input id="reg-city" type="text" placeholder="Paris, Lyon…" /></div>
+        <div id="reg-error-1" style="color:#E24B4A;font-size:12px;min-height:16px;"></div>
+        <button class="obtn" onclick="handleSignupStep1()">Continuer →</button>
+        <p class="onote">Déjà membre ? <span style="color:var(--gm);cursor:pointer;" onclick="go('p-connexion')">Se connecter</span></p>
       </div>
     </div>
   </div>
 
-  <!-- SIGNUP 2 -->
+  <!-- ═══ SIGNUP 2 — Téléphone ═══ -->
   <div class="page" id="p-s2">
     <div class="onboard">
       <div class="ocard">
         <button class="oback" onclick="go('p-s1')">← Retour</button>
         <div class="ologo">Sha<span>p</span>io</div>
-        <div class="ostep">Étape 2 sur 3 · Téléphone</div>
-        <div class="prog">
-          <div class="pseg done"></div>
-          <div class="pseg act"></div>
-          <div class="pseg"></div>
-        </div>
+        <div class="ostep">Étape 2 sur 4 · Téléphone</div>
+        <div class="prog"><div class="pseg done"></div><div class="pseg act"></div><div class="pseg"></div><div class="pseg"></div></div>
         <h2>Ton numéro</h2>
         <p class="osub">Un code SMS sera envoyé pour confirmer ton compte.</p>
         <div class="fl"><label>Numéro</label>
           <div class="prow">
-            <div class="ppre">🇫🇷 +33</div><input type="tel" placeholder="6 12 34 56 78"
-              style="flex:1;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;" />
+            <div class="ppre">🇫🇷 +33</div>
+            <input id="reg-phone" type="tel" placeholder="6 12 34 56 78" style="flex:1;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;" />
           </div>
         </div>
-        <div
-          style="background:#f7f7f4;border-radius:10px;padding:11px 13px;margin:12px 0;font-size:12px;color:var(--mu);line-height:1.5;">
-          Ton numéro ne sera jamais affiché publiquement.</div>
-        <button class="obtn" onclick="go('p-s3')">Recevoir le code SMS →</button>
+        <div style="background:#f7f7f4;border-radius:10px;padding:11px 13px;margin:12px 0;font-size:12px;color:var(--mu);line-height:1.5;">
+          ⚠️ Mode test : le code est toujours <strong>1234</strong></div>
+        <div id="reg-error-2" style="color:#E24B4A;font-size:12px;min-height:16px;"></div>
+        <button class="obtn" onclick="handleSignupStep2()">Recevoir le code SMS →</button>
       </div>
     </div>
   </div>
 
-  <!-- SIGNUP 3 -->
+  <!-- ═══ SIGNUP 3 — OTP ═══ -->
   <div class="page" id="p-s3">
     <div class="onboard">
       <div class="ocard">
         <button class="oback" onclick="go('p-s2')">← Retour</button>
         <div class="ologo">Sha<span>p</span>io</div>
-        <div class="ostep">Étape 3 sur 3 · Vérification</div>
-        <div class="prog">
-          <div class="pseg done"></div>
-          <div class="pseg done"></div>
-          <div class="pseg act"></div>
-        </div>
+        <div class="ostep">Étape 3 sur 4 · Vérification</div>
+        <div class="prog"><div class="pseg done"></div><div class="pseg done"></div><div class="pseg act"></div><div class="pseg"></div></div>
         <h2>Code de confirmation</h2>
-        <p class="osub">Entre le code à 4 chiffres envoyé au 06 •• •• •• 78</p>
-        <div class="otp-row">
-          <div class="otp f">3</div>
-          <div class="otp f">7</div>
-          <div class="otp f">1</div>
-          <div class="otp" style="border-color:var(--gm);">_</div>
+        <p class="osub">Entre le code à 4 chiffres — en mode test : <strong>1234</strong></p>
+        <div class="otp-row" id="otp-row">
+          <input type="text" maxlength="1" class="otp" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
+          <input type="text" maxlength="1" class="otp" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
+          <input type="text" maxlength="1" class="otp" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
+          <input type="text" maxlength="1" class="otp" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
         </div>
-        <div class="resend">Pas reçu le code ? <span>Renvoyer</span></div>
-        <button class="obtn" onclick="go('p-s4')">Valider →</button>
+        <div id="reg-error-3" style="color:#E24B4A;font-size:12px;min-height:16px;text-align:center;"></div>
+        <button class="obtn" onclick="handleVerifyOTP()">Valider →</button>
       </div>
     </div>
   </div>
 
-  <!-- SIGNUP 4 -->
+  <!-- ═══ SIGNUP 4 — Password + fin ═══ -->
   <div class="page" id="p-s4">
     <div class="onboard">
       <div class="ocard">
+        <button class="oback" onclick="go('p-s3')">← Retour</button>
         <div class="ologo">Sha<span>p</span>io</div>
-        <div style="text-align:center;margin-bottom:18px;">
-          <div
-            style="width:50px;height:50px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px;">
-            ✓</div>
-          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);margin-bottom:3px;">Compte
-            créé !</div>
-          <div style="font-size:13px;color:var(--mu);">Tu as reçu <strong style="color:var(--gm);">50 points</strong> de
-            bienvenue.</div>
-        </div>
-        <div
-          style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
-          Renforcer mon profil (optionnel)</div>
-        <div class="vcards">
-          <div class="vc sel" onclick="tvc(this)">
-            <div class="vcico">🪪</div>
-            <div class="vcinfo">
-              <div class="vcname">Pièce d'identité</div>
-              <div class="vcdesc">Carte nationale ou passeport</div>
-            </div>
-            <div class="vcchk">✓</div>
-          </div>
-          <div class="vc" onclick="tvc(this)">
-            <div class="vcico">🤳</div>
-            <div class="vcinfo">
-              <div class="vcname">Selfie de confirmation</div>
-              <div class="vcdesc">Photo correspondant à ta pièce</div>
-            </div>
-            <div class="vcchk"></div>
-          </div>
-        </div>
-        <div class="skip" onclick="go('p-app')"><span>Passer</span> — je le ferai plus tard</div>
-        <button class="obtn" style="margin-top:14px;" onclick="go('p-app')">Accéder à Shapio →</button>
+        <div class="ostep">Étape 4 sur 4 · Mot de passe</div>
+        <div class="prog"><div class="pseg done"></div><div class="pseg done"></div><div class="pseg done"></div><div class="pseg act"></div></div>
+        <h2>Choisis ton mot de passe</h2>
+        <p class="osub">6 caractères minimum.</p>
+        <div class="fl"><label>Mot de passe</label><input id="reg-password" type="password" placeholder="••••••••" /></div>
+        <div id="reg-error-4" style="color:#E24B4A;font-size:12px;min-height:16px;"></div>
+        <button id="reg-final-btn" class="obtn" onclick="handleSignupStep4()">Créer mon compte →</button>
       </div>
     </div>
   </div>
 
-  <!-- APP -->
+  <!-- ═══ APP ═══ -->
   <div class="page" id="p-app">
     <div class="app">
       <div class="atop">
         <div class="alogo">Sha<span>p</span>io</div>
         <div class="atr">
-          <div class="ppill">50 pts</div>
+          <div class="ppill" id="header-pts">50 pts</div>
           <div class="ibtn">🔔</div>
         </div>
       </div>
@@ -309,119 +212,30 @@
       <div class="ascreen active" id="as-home">
         <div class="wbanner" id="wb">
           <div class="wbt">
-            <div class="wbttl">Bienvenue Thomas ! 👋</div>
-            <div class="wbpts">
-              <div class="wbn">50</div>
-              <div class="wbl">points</div>
-            </div>
+            <div class="wbttl" id="home-welcome">Bienvenue ! 👋</div>
+            <div class="wbpts"><div class="wbn" id="home-pts">50</div><div class="wbl">points</div></div>
           </div>
           <div class="wbsteps">
-            <div class="wbs done">
-              <div class="wbsi">✓</div>
-              <div class="wbsl">Compte créé</div>
-            </div>
-            <div class="wbs" onclick="this.classList.add('done');this.querySelector('.wbsi').textContent='✓';">
-              <div class="wbsi">📷</div>
-              <div class="wbsl">Ajouter un objet</div>
-            </div>
-            <div class="wbs" onclick="this.classList.add('done');this.querySelector('.wbsi').textContent='✓';">
-              <div class="wbsi">🔍</div>
-              <div class="wbsl">Explorer</div>
-            </div>
+            <div class="wbs done"><div class="wbsi">✓</div><div class="wbsl">Compte créé</div></div>
+            <div class="wbs" onclick="showAddItem()"><div class="wbsi">📷</div><div class="wbsl">Ajouter un objet</div></div>
+            <div class="wbs" onclick="setTab('swipe')"><div class="wbsi">🔍</div><div class="wbsl">Explorer</div></div>
           </div>
           <div class="wbdis" onclick="document.getElementById('wb').style.display='none'">Masquer</div>
         </div>
         <div class="srow">
-          <div class="sttl">📍 Près de toi · Mulhouse</div>
-          <div class="slnk">Voir tout</div>
+          <div class="sttl" id="home-city">📍 Près de toi</div>
+          <div class="slnk" onclick="setTab('swipe')">Voir tout</div>
         </div>
-        <div class="nscroll">
-          <div class="ncard" onclick="openFiche()">
-            <div class="nimg" style="background:#E1F5EE;"><span>🚁</span>
-              <div class="npts">15 pts</div>
-            </div>
-            <div class="ninfo">
-              <div class="nname">Drone DJI Mini 3</div>
-              <div class="ndist">2.3 km · Marie L.</div>
-            </div>
-          </div>
-          <div class="ncard" onclick="openFiche()">
-            <div class="nimg" style="background:#EEEDFE;"><span>🎮</span>
-              <div class="npts">8 pts</div>
-            </div>
-            <div class="ninfo">
-              <div class="nname">Manette PS5</div>
-              <div class="ndist">0.8 km · Thomas R.</div>
-            </div>
-          </div>
-          <div class="ncard" onclick="openFiche()">
-            <div class="nimg" style="background:#FAEEDA;"><span>🔧</span>
-              <div class="npts">10 pts</div>
-            </div>
-            <div class="ninfo">
-              <div class="nname">Perceuse Bosch</div>
-              <div class="ndist">1.1 km · Karim B.</div>
-            </div>
-          </div>
-          <div class="ncard" onclick="openFiche()">
-            <div class="nimg" style="background:#FAECE7;"><span>🧹</span>
-              <div class="npts">12 pts</div>
-            </div>
-            <div class="ninfo">
-              <div class="nname">Aspirateur Dyson</div>
-              <div class="ndist">1.4 km · Lucas F.</div>
-            </div>
-          </div>
-        </div>
-        <div class="addbanner">
+        <div class="nscroll" id="home-scroll"></div>
+        <div class="addbanner" onclick="showAddItem()">
           <div class="addico">+</div>
-          <div>
-            <div class="addttl">Publie ton premier objet</div>
-            <div class="addsub">Gagne des points en prêtant</div>
-          </div>
+          <div><div class="addttl">Publie ton premier objet</div><div class="addsub">Gagne des points en prêtant</div></div>
         </div>
         <div class="srow">
           <div class="sttl">✨ Découvrir</div>
           <div class="slnk" onclick="setTab('swipe')">Mode swipe</div>
         </div>
-        <div class="bgrid">
-          <div class="bcard" onclick="openFiche()">
-            <div class="bimg" style="background:#E1F5EE;"><span>🏕</span>
-              <div class="bpts">20 pts</div>
-            </div>
-            <div class="binfo">
-              <div class="bname">Tente 4 places</div>
-              <div class="bowner">Sophie M. · ★ 4.8</div>
-            </div>
-          </div>
-          <div class="bcard" onclick="openFiche()">
-            <div class="bimg" style="background:#EEEDFE;"><span>📷</span>
-              <div class="bpts">25 pts</div>
-            </div>
-            <div class="binfo">
-              <div class="bname">Appareil Sony A7</div>
-              <div class="bowner">Inès F. · ★ 4.9</div>
-            </div>
-          </div>
-          <div class="bcard" onclick="openFiche()">
-            <div class="bimg" style="background:#FAEEDA;"><span>🛴</span>
-              <div class="bpts">18 pts</div>
-            </div>
-            <div class="binfo">
-              <div class="bname">Trottinette élec.</div>
-              <div class="bowner">Romain D. · ★ 4.7</div>
-            </div>
-          </div>
-          <div class="bcard" onclick="openFiche()">
-            <div class="bimg" style="background:#FAECE7;"><span>🎸</span>
-              <div class="bpts">14 pts</div>
-            </div>
-            <div class="binfo">
-              <div class="bname">Guitare acoustique</div>
-              <div class="bowner">Emma L. · ★ 5.0</div>
-            </div>
-          </div>
-        </div>
+        <div class="bgrid" id="home-grid"></div>
       </div>
 
       <!-- SWIPE -->
@@ -431,233 +245,99 @@
           <button class="mtbtn" id="mt-browse" onclick="setSwipeMode('browse')">⊞ Explorer</button>
         </div>
         <div class="filters">
-          <span class="fchip active">Tout</span><span class="fchip">Tech</span><span class="fchip">Maison</span><span
-            class="fchip">Sport</span><span class="fchip">Jardinage</span>
+          <span class="fchip active" onclick="filterSwipe('Tout',this)">Tout</span>
+          <span class="fchip" onclick="filterSwipe('Tech',this)">Tech</span>
+          <span class="fchip" onclick="filterSwipe('Maison',this)">Maison</span>
+          <span class="fchip" onclick="filterSwipe('Sport',this)">Sport</span>
+          <span class="fchip" onclick="filterSwipe('Jardinage',this)">Jardinage</span>
         </div>
         <div id="swipe-mode">
           <div class="cstack" id="cstack">
-            <div class="scard back" id="cback">
-              <div class="cphoto" style="background:#EEEDFE;"><span>🎮</span></div>
-              <div class="cbody">
-                <div class="ctitle">Manette PS5</div>
-              </div>
-            </div>
-            <div class="scard front" id="cfront">
-              <div class="cphoto" style="background:#E1F5EE;"><span>🚁</span>
-                <div class="cbadge">15 pts</div>
-                <div class="cdist">2.3 km</div>
-              </div>
-              <div class="cbody">
-                <div class="ctitle">Drone DJI Mini 3</div>
-                <div class="cowner">
-                  <div class="cav">ML</div><span>Marie L.</span><span class="cstars">★★★★★</span><span
-                    style="font-size:11px;color:var(--mu);">4.9</span>
-                </div>
-                <div class="ctags"><span class="ctag">Tech</span><span class="ctag">Caméra 4K</span><span
-                    class="ctag">Débutant ok</span></div>
-              </div>
-            </div>
+            <div class="scard back" id="cback"></div>
+            <div class="scard front" id="cfront"></div>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;"><span
-              style="font-size:11px;color:var(--mu);">← Passer</span><span
-              style="font-size:11px;color:var(--mu);">Vouloir →</span></div>
-          <div class="sactions"><button class="sabtn sask" onclick="swipe('left')">✕</button><button class="sabtn slike"
-              onclick="swipe('right')">♥</button><button class="sabtn ssave">★</button></div>
+          <div id="swipe-empty" style="display:none;text-align:center;padding:60px 20px;color:var(--mu);">
+            <div style="font-size:48px;margin-bottom:12px;">✨</div>
+            <div style="font-size:15px;font-weight:500;">Plus d'objets à découvrir</div>
+            <div style="font-size:12px;margin-top:6px;">Reviens plus tard ou change de filtre !</div>
+          </div>
+          <div id="swipe-actions" style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;">
+            <span style="font-size:11px;color:var(--mu);">← Passer</span>
+            <span style="font-size:11px;color:var(--mu);">Vouloir →</span>
+          </div>
+          <div class="sactions" id="swipe-actions">
+            <button class="sabtn sask" onclick="swipe('left')">✕</button>
+            <button class="sabtn slike" onclick="swipe('right')">♥</button>
+          </div>
         </div>
         <div id="browse-mode" style="display:none;">
-          <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;">24 objets à moins de 5 km</div>
-          <div class="bgrid">
-            <div class="bcard" onclick="openFiche()">
-              <div class="bimg" style="background:#E1F5EE;"><span>🚁</span>
-                <div class="bpts">15 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Drone DJI Mini 3</div>
-                <div class="bowner">Marie L. ★ 4.9 · 2.3km</div>
-              </div>
-            </div>
-            <div class="bcard" onclick="openFiche()">
-              <div class="bimg" style="background:#EEEDFE;"><span>🎮</span>
-                <div class="bpts">8 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Manette PS5</div>
-                <div class="bowner">Thomas R. ★ 4.7 · 0.8km</div>
-              </div>
-            </div>
-            <div class="bcard" onclick="openFiche()">
-              <div class="bimg" style="background:#FAEEDA;"><span>🔧</span>
-                <div class="bpts">10 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Perceuse Bosch</div>
-                <div class="bowner">Karim B. ★ 5.0 · 1.1km</div>
-              </div>
-            </div>
-            <div class="bcard" onclick="openFiche()">
-              <div class="bimg" style="background:#FAECE7;"><span>🏕</span>
-                <div class="bpts">20 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Tente 4 places</div>
-                <div class="bowner">Sophie M. ★ 4.8 · 3.2km</div>
-              </div>
-            </div>
-          </div>
+          <div id="browse-count" style="font-size:11px;color:var(--mu);padding:4px 18px 8px;">—</div>
+          <div class="bgrid" id="browse-grid"></div>
         </div>
-        <div id="match-ov"
-          style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px;padding:28px;text-align:center;">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:white;margin-bottom:12px;">C'est un
-            match !</div>
-          <div style="font-size:48px;margin-bottom:12px;">🚁</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:18px;">Marie a accepté ta
-            demande<br><strong style="color:white;">15 pts seront bloqués</strong> jusqu'au retour</div>
-          <button onclick="closeMatch()"
-            style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer
-            un message</button>
-          <button onclick="closeMatch()"
-            style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Continuer
-            à explorer</button>
+        <div id="match-ov" style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px;padding:28px;text-align:center;">
+          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:white;margin-bottom:12px;">C'est un match !</div>
+          <div id="match-icon" style="font-size:48px;margin-bottom:12px;">📦</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:18px;">
+            <span id="match-name"></span> a accepté ta demande<br><span id="match-pts"></span>
+          </div>
+          <button onclick="closeMatch()" style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Continuer à explorer</button>
         </div>
       </div>
 
       <!-- FICHE -->
       <div class="ascreen" id="as-fiche">
-        <div class="fphoto" style="background:#E1F5EE;"><span>🚁</span>
+        <div class="fphoto" id="fiche-photo" style="background:#E1F5EE;">
+          <span id="fiche-icon" style="font-size:86px;">📦</span>
           <div class="fback" onclick="backFromFiche()">←</div>
           <div class="fsave" id="fsavebtn" onclick="toggleFSave()">♡</div>
-          <div class="fdots">
-            <div class="fdot active"></div>
-            <div class="fdot"></div>
-            <div class="fdot"></div>
-          </div>
         </div>
         <div class="fbody">
           <div class="ftrow">
-            <div class="ftitle">Drone DJI Mini 3 Pro</div>
-            <div class="fpts">
-              <div class="fptsn">15</div>
-              <div class="fptsl">pts/jour</div>
-            </div>
-          </div>
-          <div class="fmeta">
-            <div class="fmc">📍 2.3 km</div>
-            <div class="fmdot"></div>
-            <div class="fmc">⭐ 4.9 (12 avis)</div>
-            <div class="fmdot"></div>
-            <div class="fmc">🔄 8 prêts</div>
+            <div class="ftitle" id="fiche-title">—</div>
+            <div class="fpts"><div class="fptsn" id="fiche-pts-num">0</div><div class="fptsl">pts/jour</div></div>
           </div>
           <div class="fstates">
-            <div class="fst fst-g">Disponible</div>
-            <div class="fst fst-gr">Très bon état</div>
+            <div class="fst fst-g" id="fiche-available">Disponible</div>
+            <div class="fst fst-gr" id="fiche-condition">Bon état</div>
           </div>
-          <div class="fdesc">Drone compact 4K avec stabilisateur. Autonomie ~34 min. Livré avec 2 batteries, chargeur et
-            pochette.</div>
+          <div class="fdesc" id="fiche-desc"></div>
           <div class="fdiv"></div>
           <div class="fslbl">Prêté par</div>
           <div class="fownercard">
-            <div class="foav">ML</div>
+            <div class="foav" id="fiche-owner-initials">—</div>
             <div class="foinfo">
-              <div class="foname">Marie L. <div class="fobadge">✓ Vérifié</div>
-              </div>
-              <div class="fosub">⭐ 4.9 · 23 prêts · Membre depuis 2024</div>
+              <div class="foname" id="fiche-owner-name">—</div>
+              <div class="fosub" id="fiche-owner-rating">—</div>
             </div>
-            <span style="font-size:14px;color:var(--mu);">›</span>
           </div>
           <div class="fslbl">Disponibilités</div>
           <div class="fdispo">
-            <div class="fdc">
-              <div class="fdcd">Weekends</div>
-              <div class="fdct">Toute la journée</div>
-            </div>
-            <div class="fdc">
-              <div class="fdcd">Semaine</div>
-              <div class="fdct">Après 18h</div>
-            </div>
-            <div class="fdc" style="grid-column:span 2;">
-              <div class="fdcd">Durée max</div>
-              <div class="fdct">3 jours consécutifs</div>
-            </div>
+            <div class="fdc"><div class="fdcd">Weekends</div><div class="fdct" id="fiche-weekend">—</div></div>
+            <div class="fdc"><div class="fdcd">Semaine</div><div class="fdct" id="fiche-weekday">—</div></div>
+            <div class="fdc" style="grid-column:span 2;"><div class="fdcd">Durée max</div><div class="fdct" id="fiche-maxdays">—</div></div>
           </div>
           <div class="fslbl">Avis récents</div>
-          <div class="frevs">
-            <div class="frev">
-              <div class="frevh">
-                <div class="frevav">TR</div>
-                <div class="frevn">Thomas R.</div>
-                <div class="frevs2">★★★★★</div>
-              </div>
-              <div class="frevt">Drone en parfait état, Marie très sympa !</div>
-            </div>
-            <div class="frev">
-              <div class="frevh">
-                <div class="frevav">SB</div>
-                <div class="frevn">Sophie B.</div>
-                <div class="frevs2">★★★★★</div>
-              </div>
-              <div class="frevt">Super expérience, objet comme décrit.</div>
-            </div>
-          </div>
+          <div class="frevs" id="fiche-reviews"></div>
         </div>
-        <div id="fiche-confirm"
-          style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px 14px;padding:26px;text-align:center;">
-          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:10px;">Confirmer la
-            demande</div>
-          <div style="font-size:36px;margin-bottom:8px;">🚁</div>
-          <div style="font-size:26px;font-weight:600;color:var(--ga);margin-bottom:8px;">15 pts / jour</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:16px;">Ces points seront
-            bloqués jusqu'au retour confirmé.</div>
-          <button onclick="hideFicheConfirm()"
-            style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer
-            la demande</button>
-          <button onclick="hideFicheConfirm()"
-            style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Annuler</button>
+        <div id="fiche-confirm" style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px 14px;padding:26px;text-align:center;">
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:10px;">Confirmer la demande</div>
+          <div id="fiche-confirm-icon" style="font-size:36px;margin-bottom:8px;">📦</div>
+          <div id="fiche-confirm-pts" style="font-size:26px;font-weight:600;color:var(--ga);margin-bottom:8px;">—</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:16px;">Ces points seront bloqués jusqu'au retour confirmé.</div>
+          <button id="fiche-confirm-btn" onclick="confirmBorrow()" style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer la demande</button>
+          <button onclick="hideFicheConfirm()" style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Annuler</button>
         </div>
         <div class="fbar" id="fbar">
-          <div class="fbarinfo">
-            <div class="fbarin">15 pts</div>
-            <div class="fbarl">par jour · bloqués jusqu'au retour</div>
-          </div>
-          <div class="fmsgbtn" onclick="setTab('msgs')">💬</div>
+          <div class="fbarinfo"><div class="fbarin" id="fiche-bar-pts">0 pts</div><div class="fbarl">par jour · bloqués jusqu'au retour</div></div>
           <button class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
         </div>
       </div>
 
       <!-- MESSAGES -->
       <div class="ascreen" id="as-msgs">
-        <div class="msg-hdr">
-          <h2>Messages</h2>
-        </div>
-        <div class="match-row">
-          <div class="mchip">
-            <div class="mchipav">🚁</div><span>Marie</span>
-          </div>
-          <div class="mchip">
-            <div class="mchipav">🎮</div><span>Thomas</span>
-          </div>
-          <div class="mchip">
-            <div class="mchipav">🔧</div><span>Karim</span>
-          </div>
-        </div>
-        <div class="conv" onclick="setTab('chat')">
-          <div class="convav">🚁</div>
-          <div class="convinfo">
-            <div class="convname">Marie L.</div>
-            <div class="convprev">J'ai partagé un itinéraire pour ce weekend !</div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span
-              class="convtime">14:23</span>
-            <div class="undot"></div>
-          </div>
-        </div>
-        <div class="conv">
-          <div class="convav">🎮</div>
-          <div class="convinfo">
-            <div class="convname">Thomas R.</div>
-            <div class="convprev">Ok pour samedi !</div>
-          </div>
-          <span class="convtime">11:05</span>
-        </div>
+        <div class="msg-hdr"><h2>Messages</h2></div>
+        <div class="match-row" id="msg-chips"></div>
+        <div id="msg-list"></div>
       </div>
 
       <!-- CHAT -->
@@ -665,165 +345,51 @@
         <div style="display:flex;flex-direction:column;height:100%;">
           <div class="chat-hdr">
             <button class="cback" onclick="setTab('msgs')">←</button>
-            <div class="chatav">🚁</div>
-            <div class="chatname">Marie L.</div>
-            <div class="chat-acts">
-              <div class="chatact">🎙</div>
-              <div class="chatact">📍</div>
-            </div>
+            <div class="chatav" id="chat-avatar">—</div>
+            <div class="chatname" id="chat-name">—</div>
           </div>
-          <div class="chatmsgs">
-            <div>
-              <div class="mb min">Salut ! J'ai partagé un itinéraire pour ce weekend !</div>
-              <div class="mt">Hier, 18:42</div>
-            </div>
-            <div style="align-self:flex-end">
-              <div class="mb mout">Carrément ! Montre-moi ça 🚁</div>
-              <div class="mt r">Hier, 18:45</div>
-            </div>
-            <div class="rcard">
-              <div class="rchdr">📍 Itinéraire partagé</div>
-              <div class="rcpts">
-                <div class="rcpt">
-                  <div class="rcdot" style="background:#1D9E75;"></div>Mulhouse
-                </div>
-                <div class="rcl"></div>
-                <div class="rcpt">
-                  <div class="rcdot" style="background:#378ADD;"></div>Col du Ballon
-                </div>
-                <div class="rcl"></div>
-                <div class="rcpt">
-                  <div class="rcdot" style="background:#E24B4A;"></div>Colmar
-                </div>
-              </div>
-              <div style="font-size:11px;color:var(--mu);margin-top:8px;">85 km · ~2h</div>
-              <div class="rcbtns"><button class="rcbtn">🗺 Waze</button><button class="rcbtn">📌 Maps</button></div>
-            </div>
-            <div>
-              <div class="mb min">Le col du Ballon est magnifique 🔥</div>
-              <div class="mt">14:23</div>
-            </div>
+          <div class="chatmsgs" id="chat-messages"></div>
+          <div class="chatinput">
+            <input id="chat-input" type="text" placeholder="Message…" />
+            <button class="sendbtn" onclick="sendMessage()">↑</button>
           </div>
-          <div class="chatinput"><input type="text" placeholder="Message…" /><button class="sendbtn">↑</button></div>
         </div>
       </div>
 
       <!-- WALLET -->
       <div class="ascreen" id="as-wallet">
-        <div class="wallhdr">
-          <h2>Mon wallet</h2>
-          <div style="font-size:12px;color:var(--mu);">Avril 2026</div>
-        </div>
+        <div class="wallhdr"><h2>Mon wallet</h2></div>
         <div class="wallcard">
           <div class="wcl">Solde disponible</div>
-          <div class="wcmain">
-            <div class="wcn">72</div>
-            <div class="wcu">points</div>
-          </div>
-          <div class="wcbarbg">
-            <div class="wcbar"></div>
-          </div>
+          <div class="wcmain"><div class="wcn" id="wallet-pts">0</div><div class="wcu">points</div></div>
+          <div class="wcbarbg"><div class="wcbar" id="wallet-bar" style="width:50%"></div></div>
           <div class="wcbarlbls"><span>0</span><span>Plafond : 100 pts</span></div>
           <div class="wcrow">
-            <div class="wcchip">
-              <div class="wcchip-l">Bloqués</div>
-              <div class="wcchip-v bl">15 pts</div>
-            </div>
-            <div class="wcchip">
-              <div class="wcchip-l">Gagnés ce mois</div>
-              <div class="wcchip-v gr">+37 pts</div>
-            </div>
-            <div class="wcchip">
-              <div class="wcchip-l">Dépensés</div>
-              <div class="wcchip-v">15 pts</div>
-            </div>
+            <div class="wcchip"><div class="wcchip-l">Bloqués</div><div class="wcchip-v bl" id="wallet-locked">0 pts</div></div>
+            <div class="wcchip"><div class="wcchip-l">Gagnés ce mois</div><div class="wcchip-v gr" id="wallet-earned">+0 pts</div></div>
+            <div class="wcchip"><div class="wcchip-l">Dépensés</div><div class="wcchip-v" id="wallet-spent">0 pts</div></div>
           </div>
-        </div>
-        <div class="walltabs">
-          <div class="wtab active">Tout</div>
-          <div class="wtab">Reçus</div>
-          <div class="wtab">Dépensés</div>
-          <div class="wtab">Bloqués</div>
         </div>
         <div class="walllbl">Transactions récentes</div>
-        <div class="txlist">
-          <div class="tx">
-            <div class="txico txia">🔒</div>
-            <div class="txinfo">
-              <div class="txttl">Drone DJI Mini 3</div>
-              <div class="txsub">Bloqués · en attente retour</div>
-            </div>
-            <div class="txpts txbl">–15 pts</div>
-          </div>
-          <div class="tx">
-            <div class="txico txig">✓</div>
-            <div class="txinfo">
-              <div class="txttl">Perceuse Bosch</div>
-              <div class="txsub">Prêt terminé · 3 jours</div>
-            </div>
-            <div class="txpts txp">+12 pts</div>
-          </div>
-          <div class="tx">
-            <div class="txico txig">✓</div>
-            <div class="txinfo">
-              <div class="txttl">Tente 4 places</div>
-              <div class="txsub">Prêt terminé · 2 jours</div>
-            </div>
-            <div class="txpts txp">+25 pts</div>
-          </div>
-          <div class="tx">
-            <div class="txico txir">↓</div>
-            <div class="txinfo">
-              <div class="txttl">Manette PS5</div>
-              <div class="txsub">Emprunt terminé · 1 jour</div>
-            </div>
-            <div class="txpts txm">–8 pts</div>
-          </div>
-          <div class="tx">
-            <div class="txico txig">🎁</div>
-            <div class="txinfo">
-              <div class="txttl">Bonus inscription</div>
-              <div class="txsub">Bienvenue sur Shapio !</div>
-            </div>
-            <div class="txpts txp">+50 pts</div>
-          </div>
-        </div>
-        <div class="wallinfo">
-          <p>Les points bloqués sont libérés automatiquement dès que le prêteur confirme le retour. En cas de litige,
-            Shapio intervient sous 24h.</p>
-        </div>
+        <div class="txlist" id="tx-list"></div>
+        <div class="wallinfo"><p>Les points bloqués sont libérés automatiquement dès que le prêteur confirme le retour. En cas de litige, Shapio intervient sous 24h.</p></div>
       </div>
 
       <!-- PROFIL -->
       <div class="ascreen" id="as-profil">
-        <div class="pcover"><button class="peditbtn">✏ Modifier le profil</button></div>
-        <div class="pavwrap">
-          <div class="pav">KM</div>
-          <div class="pavedit">+</div>
-        </div>
+        <div class="pcover"><button class="peditbtn" style="opacity:0.5;cursor:default;">✏ Modifier le profil</button></div>
+        <div class="pavwrap"><div class="pav" id="prof-initials">—</div></div>
         <div class="phead">
           <div class="pnrow">
-            <div class="pname">Karim M.</div>
-            <div class="pvbadge">✓ Vérifié</div>
+            <div class="pname" id="prof-name">—</div>
+            <div class="pvbadge" id="prof-badge">✓ Vérifié</div>
           </div>
-          <div class="psub">📍 Mulhouse · Membre depuis avril 2025</div>
+          <div class="psub" id="prof-sub">—</div>
           <div class="pstats">
-            <div class="pstat">
-              <div class="pstn">72</div>
-              <div class="pstl">points</div>
-            </div>
-            <div class="pstat">
-              <div class="pstn">12</div>
-              <div class="pstl">prêts</div>
-            </div>
-            <div class="pstat">
-              <div class="pstn">5</div>
-              <div class="pstl">emprunts</div>
-            </div>
-            <div class="pstat">
-              <div class="pstn" style="color:#BA7517;">4.9</div>
-              <div class="pstl">note</div>
-            </div>
+            <div class="pstat"><div class="pstn" id="prof-pts">0</div><div class="pstl">points</div></div>
+            <div class="pstat"><div class="pstn" id="prof-loans">0</div><div class="pstl">prêts</div></div>
+            <div class="pstat"><div class="pstn" id="prof-borrows">0</div><div class="pstl">emprunts</div></div>
+            <div class="pstat"><div class="pstn" id="prof-rating" style="color:#BA7517;">—</div><div class="pstl">note</div></div>
           </div>
         </div>
         <div class="ptabbar">
@@ -832,154 +398,69 @@
           <button class="ptab" onclick="ptab('settings',this)">Paramètres</button>
         </div>
         <div id="pt-objets">
-          <div
-            style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">
-            Vérification</div>
+          <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">Vérification</div>
           <div class="ptrust">
-            <div class="ptrow">
-              <div class="ptico ptdone">✓</div>
-              <div class="ptlbl">Numéro de téléphone</div>
-            </div>
-            <div class="ptrow">
-              <div class="ptico ptdone">✓</div>
-              <div class="ptlbl">Adresse vérifiée</div>
-            </div>
-            <div class="ptrow">
-              <div class="ptico ptdone">✓</div>
-              <div class="ptlbl">Pièce d'identité</div>
-            </div>
-            <div class="ptrow">
-              <div class="ptico ptpend">–</div>
-              <div class="ptlbl" style="color:var(--mu);">Selfie de confirmation</div>
-              <div class="ptact">Ajouter</div>
-            </div>
+            <div class="ptrow"><div class="ptico ptdone" id="verif-phone">✓</div><div class="ptlbl">Numéro de téléphone</div></div>
+            <div class="ptrow"><div class="ptico ptdone" id="verif-id">✓</div><div class="ptlbl">Pièce d'identité</div></div>
+            <div class="ptrow"><div class="ptico ptpend" id="verif-selfie">–</div><div class="ptlbl">Selfie de confirmation</div></div>
           </div>
-          <div
-            style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">
-            Mes objets</div>
-          <div class="pogrid">
-            <div class="pocard" onclick="openFiche()">
-              <div class="poimg" style="background:#E1F5EE;"><span>🚁</span>
-                <div class="popts">15 pts</div>
-                <div class="post post-on">Dispo</div>
-              </div>
-              <div class="poinfo">
-                <div class="ponm">Drone DJI Mini 3</div>
-                <div class="popr">8 prêts</div>
-              </div>
-            </div>
-            <div class="pocard" onclick="openFiche()">
-              <div class="poimg" style="background:#EEEDFE;"><span>💻</span>
-                <div class="popts">20 pts</div>
-                <div class="post post-on">Dispo</div>
-              </div>
-              <div class="poinfo">
-                <div class="ponm">MacBook Pro</div>
-                <div class="popr">3 prêts</div>
-              </div>
-            </div>
-            <div class="pocard" onclick="openFiche()">
-              <div class="poimg" style="background:#FAEEDA;"><span>🔧</span>
-                <div class="popts">10 pts</div>
-                <div class="post post-off">Indispo</div>
-              </div>
-              <div class="poinfo">
-                <div class="ponm">Perceuse Bosch</div>
-                <div class="popr">5 prêts</div>
-              </div>
-            </div>
-            <div class="pocard"
-              style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:120px;background:#f7f7f4;cursor:pointer;">
-              <div style="text-align:center;">
-                <div style="font-size:20px;color:var(--mu);">+</div>
-                <div style="font-size:11px;color:var(--mu);margin-top:3px;">Ajouter</div>
-              </div>
-            </div>
-          </div>
+          <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">Mes objets</div>
+          <div class="pogrid" id="prof-items-grid"></div>
         </div>
         <div id="pt-avis" style="display:none;">
           <div style="display:flex;align-items:center;gap:10px;padding:0 18px 12px;">
-            <div style="font-size:34px;font-weight:500;color:var(--dk);">4.9</div>
+            <div style="font-size:34px;font-weight:500;color:var(--dk);" id="prof-review-score">—</div>
             <div>
               <div style="font-size:14px;color:#BA7517;">★★★★★</div>
-              <div style="font-size:11px;color:var(--mu);">12 avis reçus</div>
+              <div style="font-size:11px;color:var(--mu);" id="prof-review-count">0 avis</div>
             </div>
           </div>
-          <div class="pavis">
-            <div class="paviscard">
-              <div class="pavish">
-                <div class="pavisav">TR</div>
-                <div class="pavisnm">Thomas R.</div>
-                <div class="pavisst">★★★★★</div>
-              </div>
-              <div class="pavist">Prêt rapide, objet parfait. Karim très sympa !</div>
-            </div>
-            <div class="paviscard">
-              <div class="pavish">
-                <div class="pavisav">SB</div>
-                <div class="pavisnm">Sophie B.</div>
-                <div class="pavisst">★★★★★</div>
-              </div>
-              <div class="pavist">Super expérience, communication impeccable.</div>
-            </div>
-          </div>
+          <div class="pavis" id="prof-reviews"></div>
         </div>
         <div id="pt-settings" style="display:none;">
           <div class="psettings">
-            <div class="psi">
-              <div class="psiico">👤</div>
-              <div class="psilbl">Informations personnelles</div>
-              <div class="psiarr">›</div>
-            </div>
-            <div class="psi">
-              <div class="psiico">🔔</div>
-              <div class="psilbl">Notifications</div>
-              <div class="psiarr">›</div>
-            </div>
-            <div class="psi">
-              <div class="psiico">📍</div>
-              <div class="psilbl">Rayon de recherche</div>
-              <div class="psiarr">›</div>
-            </div>
-            <div class="psi">
-              <div class="psiico">🔒</div>
-              <div class="psilbl">Confidentialité</div>
-              <div class="psiarr">›</div>
-            </div>
-            <div class="psi danger">
-              <div class="psiico">↪</div>
-              <div class="psilbl">Se déconnecter</div>
-            </div>
+            <div class="psi"><div class="psiico">👤</div><div class="psilbl">Informations personnelles</div><div class="psiarr">›</div></div>
+            <div class="psi"><div class="psiico">🔔</div><div class="psilbl">Notifications</div><div class="psiarr">›</div></div>
+            <div class="psi"><div class="psiico">📍</div><div class="psilbl">Rayon de recherche</div><div class="psiarr">›</div></div>
+            <div class="psi"><div class="psiico">🔒</div><div class="psilbl">Confidentialité</div><div class="psiarr">›</div></div>
+            <div class="psi danger" onclick="handleLogout()"><div class="psiico">↪</div><div class="psilbl">Se déconnecter</div></div>
           </div>
         </div>
       </div>
 
       <!-- NAV -->
       <div class="anav">
-        <div class="ni active" id="ni-home" onclick="setTab('home')">
-          <div class="nico">🏠</div>
-          <div class="nlbl">Accueil</div>
-        </div>
-        <div class="ni" id="ni-swipe" onclick="setTab('swipe')">
-          <div class="nico">🔍</div>
-          <div class="nlbl">Explorer</div>
-        </div>
-        <div class="ni" id="ni-msgs" onclick="setTab('msgs')">
-          <div class="nico">💬</div>
-          <div class="nlbl">Messages</div>
-        </div>
-        <div class="ni" id="ni-wallet" onclick="setTab('wallet')">
-          <div class="nico">💰</div>
-          <div class="nlbl">Points</div>
-        </div>
-        <div class="ni" id="ni-profil" onclick="setTab('profil')">
-          <div class="nico">👤</div>
-          <div class="nlbl">Profil</div>
-        </div>
+        <div class="ni active" id="ni-home" onclick="setTab('home')"><div class="nico">🏠</div><div class="nlbl">Accueil</div></div>
+        <div class="ni" id="ni-swipe" onclick="setTab('swipe')"><div class="nico">🔍</div><div class="nlbl">Explorer</div></div>
+        <div class="ni" id="ni-msgs" onclick="setTab('msgs')"><div class="nico">💬</div><div class="nlbl">Messages</div></div>
+        <div class="ni" id="ni-wallet" onclick="setTab('wallet')"><div class="nico">💰</div><div class="nlbl">Points</div></div>
+        <div class="ni" id="ni-profil" onclick="setTab('profil')"><div class="nico">👤</div><div class="nlbl">Profil</div></div>
       </div>
     </div>
   </div>
 
-</body>
+  <!-- ═══ MODAL AJOUT OBJET ═══ -->
+  <div id="add-item-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+    <div style="background:white;border-radius:20px;padding:28px;max-width:420px;width:100%;font-family:'DM Sans',sans-serif;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <h3 style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">Ajouter un objet</h3>
+        <button onclick="hideAddItem()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>
+      </div>
+      <div class="fl"><label>Emoji / Icône</label><input id="add-icon" type="text" placeholder="📦 🔧 🎮 📷" maxlength="2" /></div>
+      <div class="fl"><label>Nom de l'objet *</label><input id="add-title" type="text" placeholder="Perceuse Bosch" /></div>
+      <div class="fl"><label>Description</label><textarea id="add-desc" rows="3" placeholder="Détails, accessoires inclus…" style="padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;resize:vertical;width:100%;"></textarea></div>
+      <div class="frow">
+        <div class="fl"><label>Points / jour *</label><input id="add-pts" type="number" placeholder="10" min="1" /></div>
+        <div class="fl"><label>Catégorie</label>
+          <select id="add-category" style="padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;">
+            <option>Tech</option><option>Maison</option><option>Sport</option><option>Jardinage</option><option>Autre</option>
+          </select>
+        </div>
+      </div>
+      <div id="add-error" style="color:#E24B4A;font-size:12px;min-height:16px;"></div>
+      <button class="obtn" onclick="submitAddItem()">Publier l'objet →</button>
+    </div>
+  </div>
 
+</body>
 </html>
