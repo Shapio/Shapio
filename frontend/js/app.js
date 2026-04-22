@@ -339,7 +339,7 @@ function renderSwipeCards() {
   const back = document.getElementById('cback');
   const empty = document.getElementById('swipe-empty');
   const stack = document.getElementById('cstack');
-  const actions = document.getElementById('swipe-actions');
+  const actions = document.getElementById('swipe-btns');
 
   if (swipeIndex >= swipeItems.length) {
     stack.style.display = 'none';
@@ -730,4 +730,10 @@ window.showAddItem = showAddItem;
 window.hideAddItem = hideAddItem;
 window.submitAddItem = submitAddItem;
 
-document.addEventListener('DOMContentLoaded', init);
+// Expose to window immediately (before DOMContentLoaded) so onclick handlers work
+console.log('[Shapio] Module loaded');
+
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('[Shapio] DOM ready, initializing...');
+  init();
+});
