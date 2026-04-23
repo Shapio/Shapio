@@ -52,6 +52,13 @@ router.post('/:userId', authenticate, (req, res) => {
   ).run(req.userId, receiverId, content);
 
   const message = prepare('SELECT * FROM messages WHERE id = ?').get(result.lastInsertRowid);
+
+  // Notifier le destinataire
+  const sender = prepare('SELECT first_name FROM users WHERE id = ?').get(req.userId);
+  prepare(
+    'INSERT INTO notifications (user_id, type, title, body) VALUES (?, ?, ?, ?)'
+  ).run(receiverId, 'message', 'Nouveau message', `${sender.first_name} : "${content.substring(0, 60)}${content.length > 60 ? '…' : ''}"`);
+
   res.status(201).json(message);
 });
 

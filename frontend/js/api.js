@@ -85,6 +85,12 @@ export const phone = {
   confirm: (phoneNum) => request('/phone/confirm', { method: 'POST', body: JSON.stringify({ phone: phoneNum }) }),
 };
 
+export const notifications = {
+  get: () => request('/notifications'),
+  markAllRead: () => request('/notifications/read', { method: 'POST' }),
+  markRead: (id) => request(`/notifications/read/${id}`, { method: 'POST' }),
+};
+
 export const swipes = {
   record: (itemId, direction) => request('/swipes', { method: 'POST', body: JSON.stringify({ item_id: itemId, direction }) }),
   unswiped: (category) => {

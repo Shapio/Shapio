@@ -129,6 +129,29 @@ async function init() {
   insertMsg.run(4, 1, 'Salut ! Tu as des forets pour le béton avec ta perceuse ?', 1, '-20 days');
   insertMsg.run(1, 4, 'Oui, j\'ai un coffret complet.', 1, '-20 days');
 
+  // --- NOTIFICATIONS ---
+  const insertNotif = prepare(
+    `INSERT INTO notifications (user_id, type, title, body, read, created_at)
+     VALUES (?, ?, ?, ?, ?, datetime('now', ?))`
+  );
+
+  // Karim
+  insertNotif.run(1, 'welcome', 'Bienvenue sur Shapio ! 🎉', 'Tu as reçu 50 points de bienvenue. Publie un objet ou explore autour de toi.', 1, '-30 days');
+  insertNotif.run(1, 'loan_request', 'Nouvelle demande d\'emprunt', 'Thomas souhaite emprunter "Perceuse Bosch" pour 3 jour(s).', 1, '-16 days');
+  insertNotif.run(1, 'points', 'Points reçus ! 💰', 'Tu as reçu 30 pts pour le prêt de la Perceuse Bosch.', 1, '-12 days');
+  insertNotif.run(1, 'review', 'Nouvel avis ⭐', 'Thomas R. t\'a donné 5 étoiles : "Perceuse parfaite, Karim très arrangeant."', 0, '-12 days');
+  insertNotif.run(1, 'message', 'Nouveau message', 'Marie : "Avec plaisir, à bientôt !"', 0, '-4 days');
+  insertNotif.run(1, 'loan_request', 'Demande d\'emprunt acceptée', 'Marie a accepté ta demande pour le Drone DJI Mini 3.', 0, '-5 days');
+
+  // Marie
+  insertNotif.run(2, 'welcome', 'Bienvenue sur Shapio ! 🎉', 'Tu as reçu 50 points de bienvenue.', 1, '-30 days');
+  insertNotif.run(2, 'loan_request', 'Nouvelle demande d\'emprunt', 'Karim souhaite emprunter "Drone DJI Mini 3" pour 1 jour(s).', 1, '-6 days');
+  insertNotif.run(2, 'review', 'Nouvel avis ⭐', 'Karim M. t\'a donné 5 étoiles.', 0, '-4 days');
+
+  // Thomas
+  insertNotif.run(3, 'welcome', 'Bienvenue sur Shapio ! 🎉', 'Tu as reçu 50 points de bienvenue.', 1, '-30 days');
+  insertNotif.run(3, 'loan_returned', 'Retour confirmé', 'Le retour de "Perceuse Bosch" a été confirmé. 30 pts transférés.', 1, '-12 days');
+
   saveDb();
   console.log('Base de données initialisée avec les données de démo.');
   process.exit(0);

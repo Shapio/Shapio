@@ -5,10 +5,11 @@ const path = require('path');
 const fs = require('fs');
 const { getDb, saveDb, exec } = require('./config/database');
 
+let server;
+
 async function start() {
   await getDb();
 
-  // Initialiser le schéma
   const schema = fs.readFileSync(path.join(__dirname, 'database', 'schema.sql'), 'utf-8');
   exec(schema);
   saveDb();
@@ -24,7 +25,7 @@ async function start() {
     const original = res.json.bind(res);
     res.json = (data) => {
       if (['POST', 'PATCH', 'PUT', 'DELETE'].includes(req.method)) {
-        saveDb();
+        try { saveDb(); } catch (e) { }
       }
       return original(data);
     };
@@ -41,6 +42,7 @@ async function start() {
   app.use('/api/messages', require('./routes/messages'));
   app.use('/api/wallet', require('./routes/wallet'));
   app.use('/api/loans', require('./routes/loans'));
+  app.use('/api/notifications', require('./routes/notifications'));
   app.use('/api/phone', require('./routes/phone'));
   app.use('/api/swipes', require('./routes/swipes'));
   app.use('/api/db', require('./routes/db'));
@@ -50,10 +52,33 @@ async function start() {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'index.html'));
   });
 
-  app.listen(PORT, () => {
+  server = app.listen(PORT, () => {
     console.log(`Shapio backend démarré sur http://localhost:${PORT}`);
   });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.log(`Port ${PORT} occupé, nouvelle tentative dans 1s...`);
+      setTimeout(() => {
+        server.close();
+        server = app.listen(PORT);
+      }, 1000);
+    }
+  });
 }
+
+// Fermeture propre pour --watch et Ctrl+C
+function shutdown() {
+  if (server) {
+    server.close(() => process.exit(0));
+    setTimeout(() => process.exit(0), 500);
+  } else {
+    process.exit(0);
+  }
+}
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
 
 start().catch(err => {
   console.error('Erreur au démarrage:', err);

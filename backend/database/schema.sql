@@ -88,6 +88,18 @@ CREATE TABLE IF NOT EXISTS reviews (
   FOREIGN KEY (target_id) REFERENCES users(id)
 );
 
+CREATE TABLE IF NOT EXISTS notifications (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  type TEXT NOT NULL,  -- loan_request, loan_accepted, loan_returned, review, welcome, points
+  title TEXT NOT NULL,
+  body TEXT,
+  read INTEGER DEFAULT 0,
+  link TEXT,
+  created_at TEXT DEFAULT (datetime('now')),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
 CREATE TABLE IF NOT EXISTS phone_codes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   user_id INTEGER,

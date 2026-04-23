@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,6 @@
   <link rel="stylesheet" href="css/main.css">
   <script type="module" src="js/app.js"></script>
 </head>
-
 <body>
 
   <!-- ═══ LANDING ═══ -->
@@ -23,7 +21,6 @@
       </div>
       <button class="nav-cta" onclick="go('p-connexion')">Se connecter</button>
     </nav>
-
     <div class="hero">
       <div class="hero-tag"><div class="tdot"></div>Bêta bientôt disponible en France</div>
       <h1>Prêtez ce que vous n'utilisez pas.<br><em>Empruntez</em> ce dont vous avez besoin.</h1>
@@ -34,14 +31,12 @@
       </div>
       <div class="hero-pts">🎁 <strong>50 points offerts</strong> à chaque nouvel inscrit</div>
     </div>
-
     <div class="sp">
       <div class="sp-item"><div class="sp-num">0€</div><div class="sp-lbl">Zéro argent échangé</div></div>
       <div class="sp-item"><div class="sp-num">50 pts</div><div class="sp-lbl">Offerts à l'inscription</div></div>
       <div class="sp-item"><div class="sp-num">✓</div><div class="sp-lbl">Profils vérifiés</div></div>
       <div class="sp-item"><div class="sp-num">France</div><div class="sp-lbl">Lancement national</div></div>
     </div>
-
     <section class="lsec" id="section-how">
       <div class="stag">Comment ça marche</div>
       <h2>Simple comme un <em>coup de fil</em> à un voisin.</h2>
@@ -52,7 +47,6 @@
         <div class="step"><div class="step-n">03</div><h3>Échangez en confiance</h3><p>Profils vérifiés, notes et avis, messagerie intégrée.</p></div>
       </div>
     </section>
-
     <section class="pts-sec" id="section-pts">
       <div class="pbg pbg1"></div><div class="pbg pbg2"></div>
       <div class="stag">Le système de points</div>
@@ -64,7 +58,6 @@
         <div class="pts-card"><div class="pts-ico">🔒</div><h4>Points sécurisés</h4><p>Les points sont bloqués à la demande et libérés au retour.</p><span class="pts-hl">Plafond à 100 pts</span></div>
       </div>
     </section>
-
     <section class="tr-sec" id="section-trust">
       <div class="stag">Confiance & sécurité</div>
       <h2>Prêtez l'esprit <em>tranquille.</em></h2>
@@ -76,13 +69,11 @@
         <div class="tr-card"><div class="tr-ico">🛡</div><h4>Points bloqués</h4><p>Transfert au retour confirmé. Litige arbitré sous 24h.</p></div>
       </div>
     </section>
-
     <section class="fcta">
       <h2>Prêt à rejoindre la <em>communauté</em> ?</h2>
       <p>50 points de bienvenue dès le lancement.</p>
       <button class="btn-p" onclick="showLegal('confiance')">Confiance et sécurité</button>
     </section>
-
     <footer>
       <div class="flogo">Sha<span>p</span>io</div>
       <p>© 2026 Shapio — France</p>
@@ -111,7 +102,7 @@
     </div>
   </div>
 
-  <!-- ═══ SIGNUP 1 — Infos ═══ -->
+  <!-- ═══ SIGNUP 1 ═══ -->
   <div class="page" id="p-s1">
     <div class="onboard">
       <div class="ocard">
@@ -134,7 +125,7 @@
     </div>
   </div>
 
-  <!-- ═══ SIGNUP 2 — Téléphone ═══ -->
+  <!-- ═══ SIGNUP 2 ═══ -->
   <div class="page" id="p-s2">
     <div class="onboard">
       <div class="ocard">
@@ -151,14 +142,14 @@
           </div>
         </div>
         <div style="background:#f7f7f4;border-radius:10px;padding:11px 13px;margin:12px 0;font-size:12px;color:var(--mu);line-height:1.5;">
-          ⚠️ Mode test : le code est toujours <strong>1234</strong></div>
+          Mode test : le code est toujours <strong style="color:var(--gm)">1234</strong></div>
         <div id="reg-error-2" style="color:#E24B4A;font-size:12px;min-height:16px;"></div>
         <button class="obtn" onclick="handleSignupStep2()">Recevoir le code SMS →</button>
       </div>
     </div>
   </div>
 
-  <!-- ═══ SIGNUP 3 — OTP ═══ -->
+  <!-- ═══ SIGNUP 3 ═══ -->
   <div class="page" id="p-s3">
     <div class="onboard">
       <div class="ocard">
@@ -167,12 +158,12 @@
         <div class="ostep">Étape 3 sur 4 · Vérification</div>
         <div class="prog"><div class="pseg done"></div><div class="pseg done"></div><div class="pseg act"></div><div class="pseg"></div></div>
         <h2>Code de confirmation</h2>
-        <p class="osub">Entre le code à 4 chiffres — en mode test : <strong>1234</strong></p>
+        <p class="osub">Entre le code à 4 chiffres — en mode test : <strong style="color:var(--gm)">1234</strong></p>
         <div class="otp-row" id="otp-row">
-          <input type="text" maxlength="1" class="otp" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
-          <input type="text" maxlength="1" class="otp" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
-          <input type="text" maxlength="1" class="otp" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
-          <input type="text" maxlength="1" class="otp" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
+          <input type="text" maxlength="1" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
+          <input type="text" maxlength="1" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
+          <input type="text" maxlength="1" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
+          <input type="text" maxlength="1" style="width:52px;height:58px;border-radius:12px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:22px;font-weight:500;text-align:center;color:var(--dk);font-family:'DM Sans',sans-serif;outline:none;" />
         </div>
         <div id="reg-error-3" style="color:#E24B4A;font-size:12px;min-height:16px;text-align:center;"></div>
         <button class="obtn" onclick="handleVerifyOTP()">Valider →</button>
@@ -180,7 +171,7 @@
     </div>
   </div>
 
-  <!-- ═══ SIGNUP 4 — Password + fin ═══ -->
+  <!-- ═══ SIGNUP 4 ═══ -->
   <div class="page" id="p-s4">
     <div class="onboard">
       <div class="ocard">
@@ -203,8 +194,8 @@
       <div class="atop">
         <div class="alogo">Sha<span>p</span>io</div>
         <div class="atr">
-          <div class="ppill" id="header-pts">50 pts</div>
-          <div class="ibtn">🔔</div>
+          <div class="ppill" id="header-pts">— pts</div>
+          <div class="ibtn" onclick="toggleNotifications()" style="position:relative;">🔔<div id="notif-badge" style="display:none;position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:#E24B4A;color:white;font-size:9px;font-weight:600;display:none;align-items:center;justify-content:center;">0</div></div>
         </div>
       </div>
 
@@ -213,11 +204,11 @@
         <div class="wbanner" id="wb">
           <div class="wbt">
             <div class="wbttl" id="home-welcome">Bienvenue ! 👋</div>
-            <div class="wbpts"><div class="wbn" id="home-pts">50</div><div class="wbl">points</div></div>
+            <div class="wbpts"><div class="wbn" id="home-pts">—</div><div class="wbl">points</div></div>
           </div>
           <div class="wbsteps">
             <div class="wbs done"><div class="wbsi">✓</div><div class="wbsl">Compte créé</div></div>
-            <div class="wbs" onclick="showAddItem()"><div class="wbsi">📷</div><div class="wbsl">Ajouter un objet</div></div>
+            <div class="wbs" id="onboard-step-add" onclick="showAddItem()"><div class="wbsi">📷</div><div class="wbsl">Ajouter un objet</div></div>
             <div class="wbs" onclick="setTab('swipe')"><div class="wbsi">🔍</div><div class="wbsl">Explorer</div></div>
           </div>
           <div class="wbdis" onclick="document.getElementById('wb').style.display='none'">Masquer</div>
@@ -229,7 +220,7 @@
         <div class="nscroll" id="home-scroll"></div>
         <div class="addbanner" onclick="showAddItem()">
           <div class="addico">+</div>
-          <div><div class="addttl">Publie ton premier objet</div><div class="addsub">Gagne des points en prêtant</div></div>
+          <div><div class="addttl">Publie un objet</div><div class="addsub">Gagne des points en prêtant</div></div>
         </div>
         <div class="srow">
           <div class="sttl">✨ Découvrir</div>
@@ -261,7 +252,7 @@
             <div style="font-size:15px;font-weight:500;">Plus d'objets à découvrir</div>
             <div style="font-size:12px;margin-top:6px;">Reviens plus tard ou change de filtre !</div>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;">
+          <div id="swipe-labels" style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;">
             <span style="font-size:11px;color:var(--mu);">← Passer</span>
             <span style="font-size:11px;color:var(--mu);">Vouloir →</span>
           </div>
@@ -276,11 +267,12 @@
         </div>
         <div id="match-ov" style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px;padding:28px;text-align:center;">
           <div style="font-family:'DM Serif Display',serif;font-size:26px;color:white;margin-bottom:12px;">C'est un match !</div>
-          <div id="match-icon" style="font-size:48px;margin-bottom:12px;">📦</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:18px;">
-            <span id="match-name"></span> a accepté ta demande<br><span id="match-pts"></span>
-          </div>
-          <button onclick="closeMatch()" style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Continuer à explorer</button>
+          <div id="match-icon" style="font-size:48px;margin-bottom:8px;">📦</div>
+          <div id="match-title" style="font-size:16px;font-weight:500;color:white;margin-bottom:4px;">—</div>
+          <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:4px;"><span id="match-owner">—</span></div>
+          <div style="font-size:15px;font-weight:600;color:var(--ga);margin-bottom:18px;" id="match-pts-val">—</div>
+          <button onclick="matchMessage()" style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer un message</button>
+          <button onclick="closeMatch()" style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Continuer à explorer</button>
         </div>
       </div>
 
@@ -329,13 +321,17 @@
         </div>
         <div class="fbar" id="fbar">
           <div class="fbarinfo"><div class="fbarin" id="fiche-bar-pts">0 pts</div><div class="fbarl">par jour · bloqués jusqu'au retour</div></div>
+          <div class="fmsgbtn" id="fiche-msg-btn" onclick="messageOwner()">💬</div>
           <button class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
         </div>
       </div>
 
       <!-- MESSAGES -->
       <div class="ascreen" id="as-msgs">
-        <div class="msg-hdr"><h2>Messages</h2></div>
+        <div class="msg-hdr" style="display:flex;align-items:center;justify-content:space-between;">
+          <h2>Messages</h2>
+          <button onclick="startNewConversation()" style="background:var(--gm);color:white;border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;">+</button>
+        </div>
         <div class="match-row" id="msg-chips"></div>
         <div id="msg-list"></div>
       </div>
@@ -358,16 +354,19 @@
 
       <!-- WALLET -->
       <div class="ascreen" id="as-wallet">
-        <div class="wallhdr"><h2>Mon wallet</h2></div>
+        <div class="wallhdr">
+          <h2>Mon wallet</h2>
+          <div id="wallet-month" style="font-size:12px;color:var(--mu);text-transform:capitalize;">—</div>
+        </div>
         <div class="wallcard">
           <div class="wcl">Solde disponible</div>
-          <div class="wcmain"><div class="wcn" id="wallet-pts">0</div><div class="wcu">points</div></div>
-          <div class="wcbarbg"><div class="wcbar" id="wallet-bar" style="width:50%"></div></div>
+          <div class="wcmain"><div class="wcn" id="wallet-pts">—</div><div class="wcu">points</div></div>
+          <div class="wcbarbg"><div class="wcbar" id="wallet-bar" style="width:0%"></div></div>
           <div class="wcbarlbls"><span>0</span><span>Plafond : 100 pts</span></div>
           <div class="wcrow">
-            <div class="wcchip"><div class="wcchip-l">Bloqués</div><div class="wcchip-v bl" id="wallet-locked">0 pts</div></div>
-            <div class="wcchip"><div class="wcchip-l">Gagnés ce mois</div><div class="wcchip-v gr" id="wallet-earned">+0 pts</div></div>
-            <div class="wcchip"><div class="wcchip-l">Dépensés</div><div class="wcchip-v" id="wallet-spent">0 pts</div></div>
+            <div class="wcchip"><div class="wcchip-l">Bloqués</div><div class="wcchip-v bl" id="wallet-locked">— pts</div></div>
+            <div class="wcchip"><div class="wcchip-l">Gagnés ce mois</div><div class="wcchip-v gr" id="wallet-earned">— pts</div></div>
+            <div class="wcchip"><div class="wcchip-l">Dépensés</div><div class="wcchip-v" id="wallet-spent">— pts</div></div>
           </div>
         </div>
         <div class="walllbl">Transactions récentes</div>
@@ -377,7 +376,7 @@
 
       <!-- PROFIL -->
       <div class="ascreen" id="as-profil">
-        <div class="pcover"><button class="peditbtn" style="opacity:0.5;cursor:default;">✏ Modifier le profil</button></div>
+        <div class="pcover"></div>
         <div class="pavwrap"><div class="pav" id="prof-initials">—</div></div>
         <div class="phead">
           <div class="pnrow">
@@ -386,9 +385,9 @@
           </div>
           <div class="psub" id="prof-sub">—</div>
           <div class="pstats">
-            <div class="pstat"><div class="pstn" id="prof-pts">0</div><div class="pstl">points</div></div>
-            <div class="pstat"><div class="pstn" id="prof-loans">0</div><div class="pstl">prêts</div></div>
-            <div class="pstat"><div class="pstn" id="prof-borrows">0</div><div class="pstl">emprunts</div></div>
+            <div class="pstat"><div class="pstn" id="prof-pts">—</div><div class="pstl">points</div></div>
+            <div class="pstat"><div class="pstn" id="prof-loans">—</div><div class="pstl">prêts</div></div>
+            <div class="pstat"><div class="pstn" id="prof-borrows">—</div><div class="pstl">emprunts</div></div>
             <div class="pstat"><div class="pstn" id="prof-rating" style="color:#BA7517;">—</div><div class="pstl">note</div></div>
           </div>
         </div>
@@ -412,7 +411,7 @@
             <div style="font-size:34px;font-weight:500;color:var(--dk);" id="prof-review-score">—</div>
             <div>
               <div style="font-size:14px;color:#BA7517;">★★★★★</div>
-              <div style="font-size:11px;color:var(--mu);" id="prof-review-count">0 avis</div>
+              <div style="font-size:11px;color:var(--mu);" id="prof-review-count">— avis</div>
             </div>
           </div>
           <div class="pavis" id="prof-reviews"></div>
@@ -426,6 +425,15 @@
             <div class="psi danger" onclick="handleLogout()"><div class="psiico">↪</div><div class="psilbl">Se déconnecter</div></div>
           </div>
         </div>
+      </div>
+
+      <!-- NOTIFICATIONS PANEL -->
+      <div id="notif-panel" style="display:none;position:absolute;top:52px;right:8px;width:320px;max-height:400px;background:white;border-radius:16px;border:0.5px solid rgba(8,80,65,0.12);box-shadow:0 8px 32px rgba(0,0,0,0.12);z-index:1000;overflow:hidden;">
+        <div style="padding:14px 16px;border-bottom:0.5px solid #f0f0ed;display:flex;align-items:center;justify-content:space-between;">
+          <div style="font-family:'DM Serif Display',serif;font-size:16px;color:var(--dk);">Notifications</div>
+          <button onclick="markAllNotifsRead()" style="background:none;border:none;font-size:11px;color:var(--gm);cursor:pointer;font-family:'DM Sans',sans-serif;">Tout marquer lu</button>
+        </div>
+        <div id="notif-list" style="overflow-y:auto;max-height:340px;"></div>
       </div>
 
       <!-- NAV -->

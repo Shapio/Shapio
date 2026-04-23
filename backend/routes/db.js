@@ -11,7 +11,7 @@ router.get('/tables', (req, res) => {
 
 // GET /api/db/table/:name — contenu d'une table
 router.get('/table/:name', (req, res) => {
-  const allowed = ['users', 'items', 'loans', 'transactions', 'messages', 'reviews', 'swipes', 'phone_codes'];
+  const allowed = ['users', 'items', 'loans', 'transactions', 'messages', 'reviews', 'swipes', 'phone_codes', 'notifications'];
   const tableName = req.params.name;
 
   if (!allowed.includes(tableName)) {

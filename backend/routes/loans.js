@@ -32,6 +32,12 @@ router.post('/', authenticate, (req, res) => {
   ).run(req.userId, loan.lastInsertRowid, 'locked', -pointsNeeded, `Emprunt: ${item.title}`);
   prepare('UPDATE items SET available = 0 WHERE id = ?').run(item_id);
 
+  // Notifier le prêteur
+  const borrower = prepare('SELECT first_name FROM users WHERE id = ?').get(req.userId);
+  prepare(
+    'INSERT INTO notifications (user_id, type, title, body) VALUES (?, ?, ?, ?)'
+  ).run(item.lender_id, 'loan_request', 'Nouvelle demande d\'emprunt', `${borrower.first_name} souhaite emprunter "${item.title}" pour ${days} jour(s).`);
+
   res.status(201).json({ loanId: loan.lastInsertRowid, pointsLocked: pointsNeeded });
 });
 
@@ -47,6 +53,12 @@ router.post('/:id/return', authenticate, (req, res) => {
     'INSERT INTO transactions (user_id, loan_id, type, amount, description) VALUES (?, ?, ?, ?, ?)'
   ).run(loan.lender_id, loan.id, 'loan_earned', loan.points_locked, 'Prêt terminé');
   prepare('UPDATE items SET available = 1 WHERE id = ?').run(loan.item_id);
+
+  // Notifier l'emprunteur
+  const itemInfo = prepare('SELECT title FROM items WHERE id = ?').get(loan.item_id);
+  prepare(
+    'INSERT INTO notifications (user_id, type, title, body) VALUES (?, ?, ?, ?)'
+  ).run(loan.borrower_id, 'loan_returned', 'Retour confirmé', `Le retour de "${itemInfo.title}" a été confirmé. ${loan.points_locked} pts transférés.`);
 
   res.json({ message: 'Retour confirmé', pointsTransferred: loan.points_locked });
 });

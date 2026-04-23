@@ -26,6 +26,11 @@ router.post('/register', async (req, res) => {
     'INSERT INTO transactions (user_id, type, amount, description) VALUES (?, ?, ?, ?)'
   ).run(result.lastInsertRowid, 'bonus', 50, 'Bonus inscription');
 
+  // Notification de bienvenue
+  prepare(
+    'INSERT INTO notifications (user_id, type, title, body) VALUES (?, ?, ?, ?)'
+  ).run(result.lastInsertRowid, 'welcome', 'Bienvenue sur Shapio ! 🎉', 'Tu as reçu 50 points de bienvenue. Commence par publier un objet ou explore les objets autour de toi.');
+
   const token = jwt.sign({ id: result.lastInsertRowid }, process.env.JWT_SECRET, { expiresIn: '7d' });
   res.status(201).json({ token, userId: result.lastInsertRowid });
 });
