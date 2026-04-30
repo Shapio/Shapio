@@ -3,11 +3,71 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#085041">
+  <meta name="color-scheme" content="light">
+
   <title>Shapio — Prêtez, empruntez, faites confiance.</title>
+  <meta name="description"
+    content="Shapio est la plateforme de prêt d'objets entre voisins à Lille. Sans argent, juste des points. Drone, perceuse, tente, jeux… 50 points offerts à l'inscription.">
+  <meta name="keywords" content="prêt entre particuliers, location objets, économie circulaire, Lille, voisinage, partage, points, Shapio">
+  <meta name="author" content="Shapio">
+  <link rel="canonical" href="https://shapio.fr/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shapio.fr/">
+  <meta property="og:title" content="Shapio — Prêtez, empruntez, faites confiance.">
+  <meta property="og:description"
+    content="Une communauté de voisins qui partagent leurs objets — sans argent, juste des points. Lancé à Lille.">
+  <meta property="og:image" content="https://shapio.fr/og-image.png">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Shapio">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shapio — Prêtez, empruntez, faites confiance.">
+  <meta name="twitter:description"
+    content="Une communauté de voisins qui partagent leurs objets — sans argent, juste des points.">
+  <meta name="twitter:image" content="https://shapio.fr/og-image.png">
+
+  <!-- Favicon (SVG inline = pas de requête supplémentaire) -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23085041%22/><text x=%2250%22 y=%2270%22 font-size=%2270%22 text-anchor=%22middle%22 font-family=%22Georgia,serif%22 fill=%22%231D9E75%22 font-style=%22italic%22>p</text></svg>">
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23085041%22/><text x=%2250%22 y=%2270%22 font-size=%2270%22 text-anchor=%22middle%22 font-family=%22Georgia,serif%22 fill=%22%231D9E75%22 font-style=%22italic%22>p</text></svg>">
+
+  <!-- Performance: preconnect pour Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
     rel="stylesheet">
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Shapio",
+    "url": "https://shapio.fr",
+    "description": "Plateforme de prêt d'objets entre particuliers à Lille. Sans argent, juste des points.",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Lille",
+      "addressRegion": "Hauts-de-France",
+      "addressCountry": "FR"
+    },
+    "inLanguage": "fr-FR"
+  }
+  </script>
   <style>
     :root {
       --g: #085041;
@@ -24,6 +84,19 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    /* a11y utility */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
 
     html,
@@ -504,6 +577,68 @@
       font-weight: 300;
     }
 
+    /* FAQ */
+    .faq-sec {
+      padding: 80px 48px;
+      background: var(--cr);
+    }
+
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      background: white;
+      border: 0.5px solid var(--bd);
+      border-radius: 14px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .faq-item[open] {
+      border-color: var(--ga);
+    }
+
+    .faq-item summary {
+      padding: 18px 22px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--dk);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .faq-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-item summary::after {
+      content: '+';
+      font-size: 22px;
+      color: var(--gm);
+      font-weight: 300;
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-item p {
+      padding: 0 22px 18px;
+      font-size: 14px;
+      color: var(--mu);
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
     /* FOOTER CTA */
     .fcta {
       padding: 70px 48px;
@@ -560,14 +695,20 @@
       gap: 18px;
     }
 
-    .flinks a {
+    .flinks a,
+    .flinks .flink-btn {
       font-size: 12px;
       color: var(--mu);
       text-decoration: none;
       cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
     }
 
-    .flinks a:hover {
+    .flinks a:hover,
+    .flinks .flink-btn:hover {
       color: var(--g);
     }
 
@@ -766,6 +907,32 @@
       justify-content: center;
     }
 
+    .otp-input {
+      width: 52px;
+      height: 58px;
+      border-radius: 12px;
+      border: 0.5px solid rgba(8, 80, 65, 0.18);
+      background: var(--cr);
+      font-size: 22px;
+      font-weight: 500;
+      text-align: center;
+      color: var(--dk);
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .otp-input:focus {
+      border-color: var(--gm);
+      background: var(--gl);
+    }
+
+    .otp-input.filled {
+      border-color: var(--gm);
+      background: var(--gl);
+      color: var(--g);
+    }
+
     .otp.f {
       border-color: var(--gm);
       background: var(--gl);
@@ -779,9 +946,38 @@
       margin-bottom: 18px;
     }
 
-    .resend span {
+    .resend span,
+    .link-btn {
       color: var(--gm);
       cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: inherit;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .link-btn:hover {
+      color: var(--g);
+    }
+
+    .form-error {
+      font-size: 12px;
+      color: #C8362F;
+      min-height: 16px;
+      margin: -4px 0 8px;
+      padding: 0 2px;
+      line-height: 1.4;
+    }
+
+    .form-error:not(:empty) {
+      background: #FDEEED;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin: 4px 0 12px;
+      border: 0.5px solid #F5C6C2;
     }
 
     .vcards {
@@ -928,6 +1124,23 @@
       justify-content: center;
       cursor: pointer;
       font-size: 13px;
+      position: relative;
+      padding: 0;
+    }
+
+    .ibtn-dot {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #C8362F;
+      border: 1.5px solid white;
+    }
+
+    .ibtn-dot.hidden {
+      display: none;
     }
 
     .ascreen {
@@ -956,6 +1169,20 @@
       cursor: pointer;
       padding: 4px 14px;
       border-radius: 10px;
+      background: none;
+      border: none;
+      font-family: inherit;
+      flex: 1;
+      min-height: 44px;
+      transition: background 0.15s;
+    }
+
+    .ni:hover {
+      background: #f7f7f4;
+    }
+
+    .ni.active .nico {
+      transform: scale(1.05);
     }
 
     .nico {
@@ -1052,6 +1279,15 @@
       font-size: 11px;
       color: rgba(255, 255, 255, 0.35);
       cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      width: 100%;
+      padding: 4px;
+    }
+
+    .wbdis:hover {
+      color: rgba(255, 255, 255, 0.7);
     }
 
     .srow {
@@ -1072,6 +1308,14 @@
       font-size: 11px;
       color: var(--gm);
       cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
+    }
+
+    .slnk:hover {
+      color: var(--g);
     }
 
     .nscroll {
@@ -1140,6 +1384,14 @@
       align-items: center;
       gap: 10px;
       cursor: pointer;
+      width: calc(100% - 28px);
+      font-family: inherit;
+      text-align: left;
+      transition: background 0.15s;
+    }
+
+    .addbanner:hover {
+      background: #d2f0e3;
     }
 
     .addico {
@@ -1480,6 +1732,8 @@
       font-size: 13px;
       cursor: pointer;
       color: var(--mu);
+      font-family: inherit;
+      padding: 0;
     }
 
     .fsave {
@@ -1496,6 +1750,9 @@
       justify-content: center;
       font-size: 13px;
       cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+      color: var(--dk);
     }
 
     .fdots {
@@ -1799,6 +2056,8 @@
       font-size: 15px;
       cursor: pointer;
       flex-shrink: 0;
+      font-family: inherit;
+      padding: 0;
     }
 
     .faskbtn {
@@ -1841,6 +2100,10 @@
       gap: 4px;
       flex-shrink: 0;
       cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
     }
 
     .mchipav {
@@ -1973,6 +2236,8 @@
       justify-content: center;
       cursor: pointer;
       font-size: 13px;
+      padding: 0;
+      font-family: inherit;
     }
 
     .chatmsgs {
@@ -2409,6 +2674,9 @@
       font-size: 9px;
       color: white;
       cursor: pointer;
+      border: none;
+      font-family: inherit;
+      padding: 0;
     }
 
     .phead {
@@ -2547,6 +2815,15 @@
       font-size: 11px;
       color: var(--gm);
       cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    .ptact:hover {
+      background: var(--gl);
     }
 
     .pogrid {
@@ -2699,6 +2976,14 @@
       background: #f7f7f4;
       border: 0.5px solid #ebebea;
       cursor: pointer;
+      width: 100%;
+      font-family: inherit;
+      text-align: left;
+      transition: background 0.15s;
+    }
+
+    .psi:hover {
+      background: #efefea;
     }
 
     .psiico {
@@ -2722,17 +3007,483 @@
       color: #E24B4A;
     }
 
+    /* MOBILE MENU TOGGLE */
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      width: 36px;
+      height: 36px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--dk);
+      transition: all 0.25s;
+    }
+
+    .nav-toggle.open span:nth-child(1) {
+      transform: translateY(5.5px) rotate(45deg);
+    }
+
+    .nav-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.open span:nth-child(3) {
+      transform: translateY(-5.5px) rotate(-45deg);
+    }
+
+    /* Skip link a11y */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 8px;
+      background: var(--g);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      z-index: 1000;
+      transition: top 0.2s;
+    }
+
+    .skip-link:focus {
+      top: 8px;
+    }
+
+    /* Focus visible for a11y */
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    [role="button"]:focus-visible {
+      outline: 2px solid var(--gm);
+      outline-offset: 2px;
+    }
+
+    /* ADD OBJECT */
+    .ao-hdr {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 0.5px solid #f0f0ed;
+    }
+
+    .ao-back {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f7f7f4;
+      border: 0.5px solid #e8e8e4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--mu);
+      font-family: inherit;
+      flex-shrink: 0;
+    }
+
+    .ao-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: var(--dk);
+    }
+
+    .ao-form {
+      padding: 18px;
+    }
+
+    .ao-photo {
+      height: 160px;
+      border-radius: 14px;
+      border: 1.5px dashed #c5e6d8;
+      background: var(--gl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      margin-bottom: 18px;
+      transition: all 0.15s;
+      width: 100%;
+      font-family: inherit;
+    }
+
+    .ao-photo:hover {
+      background: #d2f0e3;
+      border-color: var(--gm);
+    }
+
+    .ao-photo-ico {
+      font-size: 28px;
+    }
+
+    .ao-photo-txt {
+      font-size: 13px;
+      color: var(--g);
+      font-weight: 500;
+    }
+
+    .ao-photo-sub {
+      font-size: 11px;
+      color: var(--mu);
+    }
+
+    .ao-fl {
+      margin-bottom: 14px;
+    }
+
+    .ao-fl label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--mu);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .ao-fl input,
+    .ao-fl textarea,
+    .ao-fl select {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 10px;
+      border: 0.5px solid rgba(8, 80, 65, 0.18);
+      background: var(--cr);
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      color: var(--dk);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .ao-fl input:focus,
+    .ao-fl textarea:focus,
+    .ao-fl select:focus {
+      border-color: var(--gm);
+    }
+
+    .ao-fl textarea {
+      resize: vertical;
+      min-height: 84px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .ao-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .ao-cats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .ao-cat {
+      padding: 7px 13px;
+      border-radius: 100px;
+      border: 0.5px solid #e5e5e0;
+      background: white;
+      font-size: 12px;
+      color: var(--mu);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .ao-cat.active {
+      background: var(--gl);
+      border-color: var(--gm);
+      color: var(--g);
+      font-weight: 500;
+    }
+
+    .ao-pts {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gl);
+      border: 0.5px solid #9FE1CB;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .ao-pts-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px;
+      color: var(--g);
+    }
+
+    /* Cacher les flèches sur input[type=number] */
+    #ao-pts-input::-webkit-outer-spin-button,
+    #ao-pts-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    #ao-pts-input:focus {
+      outline: none;
+      background: transparent !important;
+    }
+
+    .ao-pts-info {
+      flex: 1;
+    }
+
+    .ao-pts-lbl {
+      font-size: 12px;
+      color: var(--g);
+      font-weight: 500;
+    }
+
+    .ao-pts-sub {
+      font-size: 11px;
+      color: #0F6E56;
+      margin-top: 1px;
+    }
+
+    .ao-pts input[type="range"] {
+      width: 100%;
+      accent-color: var(--gm);
+    }
+
+    .ao-submit {
+      width: 100%;
+      padding: 13px;
+      border-radius: 11px;
+      background: var(--g);
+      color: white;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.15s;
+    }
+
+    .ao-submit:hover {
+      background: var(--gm);
+    }
+
+    .ao-submit:disabled {
+      background: #cccac4;
+      cursor: not-allowed;
+    }
+
+    .ao-success {
+      text-align: center;
+      padding: 40px 24px;
+    }
+
+    .ao-success-ico {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--gl);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 16px;
+    }
+
+    /* NOTIFICATIONS */
+    .nt-hdr {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 0.5px solid #f0f0ed;
+    }
+
+    .nt-hdr h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--dk);
+      letter-spacing: -0.4px;
+    }
+
+    .nt-clear {
+      font-size: 12px;
+      color: var(--gm);
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+
+    .nt-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 12px 18px;
+      border-bottom: 0.5px solid #f0f0ed;
+    }
+
+    .nt-tab {
+      padding: 6px 12px;
+      border-radius: 100px;
+      border: 0.5px solid #e5e5e0;
+      background: white;
+      color: var(--mu);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .nt-tab.active {
+      background: var(--g);
+      border-color: var(--g);
+      color: white;
+    }
+
+    .nt-list {
+      padding: 8px 0;
+    }
+
+    .nt-item {
+      padding: 12px 18px;
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      border-bottom: 0.5px solid #f0f0ed;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+
+    .nt-item:hover {
+      background: #f7f7f4;
+    }
+
+    .nt-item.unread {
+      background: #fafbf7;
+    }
+
+    .nt-item.unread:hover {
+      background: #f3f5ee;
+    }
+
+    .nt-ico {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+      background: var(--gl);
+    }
+
+    .nt-ico.match {
+      background: #FAECE7;
+    }
+
+    .nt-ico.points {
+      background: #FAEEDA;
+    }
+
+    .nt-ico.review {
+      background: #EEEDFE;
+    }
+
+    .nt-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .nt-msg {
+      font-size: 13px;
+      color: var(--dk);
+      line-height: 1.45;
+    }
+
+    .nt-msg strong {
+      font-weight: 600;
+    }
+
+    .nt-time {
+      font-size: 11px;
+      color: var(--mu);
+      margin-top: 3px;
+    }
+
+    .nt-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--gm);
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .nt-empty {
+      text-align: center;
+      padding: 60px 24px;
+      color: var(--mu);
+      font-size: 13px;
+    }
+
     @media(max-width:600px) {
       nav {
         padding: 14px 16px;
+        flex-wrap: wrap;
+      }
+
+      .nav-toggle {
+        display: flex;
       }
 
       .nav-links {
         display: none;
+        order: 3;
+        flex-basis: 100%;
+        flex-direction: column;
+        gap: 0;
+        padding: 12px 0 4px;
+        margin-top: 12px;
+        border-top: 0.5px solid var(--bd);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        padding: 12px 4px;
+        font-size: 14px;
+        border-bottom: 0.5px solid rgba(8, 80, 65, 0.05);
+      }
+
+      .nav-links a:last-child {
+        border-bottom: none;
       }
 
       .hero {
         padding: 60px 16px 40px;
+        min-height: auto;
+      }
+
+      .hero h1 {
+        letter-spacing: -1px;
       }
 
       .sp {
@@ -2777,6 +3528,14 @@
 
       .flinks {
         justify-content: center;
+        flex-wrap: wrap;
+      }
+    }
+
+    @media(max-width:430px) {
+      .app {
+        border-left: none;
+        border-right: none;
       }
     }
   </style>
@@ -2784,30 +3543,38 @@
 
 <body>
 
+  <a href="#main-content" class="skip-link">Aller au contenu</a>
+
   <!-- LANDING -->
   <div class="page active" id="p-landing">
-    <nav>
-      <div class="nav-logo">Sha<span>p</span>io</div>
-      <div class="nav-links">
-        <a onclick="document.getElementById('section-how').scrollIntoView({behavior:'smooth'})">Comment ça marche</a>
-        <a onclick="document.getElementById('section-pts').scrollIntoView({behavior:'smooth'})">Les points</a>
-        <a onclick="document.getElementById('section-trust').scrollIntoView({behavior:'smooth'})">Confiance et sécurité</a>
+    <nav aria-label="Navigation principale">
+      <a class="nav-logo" href="#" onclick="event.preventDefault();go('p-landing')" aria-label="Shapio - accueil">Sha<span>p</span>io</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks" type="button" onclick="toggleNav()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks" role="menu">
+        <a role="menuitem" tabindex="0" onclick="closeNav();document.getElementById('section-how').scrollIntoView({behavior:'smooth'})" onkeypress="if(event.key==='Enter')this.click()">Comment ça marche</a>
+        <a role="menuitem" tabindex="0" onclick="closeNav();document.getElementById('section-pts').scrollIntoView({behavior:'smooth'})" onkeypress="if(event.key==='Enter')this.click()">Les points</a>
+        <a role="menuitem" tabindex="0" onclick="closeNav();document.getElementById('section-trust').scrollIntoView({behavior:'smooth'})" onkeypress="if(event.key==='Enter')this.click()">Confiance et sécurité</a>
+        <a role="menuitem" tabindex="0" onclick="closeNav();document.getElementById('section-faq').scrollIntoView({behavior:'smooth'})" onkeypress="if(event.key==='Enter')this.click()">FAQ</a>
       </div>
-      <button class="nav-cta" onclick="go('p-connexion')">Se connecter</button>
+      <button class="nav-cta" type="button" onclick="go('p-connexion')">Se connecter</button>
     </nav>
+
+    <main id="main-content">
 
     <div class="hero">
       <div class="hero-tag">
-        <div class="tdot"></div>Lancé à Lille · Haut-de-France 🌻
+        <div class="tdot" aria-hidden="true"></div>Lancé à Lille · Hauts-de-France 🌻
       </div>
       <h1>Prêtez ce que vous n'utilisez pas.<br><em>Empruntez</em> ce dont vous avez besoin.</h1>
       <p class="hero-sub">Une communauté de voisins qui partagent leurs objets — sans argent, juste des points.</p>
       <div class="hero-acts">
-        <button class="btn-p" onclick="go('p-s1')">Créer mon compte gratuit</button>
-        <button class="btn-gh" onclick="document.getElementById('section-how').scrollIntoView({behavior:'smooth'})">Voir
+        <button class="btn-p" type="button" onclick="go('p-s1')">Créer mon compte gratuit</button>
+        <button class="btn-gh" type="button" onclick="document.getElementById('section-how').scrollIntoView({behavior:'smooth'})">Voir
           comment ça marche →</button>
       </div>
-      <div class="hero-pts">🎁 <strong>50 points offerts à l'inscription</strong> </div>
+      <div class="hero-pts" aria-label="Bonus à l'inscription"><span aria-hidden="true">🎁</span> <strong>50 points offerts à l'inscription</strong> </div>
     </div>
 
     <div class="sp">
@@ -2825,7 +3592,7 @@
       </div>
       <div class="sp-item">
         <div class="sp-num">Lille</div>
-        <div class="sp-lbl">Haut-de-France</div>
+        <div class="sp-lbl">Hauts-de-France</div>
       </div>
     </div>
 
@@ -2874,8 +3641,8 @@
         <div class="pts-card">
           <div class="pts-ico">🔒</div>
           <h4>Points sécurisés</h4>
-          <p>Les points sont bloqués à la demande et libérés au retour de l'objet.</p><span class="pts-hl">Plafond à 100
-            pts</span>
+          <p>Les points sont bloqués à la demande et libérés au retour de l'objet.</p><span class="pts-hl">Sécurité
+            garantie</span>
         </div>
       </div>
     </section>
@@ -2886,41 +3653,75 @@
       <p class="lsec-sub">Plusieurs niveaux de vérification pour chaque échange.</p>
       <div class="tr-grid">
         <div class="tr-card">
-          <div class="tr-ico">📱</div>
+          <div class="tr-ico" aria-hidden="true">📱</div>
           <h4>Vérification téléphone</h4>
           <p>Chaque compte est lié à un numéro réel.</p>
         </div>
         <div class="tr-card">
-          <div class="tr-ico">🪪</div>
+          <div class="tr-ico" aria-hidden="true">🪪</div>
           <h4>Pièce d'identité</h4>
           <p>Badge vert pour les membres vérifiés.</p>
         </div>
         <div class="tr-card">
-          <div class="tr-ico">⭐</div>
+          <div class="tr-ico" aria-hidden="true">⭐</div>
           <h4>Notes & avis</h4>
           <p>La réputation se construit prêt après prêt.</p>
         </div>
         <div class="tr-card">
-          <div class="tr-ico">🛡</div>
+          <div class="tr-ico" aria-hidden="true">🛡</div>
           <h4>Points bloqués</h4>
           <p>Transfert au retour confirmé. Litige arbitré sous 24h.</p>
         </div>
       </div>
     </section>
 
+    <section class="faq-sec" id="section-faq">
+      <div class="stag">Questions fréquentes</div>
+      <h2>Tout ce que vous voulez <em>savoir</em>.</h2>
+      <p class="lsec-sub">Une question qui n'est pas listée ? Écrivez-nous à contact@shapio.fr.</p>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Shapio est-il vraiment gratuit ?</summary>
+          <p>Oui, totalement. Pas d'abonnement, pas de commission cachée. Le système fonctionne uniquement avec des points : vous en gagnez en prêtant et en dépensez en empruntant. Vous recevez 50 points à l'inscription pour démarrer.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Comment fonctionnent les points ?</summary>
+          <p>Chaque prêteur fixe lui-même le tarif en points par jour pour son objet. Quand vous empruntez, le montant est bloqué sur votre compte et libéré au prêteur dès que celui-ci confirme le retour.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Que se passe-t-il en cas de problème ou de casse ?</summary>
+          <p>Le système d'avis et de profils vérifiés réduit fortement les risques. En cas de litige, l'équipe Shapio intervient sous 24h pour arbitrer. Les options de caution facultatives seront ajoutées progressivement pour les objets de valeur.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Mes données personnelles sont-elles protégées ?</summary>
+          <p>Vos données sont stockées en Europe et conformes au RGPD. Votre numéro de téléphone et votre adresse exacte ne sont jamais affichés publiquement. Seul votre prénom, l'initiale du nom et le quartier sont visibles par les autres membres.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Quels objets puis-je prêter ?</summary>
+          <p>Tout ce qui est légal et qui peut être utile à un voisin : outils de bricolage, matériel de camping, jeux et consoles, ustensiles de cuisine, instruments de musique, équipements de sport, livres, etc. Les objets dangereux, illégaux ou strictement personnels sont interdits.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Shapio est-il disponible en dehors de Lille ?</summary>
+          <p>Pour l'instant, Shapio se concentre sur la métropole lilloise pour bâtir une communauté solide. L'extension à d'autres villes des Hauts-de-France est prévue dans les prochains mois, puis à toute la France.</p>
+        </details>
+      </div>
+    </section>
+
     <section class="fcta">
       <h2>Prêt à rejoindre la <em>communauté</em> ?</h2>
-      <p>50 points de bienvenue dès le lancement.</p>
-      <button class="btn-p" onclick="showLegal('confiance')">Confiance et sécurité</button>
+      <p>50 points de bienvenue dès l'inscription.</p>
+      <button class="btn-p" type="button" onclick="go('p-s1')">Créer mon compte gratuit</button>
     </section>
+    </main>
 
     <footer>
       <div class="flogo">Sha<span>p</span>io</div>
       <p>© 2026 Shapio — Lancé à Lille 🌻</p>
       <div class="flinks">
-        <a onclick="showLegal('mentions')">Mentions légales</a>
-        <a onclick="showLegal('confidentialite')">Confidentialité</a>
-        <a onclick="showLegal('contact')">Contact</a>
+        <button type="button" class="flink-btn" onclick="showLegal('mentions')">Mentions légales</button>
+        <button type="button" class="flink-btn" onclick="showLegal('confidentialite')">Confidentialité</button>
+        <button type="button" class="flink-btn" onclick="showLegal('confiance')">Sécurité</button>
+        <button type="button" class="flink-btn" onclick="showLegal('contact')">Contact</button>
       </div>
     </footer>
   </div>
@@ -2930,14 +3731,22 @@
     <div class="onboard">
       <div class="ocard">
         <div class="ologo">Sha<span>p</span>io</div>
-        <button class="oback" onclick="go('p-landing')">← Retour au site</button>
+        <button class="oback" type="button" onclick="go('p-landing')">← Retour au site</button>
         <h2>Se connecter</h2>
         <p class="osub">Accédez à votre compte Shapio.</p>
-        <div class="fl"><label>Email</label><input type="email" placeholder="votre@email.com" /></div>
-        <div class="fl"><label>Mot de passe</label><input type="password" placeholder="••••••••" /></div>
-        <button class="obtn" onclick="go('p-app')">Se connecter →</button>
-        <p class="onote">Pas encore de compte ? <span style="color:var(--gm);cursor:pointer;" onclick="go('p-s1')">Créer
-            un compte</span></p>
+        <form onsubmit="event.preventDefault();handleLogin();" novalidate>
+          <div class="fl">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" name="email" placeholder="votre@email.com" autocomplete="email" required />
+          </div>
+          <div class="fl">
+            <label for="login-pwd">Mot de passe</label>
+            <input type="password" id="login-pwd" name="password" placeholder="••••••••" autocomplete="current-password" required minlength="6" />
+          </div>
+          <div class="form-error" id="login-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Se connecter →</button>
+        </form>
+        <p class="onote">Pas encore de compte ? <button type="button" class="link-btn" onclick="go('p-s1')">Créer un compte</button></p>
       </div>
     </div>
   </div>
@@ -2947,24 +3756,38 @@
     <div class="onboard">
       <div class="ocard">
         <div class="ologo">Sha<span>p</span>io</div>
-        <button class="oback" onclick="go('p-landing')">← Retour au site</button>
+        <button class="oback" type="button" onclick="go('p-landing')">← Retour au site</button>
         <div class="ostep">Étape 1 sur 3 · Informations</div>
-        <div class="prog">
+        <div class="prog" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" aria-label="Étape 1 sur 3">
           <div class="pseg act"></div>
           <div class="pseg"></div>
           <div class="pseg"></div>
         </div>
         <h2>Tes informations</h2>
         <p class="osub">Ces données restent privées et ne sont jamais partagées.</p>
-        <div class="frow">
-          <div class="fl"><label>Prénom</label><input type="text" placeholder="Thomas" /></div>
-          <div class="fl"><label>Nom</label><input type="text" placeholder="Dupont" /></div>
-        </div>
-        <div class="fl"><label>Email</label><input type="email" placeholder="thomas@email.com" /></div>
-        <div class="fl"><label>Ville</label><input type="text" placeholder="Paris, Lyon…" /></div>
-        <button class="obtn" onclick="go('p-s2')">Continuer →</button>
-        <p class="onote">Déjà membre ? <span style="color:var(--gm);cursor:pointer;" onclick="go('p-app')">Se
-            connecter</span></p>
+        <form onsubmit="event.preventDefault();handleSignup1();" novalidate>
+          <div class="frow">
+            <div class="fl">
+              <label for="su-prenom">Prénom</label>
+              <input type="text" id="su-prenom" name="firstname" placeholder="Thomas" autocomplete="given-name" required minlength="2" />
+            </div>
+            <div class="fl">
+              <label for="su-nom">Nom</label>
+              <input type="text" id="su-nom" name="lastname" placeholder="Dupont" autocomplete="family-name" required minlength="2" />
+            </div>
+          </div>
+          <div class="fl">
+            <label for="su-email">Email</label>
+            <input type="email" id="su-email" name="email" placeholder="thomas@email.com" autocomplete="email" required />
+          </div>
+          <div class="fl">
+            <label for="su-ville">Ville</label>
+            <input type="text" id="su-ville" name="city" placeholder="Lille" autocomplete="address-level2" required />
+          </div>
+          <div class="form-error" id="s1-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Continuer →</button>
+        </form>
+        <p class="onote">Déjà membre ? <button type="button" class="link-btn" onclick="go('p-connexion')">Se connecter</button></p>
       </div>
     </div>
   </div>
@@ -2973,26 +3796,31 @@
   <div class="page" id="p-s2">
     <div class="onboard">
       <div class="ocard">
-        <button class="oback" onclick="go('p-s1')">← Retour</button>
+        <button class="oback" type="button" onclick="go('p-s1')">← Retour</button>
         <div class="ologo">Sha<span>p</span>io</div>
         <div class="ostep">Étape 2 sur 3 · Téléphone</div>
-        <div class="prog">
+        <div class="prog" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="3" aria-label="Étape 2 sur 3">
           <div class="pseg done"></div>
           <div class="pseg act"></div>
           <div class="pseg"></div>
         </div>
         <h2>Ton numéro</h2>
         <p class="osub">Un code SMS sera envoyé pour confirmer ton compte.</p>
-        <div class="fl"><label>Numéro</label>
-          <div class="prow">
-            <div class="ppre">🇫🇷 +33</div><input type="tel" placeholder="6 12 34 56 78"
-              style="flex:1;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;" />
+        <form onsubmit="event.preventDefault();handleSignup2();" novalidate>
+          <div class="fl">
+            <label for="su-tel">Numéro</label>
+            <div class="prow">
+              <div class="ppre" aria-hidden="true">🇫🇷 +33</div>
+              <input type="tel" id="su-tel" name="phone" placeholder="6 12 34 56 78" autocomplete="tel-national" required pattern="[0-9 ]{9,14}"
+                style="flex:1;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;" />
+            </div>
           </div>
-        </div>
-        <div
-          style="background:#f7f7f4;border-radius:10px;padding:11px 13px;margin:12px 0;font-size:12px;color:var(--mu);line-height:1.5;">
-          Ton numéro ne sera jamais affiché publiquement.</div>
-        <button class="obtn" onclick="go('p-s3')">Recevoir le code SMS →</button>
+          <div
+            style="background:#f7f7f4;border-radius:10px;padding:11px 13px;margin:12px 0;font-size:12px;color:var(--mu);line-height:1.5;">
+            Ton numéro ne sera jamais affiché publiquement.</div>
+          <div class="form-error" id="s2-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Recevoir le code SMS →</button>
+        </form>
       </div>
     </div>
   </div>
@@ -3001,24 +3829,27 @@
   <div class="page" id="p-s3">
     <div class="onboard">
       <div class="ocard">
-        <button class="oback" onclick="go('p-s2')">← Retour</button>
+        <button class="oback" type="button" onclick="go('p-s2')">← Retour</button>
         <div class="ologo">Sha<span>p</span>io</div>
         <div class="ostep">Étape 3 sur 3 · Vérification</div>
-        <div class="prog">
+        <div class="prog" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="3" aria-label="Étape 3 sur 3">
           <div class="pseg done"></div>
           <div class="pseg done"></div>
           <div class="pseg act"></div>
         </div>
         <h2>Code de confirmation</h2>
         <p class="osub">Entre le code à 4 chiffres envoyé au 06 •• •• •• 78</p>
-        <div class="otp-row">
-          <div class="otp f">3</div>
-          <div class="otp f">7</div>
-          <div class="otp f">1</div>
-          <div class="otp" style="border-color:var(--gm);">_</div>
-        </div>
-        <div class="resend">Pas reçu le code ? <span>Renvoyer</span></div>
-        <button class="obtn" onclick="go('p-s4')">Valider →</button>
+        <form onsubmit="event.preventDefault();handleOtp();" novalidate>
+          <div class="otp-row" onclick="document.getElementById('otp-1').focus()">
+            <input type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" class="otp-input" id="otp-1" aria-label="Chiffre 1" oninput="otpAdvance(this,2)" />
+            <input type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" class="otp-input" id="otp-2" aria-label="Chiffre 2" oninput="otpAdvance(this,3)" onkeydown="otpBack(event,1)" />
+            <input type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" class="otp-input" id="otp-3" aria-label="Chiffre 3" oninput="otpAdvance(this,4)" onkeydown="otpBack(event,2)" />
+            <input type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" class="otp-input" id="otp-4" aria-label="Chiffre 4" oninput="otpAdvance(this,null)" onkeydown="otpBack(event,3)" />
+          </div>
+          <div class="resend">Pas reçu le code ? <button type="button" class="link-btn" onclick="resendCode(this)">Renvoyer</button></div>
+          <div class="form-error" id="s3-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Valider →</button>
+        </form>
       </div>
     </div>
   </div>
@@ -3030,7 +3861,8 @@
         <div class="ologo">Sha<span>p</span>io</div>
         <div style="text-align:center;margin-bottom:18px;">
           <div
-            style="width:50px;height:50px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px;">
+            style="width:50px;height:50px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px;"
+            aria-hidden="true">
             ✓</div>
           <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);margin-bottom:3px;">Compte
             créé !</div>
@@ -3041,25 +3873,25 @@
           style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
           Renforcer mon profil (optionnel)</div>
         <div class="vcards">
-          <div class="vc sel" onclick="tvc(this)">
-            <div class="vcico">🪪</div>
+          <div class="vc sel" onclick="tvc(this)" role="checkbox" aria-checked="true" tabindex="0" onkeypress="if(event.key==='Enter'||event.key===' '){event.preventDefault();tvc(this)}">
+            <div class="vcico" aria-hidden="true">🪪</div>
             <div class="vcinfo">
               <div class="vcname">Pièce d'identité</div>
               <div class="vcdesc">Carte nationale ou passeport</div>
             </div>
-            <div class="vcchk">✓</div>
+            <div class="vcchk" aria-hidden="true">✓</div>
           </div>
-          <div class="vc" onclick="tvc(this)">
-            <div class="vcico">🤳</div>
+          <div class="vc" onclick="tvc(this)" role="checkbox" aria-checked="false" tabindex="0" onkeypress="if(event.key==='Enter'||event.key===' '){event.preventDefault();tvc(this)}">
+            <div class="vcico" aria-hidden="true">🤳</div>
             <div class="vcinfo">
               <div class="vcname">Selfie de confirmation</div>
               <div class="vcdesc">Photo correspondant à ta pièce</div>
             </div>
-            <div class="vcchk"></div>
+            <div class="vcchk" aria-hidden="true"></div>
           </div>
         </div>
-        <div class="skip" onclick="go('p-app')"><span>Passer</span> — je le ferai plus tard</div>
-        <button class="obtn" style="margin-top:14px;" onclick="go('p-app')">Accéder à Shapio →</button>
+        <div class="skip" onclick="go('p-app')" role="button" tabindex="0" onkeypress="if(event.key==='Enter')go('p-app')"><span>Passer</span> — je le ferai plus tard</div>
+        <button class="obtn" type="button" style="margin-top:14px;" onclick="go('p-app')">Accéder à Shapio →</button>
       </div>
     </div>
   </div>
@@ -3070,8 +3902,11 @@
       <div class="atop">
         <div class="alogo">Sha<span>p</span>io</div>
         <div class="atr">
-          <div class="ppill">50 pts</div>
-          <div class="ibtn">🔔</div>
+          <div class="ppill" id="ppill-points" aria-label="Solde de points">50 pts</div>
+          <button class="ibtn" type="button" aria-label="Notifications" onclick="setTab('notif')">
+            <span aria-hidden="true">🔔</span>
+            <span class="ibtn-dot" aria-hidden="true"></span>
+          </button>
         </div>
       </div>
 
@@ -3087,27 +3922,27 @@
           </div>
           <div class="wbsteps">
             <div class="wbs done">
-              <div class="wbsi">✓</div>
+              <div class="wbsi" aria-hidden="true">✓</div>
               <div class="wbsl">Compte créé</div>
             </div>
-            <div class="wbs" onclick="this.classList.add('done');this.querySelector('.wbsi').textContent='✓';">
-              <div class="wbsi">📷</div>
+            <div class="wbs" role="button" tabindex="0" onclick="setTab('addobj');this.classList.add('done');this.querySelector('.wbsi').textContent='✓';" onkeypress="if(event.key==='Enter')this.click()">
+              <div class="wbsi" aria-hidden="true">📷</div>
               <div class="wbsl">Ajouter un objet</div>
             </div>
-            <div class="wbs" onclick="this.classList.add('done');this.querySelector('.wbsi').textContent='✓';">
-              <div class="wbsi">🔍</div>
+            <div class="wbs" role="button" tabindex="0" onclick="setTab('swipe');this.classList.add('done');this.querySelector('.wbsi').textContent='✓';" onkeypress="if(event.key==='Enter')this.click()">
+              <div class="wbsi" aria-hidden="true">🔍</div>
               <div class="wbsl">Explorer</div>
             </div>
           </div>
-          <div class="wbdis" onclick="document.getElementById('wb').style.display='none'">Masquer</div>
+          <button type="button" class="wbdis" onclick="document.getElementById('wb').style.display='none'">Masquer</button>
         </div>
         <div class="srow">
           <div class="sttl">📍 Près de toi · Lille</div>
-          <div class="slnk">Voir tout</div>
+          <button type="button" class="slnk" onclick="setTab('swipe');setSwipeMode('browse')">Voir tout</button>
         </div>
         <div class="nscroll">
-          <div class="ncard" onclick="openFiche()">
-            <div class="nimg" style="background:#E1F5EE;"><span>🚁</span>
+          <div class="ncard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+            <div class="nimg" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
               <div class="npts">15 pts</div>
             </div>
             <div class="ninfo">
@@ -3115,8 +3950,8 @@
               <div class="ndist">2.3 km · Marie L.</div>
             </div>
           </div>
-          <div class="ncard" onclick="openFiche()">
-            <div class="nimg" style="background:#EEEDFE;"><span>🎮</span>
+          <div class="ncard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+            <div class="nimg" style="background:#EEEDFE;"><span aria-hidden="true">🎮</span>
               <div class="npts">8 pts</div>
             </div>
             <div class="ninfo">
@@ -3124,8 +3959,8 @@
               <div class="ndist">0.8 km · Thomas R.</div>
             </div>
           </div>
-          <div class="ncard" onclick="openFiche()">
-            <div class="nimg" style="background:#FAEEDA;"><span>🔧</span>
+          <div class="ncard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+            <div class="nimg" style="background:#FAEEDA;"><span aria-hidden="true">🔧</span>
               <div class="npts">10 pts</div>
             </div>
             <div class="ninfo">
@@ -3133,8 +3968,8 @@
               <div class="ndist">1.1 km · Karim B.</div>
             </div>
           </div>
-          <div class="ncard" onclick="openFiche()">
-            <div class="nimg" style="background:#FAECE7;"><span>🧹</span>
+          <div class="ncard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+            <div class="nimg" style="background:#FAECE7;"><span aria-hidden="true">🧹</span>
               <div class="npts">12 pts</div>
             </div>
             <div class="ninfo">
@@ -3143,20 +3978,20 @@
             </div>
           </div>
         </div>
-        <div class="addbanner">
-          <div class="addico">+</div>
+        <button type="button" class="addbanner" onclick="setTab('addobj')">
+          <div class="addico" aria-hidden="true">+</div>
           <div>
             <div class="addttl">Publie ton premier objet</div>
             <div class="addsub">Gagne des points en prêtant</div>
           </div>
-        </div>
+        </button>
         <div class="srow">
           <div class="sttl">✨ Découvrir</div>
-          <div class="slnk" onclick="setTab('swipe')">Mode swipe</div>
+          <button type="button" class="slnk" onclick="setTab('swipe')">Mode swipe</button>
         </div>
         <div class="bgrid">
-          <div class="bcard" onclick="openFiche()">
-            <div class="bimg" style="background:#E1F5EE;"><span>🏕</span>
+          <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+            <div class="bimg" style="background:#E1F5EE;"><span aria-hidden="true">🏕</span>
               <div class="bpts">20 pts</div>
             </div>
             <div class="binfo">
@@ -3164,8 +3999,8 @@
               <div class="bowner">Sophie M. · ★ 4.8</div>
             </div>
           </div>
-          <div class="bcard" onclick="openFiche()">
-            <div class="bimg" style="background:#EEEDFE;"><span>📷</span>
+          <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+            <div class="bimg" style="background:#EEEDFE;"><span aria-hidden="true">📷</span>
               <div class="bpts">25 pts</div>
             </div>
             <div class="binfo">
@@ -3173,8 +4008,8 @@
               <div class="bowner">Inès F. · ★ 4.9</div>
             </div>
           </div>
-          <div class="bcard" onclick="openFiche()">
-            <div class="bimg" style="background:#FAEEDA;"><span>🛴</span>
+          <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+            <div class="bimg" style="background:#FAEEDA;"><span aria-hidden="true">🛴</span>
               <div class="bpts">18 pts</div>
             </div>
             <div class="binfo">
@@ -3182,8 +4017,8 @@
               <div class="bowner">Romain D. · ★ 4.7</div>
             </div>
           </div>
-          <div class="bcard" onclick="openFiche()">
-            <div class="bimg" style="background:#FAECE7;"><span>🎸</span>
+          <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+            <div class="bimg" style="background:#FAECE7;"><span aria-hidden="true">🎸</span>
               <div class="bpts">14 pts</div>
             </div>
             <div class="binfo">
@@ -3196,31 +4031,34 @@
 
       <!-- SWIPE -->
       <div class="ascreen" id="as-swipe">
-        <div class="mode-toggle">
-          <button class="mtbtn active" id="mt-swipe" onclick="setSwipeMode('swipe')">▶ Swipe</button>
-          <button class="mtbtn" id="mt-browse" onclick="setSwipeMode('browse')">⊞ Explorer</button>
+        <div class="mode-toggle" role="tablist">
+          <button class="mtbtn active" id="mt-swipe" type="button" role="tab" aria-selected="true" onclick="setSwipeMode('swipe')">▶ Swipe</button>
+          <button class="mtbtn" id="mt-browse" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('browse')">⊞ Explorer</button>
         </div>
-        <div class="filters">
-          <span class="fchip active">Tout</span><span class="fchip">Tech</span><span class="fchip">Maison</span><span
-            class="fchip">Sport</span><span class="fchip">Jardinage</span>
+        <div class="filters" role="group" aria-label="Filtres par catégorie">
+          <button type="button" class="fchip active" onclick="setFilter(this)">Tout</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Tech</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Maison</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Sport</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Jardinage</button>
         </div>
         <div id="swipe-mode">
           <div class="cstack" id="cstack">
-            <div class="scard back" id="cback">
+            <div class="scard back" id="cback" aria-hidden="true">
               <div class="cphoto" style="background:#EEEDFE;"><span>🎮</span></div>
               <div class="cbody">
                 <div class="ctitle">Manette PS5</div>
               </div>
             </div>
             <div class="scard front" id="cfront">
-              <div class="cphoto" style="background:#E1F5EE;"><span>🚁</span>
+              <div class="cphoto" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
                 <div class="cbadge">15 pts</div>
                 <div class="cdist">2.3 km</div>
               </div>
               <div class="cbody">
                 <div class="ctitle">Drone DJI Mini 3</div>
                 <div class="cowner">
-                  <div class="cav">ML</div><span>Marie L.</span><span class="cstars">★★★★★</span><span
+                  <div class="cav" aria-hidden="true">ML</div><span>Marie L.</span><span class="cstars" aria-label="Note 4.9 sur 5">★★★★★</span><span
                     style="font-size:11px;color:var(--mu);">4.9</span>
                 </div>
                 <div class="ctags"><span class="ctag">Tech</span><span class="ctag">Caméra 4K</span><span
@@ -3231,14 +4069,17 @@
           <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;"><span
               style="font-size:11px;color:var(--mu);">← Passer</span><span
               style="font-size:11px;color:var(--mu);">Vouloir →</span></div>
-          <div class="sactions"><button class="sabtn sask" onclick="swipe('left')">✕</button><button class="sabtn slike"
-              onclick="swipe('right')">♥</button><button class="sabtn ssave">★</button></div>
+          <div class="sactions">
+            <button class="sabtn sask" type="button" aria-label="Passer cet objet" onclick="swipe('left')">✕</button>
+            <button class="sabtn slike" type="button" aria-label="Demander à emprunter" onclick="swipe('right')">♥</button>
+            <button class="sabtn ssave" type="button" aria-label="Sauvegarder">★</button>
+          </div>
         </div>
         <div id="browse-mode" style="display:none;">
           <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;">24 objets à moins de 5 km</div>
           <div class="bgrid">
-            <div class="bcard" onclick="openFiche()">
-              <div class="bimg" style="background:#E1F5EE;"><span>🚁</span>
+            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+              <div class="bimg" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
                 <div class="bpts">15 pts</div>
               </div>
               <div class="binfo">
@@ -3246,8 +4087,8 @@
                 <div class="bowner">Marie L. ★ 4.9 · 2.3km</div>
               </div>
             </div>
-            <div class="bcard" onclick="openFiche()">
-              <div class="bimg" style="background:#EEEDFE;"><span>🎮</span>
+            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+              <div class="bimg" style="background:#EEEDFE;"><span aria-hidden="true">🎮</span>
                 <div class="bpts">8 pts</div>
               </div>
               <div class="binfo">
@@ -3255,8 +4096,8 @@
                 <div class="bowner">Thomas R. ★ 4.7 · 0.8km</div>
               </div>
             </div>
-            <div class="bcard" onclick="openFiche()">
-              <div class="bimg" style="background:#FAEEDA;"><span>🔧</span>
+            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+              <div class="bimg" style="background:#FAEEDA;"><span aria-hidden="true">🔧</span>
                 <div class="bpts">10 pts</div>
               </div>
               <div class="binfo">
@@ -3264,8 +4105,8 @@
                 <div class="bowner">Karim B. ★ 5.0 · 1.1km</div>
               </div>
             </div>
-            <div class="bcard" onclick="openFiche()">
-              <div class="bimg" style="background:#FAECE7;"><span>🏕</span>
+            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+              <div class="bimg" style="background:#FAECE7;"><span aria-hidden="true">🏕</span>
                 <div class="bpts">20 pts</div>
               </div>
               <div class="binfo">
@@ -3275,17 +4116,17 @@
             </div>
           </div>
         </div>
-        <div id="match-ov"
+        <div id="match-ov" role="dialog" aria-modal="true" aria-labelledby="match-title"
           style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px;padding:28px;text-align:center;">
-          <div style="font-family:'DM Serif Display',serif;font-size:26px;color:white;margin-bottom:12px;">C'est un
+          <div id="match-title" style="font-family:'DM Serif Display',serif;font-size:26px;color:white;margin-bottom:12px;">C'est un
             match !</div>
-          <div style="font-size:48px;margin-bottom:12px;">🚁</div>
+          <div style="font-size:48px;margin-bottom:12px;" aria-hidden="true">🚁</div>
           <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:18px;">Marie a accepté ta
             demande<br><strong style="color:white;">15 pts seront bloqués</strong> jusqu'au retour</div>
-          <button onclick="closeMatch()"
+          <button type="button" onclick="closeMatch();setTab('msgs')"
             style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer
             un message</button>
-          <button onclick="closeMatch()"
+          <button type="button" onclick="closeMatch()"
             style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Continuer
             à explorer</button>
         </div>
@@ -3293,10 +4134,10 @@
 
       <!-- FICHE -->
       <div class="ascreen" id="as-fiche">
-        <div class="fphoto" style="background:#E1F5EE;"><span>🚁</span>
-          <div class="fback" onclick="backFromFiche()">←</div>
-          <div class="fsave" id="fsavebtn" onclick="toggleFSave()">♡</div>
-          <div class="fdots">
+        <div class="fphoto" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
+          <button type="button" class="fback" aria-label="Retour" onclick="backFromFiche()">←</button>
+          <button type="button" class="fsave" id="fsavebtn" aria-label="Sauvegarder l'objet" aria-pressed="false" onclick="toggleFSave()">♡</button>
+          <div class="fdots" aria-hidden="true">
             <div class="fdot active"></div>
             <div class="fdot"></div>
             <div class="fdot"></div>
@@ -3311,11 +4152,11 @@
             </div>
           </div>
           <div class="fmeta">
-            <div class="fmc">📍 2.3 km</div>
-            <div class="fmdot"></div>
-            <div class="fmc">⭐ 4.9 (12 avis)</div>
-            <div class="fmdot"></div>
-            <div class="fmc">🔄 8 prêts</div>
+            <div class="fmc"><span aria-hidden="true">📍</span> 2.3 km</div>
+            <div class="fmdot" aria-hidden="true"></div>
+            <div class="fmc"><span aria-hidden="true">⭐</span> 4.9 (12 avis)</div>
+            <div class="fmdot" aria-hidden="true"></div>
+            <div class="fmc"><span aria-hidden="true">🔄</span> 8 prêts</div>
           </div>
           <div class="fstates">
             <div class="fst fst-g">Disponible</div>
@@ -3325,14 +4166,14 @@
             pochette.</div>
           <div class="fdiv"></div>
           <div class="fslbl">Prêté par</div>
-          <div class="fownercard">
-            <div class="foav">ML</div>
+          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil de Marie L.">
+            <div class="foav" aria-hidden="true">ML</div>
             <div class="foinfo">
               <div class="foname">Marie L. <div class="fobadge">✓ Vérifié</div>
               </div>
               <div class="fosub">⭐ 4.9 · 23 prêts · Membre depuis 2024</div>
             </div>
-            <span style="font-size:14px;color:var(--mu);">›</span>
+            <span style="font-size:14px;color:var(--mu);" aria-hidden="true">›</span>
           </div>
           <div class="fslbl">Disponibilités</div>
           <div class="fdispo">
@@ -3353,34 +4194,34 @@
           <div class="frevs">
             <div class="frev">
               <div class="frevh">
-                <div class="frevav">TR</div>
+                <div class="frevav" aria-hidden="true">TR</div>
                 <div class="frevn">Thomas R.</div>
-                <div class="frevs2">★★★★★</div>
+                <div class="frevs2" aria-label="5 étoiles">★★★★★</div>
               </div>
               <div class="frevt">Drone en parfait état, Marie très sympa !</div>
             </div>
             <div class="frev">
               <div class="frevh">
-                <div class="frevav">SB</div>
+                <div class="frevav" aria-hidden="true">SB</div>
                 <div class="frevn">Sophie B.</div>
-                <div class="frevs2">★★★★★</div>
+                <div class="frevs2" aria-label="5 étoiles">★★★★★</div>
               </div>
               <div class="frevt">Super expérience, objet comme décrit.</div>
             </div>
           </div>
         </div>
-        <div id="fiche-confirm"
+        <div id="fiche-confirm" role="dialog" aria-modal="true" aria-labelledby="fiche-confirm-title"
           style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px 14px;padding:26px;text-align:center;">
-          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:10px;">Confirmer la
+          <div id="fiche-confirm-title" style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:10px;">Confirmer la
             demande</div>
-          <div style="font-size:36px;margin-bottom:8px;">🚁</div>
+          <div style="font-size:36px;margin-bottom:8px;" aria-hidden="true">🚁</div>
           <div style="font-size:26px;font-weight:600;color:var(--ga);margin-bottom:8px;">15 pts / jour</div>
           <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:16px;">Ces points seront
             bloqués jusqu'au retour confirmé.</div>
-          <button onclick="hideFicheConfirm()"
+          <button type="button" onclick="confirmFicheRequest()"
             style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer
             la demande</button>
-          <button onclick="hideFicheConfirm()"
+          <button type="button" onclick="hideFicheConfirm()"
             style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Annuler</button>
         </div>
         <div class="fbar" id="fbar">
@@ -3388,8 +4229,8 @@
             <div class="fbarin">15 pts</div>
             <div class="fbarl">par jour · bloqués jusqu'au retour</div>
           </div>
-          <div class="fmsgbtn" onclick="setTab('msgs')">💬</div>
-          <button class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
+          <button type="button" class="fmsgbtn" aria-label="Envoyer un message" onclick="setTab('chat')">💬</button>
+          <button type="button" class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
         </div>
       </div>
 
@@ -3398,30 +4239,30 @@
         <div class="msg-hdr">
           <h2>Messages</h2>
         </div>
-        <div class="match-row">
-          <div class="mchip">
-            <div class="mchipav">🚁</div><span>Marie</span>
-          </div>
-          <div class="mchip">
-            <div class="mchipav">🎮</div><span>Thomas</span>
-          </div>
-          <div class="mchip">
-            <div class="mchipav">🔧</div><span>Karim</span>
-          </div>
+        <div class="match-row" role="list" aria-label="Matchs récents">
+          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
+            <div class="mchipav" aria-hidden="true">🚁</div><span>Marie</span>
+          </button>
+          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
+            <div class="mchipav" aria-hidden="true">🎮</div><span>Thomas</span>
+          </button>
+          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
+            <div class="mchipav" aria-hidden="true">🔧</div><span>Karim</span>
+          </button>
         </div>
-        <div class="conv" onclick="setTab('chat')">
-          <div class="convav">🚁</div>
+        <div class="conv" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
+          <div class="convav" aria-hidden="true">🚁</div>
           <div class="convinfo">
             <div class="convname">Marie L.</div>
             <div class="convprev">Super, disponible samedi matin pour le drone ?</div>
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span
               class="convtime">14:23</span>
-            <div class="undot"></div>
+            <div class="undot" aria-label="Non lu"></div>
           </div>
         </div>
-        <div class="conv">
-          <div class="convav">🎮</div>
+        <div class="conv" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
+          <div class="convav" aria-hidden="true">🎮</div>
           <div class="convinfo">
             <div class="convname">Thomas R.</div>
             <div class="convprev">Ok pour samedi !</div>
@@ -3434,15 +4275,15 @@
       <div class="ascreen" id="as-chat">
         <div style="display:flex;flex-direction:column;height:100%;">
           <div class="chat-hdr">
-            <button class="cback" onclick="setTab('msgs')">←</button>
-            <div class="chatav">🚁</div>
+            <button class="cback" type="button" aria-label="Retour aux messages" onclick="setTab('msgs')">←</button>
+            <div class="chatav" aria-hidden="true">🚁</div>
             <div class="chatname">Marie L.</div>
             <div class="chat-acts">
-              <div class="chatact">🎙</div>
-              <div class="chatact">📍</div>
+              <button type="button" class="chatact" aria-label="Appel vocal">🎙</button>
+              <button type="button" class="chatact" aria-label="Localisation">📍</button>
             </div>
           </div>
-          <div class="chatmsgs">
+          <div class="chatmsgs" id="chatmsgs" aria-live="polite">
             <div>
               <div class="mb min">Bonjour ! Votre drone est disponible ce weekend ? 🚁</div>
               <div class="mt">Hier, 18:42</div>
@@ -3460,7 +4301,11 @@
               <div class="mt r">14:23</div>
             </div>
           </div>
-          <div class="chatinput"><input type="text" placeholder="Message…" /><button class="sendbtn">↑</button></div>
+          <form class="chatinput" onsubmit="event.preventDefault();sendMessage();">
+            <label for="chat-input" class="visually-hidden">Message</label>
+            <input type="text" id="chat-input" name="message" placeholder="Message…" autocomplete="off" />
+            <button type="submit" class="sendbtn" aria-label="Envoyer">↑</button>
+          </form>
         </div>
       </div>
 
@@ -3476,10 +4321,10 @@
             <div class="wcn">72</div>
             <div class="wcu">points</div>
           </div>
-          <div class="wcbarbg">
+          <div class="wcbarbg" aria-hidden="true">
             <div class="wcbar"></div>
           </div>
-          <div class="wcbarlbls"><span>0</span><span>Plafond : 100 pts</span></div>
+          <div class="wcbarlbls"><span>Évolution ce mois</span><span style="color:var(--ga);">+37 pts</span></div>
           <div class="wcrow">
             <div class="wcchip">
               <div class="wcchip-l">Bloqués</div>
@@ -3495,16 +4340,16 @@
             </div>
           </div>
         </div>
-        <div class="walltabs">
-          <div class="wtab active">Tout</div>
-          <div class="wtab">Reçus</div>
-          <div class="wtab">Dépensés</div>
-          <div class="wtab">Bloqués</div>
+        <div class="walltabs" role="tablist" aria-label="Filtre des transactions">
+          <button type="button" class="wtab active" role="tab" aria-selected="true" onclick="setWalletTab(this)">Tout</button>
+          <button type="button" class="wtab" role="tab" aria-selected="false" onclick="setWalletTab(this)">Reçus</button>
+          <button type="button" class="wtab" role="tab" aria-selected="false" onclick="setWalletTab(this)">Dépensés</button>
+          <button type="button" class="wtab" role="tab" aria-selected="false" onclick="setWalletTab(this)">Bloqués</button>
         </div>
         <div class="walllbl">Transactions récentes</div>
         <div class="txlist">
           <div class="tx">
-            <div class="txico txia">🔒</div>
+            <div class="txico txia" aria-hidden="true">🔒</div>
             <div class="txinfo">
               <div class="txttl">Drone DJI Mini 3</div>
               <div class="txsub">Bloqués · en attente retour</div>
@@ -3512,7 +4357,7 @@
             <div class="txpts txbl">–15 pts</div>
           </div>
           <div class="tx">
-            <div class="txico txig">✓</div>
+            <div class="txico txig" aria-hidden="true">✓</div>
             <div class="txinfo">
               <div class="txttl">Perceuse Bosch</div>
               <div class="txsub">Prêt terminé · 3 jours</div>
@@ -3520,7 +4365,7 @@
             <div class="txpts txp">+12 pts</div>
           </div>
           <div class="tx">
-            <div class="txico txig">✓</div>
+            <div class="txico txig" aria-hidden="true">✓</div>
             <div class="txinfo">
               <div class="txttl">Tente 4 places</div>
               <div class="txsub">Prêt terminé · 2 jours</div>
@@ -3528,7 +4373,7 @@
             <div class="txpts txp">+25 pts</div>
           </div>
           <div class="tx">
-            <div class="txico txir">↓</div>
+            <div class="txico txir" aria-hidden="true">↓</div>
             <div class="txinfo">
               <div class="txttl">Manette PS5</div>
               <div class="txsub">Emprunt terminé · 1 jour</div>
@@ -3536,7 +4381,7 @@
             <div class="txpts txm">–8 pts</div>
           </div>
           <div class="tx">
-            <div class="txico txig">🎁</div>
+            <div class="txico txig" aria-hidden="true">🎁</div>
             <div class="txinfo">
               <div class="txttl">Bonus inscription</div>
               <div class="txsub">Bienvenue sur Shapio !</div>
@@ -3552,70 +4397,70 @@
 
       <!-- PROFIL -->
       <div class="ascreen" id="as-profil">
-        <div class="pcover"><button class="peditbtn">✏ Modifier le profil</button></div>
+        <div class="pcover"><button type="button" class="peditbtn" onclick="alert('Bientôt : édition du profil')">✏ Modifier le profil</button></div>
         <div class="pavwrap">
-          <div class="pav">KM</div>
-          <div class="pavedit">+</div>
+          <div class="pav" aria-hidden="true">KM</div>
+          <button type="button" class="pavedit" aria-label="Changer la photo de profil">+</button>
         </div>
         <div class="phead">
           <div class="pnrow">
             <div class="pname">Karim M.</div>
-            <div class="pvbadge">✓ Vérifié</div>
+            <div class="pvbadge" aria-label="Profil vérifié">✓ Vérifié</div>
           </div>
-          <div class="psub">📍 Lille · Membre depuis avril 2025</div>
-          <div class="pstats">
-            <div class="pstat">
+          <div class="psub"><span aria-hidden="true">📍</span> Lille · Membre depuis avril 2025</div>
+          <div class="pstats" role="list">
+            <div class="pstat" role="listitem">
               <div class="pstn">72</div>
               <div class="pstl">points</div>
             </div>
-            <div class="pstat">
+            <div class="pstat" role="listitem">
               <div class="pstn">12</div>
               <div class="pstl">prêts</div>
             </div>
-            <div class="pstat">
+            <div class="pstat" role="listitem">
               <div class="pstn">5</div>
               <div class="pstl">emprunts</div>
             </div>
-            <div class="pstat">
+            <div class="pstat" role="listitem">
               <div class="pstn" style="color:#BA7517;">4.9</div>
               <div class="pstl">note</div>
             </div>
           </div>
         </div>
-        <div class="ptabbar">
-          <button class="ptab active" onclick="ptab('objets',this)">Mes objets</button>
-          <button class="ptab" onclick="ptab('avis',this)">Avis</button>
-          <button class="ptab" onclick="ptab('settings',this)">Paramètres</button>
+        <div class="ptabbar" role="tablist" aria-label="Sections du profil">
+          <button class="ptab active" type="button" role="tab" aria-selected="true" onclick="ptab('objets',this)">Mes objets</button>
+          <button class="ptab" type="button" role="tab" aria-selected="false" onclick="ptab('avis',this)">Avis</button>
+          <button class="ptab" type="button" role="tab" aria-selected="false" onclick="ptab('settings',this)">Paramètres</button>
         </div>
-        <div id="pt-objets">
+        <div id="pt-objets" role="tabpanel">
           <div
             style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">
             Vérification</div>
           <div class="ptrust">
             <div class="ptrow">
-              <div class="ptico ptdone">✓</div>
+              <div class="ptico ptdone" aria-hidden="true">✓</div>
               <div class="ptlbl">Numéro de téléphone</div>
             </div>
             <div class="ptrow">
-              <div class="ptico ptdone">✓</div>
+              <div class="ptico ptdone" aria-hidden="true">✓</div>
               <div class="ptlbl">Adresse vérifiée</div>
             </div>
             <div class="ptrow">
-              <div class="ptico ptdone">✓</div>
+              <div class="ptico ptdone" aria-hidden="true">✓</div>
               <div class="ptlbl">Pièce d'identité</div>
             </div>
             <div class="ptrow">
-              <div class="ptico ptpend">–</div>
+              <div class="ptico ptpend" aria-hidden="true">–</div>
               <div class="ptlbl" style="color:var(--mu);">Selfie de confirmation</div>
-              <div class="ptact">Ajouter</div>
+              <button type="button" class="ptact">Ajouter</button>
             </div>
           </div>
           <div
             style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">
             Mes objets</div>
           <div class="pogrid">
-            <div class="pocard" onclick="openFiche()">
-              <div class="poimg" style="background:#E1F5EE;"><span>🚁</span>
+            <div class="pocard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+              <div class="poimg" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
                 <div class="popts">15 pts</div>
                 <div class="post post-on">Dispo</div>
               </div>
@@ -3624,8 +4469,8 @@
                 <div class="popr">8 prêts</div>
               </div>
             </div>
-            <div class="pocard" onclick="openFiche()">
-              <div class="poimg" style="background:#EEEDFE;"><span>💻</span>
+            <div class="pocard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+              <div class="poimg" style="background:#EEEDFE;"><span aria-hidden="true">💻</span>
                 <div class="popts">20 pts</div>
                 <div class="post post-on">Dispo</div>
               </div>
@@ -3634,8 +4479,8 @@
                 <div class="popr">3 prêts</div>
               </div>
             </div>
-            <div class="pocard" onclick="openFiche()">
-              <div class="poimg" style="background:#FAEEDA;"><span>🔧</span>
+            <div class="pocard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
+              <div class="poimg" style="background:#FAEEDA;"><span aria-hidden="true">🔧</span>
                 <div class="popts">10 pts</div>
                 <div class="post post-off">Indispo</div>
               </div>
@@ -3644,137 +4489,762 @@
                 <div class="popr">5 prêts</div>
               </div>
             </div>
-            <div class="pocard"
-              style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:120px;background:#f7f7f4;cursor:pointer;">
+            <button type="button" class="pocard"
+              onclick="setTab('addobj')"
+              style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:120px;background:#f7f7f4;cursor:pointer;font-family:inherit;width:100%;">
               <div style="text-align:center;">
-                <div style="font-size:20px;color:var(--mu);">+</div>
+                <div style="font-size:20px;color:var(--mu);" aria-hidden="true">+</div>
                 <div style="font-size:11px;color:var(--mu);margin-top:3px;">Ajouter</div>
               </div>
-            </div>
+            </button>
           </div>
         </div>
-        <div id="pt-avis" style="display:none;">
+        <div id="pt-avis" role="tabpanel" style="display:none;">
           <div style="display:flex;align-items:center;gap:10px;padding:0 18px 12px;">
             <div style="font-size:34px;font-weight:500;color:var(--dk);">4.9</div>
             <div>
-              <div style="font-size:14px;color:#BA7517;">★★★★★</div>
+              <div style="font-size:14px;color:#BA7517;" aria-label="5 étoiles">★★★★★</div>
               <div style="font-size:11px;color:var(--mu);">12 avis reçus</div>
             </div>
           </div>
           <div class="pavis">
             <div class="paviscard">
               <div class="pavish">
-                <div class="pavisav">TR</div>
+                <div class="pavisav" aria-hidden="true">TR</div>
                 <div class="pavisnm">Thomas R.</div>
-                <div class="pavisst">★★★★★</div>
+                <div class="pavisst" aria-label="5 étoiles">★★★★★</div>
               </div>
               <div class="pavist">Prêt rapide, objet parfait. Karim très sympa !</div>
             </div>
             <div class="paviscard">
               <div class="pavish">
-                <div class="pavisav">SB</div>
+                <div class="pavisav" aria-hidden="true">SB</div>
                 <div class="pavisnm">Sophie B.</div>
-                <div class="pavisst">★★★★★</div>
+                <div class="pavisst" aria-label="5 étoiles">★★★★★</div>
               </div>
               <div class="pavist">Super expérience, communication impeccable.</div>
             </div>
           </div>
         </div>
-        <div id="pt-settings" style="display:none;">
+        <div id="pt-settings" role="tabpanel" style="display:none;">
           <div class="psettings">
-            <div class="psi">
-              <div class="psiico">👤</div>
+            <button type="button" class="psi" onclick="showLegal('contact')">
+              <div class="psiico" aria-hidden="true">👤</div>
               <div class="psilbl">Informations personnelles</div>
-              <div class="psiarr">›</div>
-            </div>
-            <div class="psi">
-              <div class="psiico">🔔</div>
+              <div class="psiarr" aria-hidden="true">›</div>
+            </button>
+            <button type="button" class="psi" onclick="setTab('notif')">
+              <div class="psiico" aria-hidden="true">🔔</div>
               <div class="psilbl">Notifications</div>
-              <div class="psiarr">›</div>
-            </div>
-            <div class="psi">
-              <div class="psiico">📍</div>
+              <div class="psiarr" aria-hidden="true">›</div>
+            </button>
+            <button type="button" class="psi">
+              <div class="psiico" aria-hidden="true">📍</div>
               <div class="psilbl">Rayon de recherche</div>
-              <div class="psiarr">›</div>
-            </div>
-            <div class="psi">
-              <div class="psiico">🔒</div>
+              <div class="psiarr" aria-hidden="true">›</div>
+            </button>
+            <button type="button" class="psi" onclick="showLegal('confidentialite')">
+              <div class="psiico" aria-hidden="true">🔒</div>
               <div class="psilbl">Confidentialité</div>
-              <div class="psiarr">›</div>
-            </div>
-            <div class="psi danger">
-              <div class="psiico">↪</div>
+              <div class="psiarr" aria-hidden="true">›</div>
+            </button>
+            <button type="button" class="psi" onclick="showLegal('contact')">
+              <div class="psiico" aria-hidden="true">💬</div>
+              <div class="psilbl">Contacter le support</div>
+              <div class="psiarr" aria-hidden="true">›</div>
+            </button>
+            <button type="button" class="psi danger" onclick="handleLogout()">
+              <div class="psiico" aria-hidden="true">↪</div>
               <div class="psilbl">Se déconnecter</div>
-            </div>
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- NAV -->
-      <div class="anav">
-        <div class="ni active" id="ni-home" onclick="setTab('home')">
-          <div class="nico">🏠</div>
-          <div class="nlbl">Accueil</div>
+      <!-- ADD OBJECT -->
+      <div class="ascreen" id="as-addobj">
+        <div class="ao-hdr">
+          <button type="button" class="ao-back" aria-label="Retour" onclick="setTab(prevTab||'home')">←</button>
+          <div class="ao-title">Ajouter un objet</div>
         </div>
-        <div class="ni" id="ni-swipe" onclick="setTab('swipe')">
-          <div class="nico">🔍</div>
-          <div class="nlbl">Explorer</div>
-        </div>
-        <div class="ni" id="ni-msgs" onclick="setTab('msgs')">
-          <div class="nico">💬</div>
-          <div class="nlbl">Messages</div>
-        </div>
-        <div class="ni" id="ni-wallet" onclick="setTab('wallet')">
-          <div class="nico">💰</div>
-          <div class="nlbl">Points</div>
-        </div>
-        <div class="ni" id="ni-profil" onclick="setTab('profil')">
-          <div class="nico">👤</div>
-          <div class="nlbl">Profil</div>
-        </div>
+        <form class="ao-form" onsubmit="event.preventDefault();handleAddObject();" novalidate>
+          <input type="file" id="ao-photo-file" accept="image/*" capture="environment"
+            onchange="handlePhotoSelected(this)" style="display:none;" aria-hidden="true" tabindex="-1" />
+          <button type="button" class="ao-photo" id="ao-photo-btn" onclick="openPhotoPicker()" aria-label="Ajouter une photo">
+            <div class="ao-photo-ico" aria-hidden="true">📷</div>
+            <div class="ao-photo-txt">Ajouter une photo</div>
+            <div class="ao-photo-sub">JPG, PNG · 5 Mo max</div>
+          </button>
+
+          <div class="ao-fl">
+            <label for="ao-title">Titre de l'objet</label>
+            <input type="text" id="ao-title" name="title" placeholder="Ex : Perceuse Bosch GSR 12V" required minlength="3" maxlength="60" />
+          </div>
+
+          <div class="ao-fl">
+            <label for="ao-desc">Description</label>
+            <textarea id="ao-desc" name="description" placeholder="État, accessoires inclus, conditions d'utilisation…" required minlength="20" maxlength="500"></textarea>
+          </div>
+
+          <div class="ao-fl">
+            <label id="ao-cat-lbl">Catégorie</label>
+            <div class="ao-cats" role="radiogroup" aria-labelledby="ao-cat-lbl">
+              <button type="button" class="ao-cat active" role="radio" aria-checked="true" onclick="aoCat(this)">Tech</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Bricolage</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Maison</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Sport</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Jardinage</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Cuisine</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Loisirs</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Autre</button>
+            </div>
+          </div>
+
+          <div class="ao-row">
+            <div class="ao-fl">
+              <label for="ao-state">État</label>
+              <select id="ao-state" name="state" required>
+                <option value="">Choisir…</option>
+                <option value="neuf">Neuf</option>
+                <option value="tbe" selected>Très bon état</option>
+                <option value="be">Bon état</option>
+                <option value="usage">Avec usage</option>
+              </select>
+            </div>
+            <div class="ao-fl">
+              <label for="ao-duree">Durée max</label>
+              <select id="ao-duree" name="duration" required>
+                <option value="1">1 jour</option>
+                <option value="3" selected>3 jours</option>
+                <option value="7">1 semaine</option>
+                <option value="14">2 semaines</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="ao-fl">
+            <label for="ao-pts-input">Prix par jour</label>
+            <div class="ao-pts">
+              <input type="number" id="ao-pts-input" name="points" min="1" max="1000" value="10" inputmode="numeric"
+                oninput="syncPtsFromInput()" aria-label="Prix en points par jour"
+                style="width:90px;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);background:transparent;border:none;outline:none;text-align:left;padding:0;-moz-appearance:textfield;" />
+              <div class="ao-pts-info">
+                <div class="ao-pts-lbl">points / jour</div>
+                <div class="ao-pts-sub">Tu fixes toi-même le tarif (jusqu'à 1000 pts)</div>
+              </div>
+            </div>
+            <input type="range" id="ao-pts-range" min="1" max="1000" value="10"
+              oninput="syncPtsFromRange()" style="margin-top:10px;width:100%;" aria-label="Ajuster le prix" />
+          </div>
+
+          <div class="ao-fl">
+            <label for="ao-quartier">Quartier de Lille</label>
+            <input type="text" id="ao-quartier" name="neighborhood" placeholder="Vauban, Vieux-Lille, Wazemmes…" />
+          </div>
+
+          <div class="form-error" id="ao-error" role="alert" aria-live="polite"></div>
+
+          <button class="ao-submit" type="submit">Publier mon objet</button>
+        </form>
       </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="ascreen" id="as-notif">
+        <div class="nt-hdr">
+          <h2>Notifications</h2>
+          <button type="button" class="nt-clear" onclick="clearNotifs()">Tout marquer comme lu</button>
+        </div>
+        <div class="nt-tabs" role="tablist">
+          <button type="button" class="nt-tab active" role="tab" aria-selected="true" onclick="setNotifTab(this,'all')">Toutes</button>
+          <button type="button" class="nt-tab" role="tab" aria-selected="false" onclick="setNotifTab(this,'matches')">Matchs</button>
+          <button type="button" class="nt-tab" role="tab" aria-selected="false" onclick="setNotifTab(this,'msgs')">Messages</button>
+          <button type="button" class="nt-tab" role="tab" aria-selected="false" onclick="setNotifTab(this,'pts')">Points</button>
+        </div>
+        <div class="nt-list" id="nt-list">
+          <div class="nt-item unread" data-cat="matches" role="button" tabindex="0" onclick="setTab('msgs')" onkeypress="if(event.key==='Enter')setTab('msgs')">
+            <div class="nt-ico match" aria-hidden="true">💚</div>
+            <div class="nt-body">
+              <div class="nt-msg"><strong>Marie L.</strong> a accepté ta demande pour le Drone DJI Mini 3</div>
+              <div class="nt-time">À l'instant</div>
+            </div>
+            <div class="nt-dot" aria-label="Non lu"></div>
+          </div>
+          <div class="nt-item unread" data-cat="msgs" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
+            <div class="nt-ico" aria-hidden="true">💬</div>
+            <div class="nt-body">
+              <div class="nt-msg"><strong>Marie L.</strong> : Super, disponible samedi matin pour le drone ?</div>
+              <div class="nt-time">Il y a 2 h</div>
+            </div>
+            <div class="nt-dot" aria-label="Non lu"></div>
+          </div>
+          <div class="nt-item" data-cat="pts" role="button" tabindex="0" onclick="setTab('wallet')" onkeypress="if(event.key==='Enter')setTab('wallet')">
+            <div class="nt-ico points" aria-hidden="true">💰</div>
+            <div class="nt-body">
+              <div class="nt-msg">Tu as gagné <strong>+12 points</strong> pour le prêt de la Perceuse Bosch</div>
+              <div class="nt-time">Hier, 18:30</div>
+            </div>
+          </div>
+          <div class="nt-item" data-cat="msgs" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
+            <div class="nt-ico" aria-hidden="true">💬</div>
+            <div class="nt-body">
+              <div class="nt-msg"><strong>Thomas R.</strong> : Ok pour samedi !</div>
+              <div class="nt-time">Hier, 11:05</div>
+            </div>
+          </div>
+          <div class="nt-item" data-cat="matches" role="button" tabindex="0" onclick="setTab('msgs')" onkeypress="if(event.key==='Enter')setTab('msgs')">
+            <div class="nt-ico review" aria-hidden="true">⭐</div>
+            <div class="nt-body">
+              <div class="nt-msg"><strong>Sophie B.</strong> t'a laissé un avis 5 étoiles : « Super expérience »</div>
+              <div class="nt-time">Il y a 2 jours</div>
+            </div>
+          </div>
+          <div class="nt-item" data-cat="pts" role="button" tabindex="0" onclick="setTab('wallet')" onkeypress="if(event.key==='Enter')setTab('wallet')">
+            <div class="nt-ico points" aria-hidden="true">🎁</div>
+            <div class="nt-body">
+              <div class="nt-msg">Bienvenue sur Shapio ! <strong>+50 points</strong> de bienvenue</div>
+              <div class="nt-time">Il y a 4 jours</div>
+            </div>
+          </div>
+        </div>
+        <div class="nt-empty" id="nt-empty" style="display:none;">Aucune notification dans cette catégorie.</div>
+      </div>
+
+      <!-- NAV -->
+      <nav class="anav" aria-label="Navigation de l'application">
+        <button type="button" class="ni active" id="ni-home" aria-label="Accueil" aria-current="page" onclick="setTab('home')">
+          <div class="nico" aria-hidden="true">🏠</div>
+          <div class="nlbl">Accueil</div>
+        </button>
+        <button type="button" class="ni" id="ni-swipe" aria-label="Explorer" onclick="setTab('swipe')">
+          <div class="nico" aria-hidden="true">🔍</div>
+          <div class="nlbl">Explorer</div>
+        </button>
+        <button type="button" class="ni" id="ni-msgs" aria-label="Messages" onclick="setTab('msgs')">
+          <div class="nico" aria-hidden="true">💬</div>
+          <div class="nlbl">Messages</div>
+        </button>
+        <button type="button" class="ni" id="ni-wallet" aria-label="Mes points" onclick="setTab('wallet')">
+          <div class="nico" aria-hidden="true">💰</div>
+          <div class="nlbl">Points</div>
+        </button>
+        <button type="button" class="ni" id="ni-profil" aria-label="Mon profil" onclick="setTab('profil')">
+          <div class="nico" aria-hidden="true">👤</div>
+          <div class="nlbl">Profil</div>
+        </button>
+      </nav>
     </div>
   </div>
 
   <script>
+    /* =============================================================
+       SHAPIO - Script principal
+       Démo navigable. Tous les états sont en mémoire (rien n'est
+       envoyé à un backend dans cette version).
+       ============================================================= */
+
+    'use strict';
+
+    /* ---------- NAVIGATION ENTRE PAGES ---------- */
     let prevTab = 'home';
-    function go(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0, 0); }
+
+    function go(id) {
+      const target = document.getElementById(id);
+      if (!target) return;
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      target.classList.add('active');
+      window.scrollTo(0, 0);
+      // Update aria pour landing nav
+      closeNav();
+    }
+
     function setTab(tab) {
       document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.ni').forEach(n => n.classList.remove('active'));
-      const m = { home: 'as-home', swipe: 'as-swipe', msgs: 'as-msgs', chat: 'as-chat', wallet: 'as-wallet', profil: 'as-profil', fiche: 'as-fiche' };
-      const nm = { home: 'ni-home', swipe: 'ni-swipe', msgs: 'ni-msgs', wallet: 'ni-wallet', profil: 'ni-profil' };
-      if (m[tab]) document.getElementById(m[tab]).classList.add('active');
-      if (nm[tab]) document.getElementById(nm[tab]).classList.add('active');
-      if (tab !== 'chat' && tab !== 'fiche') prevTab = tab;
+      document.querySelectorAll('.ni').forEach(n => {
+        n.classList.remove('active');
+        n.removeAttribute('aria-current');
+      });
+      const m = {
+        home: 'as-home',
+        swipe: 'as-swipe',
+        msgs: 'as-msgs',
+        chat: 'as-chat',
+        wallet: 'as-wallet',
+        profil: 'as-profil',
+        fiche: 'as-fiche',
+        addobj: 'as-addobj',
+        notif: 'as-notif'
+      };
+      const nm = {
+        home: 'ni-home',
+        swipe: 'ni-swipe',
+        msgs: 'ni-msgs',
+        wallet: 'ni-wallet',
+        profil: 'ni-profil'
+      };
+      const screen = m[tab] && document.getElementById(m[tab]);
+      if (screen) screen.classList.add('active');
+      const navItem = nm[tab] && document.getElementById(nm[tab]);
+      if (navItem) {
+        navItem.classList.add('active');
+        navItem.setAttribute('aria-current', 'page');
+      }
+      if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif') {
+        prevTab = tab;
+      }
       window.scrollTo(0, 0);
     }
-    function openFiche() { prevTab = document.querySelector('.ni.active')?.id?.replace('ni-', '') || 'home'; setTab('fiche'); }
-    function backFromFiche() { setTab(prevTab || 'home'); }
-    function toggleFSave() { const b = document.getElementById('fsavebtn'); b.textContent = b.textContent === '♡' ? '♥' : '♡'; b.style.color = b.textContent === '♥' ? 'var(--gm)' : ''; }
-    function showFicheConfirm() { document.getElementById('fiche-confirm').style.display = 'block'; document.getElementById('fbar').style.display = 'none'; }
-    function hideFicheConfirm() { document.getElementById('fiche-confirm').style.display = 'none'; document.getElementById('fbar').style.display = 'flex'; }
+
+    /* ---------- LANDING : MENU MOBILE ---------- */
+    function toggleNav() {
+      const links = document.getElementById('navLinks');
+      const toggle = document.getElementById('navToggle');
+      if (!links || !toggle) return;
+      const isOpen = links.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+    }
+
+    function closeNav() {
+      const links = document.getElementById('navLinks');
+      const toggle = document.getElementById('navToggle');
+      if (!links || !toggle) return;
+      links.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Ouvrir le menu');
+    }
+
+    /* ---------- AUTHENTIFICATION (factice) ---------- */
+    function showError(elId, msg) {
+      const el = document.getElementById(elId);
+      if (el) el.textContent = msg;
+    }
+
+    function clearError(elId) {
+      showError(elId, '');
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function handleLogin() {
+      clearError('login-error');
+      const email = document.getElementById('login-email').value.trim();
+      const pwd = document.getElementById('login-pwd').value;
+      // Démo : on n'a pas de backend, donc on accepte la connexion.
+      // Si l'utilisateur a saisi un email, on vérifie juste qu'il est valide.
+      if (email && !isValidEmail(email)) {
+        showError('login-error', 'Cet email ne semble pas valide.');
+        return;
+      }
+      go('p-app');
+    }
+
+    function handleSignup1() {
+      clearError('s1-error');
+      const email = document.getElementById('su-email').value.trim();
+      // Démo : on n'a pas de backend, donc on laisse passer même si les champs sont vides.
+      // Mais si un email est saisi, on vérifie son format.
+      if (email && !isValidEmail(email)) {
+        showError('s1-error', 'Cet email ne semble pas valide.');
+        return;
+      }
+      go('p-s2');
+    }
+
+    function handleSignup2() {
+      clearError('s2-error');
+      const tel = document.getElementById('su-tel').value.replace(/\s/g, '');
+      // Démo : on accepte de passer sans saisir de numéro.
+      // Si un numéro est saisi, on vérifie son format.
+      if (tel && !/^[0-9]{9,10}$/.test(tel)) {
+        showError('s2-error', 'Ce numéro ne semble pas valide (9 chiffres après le +33).');
+        return;
+      }
+      go('p-s3');
+    }
+
+    function otpAdvance(input, nextIndex) {
+      // Garde uniquement les chiffres
+      input.value = input.value.replace(/[^0-9]/g, '');
+      if (input.value && input.value.length === 1) {
+        input.classList.add('filled');
+        if (nextIndex) {
+          const next = document.getElementById('otp-' + nextIndex);
+          if (next) next.focus();
+        }
+      } else {
+        input.classList.remove('filled');
+      }
+    }
+
+    function otpBack(event, prevIndex) {
+      if (event.key === 'Backspace' && !event.target.value) {
+        const prev = document.getElementById('otp-' + prevIndex);
+        if (prev) {
+          prev.focus();
+          prev.value = '';
+          prev.classList.remove('filled');
+        }
+      }
+    }
+
+    function handleOtp() {
+      clearError('s3-error');
+      // Démo : on accepte n'importe quel code (même vide) pour faciliter la navigation.
+      go('p-s4');
+    }
+
+    function resendCode(btn) {
+      btn.disabled = true;
+      const original = btn.textContent;
+      btn.textContent = 'Envoyé !';
+      setTimeout(() => {
+        btn.textContent = original;
+        btn.disabled = false;
+      }, 3000);
+    }
+
+    function handleLogout() {
+      if (confirm('Te déconnecter de Shapio ?')) {
+        go('p-landing');
+      }
+    }
+
+    /* ---------- FICHE OBJET ---------- */
+    function openFiche() {
+      const active = document.querySelector('.ni.active');
+      prevTab = (active && active.id) ? active.id.replace('ni-', '') : 'home';
+      setTab('fiche');
+    }
+
+    function backFromFiche() {
+      setTab(prevTab || 'home');
+    }
+
+    function toggleFSave() {
+      const b = document.getElementById('fsavebtn');
+      if (!b) return;
+      const isSaved = b.textContent.trim() === '♥';
+      b.textContent = isSaved ? '♡' : '♥';
+      b.style.color = isSaved ? '' : 'var(--gm)';
+      b.setAttribute('aria-pressed', String(!isSaved));
+    }
+
+    function showFicheConfirm() {
+      document.getElementById('fiche-confirm').style.display = 'block';
+      document.getElementById('fbar').style.display = 'none';
+    }
+
+    function hideFicheConfirm() {
+      document.getElementById('fiche-confirm').style.display = 'none';
+      document.getElementById('fbar').style.display = 'flex';
+    }
+
+    function confirmFicheRequest() {
+      hideFicheConfirm();
+      // Décrémenter les points (factice mais visuel)
+      decrementPoints(15);
+      // Aller dans Messages
+      setTab('chat');
+    }
+
+    /* ---------- SWIPE ---------- */
     const cards = [
       { icon: '🚁', bg: '#E1F5EE', pts: 15, dist: '2.3 km', title: 'Drone DJI Mini 3', owner: 'Marie L.', note: '4.9', tags: ['Tech', 'Caméra 4K', 'Débutant ok'] },
       { icon: '🎮', bg: '#EEEDFE', pts: 8, dist: '0.8 km', title: 'Manette PS5', owner: 'Thomas R.', note: '4.7', tags: ['Gaming', 'Bon état'] },
       { icon: '🔧', bg: '#FAEEDA', pts: 10, dist: '1.1 km', title: 'Perceuse Bosch', owner: 'Karim B.', note: '5.0', tags: ['Bricolage', 'Accessoires'] },
       { icon: '🏕', bg: '#FAECE7', pts: 20, dist: '3.2 km', title: 'Tente 4 places', owner: 'Sophie M.', note: '4.8', tags: ['Sport', 'Camping'] },
+      { icon: '📷', bg: '#EEEDFE', pts: 25, dist: '1.6 km', title: 'Sony A7 III', owner: 'Inès F.', note: '4.9', tags: ['Photo', 'Pro'] },
+      { icon: '🛴', bg: '#FAEEDA', pts: 18, dist: '0.5 km', title: 'Trottinette électrique', owner: 'Romain D.', note: '4.7', tags: ['Mobilité'] }
     ];
+
     let ci = 0;
-    function renderCard(i, el) { const c = cards[i % cards.length]; el.innerHTML = `<div class="cphoto" style="background:${c.bg}"><span style="font-size:68px">${c.icon}</span><div class="cbadge">${c.pts} pts</div><div class="cdist">${c.dist}</div></div><div class="cbody"><div class="ctitle">${c.title}</div><div class="cowner"><div class="cav">${c.owner.split(' ').map(w => w[0]).join('')}</div><span>${c.owner}</span><span class="cstars">★★★★★</span><span style="font-size:11px;color:var(--mu)">${c.note}</span></div><div class="ctags">${c.tags.map(t => `<span class="ctag">${t}</span>`).join('')}</div></div>`; }
+
+    function renderCard(i, el) {
+      if (!el) return;
+      const c = cards[i % cards.length];
+      const initials = c.owner.split(' ').map(w => w[0]).join('');
+      el.innerHTML =
+        '<div class="cphoto" style="background:' + c.bg + '">' +
+        '<span style="font-size:68px" aria-hidden="true">' + c.icon + '</span>' +
+        '<div class="cbadge">' + c.pts + ' pts</div>' +
+        '<div class="cdist">' + c.dist + '</div>' +
+        '</div>' +
+        '<div class="cbody">' +
+        '<div class="ctitle">' + c.title + '</div>' +
+        '<div class="cowner">' +
+        '<div class="cav" aria-hidden="true">' + initials + '</div>' +
+        '<span>' + c.owner + '</span>' +
+        '<span class="cstars" aria-label="Note ' + c.note + ' sur 5">★★★★★</span>' +
+        '<span style="font-size:11px;color:var(--mu)">' + c.note + '</span>' +
+        '</div>' +
+        '<div class="ctags">' + c.tags.map(t => '<span class="ctag">' + t + '</span>').join('') + '</div>' +
+        '</div>';
+    }
+
     function swipe(dir) {
       const f = document.getElementById('cfront');
-      if (dir === 'right') { f.classList.add('swright'); setTimeout(() => { f.classList.remove('swright'); document.getElementById('swipe-mode').style.display = 'none'; document.getElementById('match-ov').style.display = 'block'; }, 350); }
-      else { f.classList.add('swleft'); setTimeout(() => { ci++; f.classList.remove('swleft'); renderCard(ci, f); renderCard(ci + 1, document.getElementById('cback')); }, 350); }
+      if (!f) return;
+      if (dir === 'right') {
+        f.classList.add('swright');
+        setTimeout(() => {
+          f.classList.remove('swright');
+          document.getElementById('swipe-mode').style.display = 'none';
+          document.getElementById('match-ov').style.display = 'block';
+        }, 350);
+      } else {
+        f.classList.add('swleft');
+        setTimeout(() => {
+          ci++;
+          f.classList.remove('swleft');
+          renderCard(ci, f);
+          renderCard(ci + 1, document.getElementById('cback'));
+        }, 350);
+      }
     }
-    function closeMatch() { document.getElementById('match-ov').style.display = 'none'; document.getElementById('swipe-mode').style.display = 'block'; ci++; renderCard(ci, document.getElementById('cfront')); renderCard(ci + 1, document.getElementById('cback')); }
-    function setSwipeMode(m) {
-      if (m === 'swipe') { document.getElementById('swipe-mode').style.display = 'block'; document.getElementById('browse-mode').style.display = 'none'; document.getElementById('mt-swipe').classList.add('active'); document.getElementById('mt-browse').classList.remove('active'); }
-      else { document.getElementById('swipe-mode').style.display = 'none'; document.getElementById('browse-mode').style.display = 'block'; document.getElementById('mt-browse').classList.add('active'); document.getElementById('mt-swipe').classList.remove('active'); }
-    }
-    function tvc(el) { el.classList.toggle('sel'); el.querySelector('.vcchk').textContent = el.classList.contains('sel') ? '✓' : ''; }
-    function ptab(name, btn) { ['objets', 'avis', 'settings'].forEach(t => document.getElementById('pt-' + t).style.display = t === name ? '' : 'none'); document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active')); btn.classList.add('active'); }
 
+    function closeMatch() {
+      document.getElementById('match-ov').style.display = 'none';
+      document.getElementById('swipe-mode').style.display = 'block';
+      ci++;
+      renderCard(ci, document.getElementById('cfront'));
+      renderCard(ci + 1, document.getElementById('cback'));
+    }
+
+    function setSwipeMode(m) {
+      const swipeEl = document.getElementById('swipe-mode');
+      const browseEl = document.getElementById('browse-mode');
+      const tSwipe = document.getElementById('mt-swipe');
+      const tBrowse = document.getElementById('mt-browse');
+      if (m === 'swipe') {
+        swipeEl.style.display = 'block';
+        browseEl.style.display = 'none';
+        tSwipe.classList.add('active');
+        tSwipe.setAttribute('aria-selected', 'true');
+        tBrowse.classList.remove('active');
+        tBrowse.setAttribute('aria-selected', 'false');
+      } else {
+        swipeEl.style.display = 'none';
+        browseEl.style.display = 'block';
+        tBrowse.classList.add('active');
+        tBrowse.setAttribute('aria-selected', 'true');
+        tSwipe.classList.remove('active');
+        tSwipe.setAttribute('aria-selected', 'false');
+      }
+    }
+
+    function setFilter(btn) {
+      document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      // Future : filtrer réellement les cartes par catégorie
+    }
+
+    /* ---------- VÉRIFICATION (signup étape 4) ---------- */
+    function tvc(el) {
+      const checked = el.classList.toggle('sel');
+      const chk = el.querySelector('.vcchk');
+      if (chk) chk.textContent = checked ? '✓' : '';
+      el.setAttribute('aria-checked', String(checked));
+    }
+
+    /* ---------- ONGLETS PROFIL ---------- */
+    function ptab(name, btn) {
+      ['objets', 'avis', 'settings'].forEach(t => {
+        const el = document.getElementById('pt-' + t);
+        if (el) el.style.display = (t === name ? '' : 'none');
+      });
+      document.querySelectorAll('.ptab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+    }
+
+    /* ---------- WALLET ---------- */
+    function setWalletTab(btn) {
+      document.querySelectorAll('.wtab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      // Future : filtrer la liste des transactions
+    }
+
+    function decrementPoints(amount) {
+      const ppill = document.getElementById('ppill-points');
+      if (!ppill) return;
+      const match = ppill.textContent.match(/(\d+)/);
+      if (!match) return;
+      const current = parseInt(match[1], 10);
+      const next = Math.max(0, current - amount);
+      ppill.textContent = next + ' pts';
+    }
+
+    /* ---------- CHAT ---------- */
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      if (!input) return;
+      const txt = input.value.trim();
+      if (!txt) return;
+      const list = document.getElementById('chatmsgs');
+      if (!list) return;
+      const wrap = document.createElement('div');
+      wrap.style.alignSelf = 'flex-end';
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, '0');
+      const mm = String(now.getMinutes()).padStart(2, '0');
+      wrap.innerHTML = '<div class="mb mout"></div><div class="mt r">' + hh + ':' + mm + '</div>';
+      // Sécurité : on insère le texte sans interpréter le HTML
+      wrap.querySelector('.mb').textContent = txt;
+      list.appendChild(wrap);
+      input.value = '';
+      list.scrollTop = list.scrollHeight;
+
+      // Faux retour automatique
+      setTimeout(() => {
+        const reply = document.createElement('div');
+        reply.innerHTML = '<div class="mb min"></div><div class="mt"></div>';
+        reply.querySelector('.mb').textContent = 'Reçu, je te réponds dès que possible !';
+        const now2 = new Date();
+        reply.querySelector('.mt').textContent = String(now2.getHours()).padStart(2, '0') + ':' + String(now2.getMinutes()).padStart(2, '0');
+        list.appendChild(reply);
+        list.scrollTop = list.scrollHeight;
+      }, 1200);
+    }
+
+    /* ---------- AJOUTER UN OBJET ---------- */
+    function aoCat(btn) {
+      document.querySelectorAll('.ao-cat').forEach(c => {
+        c.classList.remove('active');
+        c.setAttribute('aria-checked', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-checked', 'true');
+    }
+
+    /* Synchroniser le slider et l'input number du prix */
+    function syncPtsFromInput() {
+      const input = document.getElementById('ao-pts-input');
+      const range = document.getElementById('ao-pts-range');
+      let v = parseInt(input.value, 10);
+      if (isNaN(v) || v < 1) v = 1;
+      if (v > 1000) {
+        v = 1000;
+        input.value = 1000;
+      }
+      range.value = v;
+    }
+
+    function syncPtsFromRange() {
+      const input = document.getElementById('ao-pts-input');
+      const range = document.getElementById('ao-pts-range');
+      input.value = range.value;
+    }
+
+    /* Sélection de photo : ouvrir le sélecteur de fichier */
+    function openPhotoPicker() {
+      const fileInput = document.getElementById('ao-photo-file');
+      if (fileInput) fileInput.click();
+    }
+
+    /* Lecture du fichier sélectionné et aperçu */
+    function handlePhotoSelected(input) {
+      if (!input.files || !input.files[0]) return;
+      const file = input.files[0];
+
+      // Vérifier le type
+      if (!file.type.startsWith('image/')) {
+        alert('Merci de choisir une image (JPG, PNG, GIF…).');
+        input.value = '';
+        return;
+      }
+
+      // Vérifier la taille (5 Mo max)
+      const maxBytes = 5 * 1024 * 1024;
+      if (file.size > maxBytes) {
+        alert('Cette image est trop lourde. Taille max : 5 Mo.');
+        input.value = '';
+        return;
+      }
+
+      // Lire et afficher l'aperçu
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const photoBtn = document.getElementById('ao-photo-btn');
+        if (!photoBtn) return;
+        photoBtn.innerHTML =
+          '<img src="' + e.target.result + '" alt="Aperçu de la photo" ' +
+          'style="width:100%;height:100%;object-fit:cover;border-radius:13px;" />' +
+          '<div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.6);color:white;font-size:11px;padding:4px 10px;border-radius:100px;">Modifier</div>';
+        photoBtn.style.padding = '0';
+        photoBtn.style.position = 'relative';
+        photoBtn.style.overflow = 'hidden';
+      };
+      reader.onerror = function () {
+        alert('Impossible de lire cette image.');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleAddObject() {
+      clearError('ao-error');
+      const title = document.getElementById('ao-title').value.trim();
+      // Démo : seul le titre est obligatoire (pour avoir quelque chose à afficher).
+      if (!title) {
+        showError('ao-error', 'Merci de donner un titre à ton objet.');
+        return;
+      }
+      // Succès factice
+      const screen = document.getElementById('as-addobj');
+      screen.innerHTML =
+        '<div class="ao-hdr">' +
+        '<button type="button" class="ao-back" aria-label="Retour" onclick="setTab(prevTab||\'home\')">←</button>' +
+        '<div class="ao-title">Objet publié</div>' +
+        '</div>' +
+        '<div class="ao-success">' +
+        '<div class="ao-success-ico" aria-hidden="true">✓</div>' +
+        '<div style="font-family:\'DM Serif Display\',serif;font-size:22px;color:var(--dk);margin-bottom:8px;">Bravo !</div>' +
+        '<p style="font-size:14px;color:var(--mu);line-height:1.55;max-width:280px;margin:0 auto 22px;">Ton objet est en ligne. Tes voisins peuvent maintenant te le demander en prêt.</p>' +
+        '<button type="button" class="ao-submit" style="max-width:240px;margin:0 auto;display:block;" onclick="setTab(\'home\')">Retour à l\u2019accueil</button>' +
+        '</div>';
+    }
+
+    /* ---------- NOTIFICATIONS ---------- */
+    function setNotifTab(btn, cat) {
+      document.querySelectorAll('.nt-tab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      const items = document.querySelectorAll('#nt-list .nt-item');
+      let visibleCount = 0;
+      items.forEach(it => {
+        const show = (cat === 'all') || (it.getAttribute('data-cat') === cat);
+        it.style.display = show ? '' : 'none';
+        if (show) visibleCount++;
+      });
+      const empty = document.getElementById('nt-empty');
+      if (empty) empty.style.display = (visibleCount === 0) ? 'block' : 'none';
+    }
+
+    function clearNotifs() {
+      document.querySelectorAll('#nt-list .nt-item').forEach(it => {
+        it.classList.remove('unread');
+        const dot = it.querySelector('.nt-dot');
+        if (dot) dot.remove();
+      });
+      // Cacher le point rouge sur la cloche
+      const dot = document.querySelector('.ibtn-dot');
+      if (dot) dot.classList.add('hidden');
+    }
+
+    /* ---------- LEGAL OVERLAY ---------- */
     function showLegal(type) {
       const contents = {
         mentions: `<h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Mentions légales</h3>
@@ -3791,7 +5261,7 @@
         confidentialite: `<h3 style="font-family:'DM Serif Display',serif;font-size:22px;color:#111410;margin-bottom:20px;">Politique de confidentialité</h3>
 <p style="font-size:12px;color:#6B7068;margin-bottom:20px;">Dernière mise à jour : avril 2026</p>
 <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Qui sommes-nous ?</h4>
-<p style="font-size:13px;color:#6B7068;line-height:1.6;">Shapio est une plateforme de prêt d'objets entre particuliers. </p>
+<p style="font-size:13px;color:#6B7068;line-height:1.6;">Shapio est une plateforme de prêt d'objets entre particuliers.</p>
 <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">Contact : <a href="mailto:contact@shapio.fr" style="color:#1D9E75;">contact@shapio.fr</a></p>
 <h4 style="font-size:14px;font-weight:600;color:#111410;margin-bottom:6px;">Données collectées</h4>
 <p style="font-size:13px;color:#6B7068;line-height:1.6;margin-bottom:16px;">Lors de l'inscription : prénom, nom, email, ville. Ces informations sont collectées avec votre consentement explicite.</p>
@@ -3821,16 +5291,53 @@
 <p style="font-size:13px;color:#0F6E56;line-height:1.7;">Profils vérifiés • Système d'avis • Transparence totale • Options de sécurité facultatives</p>
 </div>`
       };
+
       const overlay = document.createElement('div');
+      overlay.setAttribute('role', 'dialog');
+      overlay.setAttribute('aria-modal', 'true');
       overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
-      overlay.innerHTML = `<div style="background:white;border-radius:20px;padding:28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;position:relative;font-family:'DM Sans',sans-serif;">
-<button onclick="this.closest('div').parentElement.remove()" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>
-${contents[type]}
-<button onclick="this.closest('div').parentElement.remove()" style="margin-top:20px;padding:10px 24px;border-radius:100px;background:#085041;color:white;border:none;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Fermer</button>
-</div>`;
+
+      const card = document.createElement('div');
+      card.style.cssText = 'background:white;border-radius:20px;padding:28px;max-width:500px;width:100%;max-height:85vh;overflow-y:auto;position:relative;font-family:\'DM Sans\',sans-serif;';
+      card.innerHTML = '<button type="button" aria-label="Fermer" style="position:absolute;top:14px;right:14px;background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button>' +
+        contents[type] +
+        '<button type="button" style="margin-top:20px;padding:10px 24px;border-radius:100px;background:#085041;color:white;border:none;font-size:13px;cursor:pointer;font-family:\'DM Sans\',sans-serif;">Fermer</button>';
+
+      const closeOverlay = () => overlay.remove();
+      card.querySelectorAll('button').forEach(b => b.addEventListener('click', closeOverlay));
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) closeOverlay();
+      });
+      document.addEventListener('keydown', function escListener(e) {
+        if (e.key === 'Escape') {
+          closeOverlay();
+          document.removeEventListener('keydown', escListener);
+        }
+      });
+
+      overlay.appendChild(card);
       document.body.appendChild(overlay);
+
+      // Focus management : on met le focus sur le bouton fermer
+      const closeBtn = card.querySelector('button');
+      if (closeBtn) closeBtn.focus();
     }
+
+    /* ---------- INIT au chargement ---------- */
+    document.addEventListener('DOMContentLoaded', () => {
+      // Fermer le menu mobile en cliquant en dehors
+      document.addEventListener('click', e => {
+        const links = document.getElementById('navLinks');
+        const toggle = document.getElementById('navToggle');
+        if (!links || !toggle) return;
+        if (!links.classList.contains('open')) return;
+        if (!links.contains(e.target) && !toggle.contains(e.target)) {
+          closeNav();
+        }
+      });
+    });
   </script>
 </body>
- 
+
 </html>
+
