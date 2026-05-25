@@ -12,6 +12,14 @@
     content="Shapio est la plateforme de prêt d'objets entre voisins à Lille. Sans argent, juste des points. Drone, perceuse, tente, jeux… 50 points offerts à l'inscription.">
   <meta name="keywords" content="prêt entre particuliers, location objets, économie circulaire, Lille, voisinage, partage, points, Shapio">
   <meta name="author" content="Shapio">
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://tohbrkqbfcllixwzbill.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_YSN59GSKGoR4nQ9BueixnA_TfG0ysIe';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  </script>
   <link rel="canonical" href="https://shapio.fr/">
 
   <!-- Open Graph -->
@@ -4829,40 +4837,96 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
-    function handleLogin() {
+    async function handleLogin() {
       clearError('login-error');
       const email = document.getElementById('login-email').value.trim();
       const pwd = document.getElementById('login-pwd').value;
-      // Démo : on n'a pas de backend, donc on accepte la connexion.
-      // Si l'utilisateur a saisi un email, on vérifie juste qu'il est valide.
-      if (email && !isValidEmail(email)) {
-        showError('login-error', 'Cet email ne semble pas valide.');
+
+      if (!email || !isValidEmail(email)) {
+        showError('login-error', 'Veuillez saisir un email valide.');
         return;
       }
-      go('p-app');
+      if (!pwd || pwd.length < 6) {
+        showError('login-error', 'Le mot de passe doit contenir au moins 6 caractères.');
+        return;
+      }
+
+      const btn = document.querySelector('#p-connexion .obtn');
+      btn.textContent = 'Connexion…';
+      btn.disabled = true;
+
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password: pwd });
+        if (error) throw error;
+
+        // Récupérer le profil utilisateur
+        const { data: profile } = await supabase
+          .from('users')
+          .select('*')
+          .eq('auth_id', data.user.id)
+          .single();
+
+        if (profile) {
+          // Mettre à jour l'affichage avec les vraies données
+          const prenom = profile.prenom || '';
+          document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + prenom + ' ! 👋';
+          document.querySelector('#ppill-points').textContent = (profile.points || 50) + ' pts';
+          document.querySelector('.wcn').textContent = profile.points || 50;
+        }
+
+        go('p-app');
+      } catch (err) {
+        showError('login-error', err.message === 'Invalid login credentials'
+          ? 'Email ou mot de passe incorrect.'
+          : 'Erreur de connexion. Réessaie.');
+        btn.textContent = 'Se connecter →';
+        btn.disabled = false;
+      }
     }
 
     function handleSignup1() {
       clearError('s1-error');
+      const prenom = document.getElementById('su-prenom').value.trim();
+      const nom = document.getElementById('su-nom').value.trim();
       const email = document.getElementById('su-email').value.trim();
-      // Démo : on n'a pas de backend, donc on laisse passer même si les champs sont vides.
-      // Mais si un email est saisi, on vérifie son format.
-      if (email && !isValidEmail(email)) {
-        showError('s1-error', 'Cet email ne semble pas valide.');
+      const ville = document.getElementById('su-ville').value.trim();
+
+      if (!prenom || prenom.length < 2) {
+        showError('s1-error', 'Prénom requis (minimum 2 caractères).');
         return;
       }
+      if (!nom || nom.length < 2) {
+        showError('s1-error', 'Nom requis (minimum 2 caractères).');
+        return;
+      }
+      if (!email || !isValidEmail(email)) {
+        showError('s1-error', 'Veuillez saisir un email valide.');
+        return;
+      }
+      if (!ville || ville.length < 2) {
+        showError('s1-error', 'Ville requise.');
+        return;
+      }
+
+      // Stocker temporairement pour l'étape suivante
+      sessionStorage.setItem('signup_prenom', prenom);
+      sessionStorage.setItem('signup_nom', nom);
+      sessionStorage.setItem('signup_email', email);
+      sessionStorage.setItem('signup_ville', ville);
+
       go('p-s2');
     }
 
     function handleSignup2() {
       clearError('s2-error');
       const tel = document.getElementById('su-tel').value.replace(/\s/g, '');
-      // Démo : on accepte de passer sans saisir de numéro.
-      // Si un numéro est saisi, on vérifie son format.
-      if (tel && !/^[0-9]{9,10}$/.test(tel)) {
-        showError('s2-error', 'Ce numéro ne semble pas valide (9 chiffres après le +33).');
+
+      if (!tel || !/^[0-9]{9,10}$/.test(tel)) {
+        showError('s2-error', 'Numéro requis (9 chiffres après le +33).');
         return;
       }
+
+      sessionStorage.setItem('signup_tel', '+33' + (tel.startsWith('0') ? tel.slice(1) : tel));
       go('p-s3');
     }
 
@@ -4891,10 +4955,79 @@
       }
     }
 
-    function handleOtp() {
+    async function handleOtp() {
       clearError('s3-error');
-      // Démo : on accepte n'importe quel code (même vide) pour faciliter la navigation.
-      go('p-s4');
+      const code = ['otp-1','otp-2','otp-3','otp-4']
+        .map(id => document.getElementById(id).value)
+        .join('');
+
+      if (code.length < 4) {
+        showError('s3-error', 'Entre les 4 chiffres du code reçu.');
+        return;
+      }
+
+      const btn = document.querySelector('#p-s3 .obtn');
+      btn.textContent = 'Vérification…';
+      btn.disabled = true;
+
+      try {
+        const prenom = sessionStorage.getItem('signup_prenom') || '';
+        const nom = sessionStorage.getItem('signup_nom') || '';
+        const email = sessionStorage.getItem('signup_email') || '';
+        const ville = sessionStorage.getItem('signup_ville') || '';
+        const tel = sessionStorage.getItem('signup_tel') || '';
+
+        // Créer le compte Supabase Auth avec email + code comme mot de passe temporaire
+        const password = 'Shapio_' + code + '_' + Date.now();
+        sessionStorage.setItem('signup_pwd', password);
+
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { prenom, nom }
+          }
+        });
+
+        if (authError) throw authError;
+
+        // Créer le profil dans la table users
+        const pseudo = (prenom.toLowerCase() + '_' + nom.toLowerCase())
+          .replace(/[^a-z0-9_]/g, '')
+          .slice(0, 20) + '_' + Math.floor(Math.random() * 1000);
+
+        const { error: profileError } = await supabase.from('users').insert({
+          auth_id: authData.user.id,
+          prenom,
+          nom,
+          pseudo,
+          email,
+          telephone: tel,
+          ville,
+          points: 50,
+          verifie_telephone: true,
+          statut_verification: 'non_demande'
+        });
+
+        if (profileError && profileError.code !== '23505') throw profileError;
+
+        // Mettre à jour l'affichage
+        document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + prenom + ' ! 👋';
+
+        // Nettoyer le sessionStorage
+        ['signup_prenom','signup_nom','signup_email','signup_ville','signup_tel']
+          .forEach(k => sessionStorage.removeItem(k));
+
+        go('p-s4');
+      } catch (err) {
+        let msg = 'Une erreur est survenue. Réessaie.';
+        if (err.message && err.message.includes('already registered')) {
+          msg = 'Cet email est déjà utilisé. Connecte-toi !';
+        }
+        showError('s3-error', msg);
+        btn.textContent = 'Valider →';
+        btn.disabled = false;
+      }
     }
 
     function resendCode(btn) {
@@ -4907,8 +5040,9 @@
       }, 3000);
     }
 
-    function handleLogout() {
+    async function handleLogout() {
       if (confirm('Te déconnecter de Shapio ?')) {
+        await supabase.auth.signOut();
         go('p-landing');
       }
     }
@@ -5323,8 +5457,28 @@
       if (closeBtn) closeBtn.focus();
     }
 
-    /* ---------- INIT au chargement ---------- */
-    document.addEventListener('DOMContentLoaded', () => {
+
+    /* ---------- AUTO-CONNEXION au chargement ---------- */
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Vérifier si l'utilisateur est déjà connecté
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        // Récupérer le profil
+        const { data: profile } = await supabase
+          .from('users')
+          .select('*')
+          .eq('auth_id', session.user.id)
+          .single();
+
+        if (profile) {
+          document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
+          document.querySelector('#ppill-points').textContent = (profile.points || 50) + ' pts';
+          document.querySelector('.wcn').textContent = profile.points || 50;
+        }
+        // Optionnel : rediriger vers l'app si déjà connecté
+        // go('p-app');
+      }
+
       // Fermer le menu mobile en cliquant en dehors
       document.addEventListener('click', e => {
         const links = document.getElementById('navLinks');
@@ -5336,6 +5490,7 @@
         }
       });
     });
+
   </script>
 </body>
 
