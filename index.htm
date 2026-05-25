@@ -3754,7 +3754,56 @@
           <div class="form-error" id="login-error" role="alert" aria-live="polite"></div>
           <button class="obtn" type="submit">Se connecter →</button>
         </form>
+        <p class="onote" style="margin-bottom:6px;">
+          <button type="button" class="link-btn" onclick="go('p-reset')">Mot de passe oublié ?</button>
+        </p>
         <p class="onote">Pas encore de compte ? <button type="button" class="link-btn" onclick="go('p-s1')">Créer un compte</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESET PASSWORD -->
+  <div class="page" id="p-reset">
+    <div class="onboard">
+      <div class="ocard">
+        <div class="ologo">Sha<span>p</span>io</div>
+        <button class="oback" type="button" onclick="go('p-connexion')">← Retour</button>
+        <h2>Mot de passe oublié</h2>
+        <p class="osub">Entre ton adresse email, on t'envoie un lien pour réinitialiser ton mot de passe.</p>
+        <form onsubmit="event.preventDefault();handleResetRequest();" novalidate>
+          <div class="fl">
+            <label for="reset-email">Email</label>
+            <input type="email" id="reset-email" name="email" placeholder="votre@email.com" autocomplete="email" required />
+          </div>
+          <div class="form-error" id="reset-error" role="alert" aria-live="polite"></div>
+          <div id="reset-success" style="display:none;background:#E1F5EE;border-radius:10px;padding:12px 14px;margin:8px 0;font-size:13px;color:#085041;line-height:1.5;">
+            ✅ Email envoyé ! Vérifie ta boîte mail (et tes spams).
+          </div>
+          <button class="obtn" type="submit" id="reset-btn">Envoyer le lien →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOUVEAU MOT DE PASSE -->
+  <div class="page" id="p-newpwd">
+    <div class="onboard">
+      <div class="ocard">
+        <div class="ologo">Sha<span>p</span>io</div>
+        <h2>Nouveau mot de passe</h2>
+        <p class="osub">Choisis ton nouveau mot de passe.</p>
+        <form onsubmit="event.preventDefault();handleNewPassword();" novalidate>
+          <div class="fl">
+            <label for="newpwd">Nouveau mot de passe</label>
+            <input type="password" id="newpwd" name="password" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div class="fl">
+            <label for="newpwd2">Confirmer</label>
+            <input type="password" id="newpwd2" name="password2" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div class="form-error" id="newpwd-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Enregistrer →</button>
+        </form>
       </div>
     </div>
   </div>
@@ -3806,28 +3855,28 @@
       <div class="ocard">
         <button class="oback" type="button" onclick="go('p-s1')">← Retour</button>
         <div class="ologo">Sha<span>p</span>io</div>
-        <div class="ostep">Étape 2 sur 3 · Téléphone</div>
+        <div class="ostep">Étape 2 sur 3 · Mot de passe</div>
         <div class="prog" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="3" aria-label="Étape 2 sur 3">
           <div class="pseg done"></div>
           <div class="pseg act"></div>
           <div class="pseg"></div>
         </div>
-        <h2>Ton numéro</h2>
-        <p class="osub">Un code SMS sera envoyé pour confirmer ton compte.</p>
+        <h2>Choisis ton mot de passe</h2>
+        <p class="osub">Minimum 8 caractères. Tu en auras besoin pour te connecter.</p>
         <form onsubmit="event.preventDefault();handleSignup2();" novalidate>
           <div class="fl">
-            <label for="su-tel">Numéro</label>
-            <div class="prow">
-              <div class="ppre" aria-hidden="true">🇫🇷 +33</div>
-              <input type="tel" id="su-tel" name="phone" placeholder="6 12 34 56 78" autocomplete="tel-national" required pattern="[0-9 ]{9,14}"
-                style="flex:1;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;" />
-            </div>
+            <label for="su-pwd">Mot de passe</label>
+            <input type="password" id="su-pwd" name="password" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
           </div>
-          <div
-            style="background:#f7f7f4;border-radius:10px;padding:11px 13px;margin:12px 0;font-size:12px;color:var(--mu);line-height:1.5;">
-            Ton numéro ne sera jamais affiché publiquement.</div>
+          <div class="fl">
+            <label for="su-pwd2">Confirmer le mot de passe</label>
+            <input type="password" id="su-pwd2" name="password2" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div style="background:#f7f7f4;border-radius:10px;padding:11px 13px;margin:12px 0;font-size:12px;color:var(--mu);line-height:1.5;">
+            🔒 Ton mot de passe est chiffré et sécurisé.
+          </div>
           <div class="form-error" id="s2-error" role="alert" aria-live="polite"></div>
-          <button class="obtn" type="submit">Recevoir le code SMS →</button>
+          <button class="obtn" type="submit">Continuer →</button>
         </form>
       </div>
     </div>
@@ -3837,27 +3886,24 @@
   <div class="page" id="p-s3">
     <div class="onboard">
       <div class="ocard">
-        <button class="oback" type="button" onclick="go('p-s2')">← Retour</button>
         <div class="ologo">Sha<span>p</span>io</div>
-        <div class="ostep">Étape 3 sur 3 · Vérification</div>
+        <div class="ostep">Étape 3 sur 3 · Confirmation</div>
         <div class="prog" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="3" aria-label="Étape 3 sur 3">
           <div class="pseg done"></div>
           <div class="pseg done"></div>
           <div class="pseg act"></div>
         </div>
-        <h2>Code de confirmation</h2>
-        <p class="osub">Entre le code à 4 chiffres envoyé au 06 •• •• •• 78</p>
-        <form onsubmit="event.preventDefault();handleOtp();" novalidate>
-          <div class="otp-row" onclick="document.getElementById('otp-1').focus()">
-            <input type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" class="otp-input" id="otp-1" aria-label="Chiffre 1" oninput="otpAdvance(this,2)" />
-            <input type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" class="otp-input" id="otp-2" aria-label="Chiffre 2" oninput="otpAdvance(this,3)" onkeydown="otpBack(event,1)" />
-            <input type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" class="otp-input" id="otp-3" aria-label="Chiffre 3" oninput="otpAdvance(this,4)" onkeydown="otpBack(event,2)" />
-            <input type="text" inputmode="numeric" pattern="[0-9]" maxlength="1" class="otp-input" id="otp-4" aria-label="Chiffre 4" oninput="otpAdvance(this,null)" onkeydown="otpBack(event,3)" />
+        <div style="text-align:center;padding:20px 0;">
+          <div style="font-size:48px;margin-bottom:16px;">📧</div>
+          <h2 style="margin-bottom:10px;">Vérifie ton email !</h2>
+          <p class="osub" id="s3-email-display">Un lien de confirmation a été envoyé à ton adresse email. Clique dessus pour activer ton compte.</p>
+          <div style="background:#f7f7f4;border-radius:10px;padding:14px;margin:16px 0;font-size:12px;color:var(--mu);line-height:1.6;">
+            💡 Vérifie aussi tes <strong>spams</strong> si tu ne reçois rien dans 2 minutes.
           </div>
-          <div class="resend">Pas reçu le code ? <button type="button" class="link-btn" onclick="resendCode(this)">Renvoyer</button></div>
           <div class="form-error" id="s3-error" role="alert" aria-live="polite"></div>
-          <button class="obtn" type="submit">Valider →</button>
-        </form>
+          <button class="obtn" type="button" onclick="go('p-s4')" style="margin-bottom:10px;">J'ai confirmé mon email →</button>
+          <div class="resend">Pas reçu l'email ? <button type="button" class="link-btn" onclick="resendEmail(this)">Renvoyer</button></div>
+        </div>
       </div>
     </div>
   </div>
@@ -4841,46 +4887,23 @@
       clearError('login-error');
       const email = document.getElementById('login-email').value.trim();
       const pwd = document.getElementById('login-pwd').value;
-
-      if (!email || !isValidEmail(email)) {
-        showError('login-error', 'Veuillez saisir un email valide.');
-        return;
-      }
-      if (!pwd || pwd.length < 6) {
-        showError('login-error', 'Le mot de passe doit contenir au moins 6 caractères.');
-        return;
-      }
-
+      if (!email || !isValidEmail(email)) { showError('login-error', 'Email invalide.'); return; }
+      if (!pwd || pwd.length < 6) { showError('login-error', 'Mot de passe requis.'); return; }
       const btn = document.querySelector('#p-connexion .obtn');
-      btn.textContent = 'Connexion…';
-      btn.disabled = true;
-
+      btn.textContent = 'Connexion…'; btn.disabled = true;
       try {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password: pwd });
         if (error) throw error;
-
-        // Récupérer le profil utilisateur
-        const { data: profile } = await supabase
-          .from('users')
-          .select('*')
-          .eq('auth_id', data.user.id)
-          .single();
-
+        const { data: profile } = await supabase.from('users').select('*').eq('auth_id', data.user.id).single();
         if (profile) {
-          // Mettre à jour l'affichage avec les vraies données
-          const prenom = profile.prenom || '';
-          document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + prenom + ' ! 👋';
+          document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
           document.querySelector('#ppill-points').textContent = (profile.points || 50) + ' pts';
           document.querySelector('.wcn').textContent = profile.points || 50;
         }
-
         go('p-app');
       } catch (err) {
-        showError('login-error', err.message === 'Invalid login credentials'
-          ? 'Email ou mot de passe incorrect.'
-          : 'Erreur de connexion. Réessaie.');
-        btn.textContent = 'Se connecter →';
-        btn.disabled = false;
+        showError('login-error', err.message.includes('Invalid') ? 'Email ou mot de passe incorrect.' : 'Erreur de connexion.');
+        btn.textContent = 'Se connecter →'; btn.disabled = false;
       }
     }
 
@@ -4890,44 +4913,63 @@
       const nom = document.getElementById('su-nom').value.trim();
       const email = document.getElementById('su-email').value.trim();
       const ville = document.getElementById('su-ville').value.trim();
-
-      if (!prenom || prenom.length < 2) {
-        showError('s1-error', 'Prénom requis (minimum 2 caractères).');
-        return;
-      }
-      if (!nom || nom.length < 2) {
-        showError('s1-error', 'Nom requis (minimum 2 caractères).');
-        return;
-      }
-      if (!email || !isValidEmail(email)) {
-        showError('s1-error', 'Veuillez saisir un email valide.');
-        return;
-      }
-      if (!ville || ville.length < 2) {
-        showError('s1-error', 'Ville requise.');
-        return;
-      }
-
-      // Stocker temporairement pour l'étape suivante
+      if (!prenom || prenom.length < 2) { showError('s1-error', 'Prénom requis (min. 2 caractères).'); return; }
+      if (!nom || nom.length < 2) { showError('s1-error', 'Nom requis (min. 2 caractères).'); return; }
+      if (!email || !isValidEmail(email)) { showError('s1-error', 'Email invalide.'); return; }
+      if (!ville || ville.length < 2) { showError('s1-error', 'Ville requise.'); return; }
       sessionStorage.setItem('signup_prenom', prenom);
       sessionStorage.setItem('signup_nom', nom);
       sessionStorage.setItem('signup_email', email);
       sessionStorage.setItem('signup_ville', ville);
-
       go('p-s2');
     }
 
-    function handleSignup2() {
+    async function handleSignup2() {
       clearError('s2-error');
-      const tel = document.getElementById('su-tel').value.replace(/\s/g, '');
+      const pwd = document.getElementById('su-pwd').value;
+      const pwd2 = document.getElementById('su-pwd2').value;
+      if (!pwd || pwd.length < 8) { showError('s2-error', 'Minimum 8 caractères.'); return; }
+      if (pwd !== pwd2) { showError('s2-error', 'Les mots de passe ne correspondent pas.'); return; }
 
-      if (!tel || !/^[0-9]{9,10}$/.test(tel)) {
-        showError('s2-error', 'Numéro requis (9 chiffres après le +33).');
-        return;
+      const btn = document.querySelector('#p-s2 .obtn');
+      btn.textContent = 'Création…'; btn.disabled = true;
+
+      const prenom = sessionStorage.getItem('signup_prenom') || '';
+      const nom = sessionStorage.getItem('signup_nom') || '';
+      const email = sessionStorage.getItem('signup_email') || '';
+      const ville = sessionStorage.getItem('signup_ville') || '';
+
+      try {
+        const { data: authData, error: authError } = await supabase.auth.signUp({
+          email,
+          password: pwd,
+          options: { data: { prenom, nom } }
+        });
+        if (authError) throw authError;
+
+        // Créer le profil dans users
+        const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
+        await supabase.from('users').insert({
+          auth_id: authData.user.id,
+          prenom, nom, pseudo, email, ville,
+          points: 50,
+          verifie_telephone: false,
+          statut_verification: 'non_demande'
+        });
+
+        // Afficher l'email dans l'étape 3
+        const display = document.getElementById('s3-email-display');
+        if (display) display.textContent = 'Un lien de confirmation a été envoyé à ' + email + '. Clique dessus pour activer ton compte.';
+
+        sessionStorage.setItem('signup_email_sent', email);
+        go('p-s3');
+      } catch (err) {
+        let msg = 'Une erreur est survenue.';
+        if (err.message && err.message.includes('already registered')) msg = 'Cet email est déjà utilisé. Connecte-toi !';
+        if (err.message && err.message.includes('Password')) msg = 'Mot de passe trop faible. Utilise au moins 8 caractères.';
+        showError('s2-error', msg);
+        btn.textContent = 'Continuer →'; btn.disabled = false;
       }
-
-      sessionStorage.setItem('signup_tel', '+33' + (tel.startsWith('0') ? tel.slice(1) : tel));
-      go('p-s3');
     }
 
     function otpAdvance(input, nextIndex) {
@@ -4955,79 +4997,13 @@
       }
     }
 
-    async function handleOtp() {
-      clearError('s3-error');
-      const code = ['otp-1','otp-2','otp-3','otp-4']
-        .map(id => document.getElementById(id).value)
-        .join('');
-
-      if (code.length < 4) {
-        showError('s3-error', 'Entre les 4 chiffres du code reçu.');
-        return;
-      }
-
-      const btn = document.querySelector('#p-s3 .obtn');
-      btn.textContent = 'Vérification…';
+    async function resendEmail(btn) {
+      const email = sessionStorage.getItem('signup_email_sent') || sessionStorage.getItem('signup_email');
+      if (!email) return;
       btn.disabled = true;
-
-      try {
-        const prenom = sessionStorage.getItem('signup_prenom') || '';
-        const nom = sessionStorage.getItem('signup_nom') || '';
-        const email = sessionStorage.getItem('signup_email') || '';
-        const ville = sessionStorage.getItem('signup_ville') || '';
-        const tel = sessionStorage.getItem('signup_tel') || '';
-
-        // Créer le compte Supabase Auth avec email + code comme mot de passe temporaire
-        const password = 'Shapio_' + code + '_' + Date.now();
-        sessionStorage.setItem('signup_pwd', password);
-
-        const { data: authData, error: authError } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: { prenom, nom }
-          }
-        });
-
-        if (authError) throw authError;
-
-        // Créer le profil dans la table users
-        const pseudo = (prenom.toLowerCase() + '_' + nom.toLowerCase())
-          .replace(/[^a-z0-9_]/g, '')
-          .slice(0, 20) + '_' + Math.floor(Math.random() * 1000);
-
-        const { error: profileError } = await supabase.from('users').insert({
-          auth_id: authData.user.id,
-          prenom,
-          nom,
-          pseudo,
-          email,
-          telephone: tel,
-          ville,
-          points: 50,
-          verifie_telephone: true,
-          statut_verification: 'non_demande'
-        });
-
-        if (profileError && profileError.code !== '23505') throw profileError;
-
-        // Mettre à jour l'affichage
-        document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + prenom + ' ! 👋';
-
-        // Nettoyer le sessionStorage
-        ['signup_prenom','signup_nom','signup_email','signup_ville','signup_tel']
-          .forEach(k => sessionStorage.removeItem(k));
-
-        go('p-s4');
-      } catch (err) {
-        let msg = 'Une erreur est survenue. Réessaie.';
-        if (err.message && err.message.includes('already registered')) {
-          msg = 'Cet email est déjà utilisé. Connecte-toi !';
-        }
-        showError('s3-error', msg);
-        btn.textContent = 'Valider →';
-        btn.disabled = false;
-      }
+      btn.textContent = 'Envoyé !';
+      await supabase.auth.resend({ type: 'signup', email });
+      setTimeout(() => { btn.textContent = 'Renvoyer'; btn.disabled = false; }, 5000);
     }
 
     function resendCode(btn) {
@@ -5038,6 +5014,53 @@
         btn.textContent = original;
         btn.disabled = false;
       }, 3000);
+    }
+
+    async function handleResetRequest() {
+      clearError('reset-error');
+      const email = document.getElementById('reset-email').value.trim();
+      if (!email || !isValidEmail(email)) {
+        showError('reset-error', 'Saisis un email valide.');
+        return;
+      }
+      const btn = document.getElementById('reset-btn');
+      btn.textContent = 'Envoi…'; btn.disabled = true;
+      try {
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: 'https://shapio.fr'
+        });
+        if (error) throw error;
+        document.getElementById('reset-success').style.display = 'block';
+        btn.style.display = 'none';
+      } catch (err) {
+        showError('reset-error', 'Une erreur est survenue. Réessaie.');
+        btn.textContent = 'Envoyer le lien →'; btn.disabled = false;
+      }
+    }
+
+    async function handleNewPassword() {
+      clearError('newpwd-error');
+      const pwd = document.getElementById('newpwd').value;
+      const pwd2 = document.getElementById('newpwd2').value;
+      if (!pwd || pwd.length < 8) {
+        showError('newpwd-error', 'Minimum 8 caractères.');
+        return;
+      }
+      if (pwd !== pwd2) {
+        showError('newpwd-error', 'Les mots de passe ne correspondent pas.');
+        return;
+      }
+      const btn = document.querySelector('#p-newpwd .obtn');
+      btn.textContent = 'Enregistrement…'; btn.disabled = true;
+      try {
+        const { error } = await supabase.auth.updateUser({ password: pwd });
+        if (error) throw error;
+        alert('✅ Mot de passe mis à jour ! Tu peux maintenant te connecter.');
+        go('p-connexion');
+      } catch (err) {
+        showError('newpwd-error', 'Erreur. Le lien a peut-être expiré, refais une demande.');
+        btn.textContent = 'Enregistrer →'; btn.disabled = false;
+      }
     }
 
     async function handleLogout() {
@@ -5457,40 +5480,42 @@
       if (closeBtn) closeBtn.focus();
     }
 
-
-    /* ---------- AUTO-CONNEXION au chargement ---------- */
+    /* ---------- INIT au chargement ---------- */
     document.addEventListener('DOMContentLoaded', async () => {
-      // Vérifier si l'utilisateur est déjà connecté
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session && session.user) {
-        // Récupérer le profil
-        const { data: profile } = await supabase
-          .from('users')
-          .select('*')
-          .eq('auth_id', session.user.id)
-          .single();
-
-        if (profile) {
-          document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
-          document.querySelector('#ppill-points').textContent = (profile.points || 50) + ' pts';
-          document.querySelector('.wcn').textContent = profile.points || 50;
-        }
-        // Optionnel : rediriger vers l'app si déjà connecté
-        // go('p-app');
+      // Détecter si l'utilisateur arrive depuis un lien de reset password
+      const hash = window.location.hash;
+      if (hash && hash.includes('type=recovery')) {
+        go('p-newpwd');
+        return;
+      }
+      // Détecter si l'utilisateur arrive depuis un lien de confirmation email
+      if (hash && hash.includes('type=signup')) {
+        go('p-s4');
+        return;
       }
 
-      // Fermer le menu mobile en cliquant en dehors
+      // Vérifier si déjà connecté
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        const { data: profile } = await supabase.from('users').select('*').eq('auth_id', session.user.id).single();
+        if (profile) {
+          const wbttl = document.querySelector('#wb .wbttl');
+          const ppill = document.getElementById('ppill-points');
+          const wcn = document.querySelector('.wcn');
+          if (wbttl) wbttl.textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
+          if (ppill) ppill.textContent = (profile.points || 50) + ' pts';
+          if (wcn) wcn.textContent = profile.points || 50;
+        }
+      }
+      // Fermer menu mobile en cliquant dehors
       document.addEventListener('click', e => {
         const links = document.getElementById('navLinks');
         const toggle = document.getElementById('navToggle');
         if (!links || !toggle) return;
         if (!links.classList.contains('open')) return;
-        if (!links.contains(e.target) && !toggle.contains(e.target)) {
-          closeNav();
-        }
+        if (!links.contains(e.target) && !toggle.contains(e.target)) closeNav();
       });
     });
-
   </script>
 </body>
 
