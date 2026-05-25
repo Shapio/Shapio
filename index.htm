@@ -4967,7 +4967,7 @@
         let msg = 'Une erreur est survenue.';
         if (err.message && err.message.includes('already registered')) msg = 'Cet email est déjà utilisé. Connecte-toi !';
         if (err.message && err.message.includes('Password')) msg = 'Mot de passe trop faible. Utilise au moins 8 caractères.';
-        showError('s2-error', msg);
+        showError('s2-error', msg + ' (détail: ' + err.message + ')');
         btn.textContent = 'Continuer →'; btn.disabled = false;
       }
     }
