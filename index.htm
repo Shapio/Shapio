@@ -14,16 +14,22 @@
   <meta name="author" content="Shapio">
 
   <!-- Supabase SDK -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.js" onload="initSupabase()"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
   <script>
-    var supabase;
+    var sb = null;
     function initSupabase() {
-      supabase = window.supabase.createClient(
-        'https://tohbrkqbfcllixwzbill.supabase.co',
-        'sb_publishable_YSN59GSKGoR4nQ9BueixnA_TfG0ysIe'
-      );
-      console.log('✓ Supabase initialisé');
+      if (window.supabase && window.supabase.createClient) {
+        sb = window.supabase.createClient(
+          'https://tohbrkqbfcllixwzbill.supabase.co',
+          'sb_publishable_YSN59GSKGoR4nQ9BueixnA_TfG0ysIe'
+        );
+        console.log('✓ Supabase OK');
+        return true;
+      }
+      return false;
     }
+    // Init immédiat (synchrone car script avant)
+    initSupabase();
   </script>
   <link rel="canonical" href="https://shapio.fr/">
 
@@ -4897,9 +4903,9 @@
       const btn = document.querySelector('#p-connexion .obtn');
       btn.textContent = 'Connexion…'; btn.disabled = true;
       try {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password: pwd });
+        const { data, error } = await sb.auth.signInWithPassword({ email, password: pwd });
         if (error) throw error;
-        const { data: profile } = await supabase.from('users').select('*').eq('auth_id', data.user.id).single();
+        const { data: profile } = await sb.from('users').select('*').eq('auth_id', data.user.id).single();
         if (profile) {
           document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
           document.querySelector('#ppill-points').textContent = (profile.points || 50) + ' pts';
@@ -4945,7 +4951,7 @@
       const ville = sessionStorage.getItem('signup_ville') || '';
 
       try {
-        const { data: authData, error: authError } = await supabase.auth.signUp({
+        const { data: authData, error: authError } = await sb.auth.signUp({
           email,
           password: pwd,
           options: { data: { prenom, nom } }
@@ -4954,7 +4960,7 @@
 
         // Créer le profil dans users
         const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
-        await supabase.from('users').insert({
+        await sb.from('users').insert({
           auth_id: authData.user.id,
           prenom, nom, pseudo, email, ville,
           points: 50,
@@ -5007,7 +5013,7 @@
       if (!email) return;
       btn.disabled = true;
       btn.textContent = 'Envoyé !';
-      await supabase.auth.resend({ type: 'signup', email });
+      await sb.auth.resend({ type: 'signup', email });
       setTimeout(() => { btn.textContent = 'Renvoyer'; btn.disabled = false; }, 5000);
     }
 
@@ -5031,7 +5037,7 @@
       const btn = document.getElementById('reset-btn');
       btn.textContent = 'Envoi…'; btn.disabled = true;
       try {
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        const { error } = await sb.auth.resetPasswordForEmail(email, {
           redirectTo: 'https://shapio.fr'
         });
         if (error) throw error;
@@ -5058,7 +5064,7 @@
       const btn = document.querySelector('#p-newpwd .obtn');
       btn.textContent = 'Enregistrement…'; btn.disabled = true;
       try {
-        const { error } = await supabase.auth.updateUser({ password: pwd });
+        const { error } = await sb.auth.updateUser({ password: pwd });
         if (error) throw error;
         alert('✅ Mot de passe mis à jour ! Tu peux maintenant te connecter.');
         go('p-connexion');
@@ -5070,7 +5076,7 @@
 
     async function handleLogout() {
       if (confirm('Te déconnecter de Shapio ?')) {
-        await supabase.auth.signOut();
+        await sb.auth.signOut();
         go('p-landing');
       }
     }
@@ -5500,9 +5506,9 @@
       }
 
       // Vérifier si déjà connecté
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await sb.auth.getSession();
       if (session && session.user) {
-        const { data: profile } = await supabase.from('users').select('*').eq('auth_id', session.user.id).single();
+        const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
         if (profile) {
           const wbttl = document.querySelector('#wb .wbttl');
           const ppill = document.getElementById('ppill-points');
