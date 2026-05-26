@@ -3865,6 +3865,21 @@
             </select>
           </div>
           <div class="fl">
+            <label for="myobj-duree">Durée max du prêt (jours)</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <input type="number" id="myobj-duree" min="1" max="365" value="7"
+                style="width:90px;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:#f7f7f4;font-size:16px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;text-align:center;" />
+              <span style="font-size:14px;color:var(--mu);">jours max</span>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+              <button type="button" onclick="document.getElementById('myobj-duree').value=1" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">1j</button>
+              <button type="button" onclick="document.getElementById('myobj-duree').value=3" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">3j</button>
+              <button type="button" onclick="document.getElementById('myobj-duree').value=7" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">1 sem.</button>
+              <button type="button" onclick="document.getElementById('myobj-duree').value=14" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">2 sem.</button>
+              <button type="button" onclick="document.getElementById('myobj-duree').value=30" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">1 mois</button>
+            </div>
+          </div>
+          <div class="fl">
             <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
               <input type="checkbox" id="myobj-dispo" style="width:18px;height:18px;cursor:pointer;" />
               <span>Disponible au prêt</span>
@@ -4242,7 +4257,7 @@
             </div>
             <div class="fdc" style="grid-column:span 2;">
               <div class="fdcd">Durée max</div>
-              <div class="fdct">3 jours consécutifs</div>
+              <div class="fdct" id="fiche-duree-max">7 jours</div>
             </div>
           </div>
           <div class="fslbl">Avis récents</div>
@@ -4465,13 +4480,22 @@
               </select>
             </div>
             <div class="ao-fl">
-              <label for="ao-duree">Durée max</label>
-              <select id="ao-duree" name="duration" required>
-                <option value="1">1 jour</option>
-                <option value="3" selected>3 jours</option>
-                <option value="7">1 semaine</option>
-                <option value="14">2 semaines</option>
-              </select>
+              <label for="ao-duree">Durée max du prêt</label>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <input type="number" id="ao-duree" name="duration" min="1" max="365" value="7"
+                  style="width:90px;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:16px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;text-align:center;"
+                  inputmode="numeric" required />
+                <span style="font-size:14px;color:var(--mu);">jours maximum</span>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+                <button type="button" onclick="document.getElementById('ao-duree').value=1" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">1j</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=2" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">2j</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=3" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">3j</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=7" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">1 sem.</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=14" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">2 sem.</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=30" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">1 mois</button>
+              </div>
+              <div style="font-size:11px;color:var(--mu);margin-top:6px;">Tu peux saisir n'importe quelle durée entre 1 et 365 jours</div>
             </div>
           </div>
 
@@ -4996,6 +5020,7 @@
         document.getElementById('myobj-desc').value = o.description || '';
         document.getElementById('myobj-cat').value = o.categorie || 'Autre';
         document.getElementById('myobj-pts').value = o.pts_par_jour || 10;
+        document.getElementById('myobj-duree').value = o.duree_max || 7;
         document.getElementById('myobj-etat').value = o.etat || 'be';
         document.getElementById('myobj-dispo').checked = o.disponible !== false;
         document.getElementById('myobj-success').style.display = 'none';
@@ -5018,11 +5043,13 @@
       const desc = document.getElementById('myobj-desc').value.trim();
       const cat = document.getElementById('myobj-cat').value;
       const pts = parseInt(document.getElementById('myobj-pts').value) || 10;
+      const duree = parseInt(document.getElementById('myobj-duree').value) || 7;
       const etat = document.getElementById('myobj-etat').value;
       const dispo = document.getElementById('myobj-dispo').checked;
 
       if (!titre) { showError('myobj-error', 'Le titre est obligatoire.'); return; }
       if (pts < 1 || pts > 1000) { showError('myobj-error', 'Le prix doit être entre 1 et 1000 points.'); return; }
+      if (duree < 1 || duree > 365) { showError('myobj-error', 'La durée doit être entre 1 et 365 jours.'); return; }
 
       const btn = document.querySelector('#p-myobject .obtn');
       btn.textContent = 'Enregistrement…'; btn.disabled = true;
@@ -5030,7 +5057,7 @@
       try {
         const { error } = await sb.from('objects').update({
           titre, description: desc, categorie: cat,
-          pts_par_jour: pts, etat, disponible: dispo
+          pts_par_jour: pts, duree_max: duree, etat, disponible: dispo
         }).eq('id', id);
 
         if (error) throw error;
@@ -5655,6 +5682,12 @@
 
         const fichePts = document.querySelector('#p-fiche .fpts, #p-fiche .fbprice');
         if (fichePts) fichePts.textContent = o.pts_par_jour + ' pts/jour';
+
+        const ficheDuree = document.getElementById('fiche-duree-max');
+        if (ficheDuree) {
+          const d = o.duree_max || 7;
+          ficheDuree.textContent = d === 1 ? '1 jour' : d < 7 ? d + ' jours' : d === 7 ? '1 semaine' : d === 14 ? '2 semaines' : d === 30 ? '1 mois' : d + ' jours';
+        }
 
         const ficheOwner = document.querySelector('#p-fiche .foname');
         if (ficheOwner && o.users) ficheOwner.textContent = o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.';
