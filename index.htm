@@ -3819,6 +3819,60 @@
     </div>
   </div>
 
+  
+  <!-- EDIT PROFILE MODAL -->
+  <div class="page" id="p-editprofile">
+    <div class="onboard">
+      <div class="ocard">
+        <button class="oback" type="button" onclick="go('p-app')">← Retour</button>
+        <div class="ologo">Modifier mon profil</div>
+        <form onsubmit="event.preventDefault();saveProfile();" novalidate>
+          <div class="fl">
+            <label for="ep-prenom">Prénom</label>
+            <input type="text" id="ep-prenom" required />
+          </div>
+          <div class="fl">
+            <label for="ep-nom">Nom</label>
+            <input type="text" id="ep-nom" required />
+          </div>
+          <div class="fl">
+            <label for="ep-ville">Ville</label>
+            <input type="text" id="ep-ville" required />
+          </div>
+          <div class="fl">
+            <label for="ep-cp">Code postal</label>
+            <input type="text" id="ep-cp" />
+          </div>
+          <div class="form-error" id="ep-error"></div>
+          <div id="ep-success" style="display:none;background:#E1F5EE;border-radius:10px;padding:12px;color:#085041;font-size:13px;margin-bottom:10px;">✅ Profil mis à jour !</div>
+          <button class="obtn" type="submit">Enregistrer</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ID VERIFICATION MODAL -->
+  <div class="page" id="p-verif">
+    <div class="onboard">
+      <div class="ocard">
+        <button class="oback" type="button" onclick="go('p-app')">← Retour</button>
+        <div class="ologo">Vérification d'identité</div>
+        <p style="font-size:14px;color:var(--mu);line-height:1.6;margin-bottom:16px;">
+          Envoie-nous une photo de ta pièce d'identité + un selfie pour obtenir le badge ✓ Vérifié.
+        </p>
+        <div style="background:#f7f7f4;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;color:var(--mu);line-height:1.5;">
+          📧 Envoie tes documents par email à <strong>contact@shapio.fr</strong> avec l'objet "Vérification d'identité - [Ton nom]".<br><br>
+          📄 Documents acceptés : CNI, passeport, permis de conduire<br>
+          🤳 + un selfie avec ta pièce à côté de ton visage
+        </div>
+        <div id="verif-status" style="background:#FEF3C7;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:#92400E;display:none;">
+          ⏳ Demande en cours de traitement. Tu recevras un email sous 24-48h.
+        </div>
+        <button class="obtn" type="button" onclick="markVerifPending()" id="verif-btn">J'ai envoyé mes documents</button>
+      </div>
+    </div>
+  </div>
+
   <!-- SIGNUP 1 -->
   <div class="page" id="p-s1">
     <div class="onboard">
@@ -4002,7 +4056,7 @@
           <button type="button" class="wbdis" onclick="document.getElementById('wb').style.display='none'">Masquer</button>
         </div>
         <div class="srow">
-          <div class="sttl">📍 Près de toi · Lille</div>
+          <div class="sttl" id="home-near-title">📍 Près de toi · Lille</div>
           <button type="button" class="slnk" onclick="setTab('swipe');setSwipeMode('browse')">Voir tout</button>
         </div>
         <div class="nscroll" id="home-near">
@@ -4039,27 +4093,7 @@
         </div>
         <div id="swipe-mode">
           <div class="cstack" id="cstack">
-            <div class="scard back" id="cback" aria-hidden="true">
-              <div class="cphoto" style="background:#EEEDFE;"><span>🎮</span></div>
-              <div class="cbody">
-                <div class="ctitle">Manette PS5</div>
-              </div>
-            </div>
-            <div class="scard front" id="cfront">
-              <div class="cphoto" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
-                <div class="cbadge">15 pts</div>
-                <div class="cdist">2.3 km</div>
-              </div>
-              <div class="cbody">
-                <div class="ctitle">Drone DJI Mini 3</div>
-                <div class="cowner">
-                  <div class="cav" aria-hidden="true">ML</div><span>Marie L.</span><span class="cstars" aria-label="Note 4.9 sur 5">★★★★★</span><span
-                    style="font-size:11px;color:var(--mu);">4.9</span>
-                </div>
-                <div class="ctags"><span class="ctag">Tech</span><span class="ctag">Caméra 4K</span><span
-                    class="ctag">Débutant ok</span></div>
-              </div>
-            </div>
+            <div style="padding:60px 30px;text-align:center;color:var(--mu);font-size:14px;">Chargement…</div>
           </div>
           <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;"><span
               style="font-size:11px;color:var(--mu);">← Passer</span><span
@@ -4071,44 +4105,9 @@
           </div>
         </div>
         <div id="browse-mode" style="display:none;">
-          <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;">24 objets à moins de 5 km</div>
+          <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;">0 objet disponible</div>
           <div class="bgrid">
-            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="bimg" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
-                <div class="bpts">15 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Drone DJI Mini 3</div>
-                <div class="bowner">Marie L. ★ 4.9 · 2.3km</div>
-              </div>
-            </div>
-            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="bimg" style="background:#EEEDFE;"><span aria-hidden="true">🎮</span>
-                <div class="bpts">8 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Manette PS5</div>
-                <div class="bowner">Thomas R. ★ 4.7 · 0.8km</div>
-              </div>
-            </div>
-            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="bimg" style="background:#FAEEDA;"><span aria-hidden="true">🔧</span>
-                <div class="bpts">10 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Perceuse Bosch</div>
-                <div class="bowner">Karim B. ★ 5.0 · 1.1km</div>
-              </div>
-            </div>
-            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="bimg" style="background:#FAECE7;"><span aria-hidden="true">🏕</span>
-                <div class="bpts">20 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Tente 4 places</div>
-                <div class="bowner">Sophie M. ★ 4.8 · 3.2km</div>
-              </div>
-            </div>
+            <div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
           </div>
         </div>
         <div id="match-ov" role="dialog" aria-modal="true" aria-labelledby="match-title"
@@ -4161,10 +4160,10 @@
             pochette.</div>
           <div class="fdiv"></div>
           <div class="fslbl">Prêté par</div>
-          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil de Marie L.">
+          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil">
             <div class="foav" aria-hidden="true">ML</div>
             <div class="foinfo">
-              <div class="foname">Marie L. <div class="fobadge">✓ Vérifié</div>
+              <div class="foname">Membre <div class="fobadge">✓ Vérifié</div>
               </div>
               <div class="fosub">⭐ 4.9 · 23 prêts · Membre depuis 2024</div>
             </div>
@@ -4190,7 +4189,7 @@
             <div class="frev">
               <div class="frevh">
                 <div class="frevav" aria-hidden="true">TR</div>
-                <div class="frevn">Thomas R.</div>
+                <div class="frevn">Membre</div>
                 <div class="frevs2" aria-label="5 étoiles">★★★★★</div>
               </div>
               <div class="frevt">Drone en parfait état, Marie très sympa !</div>
@@ -4229,40 +4228,16 @@
         </div>
       </div>
 
-      <!-- MESSAGES -->
+            <!-- MESSAGES -->
       <div class="ascreen" id="as-msgs">
         <div class="msg-hdr">
           <h2>Messages</h2>
         </div>
-        <div class="match-row" role="list" aria-label="Matchs récents">
-          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
-            <div class="mchipav" aria-hidden="true">🚁</div><span>Marie</span>
-          </button>
-          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
-            <div class="mchipav" aria-hidden="true">🎮</div><span>Thomas</span>
-          </button>
-          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
-            <div class="mchipav" aria-hidden="true">🔧</div><span>Karim</span>
-          </button>
-        </div>
-        <div class="conv" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
-          <div class="convav" aria-hidden="true">🚁</div>
-          <div class="convinfo">
-            <div class="convname">Marie L.</div>
-            <div class="convprev">Super, disponible samedi matin pour le drone ?</div>
+        <div id="msgs-list">
+          <div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">
+            Aucune conversation pour l'instant.<br>
+            Tes échanges apparaîtront ici quand tu auras un prêt en cours.
           </div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span
-              class="convtime">14:23</span>
-            <div class="undot" aria-label="Non lu"></div>
-          </div>
-        </div>
-        <div class="conv" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
-          <div class="convav" aria-hidden="true">🎮</div>
-          <div class="convinfo">
-            <div class="convname">Thomas R.</div>
-            <div class="convprev">Ok pour samedi !</div>
-          </div>
-          <span class="convtime">11:05</span>
         </div>
       </div>
 
@@ -4272,7 +4247,7 @@
           <div class="chat-hdr">
             <button class="cback" type="button" aria-label="Retour aux messages" onclick="setTab('msgs')">←</button>
             <div class="chatav" aria-hidden="true">🚁</div>
-            <div class="chatname">Marie L.</div>
+            <div class="chatname">Conversation</div>
             <div class="chat-acts">
               <button type="button" class="chatact" aria-label="Appel vocal">🎙</button>
               <button type="button" class="chatact" aria-label="Localisation">📍</button>
@@ -4395,7 +4370,7 @@
         <div class="pcover"><button type="button" class="peditbtn" onclick="alert('Bientôt : édition du profil')">✏ Modifier le profil</button></div>
         <div class="pavwrap">
           <div class="pav" aria-hidden="true">KM</div>
-          <button type="button" class="pavedit" aria-label="Changer la photo de profil">+</button>
+          <button type="button" class="pavedit" onclick="openEditProfile()" aria-label="Changer la photo de profil">+</button>
         </div>
         <div class="phead">
           <div class="pnrow">
@@ -4476,10 +4451,10 @@
             <div class="paviscard">
               <div class="pavish">
                 <div class="pavisav" aria-hidden="true">TR</div>
-                <div class="pavisnm">Thomas R.</div>
+                <div class="pavisnm">Membre</div>
                 <div class="pavisst" aria-label="5 étoiles">★★★★★</div>
               </div>
-              <div class="pavist">Prêt rapide, objet parfait. Karim très sympa !</div>
+              <div class="pavist">En attente de tes premiers avis…</div>
             </div>
             <div class="paviscard">
               <div class="pavish">
@@ -4487,7 +4462,7 @@
                 <div class="pavisnm">Sophie B.</div>
                 <div class="pavisst" aria-label="5 étoiles">★★★★★</div>
               </div>
-              <div class="pavist">Super expérience, communication impeccable.</div>
+              <div class="pavist">En attente de tes premiers avis…</div>
             </div>
           </div>
         </div>
@@ -4935,6 +4910,91 @@
       }
     }
 
+    /* --- Ouvrir le formulaire d'édition du profil --- */
+    async function openEditProfile() {
+      const profile = await getCurrentProfile();
+      if (!profile) return;
+      document.getElementById('ep-prenom').value = profile.prenom || '';
+      document.getElementById('ep-nom').value = profile.nom || '';
+      document.getElementById('ep-ville').value = profile.ville || '';
+      document.getElementById('ep-cp').value = profile.code_postal || '';
+      document.getElementById('ep-success').style.display = 'none';
+      clearError('ep-error');
+      go('p-editprofile');
+    }
+
+    /* --- Enregistrer les modifications du profil --- */
+    async function saveProfile() {
+      clearError('ep-error');
+      const profile = await getCurrentProfile();
+      if (!profile) {
+        showError('ep-error', 'Tu dois être connecté.');
+        return;
+      }
+      const prenom = document.getElementById('ep-prenom').value.trim();
+      const nom = document.getElementById('ep-nom').value.trim();
+      const ville = document.getElementById('ep-ville').value.trim();
+      const cp = document.getElementById('ep-cp').value.trim();
+
+      if (!prenom || !nom || !ville) {
+        showError('ep-error', 'Prénom, nom et ville sont obligatoires.');
+        return;
+      }
+
+      const btn = document.querySelector('#p-editprofile .obtn');
+      btn.textContent = 'Enregistrement…';
+      btn.disabled = true;
+
+      try {
+        const { data, error } = await sb.from('users').update({
+          prenom, nom, ville, code_postal: cp
+        }).eq('id', profile.id).select().single();
+        if (error) throw error;
+
+        window.currentProfile = data;
+        updateProfileUI(data);
+        loadHomeObjects();
+        loadMyObjects();
+
+        document.getElementById('ep-success').style.display = 'block';
+        btn.textContent = 'Enregistrer';
+        btn.disabled = false;
+
+        setTimeout(() => { go('p-app'); }, 1200);
+      } catch (err) {
+        console.error('Save profile error:', err);
+        showError('ep-error', 'Erreur : ' + (err.message || 'impossible d\'enregistrer'));
+        btn.textContent = 'Enregistrer';
+        btn.disabled = false;
+      }
+    }
+
+    /* --- Marquer la vérification d'identité en attente --- */
+    async function markVerifPending() {
+      const profile = await getCurrentProfile();
+      if (!profile) return;
+      const btn = document.getElementById('verif-btn');
+      btn.textContent = 'Envoi…';
+      btn.disabled = true;
+      try {
+        const { error } = await sb.from('users').update({
+          statut_verification: 'en_attente'
+        }).eq('id', profile.id);
+        if (error) throw error;
+
+        window.currentProfile.statut_verification = 'en_attente';
+        updateProfileUI(window.currentProfile);
+
+        document.getElementById('verif-status').style.display = 'block';
+        btn.textContent = 'Demande enregistrée ✓';
+        btn.disabled = true;
+      } catch (err) {
+        alert('Erreur : ' + err.message);
+        btn.textContent = 'J\'ai envoyé mes documents';
+        btn.disabled = false;
+      }
+    }
+
     async function handleLogout() {
       if (confirm('Te déconnecter de Shapio ?')) {
         await sb.auth.signOut();
@@ -4982,12 +5042,7 @@
 
     /* ---------- SWIPE ---------- */
     const cards = [
-      { icon: '🚁', bg: '#E1F5EE', pts: 15, dist: '2.3 km', title: 'Drone DJI Mini 3', owner: 'Marie L.', note: '4.9', tags: ['Tech', 'Caméra 4K', 'Débutant ok'] },
-      { icon: '🎮', bg: '#EEEDFE', pts: 8, dist: '0.8 km', title: 'Manette PS5', owner: 'Thomas R.', note: '4.7', tags: ['Gaming', 'Bon état'] },
-      { icon: '🔧', bg: '#FAEEDA', pts: 10, dist: '1.1 km', title: 'Perceuse Bosch', owner: 'Karim B.', note: '5.0', tags: ['Bricolage', 'Accessoires'] },
-      { icon: '🏕', bg: '#FAECE7', pts: 20, dist: '3.2 km', title: 'Tente 4 places', owner: 'Sophie M.', note: '4.8', tags: ['Sport', 'Camping'] },
-      { icon: '📷', bg: '#EEEDFE', pts: 25, dist: '1.6 km', title: 'Sony A7 III', owner: 'Inès F.', note: '4.9', tags: ['Photo', 'Pro'] },
-      { icon: '🛴', bg: '#FAEEDA', pts: 18, dist: '0.5 km', title: 'Trottinette électrique', owner: 'Romain D.', note: '4.7', tags: ['Mobilité'] }
+
     ];
 
     let ci = 0;
@@ -5235,7 +5290,9 @@
         showError('ao-error', 'Merci de donner un titre à ton objet.');
         return;
       }
-      if (!window.currentProfile) {
+      // Récupérer profile si pas en mémoire
+      const profile = await getCurrentProfile();
+      if (!profile) {
         showError('ao-error', 'Tu dois être connecté pour publier.');
         return;
       }
@@ -5254,7 +5311,7 @@
         // Upload photo if present
         if (file) {
           const ext = file.name.split('.').pop();
-          const filename = window.currentProfile.id + '_' + Date.now() + '.' + ext;
+          const filename = profile.id + '_' + Date.now() + '.' + ext;
           const { data: uploadData, error: uploadError } = await sb.storage
             .from('objects')
             .upload(filename, file, { cacheControl: '3600', upsert: false });
@@ -5267,14 +5324,14 @@
 
         // Insert object
         const { error: insertError } = await sb.from('objects').insert({
-          user_id: window.currentProfile.id,
+          user_id: profile.id,
           titre: title,
           description: desc,
           categorie: cat,
           pts_par_jour: pts,
           disponible: true,
-          ville: window.currentProfile.ville || 'Lille',
-          code_postal: window.currentProfile.code_postal || '',
+          ville: profile.ville || 'Lille',
+          code_postal: profile.code_postal || '',
           photos: photoUrl ? [photoUrl] : [],
           etat: etat
         });
@@ -5306,25 +5363,36 @@
     async function loadHomeObjects() {
       if (!sb) return;
 
+      const profile = await getCurrentProfile();
       const nearEl = document.getElementById('home-near');
       const discoverEl = document.getElementById('home-discover');
+      const nearTitle = document.getElementById('home-near-title');
 
       try {
-        // Récupérer tous les objets disponibles, excluant ceux du user connecté
         let query = sb.from('objects')
-          .select('*, users(prenom, nom, note_moyenne, verifie_identite)')
+          .select('*, users(prenom, nom, note_moyenne, verifie_identite, ville)')
           .eq('disponible', true)
-          .order('created_at', { ascending: false })
-          .limit(20);
+          .order('created_at', { ascending: false });
 
-        if (window.currentProfile) {
-          query = query.neq('user_id', window.currentProfile.id);
+        if (profile?.id) {
+          query = query.neq('user_id', profile.id);
         }
 
-        const { data: objects, error } = await query;
+        const { data: allObjects, error } = await query;
         if (error) throw error;
 
-        // Catégorie → icône + couleur
+        const objects = allObjects || [];
+
+        // Mettre à jour le titre "Près de toi · Ville"
+        if (nearTitle && profile?.ville) {
+          nearTitle.innerHTML = '📍 Près de toi · ' + profile.ville;
+        }
+
+        // Filtrer par ville pour "Près de toi"
+        const nearObjects = profile?.ville
+          ? objects.filter(o => (o.ville || '').toLowerCase() === profile.ville.toLowerCase())
+          : objects;
+
         const catIcons = {
           'Tech': { ico: '📱', bg: '#E1F5EE' },
           'Bricolage': { ico: '🔧', bg: '#FAEEDA' },
@@ -5336,72 +5404,160 @@
           'Autre': { ico: '📦', bg: '#F3F4F6' }
         };
 
-        if (!objects || objects.length === 0) {
-          if (nearEl) nearEl.innerHTML = '<div style="padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Aucun objet disponible pour le moment.<br>Sois le premier à publier !</div>';
-          if (discoverEl) discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;">Bientôt plus d\'objets ici 🌻</div>';
-          return;
-        }
+        const renderNear = (o) => {
+          const c = catIcons[o.categorie] || catIcons['Autre'];
+          const photo = (o.photos && o.photos[0])
+            ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>`
+            : `<span aria-hidden="true">${c.ico}</span>`;
+          const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
+          return `<div class="ncard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
+            <div class="nimg" style="background:${c.bg};">${photo}
+              <div class="npts">${o.pts_par_jour} pts</div>
+            </div>
+            <div class="ninfo">
+              <div class="nname">${o.titre}</div>
+              <div class="ndist">${o.ville || 'Lille'} · ${ownerName}</div>
+            </div>
+          </div>`;
+        };
 
-        // Près de toi : 4 premiers
+        const renderDiscover = (o) => {
+          const c = catIcons[o.categorie] || catIcons['Autre'];
+          const photo = (o.photos && o.photos[0])
+            ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>`
+            : `<span aria-hidden="true">${c.ico}</span>`;
+          const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
+          const note = o.users?.note_moyenne > 0 ? ('★ ' + o.users.note_moyenne) : '★ –';
+          return `<div class="bcard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
+            <div class="bimg" style="background:${c.bg};">${photo}
+              <div class="bpts">${o.pts_par_jour} pts</div>
+            </div>
+            <div class="binfo">
+              <div class="bname">${o.titre}</div>
+              <div class="bowner">${ownerName} · ${note}</div>
+            </div>
+          </div>`;
+        };
+
+        // "Près de toi" — filtré par ville
         if (nearEl) {
-          nearEl.innerHTML = objects.slice(0, 6).map(o => {
-            const c = catIcons[o.categorie] || catIcons['Autre'];
-            const photo = (o.photos && o.photos[0]) ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>` : `<span aria-hidden="true">${c.ico}</span>`;
-            const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
-            return `<div class="ncard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
-              <div class="nimg" style="background:${c.bg};">${photo}
-                <div class="npts">${o.pts_par_jour} pts</div>
-              </div>
-              <div class="ninfo">
-                <div class="nname">${o.titre}</div>
-                <div class="ndist">${o.ville || 'Lille'} · ${ownerName}</div>
-              </div>
-            </div>`;
-          }).join('');
+          if (nearObjects.length === 0) {
+            nearEl.innerHTML = '<div style="padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Aucun objet dans ' + (profile?.ville || 'ta région') + ' pour l\'instant.<br>Les objets de ta ville apparaîtront ici dès qu\'ils seront publiés.</div>';
+          } else {
+            nearEl.innerHTML = nearObjects.slice(0, 8).map(renderNear).join('');
+          }
         }
 
-        // Découvrir : suivants
+        // "Découvrir" — tous les objets sans filtre
         if (discoverEl) {
-          const discover = objects.slice(0, 6);
-          if (discover.length === 0) {
-            discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px;color:var(--mu);font-size:13px;text-align:center;">Plus d\'objets bientôt 🌻</div>';
+          if (objects.length === 0) {
+            discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;">Aucun objet publié pour l\'instant.<br>Sois le premier à publier !</div>';
           } else {
-            discoverEl.innerHTML = discover.map(o => {
-              const c = catIcons[o.categorie] || catIcons['Autre'];
-              const photo = (o.photos && o.photos[0]) ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>` : `<span aria-hidden="true">${c.ico}</span>`;
-              const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
-              const note = o.users?.note_moyenne > 0 ? ('★ ' + o.users.note_moyenne) : '★ –';
-              return `<div class="bcard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
-                <div class="bimg" style="background:${c.bg};">${photo}
-                  <div class="bpts">${o.pts_par_jour} pts</div>
-                </div>
-                <div class="binfo">
-                  <div class="bname">${o.titre}</div>
-                  <div class="bowner">${ownerName} · ${note}</div>
-                </div>
-              </div>`;
-            }).join('');
+            discoverEl.innerHTML = objects.slice(0, 8).map(renderDiscover).join('');
           }
         }
 
         // Stocker pour le swipe
         window.allObjects = objects;
+
+        // Mettre à jour aussi le mode swipe et browse
+        if (typeof refreshSwipeAndBrowse === 'function') refreshSwipeAndBrowse();
       } catch (err) {
         console.error('Erreur chargement objets:', err);
-        if (nearEl) nearEl.innerHTML = '<div style="padding:20px;color:var(--mu);font-size:13px;">Erreur de chargement</div>';
+        if (nearEl) nearEl.innerHTML = '<div style="padding:20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Erreur de chargement</div>';
+        if (discoverEl) discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:20px;color:var(--mu);font-size:13px;text-align:center;">Erreur de chargement</div>';
+      }
+    }
+
+    /* --- Mode swipe + browse : remplacer les faux objets --- */
+    function refreshSwipeAndBrowse() {
+      const objects = window.allObjects || [];
+      const catIcons = {
+        'Tech': { ico: '📱', bg: '#E1F5EE' },
+        'Bricolage': { ico: '🔧', bg: '#FAEEDA' },
+        'Maison': { ico: '🏠', bg: '#FAECE7' },
+        'Sport': { ico: '⚽', bg: '#E1F5EE' },
+        'Jardinage': { ico: '🌱', bg: '#E1F5EE' },
+        'Cuisine': { ico: '🍳', bg: '#FAEEDA' },
+        'Loisirs': { ico: '🎮', bg: '#EEEDFE' },
+        'Autre': { ico: '📦', bg: '#F3F4F6' }
+      };
+
+      // Mode swipe — afficher 1ère carte
+      const swipeStack = document.getElementById('cstack');
+      if (swipeStack) {
+        if (objects.length === 0) {
+          swipeStack.innerHTML = '<div style="padding:60px 30px;text-align:center;color:var(--mu);font-size:14px;">Aucun objet à explorer pour l\'instant.<br><br>Les objets s\'afficheront ici dès qu\'ils seront publiés par d\'autres membres.</div>';
+        } else {
+          const o = objects[0];
+          const c = catIcons[o.categorie] || catIcons['Autre'];
+          const photo = (o.photos && o.photos[0])
+            ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;" alt="${o.titre}"/>`
+            : `<span aria-hidden="true">${c.ico}</span>`;
+          const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
+          const note = o.users?.note_moyenne > 0 ? o.users.note_moyenne : '–';
+          swipeStack.innerHTML = `<div class="scard front" id="cfront" onclick="openObjectFiche('${o.id}')">
+            <div class="cphoto" style="background:${c.bg};">${photo}
+              <div class="cbadge">${o.pts_par_jour} pts</div>
+              <div class="cdist">${o.ville || 'Lille'}</div>
+            </div>
+            <div class="cbody">
+              <div class="ctitle">${o.titre}</div>
+              <div class="cowner">
+                <div class="cav" aria-hidden="true">${(o.users?.prenom?.[0] || '?') + (o.users?.nom?.[0] || '')}</div>
+                <span>${ownerName}</span>
+                <span class="cstars">★</span>
+                <span style="font-size:11px;color:var(--mu);">${note}</span>
+              </div>
+              <div class="ctags"><span class="ctag">${o.categorie}</span></div>
+            </div>
+          </div>`;
+        }
+      }
+
+      // Mode browse (grid)
+      const browseGrid = document.querySelector('#browse-mode .bgrid');
+      if (browseGrid) {
+        if (objects.length === 0) {
+          browseGrid.innerHTML = '<div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Aucun objet à explorer pour l\'instant.<br>Reviens bientôt !</div>';
+        } else {
+          browseGrid.innerHTML = objects.map(o => {
+            const c = catIcons[o.categorie] || catIcons['Autre'];
+            const photo = (o.photos && o.photos[0])
+              ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>`
+              : `<span aria-hidden="true">${c.ico}</span>`;
+            const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
+            const note = o.users?.note_moyenne > 0 ? ('★ ' + o.users.note_moyenne) : '★ –';
+            return `<div class="bcard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
+              <div class="bimg" style="background:${c.bg};">${photo}
+                <div class="bpts">${o.pts_par_jour} pts</div>
+              </div>
+              <div class="binfo">
+                <div class="bname">${o.titre}</div>
+                <div class="bowner">${ownerName} · ${note}</div>
+              </div>
+            </div>`;
+          }).join('');
+        }
+
+        // Mettre à jour le compteur
+        const counter = document.querySelector('#browse-mode > div[style*="font-size:11px"]');
+        if (counter) counter.textContent = objects.length + ' objet' + (objects.length > 1 ? 's' : '') + ' disponible' + (objects.length > 1 ? 's' : '');
       }
     }
 
     /* --- Charger MES objets pour le profil --- */
     async function loadMyObjects() {
-      if (!sb || !window.currentProfile) return;
+      if (!sb) return;
+      const profile = await getCurrentProfile();
+      if (!profile) return;
       const grid = document.getElementById('my-objects-grid');
       if (!grid) return;
 
       try {
         const { data: objects, error } = await sb.from('objects')
           .select('*')
-          .eq('user_id', window.currentProfile.id)
+          .eq('user_id', profile.id)
           .order('created_at', { ascending: false });
 
         if (error) throw error;
@@ -5588,6 +5744,25 @@
       // Focus management : on met le focus sur le bouton fermer
       const closeBtn = card.querySelector('button');
       if (closeBtn) closeBtn.focus();
+    }
+
+    /* --- Récupérer ou recharger le profil utilisateur connecté --- */
+    async function getCurrentProfile() {
+      if (!sb) return null;
+      if (window.currentProfile) return window.currentProfile;
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session?.user) return null;
+        const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+        if (profile) {
+          window.currentProfile = profile;
+          updateProfileUI(profile);
+        }
+        return profile;
+      } catch (e) {
+        console.error('getCurrentProfile error:', e);
+        return null;
+      }
     }
 
     /* --- Mettre à jour l'affichage du profil --- */
