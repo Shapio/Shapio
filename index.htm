@@ -4469,25 +4469,25 @@
         </div>
         <div class="phead">
           <div class="pnrow">
-            <div class="pname">Karim M.</div>
-            <div class="pvbadge" aria-label="Profil vérifié">✓ Vérifié</div>
+            <div class="pname" id="profile-name">Chargement…</div>
+            <div class="pvbadge" id="profile-badge" aria-label="Profil vérifié" style="display:none;">✓ Vérifié</div>
           </div>
-          <div class="psub"><span aria-hidden="true">📍</span> Lille · Membre depuis avril 2025</div>
+          <div class="psub" id="profile-sub"><span aria-hidden="true">📍</span> <span id="profile-ville">Lille</span> · <span id="profile-since">Membre depuis 2026</span></div>
           <div class="pstats" role="list">
             <div class="pstat" role="listitem">
-              <div class="pstn">72</div>
+              <div class="pstn" id="profile-pts">50</div>
               <div class="pstl">points</div>
             </div>
             <div class="pstat" role="listitem">
-              <div class="pstn">12</div>
+              <div class="pstn" id="profile-prets">0</div>
               <div class="pstl">prêts</div>
             </div>
             <div class="pstat" role="listitem">
-              <div class="pstn">5</div>
+              <div class="pstn" id="profile-emprunts">0</div>
               <div class="pstl">emprunts</div>
             </div>
             <div class="pstat" role="listitem">
-              <div class="pstn" style="color:#BA7517;">4.9</div>
+              <div class="pstn" id="profile-note" style="color:#BA7517;">–</div>
               <div class="pstl">note</div>
             </div>
           </div>
@@ -4501,58 +4501,28 @@
           <div
             style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">
             Vérification</div>
-          <div class="ptrust">
+          <div class="ptrust" id="trust-section">
             <div class="ptrow">
               <div class="ptico ptdone" aria-hidden="true">✓</div>
-              <div class="ptlbl">Numéro de téléphone</div>
+              <div class="ptlbl">Email confirmé</div>
             </div>
-            <div class="ptrow">
-              <div class="ptico ptdone" aria-hidden="true">✓</div>
-              <div class="ptlbl">Adresse vérifiée</div>
+            <div class="ptrow" id="trust-tel-row">
+              <div class="ptico ptpend" aria-hidden="true" id="trust-tel-ico">–</div>
+              <div class="ptlbl" id="trust-tel-lbl" style="color:var(--mu);">Numéro de téléphone</div>
+              <button type="button" class="ptact" id="trust-tel-btn" onclick="go('p-addtel')" style="display:none;">Ajouter</button>
             </div>
-            <div class="ptrow">
-              <div class="ptico ptdone" aria-hidden="true">✓</div>
-              <div class="ptlbl">Pièce d'identité</div>
-            </div>
-            <div class="ptrow">
-              <div class="ptico ptpend" aria-hidden="true">–</div>
-              <div class="ptlbl" style="color:var(--mu);">Selfie de confirmation</div>
-              <button type="button" class="ptact">Ajouter</button>
+            <div class="ptrow" id="trust-id-row">
+              <div class="ptico ptpend" aria-hidden="true" id="trust-id-ico">–</div>
+              <div class="ptlbl" id="trust-id-lbl" style="color:var(--mu);">Pièce d'identité</div>
+              <button type="button" class="ptact" id="trust-id-btn" onclick="go('p-verif')" style="display:none;">Ajouter</button>
             </div>
           </div>
           <div
             style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;padding:0 18px;margin-bottom:8px;">
             Mes objets</div>
-          <div class="pogrid">
-            <div class="pocard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="poimg" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
-                <div class="popts">15 pts</div>
-                <div class="post post-on">Dispo</div>
-              </div>
-              <div class="poinfo">
-                <div class="ponm">Drone DJI Mini 3</div>
-                <div class="popr">8 prêts</div>
-              </div>
-            </div>
-            <div class="pocard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="poimg" style="background:#EEEDFE;"><span aria-hidden="true">💻</span>
-                <div class="popts">20 pts</div>
-                <div class="post post-on">Dispo</div>
-              </div>
-              <div class="poinfo">
-                <div class="ponm">MacBook Pro</div>
-                <div class="popr">3 prêts</div>
-              </div>
-            </div>
-            <div class="pocard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="poimg" style="background:#FAEEDA;"><span aria-hidden="true">🔧</span>
-                <div class="popts">10 pts</div>
-                <div class="post post-off">Indispo</div>
-              </div>
-              <div class="poinfo">
-                <div class="ponm">Perceuse Bosch</div>
-                <div class="popr">5 prêts</div>
-              </div>
+          <div class="pogrid" id="my-objects-grid">
+            <div id="my-objects-empty" style="grid-column:1/-1;text-align:center;padding:24px 16px;color:var(--mu);font-size:13px;">
+              Aucun objet publié pour l'instant.
             </div>
             <button type="button" class="pocard"
               onclick="setTab('addobj')"
@@ -4907,9 +4877,7 @@
         if (error) throw error;
         const { data: profile } = await sb.from('users').select('*').eq('auth_id', data.user.id).single();
         if (profile) {
-          document.querySelector('#wb .wbttl').textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
-          document.querySelector('#ppill-points').textContent = (profile.points || 50) + ' pts';
-          document.querySelector('.wcn').textContent = profile.points || 50;
+          updateProfileUI(profile);
         }
         go('p-app');
       } catch (err) {
@@ -5491,6 +5459,88 @@
       if (closeBtn) closeBtn.focus();
     }
 
+    /* --- Mettre à jour l'affichage du profil --- */
+    function updateProfileUI(profile) {
+      if (!profile) return;
+
+      // Initiales avatar
+      const av = document.getElementById('profile-av');
+      if (av) av.textContent = (profile.prenom?.[0] || '') + (profile.nom?.[0] || '');
+
+      // Nom complet
+      const nm = document.getElementById('profile-name');
+      if (nm) nm.textContent = profile.prenom + ' ' + profile.nom;
+
+      // Badge vérifié
+      const badge = document.getElementById('profile-badge');
+      if (badge) badge.style.display = profile.verifie_identite ? 'flex' : 'none';
+
+      // Ville + date inscription
+      const ville = document.getElementById('profile-ville');
+      if (ville) ville.textContent = profile.ville || 'Lille';
+      const since = document.getElementById('profile-since');
+      if (since && profile.created_at) {
+        const d = new Date(profile.created_at);
+        const mois = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+        since.textContent = 'Membre depuis ' + mois[d.getMonth()] + ' ' + d.getFullYear();
+      }
+
+      // Stats
+      const pts = document.getElementById('profile-pts');
+      if (pts) pts.textContent = profile.points ?? 50;
+      const prets = document.getElementById('profile-prets');
+      if (prets) prets.textContent = profile.nb_prets ?? 0;
+      const emprunts = document.getElementById('profile-emprunts');
+      if (emprunts) emprunts.textContent = profile.nb_emprunts ?? 0;
+      const note = document.getElementById('profile-note');
+      if (note) note.textContent = profile.note_moyenne > 0 ? profile.note_moyenne : '–';
+
+      // Points en haut (pill) et wallet
+      const ppill = document.getElementById('ppill-points');
+      if (ppill) ppill.textContent = (profile.points ?? 50) + ' pts';
+      const wcn = document.querySelector('.wcn');
+      if (wcn) wcn.textContent = profile.points ?? 50;
+      const wcbar = document.querySelector('.wcbar');
+      if (wcbar) wcbar.style.width = Math.min((profile.points ?? 50), 100) + '%';
+
+      // Vérifications
+      const telIco = document.getElementById('trust-tel-ico');
+      const telLbl = document.getElementById('trust-tel-lbl');
+      const telBtn = document.getElementById('trust-tel-btn');
+      if (telIco && telLbl && telBtn) {
+        if (profile.verifie_telephone) {
+          telIco.textContent = '✓'; telIco.className = 'ptico ptdone';
+          telLbl.style.color = ''; telBtn.style.display = 'none';
+        } else {
+          telIco.textContent = '–'; telIco.className = 'ptico ptpend';
+          telLbl.style.color = 'var(--mu)'; telBtn.style.display = 'block';
+        }
+      }
+      const idIco = document.getElementById('trust-id-ico');
+      const idLbl = document.getElementById('trust-id-lbl');
+      const idBtn = document.getElementById('trust-id-btn');
+      if (idIco && idLbl && idBtn) {
+        if (profile.verifie_identite) {
+          idIco.textContent = '✓'; idIco.className = 'ptico ptdone';
+          idLbl.style.color = ''; idBtn.style.display = 'none';
+        } else if (profile.statut_verification === 'en_attente') {
+          idIco.textContent = '⏳'; idIco.className = 'ptico';
+          idLbl.textContent = 'Pièce d'identité — En cours de vérification';
+          idLbl.style.color = 'var(--mu)'; idBtn.style.display = 'none';
+        } else {
+          idIco.textContent = '–'; idIco.className = 'ptico ptpend';
+          idLbl.style.color = 'var(--mu)'; idBtn.style.display = 'block';
+        }
+      }
+
+      // Bienvenue
+      const wbttl = document.querySelector('#wb .wbttl');
+      if (wbttl) wbttl.textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
+
+      // Stocker le profil globalement
+      window.currentProfile = profile;
+    }
+
     /* ---------- INIT au chargement ---------- */
     document.addEventListener('DOMContentLoaded', async () => {
       // Détecter si l'utilisateur arrive depuis un lien de reset password
@@ -5510,12 +5560,7 @@
       if (session && session.user) {
         const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
         if (profile) {
-          const wbttl = document.querySelector('#wb .wbttl');
-          const ppill = document.getElementById('ppill-points');
-          const wcn = document.querySelector('.wcn');
-          if (wbttl) wbttl.textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
-          if (ppill) ppill.textContent = (profile.points || 50) + ' pts';
-          if (wcn) wcn.textContent = profile.points || 50;
+          updateProfileUI(profile);
         }
       }
       // Fermer menu mobile en cliquant dehors
