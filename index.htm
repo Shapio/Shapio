@@ -4005,43 +4005,8 @@
           <div class="sttl">📍 Près de toi · Lille</div>
           <button type="button" class="slnk" onclick="setTab('swipe');setSwipeMode('browse')">Voir tout</button>
         </div>
-        <div class="nscroll">
-          <div class="ncard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-            <div class="nimg" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
-              <div class="npts">15 pts</div>
-            </div>
-            <div class="ninfo">
-              <div class="nname">Drone DJI Mini 3</div>
-              <div class="ndist">2.3 km · Marie L.</div>
-            </div>
-          </div>
-          <div class="ncard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-            <div class="nimg" style="background:#EEEDFE;"><span aria-hidden="true">🎮</span>
-              <div class="npts">8 pts</div>
-            </div>
-            <div class="ninfo">
-              <div class="nname">Manette PS5</div>
-              <div class="ndist">0.8 km · Thomas R.</div>
-            </div>
-          </div>
-          <div class="ncard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-            <div class="nimg" style="background:#FAEEDA;"><span aria-hidden="true">🔧</span>
-              <div class="npts">10 pts</div>
-            </div>
-            <div class="ninfo">
-              <div class="nname">Perceuse Bosch</div>
-              <div class="ndist">1.1 km · Karim B.</div>
-            </div>
-          </div>
-          <div class="ncard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-            <div class="nimg" style="background:#FAECE7;"><span aria-hidden="true">🧹</span>
-              <div class="npts">12 pts</div>
-            </div>
-            <div class="ninfo">
-              <div class="nname">Aspirateur Dyson</div>
-              <div class="ndist">1.4 km · Lucas F.</div>
-            </div>
-          </div>
+        <div class="nscroll" id="home-near">
+          <div style="padding:20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Chargement…</div>
         </div>
         <button type="button" class="addbanner" onclick="setTab('addobj')">
           <div class="addico" aria-hidden="true">+</div>
@@ -4054,43 +4019,8 @@
           <div class="sttl">✨ Découvrir</div>
           <button type="button" class="slnk" onclick="setTab('swipe')">Mode swipe</button>
         </div>
-        <div class="bgrid">
-          <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-            <div class="bimg" style="background:#E1F5EE;"><span aria-hidden="true">🏕</span>
-              <div class="bpts">20 pts</div>
-            </div>
-            <div class="binfo">
-              <div class="bname">Tente 4 places</div>
-              <div class="bowner">Sophie M. · ★ 4.8</div>
-            </div>
-          </div>
-          <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-            <div class="bimg" style="background:#EEEDFE;"><span aria-hidden="true">📷</span>
-              <div class="bpts">25 pts</div>
-            </div>
-            <div class="binfo">
-              <div class="bname">Appareil Sony A7</div>
-              <div class="bowner">Inès F. · ★ 4.9</div>
-            </div>
-          </div>
-          <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-            <div class="bimg" style="background:#FAEEDA;"><span aria-hidden="true">🛴</span>
-              <div class="bpts">18 pts</div>
-            </div>
-            <div class="binfo">
-              <div class="bname">Trottinette élec.</div>
-              <div class="bowner">Romain D. · ★ 4.7</div>
-            </div>
-          </div>
-          <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-            <div class="bimg" style="background:#FAECE7;"><span aria-hidden="true">🎸</span>
-              <div class="bpts">14 pts</div>
-            </div>
-            <div class="binfo">
-              <div class="bname">Guitare acoustique</div>
-              <div class="bowner">Emma L. · ★ 5.0</div>
-            </div>
-          </div>
+        <div class="bgrid" id="home-discover">
+          <div style="grid-column:1/-1;padding:20px;color:var(--mu);font-size:13px;text-align:center;">Chargement…</div>
         </div>
       </div>
 
@@ -4696,48 +4626,11 @@
           <button type="button" class="nt-tab" role="tab" aria-selected="false" onclick="setNotifTab(this,'pts')">Points</button>
         </div>
         <div class="nt-list" id="nt-list">
-          <div class="nt-item unread" data-cat="matches" role="button" tabindex="0" onclick="setTab('msgs')" onkeypress="if(event.key==='Enter')setTab('msgs')">
-            <div class="nt-ico match" aria-hidden="true">💚</div>
-            <div class="nt-body">
-              <div class="nt-msg"><strong>Marie L.</strong> a accepté ta demande pour le Drone DJI Mini 3</div>
-              <div class="nt-time">À l'instant</div>
-            </div>
-            <div class="nt-dot" aria-label="Non lu"></div>
-          </div>
-          <div class="nt-item unread" data-cat="msgs" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
-            <div class="nt-ico" aria-hidden="true">💬</div>
-            <div class="nt-body">
-              <div class="nt-msg"><strong>Marie L.</strong> : Super, disponible samedi matin pour le drone ?</div>
-              <div class="nt-time">Il y a 2 h</div>
-            </div>
-            <div class="nt-dot" aria-label="Non lu"></div>
-          </div>
-          <div class="nt-item" data-cat="pts" role="button" tabindex="0" onclick="setTab('wallet')" onkeypress="if(event.key==='Enter')setTab('wallet')">
-            <div class="nt-ico points" aria-hidden="true">💰</div>
-            <div class="nt-body">
-              <div class="nt-msg">Tu as gagné <strong>+12 points</strong> pour le prêt de la Perceuse Bosch</div>
-              <div class="nt-time">Hier, 18:30</div>
-            </div>
-          </div>
-          <div class="nt-item" data-cat="msgs" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
-            <div class="nt-ico" aria-hidden="true">💬</div>
-            <div class="nt-body">
-              <div class="nt-msg"><strong>Thomas R.</strong> : Ok pour samedi !</div>
-              <div class="nt-time">Hier, 11:05</div>
-            </div>
-          </div>
-          <div class="nt-item" data-cat="matches" role="button" tabindex="0" onclick="setTab('msgs')" onkeypress="if(event.key==='Enter')setTab('msgs')">
-            <div class="nt-ico review" aria-hidden="true">⭐</div>
-            <div class="nt-body">
-              <div class="nt-msg"><strong>Sophie B.</strong> t'a laissé un avis 5 étoiles : « Super expérience »</div>
-              <div class="nt-time">Il y a 2 jours</div>
-            </div>
-          </div>
-          <div class="nt-item" data-cat="pts" role="button" tabindex="0" onclick="setTab('wallet')" onkeypress="if(event.key==='Enter')setTab('wallet')">
+          <div class="nt-item" data-cat="pts">
             <div class="nt-ico points" aria-hidden="true">🎁</div>
             <div class="nt-body">
               <div class="nt-msg">Bienvenue sur Shapio ! <strong>+50 points</strong> de bienvenue</div>
-              <div class="nt-time">Il y a 4 jours</div>
+              <div class="nt-time">À ton inscription</div>
             </div>
           </div>
         </div>
@@ -5327,27 +5220,265 @@
       reader.readAsDataURL(file);
     }
 
-    function handleAddObject() {
+    async function handleAddObject() {
       clearError('ao-error');
       const title = document.getElementById('ao-title').value.trim();
-      // Démo : seul le titre est obligatoire (pour avoir quelque chose à afficher).
+      const desc = document.getElementById('ao-desc')?.value.trim() || '';
+      const cat = document.querySelector('.ao-cat.active')?.textContent || 'Autre';
+      const etat = document.getElementById('ao-state').value || 'be';
+      const pts = parseInt(document.getElementById('ao-pts-input').value) || 10;
+      const quartier = document.getElementById('ao-quartier')?.value.trim() || '';
+      const fileInput = document.getElementById('ao-photo-file');
+      const file = fileInput?.files?.[0];
+
       if (!title) {
         showError('ao-error', 'Merci de donner un titre à ton objet.');
         return;
       }
-      // Succès factice
-      const screen = document.getElementById('as-addobj');
-      screen.innerHTML =
-        '<div class="ao-hdr">' +
-        '<button type="button" class="ao-back" aria-label="Retour" onclick="setTab(prevTab||\'home\')">←</button>' +
-        '<div class="ao-title">Objet publié</div>' +
-        '</div>' +
-        '<div class="ao-success">' +
-        '<div class="ao-success-ico" aria-hidden="true">✓</div>' +
-        '<div style="font-family:\'DM Serif Display\',serif;font-size:22px;color:var(--dk);margin-bottom:8px;">Bravo !</div>' +
-        '<p style="font-size:14px;color:var(--mu);line-height:1.55;max-width:280px;margin:0 auto 22px;">Ton objet est en ligne. Tes voisins peuvent maintenant te le demander en prêt.</p>' +
-        '<button type="button" class="ao-submit" style="max-width:240px;margin:0 auto;display:block;" onclick="setTab(\'home\')">Retour à l\u2019accueil</button>' +
-        '</div>';
+      if (!window.currentProfile) {
+        showError('ao-error', 'Tu dois être connecté pour publier.');
+        return;
+      }
+      if (pts < 1 || pts > 1000) {
+        showError('ao-error', 'Le prix doit être entre 1 et 1000 points.');
+        return;
+      }
+
+      const btn = document.querySelector('.ao-submit');
+      btn.textContent = 'Publication…';
+      btn.disabled = true;
+
+      try {
+        let photoUrl = null;
+
+        // Upload photo if present
+        if (file) {
+          const ext = file.name.split('.').pop();
+          const filename = window.currentProfile.id + '_' + Date.now() + '.' + ext;
+          const { data: uploadData, error: uploadError } = await sb.storage
+            .from('objects')
+            .upload(filename, file, { cacheControl: '3600', upsert: false });
+
+          if (uploadError) throw uploadError;
+
+          const { data: urlData } = sb.storage.from('objects').getPublicUrl(filename);
+          photoUrl = urlData.publicUrl;
+        }
+
+        // Insert object
+        const { error: insertError } = await sb.from('objects').insert({
+          user_id: window.currentProfile.id,
+          titre: title,
+          description: desc,
+          categorie: cat,
+          pts_par_jour: pts,
+          disponible: true,
+          ville: window.currentProfile.ville || 'Lille',
+          code_postal: window.currentProfile.code_postal || '',
+          photos: photoUrl ? [photoUrl] : [],
+          etat: etat
+        });
+
+        if (insertError) throw insertError;
+
+        // Show success
+        const screen = document.getElementById('as-addobj');
+        screen.innerHTML =
+          '<div class="ao-hdr">' +
+          '<button type="button" class="ao-back" aria-label="Retour" onclick="setTab(\'home\')">←</button>' +
+          '<div class="ao-title">Objet publié</div>' +
+          '</div>' +
+          '<div class="ao-success" style="padding:40px 20px;text-align:center;">' +
+          '<div style="font-size:64px;margin-bottom:16px;">✓</div>' +
+          '<div style="font-family:\'DM Serif Display\',serif;font-size:24px;color:var(--dk);margin-bottom:8px;">Bravo !</div>' +
+          '<p style="font-size:14px;color:var(--mu);line-height:1.55;max-width:280px;margin:0 auto 22px;">Ton objet est en ligne. Tes voisins peuvent maintenant te le demander en prêt.</p>' +
+          '<button type="button" class="ao-submit" style="max-width:240px;margin:0 auto;display:block;" onclick="setTab(\'home\');loadHomeObjects();loadMyObjects();">Retour à l\u2019accueil</button>' +
+          '</div>';
+      } catch (err) {
+        console.error('Erreur publication:', err);
+        showError('ao-error', 'Erreur : ' + (err.message || 'impossible de publier'));
+        btn.textContent = 'Publier mon objet';
+        btn.disabled = false;
+      }
+    }
+
+    /* --- Charger les objets sur la home --- */
+    async function loadHomeObjects() {
+      if (!sb) return;
+
+      const nearEl = document.getElementById('home-near');
+      const discoverEl = document.getElementById('home-discover');
+
+      try {
+        // Récupérer tous les objets disponibles, excluant ceux du user connecté
+        let query = sb.from('objects')
+          .select('*, users(prenom, nom, note_moyenne, verifie_identite)')
+          .eq('disponible', true)
+          .order('created_at', { ascending: false })
+          .limit(20);
+
+        if (window.currentProfile) {
+          query = query.neq('user_id', window.currentProfile.id);
+        }
+
+        const { data: objects, error } = await query;
+        if (error) throw error;
+
+        // Catégorie → icône + couleur
+        const catIcons = {
+          'Tech': { ico: '📱', bg: '#E1F5EE' },
+          'Bricolage': { ico: '🔧', bg: '#FAEEDA' },
+          'Maison': { ico: '🏠', bg: '#FAECE7' },
+          'Sport': { ico: '⚽', bg: '#E1F5EE' },
+          'Jardinage': { ico: '🌱', bg: '#E1F5EE' },
+          'Cuisine': { ico: '🍳', bg: '#FAEEDA' },
+          'Loisirs': { ico: '🎮', bg: '#EEEDFE' },
+          'Autre': { ico: '📦', bg: '#F3F4F6' }
+        };
+
+        if (!objects || objects.length === 0) {
+          if (nearEl) nearEl.innerHTML = '<div style="padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Aucun objet disponible pour le moment.<br>Sois le premier à publier !</div>';
+          if (discoverEl) discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;">Bientôt plus d\'objets ici 🌻</div>';
+          return;
+        }
+
+        // Près de toi : 4 premiers
+        if (nearEl) {
+          nearEl.innerHTML = objects.slice(0, 6).map(o => {
+            const c = catIcons[o.categorie] || catIcons['Autre'];
+            const photo = (o.photos && o.photos[0]) ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>` : `<span aria-hidden="true">${c.ico}</span>`;
+            const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
+            return `<div class="ncard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
+              <div class="nimg" style="background:${c.bg};">${photo}
+                <div class="npts">${o.pts_par_jour} pts</div>
+              </div>
+              <div class="ninfo">
+                <div class="nname">${o.titre}</div>
+                <div class="ndist">${o.ville || 'Lille'} · ${ownerName}</div>
+              </div>
+            </div>`;
+          }).join('');
+        }
+
+        // Découvrir : suivants
+        if (discoverEl) {
+          const discover = objects.slice(0, 6);
+          if (discover.length === 0) {
+            discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px;color:var(--mu);font-size:13px;text-align:center;">Plus d\'objets bientôt 🌻</div>';
+          } else {
+            discoverEl.innerHTML = discover.map(o => {
+              const c = catIcons[o.categorie] || catIcons['Autre'];
+              const photo = (o.photos && o.photos[0]) ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>` : `<span aria-hidden="true">${c.ico}</span>`;
+              const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
+              const note = o.users?.note_moyenne > 0 ? ('★ ' + o.users.note_moyenne) : '★ –';
+              return `<div class="bcard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
+                <div class="bimg" style="background:${c.bg};">${photo}
+                  <div class="bpts">${o.pts_par_jour} pts</div>
+                </div>
+                <div class="binfo">
+                  <div class="bname">${o.titre}</div>
+                  <div class="bowner">${ownerName} · ${note}</div>
+                </div>
+              </div>`;
+            }).join('');
+          }
+        }
+
+        // Stocker pour le swipe
+        window.allObjects = objects;
+      } catch (err) {
+        console.error('Erreur chargement objets:', err);
+        if (nearEl) nearEl.innerHTML = '<div style="padding:20px;color:var(--mu);font-size:13px;">Erreur de chargement</div>';
+      }
+    }
+
+    /* --- Charger MES objets pour le profil --- */
+    async function loadMyObjects() {
+      if (!sb || !window.currentProfile) return;
+      const grid = document.getElementById('my-objects-grid');
+      if (!grid) return;
+
+      try {
+        const { data: objects, error } = await sb.from('objects')
+          .select('*')
+          .eq('user_id', window.currentProfile.id)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        const catIcons = {
+          'Tech': { ico: '📱', bg: '#E1F5EE' },
+          'Bricolage': { ico: '🔧', bg: '#FAEEDA' },
+          'Maison': { ico: '🏠', bg: '#FAECE7' },
+          'Sport': { ico: '⚽', bg: '#E1F5EE' },
+          'Jardinage': { ico: '🌱', bg: '#E1F5EE' },
+          'Cuisine': { ico: '🍳', bg: '#FAEEDA' },
+          'Loisirs': { ico: '🎮', bg: '#EEEDFE' },
+          'Autre': { ico: '📦', bg: '#F3F4F6' }
+        };
+
+        const addBtn = `<button type="button" class="pocard" onclick="setTab(\'addobj\')" style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:120px;background:#f7f7f4;cursor:pointer;font-family:inherit;width:100%;">
+          <div style="text-align:center;">
+            <div style="font-size:20px;color:var(--mu);" aria-hidden="true">+</div>
+            <div style="font-size:11px;color:var(--mu);margin-top:3px;">Ajouter</div>
+          </div>
+        </button>`;
+
+        if (!objects || objects.length === 0) {
+          grid.innerHTML = '<div id="my-objects-empty" style="grid-column:1/-1;text-align:center;padding:24px 16px;color:var(--mu);font-size:13px;">Aucun objet publié pour l\'instant.</div>' + addBtn;
+          return;
+        }
+
+        grid.innerHTML = objects.map(o => {
+          const c = catIcons[o.categorie] || catIcons['Autre'];
+          const photo = (o.photos && o.photos[0]) ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>` : `<span aria-hidden="true">${c.ico}</span>`;
+          const statusClass = o.disponible ? 'post-on' : 'post-off';
+          const statusLbl = o.disponible ? 'Dispo' : 'Indispo';
+          return `<div class="pocard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
+            <div class="poimg" style="background:${c.bg};">${photo}
+              <div class="popts">${o.pts_par_jour} pts</div>
+              <div class="post ${statusClass}">${statusLbl}</div>
+            </div>
+            <div class="poinfo">
+              <div class="ponm">${o.titre}</div>
+              <div class="popr">0 prêts</div>
+            </div>
+          </div>`;
+        }).join('') + addBtn;
+      } catch (err) {
+        console.error('Erreur mes objets:', err);
+      }
+    }
+
+    /* --- Ouvrir la fiche d'un objet réel --- */
+    async function openObjectFiche(objectId) {
+      if (!sb) return;
+      try {
+        const { data: o, error } = await sb.from('objects')
+          .select('*, users(id, prenom, nom, ville, note_moyenne, nb_prets, verifie_identite, created_at)')
+          .eq('id', objectId)
+          .single();
+        if (error) throw error;
+        window.currentObject = o;
+
+        // Mettre à jour la fiche
+        const ficheTitle = document.querySelector('#p-fiche .fttl, #p-fiche h2');
+        if (ficheTitle) ficheTitle.textContent = o.titre;
+
+        const ficheDesc = document.querySelector('#p-fiche .fdesc, #p-fiche .fdescr');
+        if (ficheDesc) ficheDesc.textContent = o.description || 'Pas de description';
+
+        const fichePts = document.querySelector('#p-fiche .fpts, #p-fiche .fbprice');
+        if (fichePts) fichePts.textContent = o.pts_par_jour + ' pts/jour';
+
+        const ficheOwner = document.querySelector('#p-fiche .foname');
+        if (ficheOwner && o.users) ficheOwner.textContent = o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.';
+
+        go('p-fiche');
+      } catch (err) {
+        console.error('Erreur fiche:', err);
+        alert('Impossible de charger cet objet.');
+      }
     }
 
     /* ---------- NOTIFICATIONS ---------- */
@@ -5539,6 +5670,10 @@
 
       // Stocker le profil globalement
       window.currentProfile = profile;
+
+      // Charger mes objets + tous les objets
+      if (typeof loadHomeObjects === 'function') loadHomeObjects();
+      if (typeof loadMyObjects === 'function') loadMyObjects();
     }
 
     /* ---------- INIT au chargement ---------- */
