@@ -4054,9 +4054,9 @@
       <div class="ascreen active" id="as-home">
         <div class="wbanner" id="wb">
           <div class="wbt">
-            <div class="wbttl">Bienvenue ! 👋</div>
+            <div class="wbttl" id="home-welcome">Bienvenue ! 👋</div>
             <div class="wbpts">
-              <div class="wbn">50</div>
+              <div class="wbn" id="home-pts-banner">50</div>
               <div class="wbl">points</div>
             </div>
           </div>
@@ -4065,33 +4065,42 @@
               <div class="wbsi" aria-hidden="true">✓</div>
               <div class="wbsl">Compte créé</div>
             </div>
-            <div class="wbs" role="button" tabindex="0" onclick="setTab('addobj');this.classList.add('done');this.querySelector('.wbsi').textContent='✓';" onkeypress="if(event.key==='Enter')this.click()">
+            <div class="wbs" role="button" tabindex="0" onclick="setTab('addobj')" onkeypress="if(event.key==='Enter')this.click()">
               <div class="wbsi" aria-hidden="true">📷</div>
               <div class="wbsl">Ajouter un objet</div>
             </div>
-            <div class="wbs" role="button" tabindex="0" onclick="setTab('swipe');this.classList.add('done');this.querySelector('.wbsi').textContent='✓';" onkeypress="if(event.key==='Enter')this.click()">
+            <div class="wbs" role="button" tabindex="0" onclick="setTab('swipe')" onkeypress="if(event.key==='Enter')this.click()">
               <div class="wbsi" aria-hidden="true">🔍</div>
               <div class="wbsl">Explorer</div>
             </div>
           </div>
           <button type="button" class="wbdis" onclick="document.getElementById('wb').style.display='none'">Masquer</button>
         </div>
+
+        <!-- Filtre distance "Près de toi" -->
         <div class="srow">
-          <div class="sttl">📍 Près de toi · Lille</div>
-          <button type="button" class="slnk" onclick="setTab('swipe');setSwipeMode('browse')">Voir tout</button>
+          <div class="sttl" id="home-near-title">📍 Près de toi · Lille</div>
         </div>
+        <div style="padding:0 18px 12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;">
+          <button type="button" class="radius-chip" data-radius="1" onclick="setHomeRadius(1, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">1 km</button>
+          <button type="button" class="radius-chip" data-radius="10" onclick="setHomeRadius(10, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">10 km</button>
+          <button type="button" class="radius-chip active-radius" data-radius="50" onclick="setHomeRadius(50, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid var(--g);background:var(--g);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:white;">50 km</button>
+          <button type="button" class="radius-chip" data-radius="200" onclick="setHomeRadius(200, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">200 km</button>
+          <button type="button" class="radius-chip" data-radius="9999" onclick="setHomeRadius(9999, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">France</button>
+        </div>
+
         <div class="nscroll" id="home-near">
           <div style="padding:20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Chargement…</div>
         </div>
-        <button type="button" class="addbanner" onclick="setTab('addobj')">
-          <div class="addico" aria-hidden="true">+</div>
-          <div>
-            <div class="addttl">Publie ton premier objet</div>
-            <div class="addsub">Gagne des points en prêtant</div>
-          </div>
-        </button>
+
+        <!-- Bloc slogan Shapio (remplace "Publie ton premier objet") -->
+        <div style="margin:14px 18px;padding:20px;border-radius:16px;background:linear-gradient(135deg,#E1F5EE,#F7F5F0);border:1px solid rgba(8,80,65,0.08);">
+          <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--dk);margin-bottom:6px;">Prête ce que tu n'utilises pas 🌻</div>
+          <div style="font-size:13px;color:var(--mu);line-height:1.5;">Emprunte ce dont tu as besoin. Une communauté locale, sans argent, juste des points.</div>
+        </div>
+
         <div class="srow">
-          <div class="sttl">✨ Découvrir</div>
+          <div class="sttl">✨ Découvrir partout en France</div>
           <button type="button" class="slnk" onclick="setTab('swipe')">Mode swipe</button>
         </div>
         <div class="bgrid" id="home-discover">
@@ -4099,11 +4108,29 @@
         </div>
       </div>
 
-      <!-- SWIPE -->
+      <!-- SWIPE / EXPLORER -->
       <div class="ascreen" id="as-swipe">
+        <!-- Barre de recherche + filtres -->
+        <div style="padding:14px 18px 0;">
+          <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:12px;padding:10px 14px;border:0.5px solid rgba(8,80,65,0.15);margin-bottom:10px;">
+            <span aria-hidden="true">🔍</span>
+            <input type="text" id="explorer-search" placeholder="Rechercher un objet…" oninput="filterExplorer()" style="flex:1;border:0;outline:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);" />
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:12px;padding:10px 14px;border:0.5px solid rgba(8,80,65,0.15);margin-bottom:10px;">
+            <span aria-hidden="true">📍</span>
+            <input type="text" id="explorer-city" placeholder="Localisation (Lille, Paris…)" oninput="filterExplorer()" style="flex:1;border:0;outline:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);" />
+          </div>
+          <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px;">
+            <button type="button" class="exp-radius active-radius" data-radius="1" onclick="setExplorerRadius(1, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid var(--g);background:var(--g);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:white;">1 km</button>
+            <button type="button" class="exp-radius" data-radius="10" onclick="setExplorerRadius(10, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">10 km</button>
+            <button type="button" class="exp-radius" data-radius="50" onclick="setExplorerRadius(50, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">50 km</button>
+            <button type="button" class="exp-radius" data-radius="200" onclick="setExplorerRadius(200, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">200 km</button>
+            <button type="button" class="exp-radius" data-radius="9999" onclick="setExplorerRadius(9999, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">France</button>
+          </div>
+        </div>
         <div class="mode-toggle" role="tablist">
           <button class="mtbtn active" id="mt-swipe" type="button" role="tab" aria-selected="true" onclick="setSwipeMode('swipe')">▶ Swipe</button>
-          <button class="mtbtn" id="mt-browse" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('browse')">⊞ Explorer</button>
+          <button class="mtbtn" id="mt-browse" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('browse')">⊞ Liste</button>
         </div>
         <div class="filters" role="group" aria-label="Filtres par catégorie">
           <button type="button" class="fchip active" onclick="setFilter(this)">Tout</button>
@@ -4112,97 +4139,28 @@
           <button type="button" class="fchip" onclick="setFilter(this)">Sport</button>
           <button type="button" class="fchip" onclick="setFilter(this)">Jardinage</button>
         </div>
-        <div id="swipe-mode">
+        <div id="swipe-mode" style="display:block;">
           <div class="cstack" id="cstack">
-            <div class="scard back" id="cback" aria-hidden="true">
-              <div class="cphoto" style="background:#EEEDFE;"><span>🎮</span></div>
-              <div class="cbody">
-                <div class="ctitle">Manette PS5</div>
-              </div>
-            </div>
-            <div class="scard front" id="cfront">
-              <div class="cphoto" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
-                <div class="cbadge">15 pts</div>
-                <div class="cdist">2.3 km</div>
-              </div>
-              <div class="cbody">
-                <div class="ctitle">Drone DJI Mini 3</div>
-                <div class="cowner">
-                  <div class="cav" aria-hidden="true">ML</div><span>Marie L.</span><span class="cstars" aria-label="Note 4.9 sur 5">★★★★★</span><span
-                    style="font-size:11px;color:var(--mu);">4.9</span>
-                </div>
-                <div class="ctags"><span class="ctag">Tech</span><span class="ctag">Caméra 4K</span><span
-                    class="ctag">Débutant ok</span></div>
-              </div>
-            </div>
+            <div style="padding:60px 30px;text-align:center;color:var(--mu);font-size:14px;">Chargement…</div>
           </div>
-          <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;"><span
-              style="font-size:11px;color:var(--mu);">← Passer</span><span
-              style="font-size:11px;color:var(--mu);">Vouloir →</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;">
+            <span style="font-size:11px;color:var(--mu);">← Passer</span>
+            <span style="font-size:11px;color:var(--mu);">Voir le détail →</span>
+          </div>
           <div class="sactions">
-            <button class="sabtn sask" type="button" aria-label="Passer cet objet" onclick="swipe('left')">✕</button>
-            <button class="sabtn slike" type="button" aria-label="Demander à emprunter" onclick="swipe('right')">♥</button>
-            <button class="sabtn ssave" type="button" aria-label="Sauvegarder">★</button>
+            <button class="sabtn sask" type="button" aria-label="Passer cet objet" onclick="swipeNext()">✕</button>
+            <button class="sabtn slike" type="button" aria-label="Voir le détail" onclick="openObjectFiche(window.swipeFiltered?.[window.swipeIndex]?.id)">♥</button>
           </div>
         </div>
         <div id="browse-mode" style="display:none;">
-          <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;">24 objets à moins de 5 km</div>
-          <div class="bgrid">
-            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="bimg" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
-                <div class="bpts">15 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Drone DJI Mini 3</div>
-                <div class="bowner">Marie L. ★ 4.9 · 2.3km</div>
-              </div>
-            </div>
-            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="bimg" style="background:#EEEDFE;"><span aria-hidden="true">🎮</span>
-                <div class="bpts">8 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Manette PS5</div>
-                <div class="bowner">Thomas R. ★ 4.7 · 0.8km</div>
-              </div>
-            </div>
-            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="bimg" style="background:#FAEEDA;"><span aria-hidden="true">🔧</span>
-                <div class="bpts">10 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Perceuse Bosch</div>
-                <div class="bowner">Karim B. ★ 5.0 · 1.1km</div>
-              </div>
-            </div>
-            <div class="bcard" role="button" tabindex="0" onclick="openFiche()" onkeypress="if(event.key==='Enter')openFiche()">
-              <div class="bimg" style="background:#FAECE7;"><span aria-hidden="true">🏕</span>
-                <div class="bpts">20 pts</div>
-              </div>
-              <div class="binfo">
-                <div class="bname">Tente 4 places</div>
-                <div class="bowner">Sophie M. ★ 4.8 · 3.2km</div>
-              </div>
-            </div>
+          <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;" id="browse-count">0 objet disponible</div>
+          <div class="bgrid" id="browse-grid">
+            <div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
           </div>
-        </div>
-        <div id="match-ov" role="dialog" aria-modal="true" aria-labelledby="match-title"
-          style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px;padding:28px;text-align:center;">
-          <div id="match-title" style="font-family:'DM Serif Display',serif;font-size:26px;color:white;margin-bottom:12px;">C'est un
-            match !</div>
-          <div style="font-size:48px;margin-bottom:12px;" aria-hidden="true">🚁</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5;margin-bottom:18px;">Marie a accepté ta
-            demande<br><strong style="color:white;">15 pts seront bloqués</strong> jusqu'au retour</div>
-          <button type="button" onclick="closeMatch();setTab('msgs')"
-            style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer
-            un message</button>
-          <button type="button" onclick="closeMatch()"
-            style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Continuer
-            à explorer</button>
         </div>
       </div>
 
-      <!-- FICHE -->
+            <!-- FICHE -->
       <div class="ascreen" id="as-fiche">
         <div class="fphoto" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
           <button type="button" class="fback" aria-label="Retour" onclick="backFromFiche()">←</button>
@@ -4215,7 +4173,7 @@
         </div>
         <div class="fbody">
           <div class="ftrow">
-            <div class="ftitle">Drone DJI Mini 3 Pro</div>
+            <div class="ftitle" id="fiche-titre">Objet</div>
             <div class="fpts">
               <div class="fptsn">15</div>
               <div class="fptsl">pts/jour</div>
@@ -4236,10 +4194,10 @@
             pochette.</div>
           <div class="fdiv"></div>
           <div class="fslbl">Prêté par</div>
-          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil de Marie L.">
+          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil de Membre">
             <div class="foav" aria-hidden="true">ML</div>
             <div class="foinfo">
-              <div class="foname">Marie L. <div class="fobadge">✓ Vérifié</div>
+              <div class="foname" id="fiche-owner-name">Membre <div class="fobadge">✓ Vérifié</div>
               </div>
               <div class="fosub">⭐ 4.9 · 23 prêts · Membre depuis 2024</div>
             </div>
@@ -4265,10 +4223,10 @@
             <div class="frev">
               <div class="frevh">
                 <div class="frevav" aria-hidden="true">TR</div>
-                <div class="frevn">Thomas R.</div>
+                <div class="frevn">Membre</div>
                 <div class="frevs2" aria-label="5 étoiles">★★★★★</div>
               </div>
-              <div class="frevt">Drone en parfait état, Marie très sympa !</div>
+              <div class="frevt">Avis exemple</div>
             </div>
             <div class="frev">
               <div class="frevh">
@@ -4304,40 +4262,15 @@
         </div>
       </div>
 
-      <!-- MESSAGES -->
+            <!-- MESSAGES -->
       <div class="ascreen" id="as-msgs">
         <div class="msg-hdr">
           <h2>Messages</h2>
         </div>
-        <div class="match-row" role="list" aria-label="Matchs récents">
-          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
-            <div class="mchipav" aria-hidden="true">🚁</div><span>Marie</span>
-          </button>
-          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
-            <div class="mchipav" aria-hidden="true">🎮</div><span>Thomas</span>
-          </button>
-          <button type="button" class="mchip" role="listitem" onclick="setTab('chat')">
-            <div class="mchipav" aria-hidden="true">🔧</div><span>Karim</span>
-          </button>
-        </div>
-        <div class="conv" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
-          <div class="convav" aria-hidden="true">🚁</div>
-          <div class="convinfo">
-            <div class="convname">Marie L.</div>
-            <div class="convprev">Super, disponible samedi matin pour le drone ?</div>
+        <div id="msgs-list" style="padding:0 18px;">
+          <div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">
+            Chargement…
           </div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;"><span
-              class="convtime">14:23</span>
-            <div class="undot" aria-label="Non lu"></div>
-          </div>
-        </div>
-        <div class="conv" role="button" tabindex="0" onclick="setTab('chat')" onkeypress="if(event.key==='Enter')setTab('chat')">
-          <div class="convav" aria-hidden="true">🎮</div>
-          <div class="convinfo">
-            <div class="convname">Thomas R.</div>
-            <div class="convprev">Ok pour samedi !</div>
-          </div>
-          <span class="convtime">11:05</span>
         </div>
       </div>
 
@@ -4347,7 +4280,7 @@
           <div class="chat-hdr">
             <button class="cback" type="button" aria-label="Retour aux messages" onclick="setTab('msgs')">←</button>
             <div class="chatav" aria-hidden="true">🚁</div>
-            <div class="chatname">Marie L.</div>
+            <div class="chatname" id="chat-name">Conversation</div>
             <div class="chat-acts">
               <button type="button" class="chatact" aria-label="Appel vocal">🎙</button>
               <button type="button" class="chatact" aria-label="Localisation">📍</button>
@@ -4429,10 +4362,113 @@
         </div>
       </div>
 
+            <!-- PROFIL -->
+      <div class="ascreen" id="as-profil">
+        <div style="background:var(--gl);height:80px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;">
+          <button type="button" onclick="openEditProfile()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.95);border:0;border-radius:100px;padding:8px 16px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--dk);cursor:pointer;">Modifier le profil</button>
+          <div class="pavwrap" style="position:absolute;bottom:-50px;left:18px;">
+            <div class="pav" id="profile-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);">?</div>
+            <div id="profile-badge-floating" style="position:absolute;bottom:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;display:none;">✓</div>
+          </div>
+        </div>
+
+        <div style="padding:0 18px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            <div class="pname" id="profile-name" style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);">Chargement…</div>
+            <div class="pvbadge" id="profile-badge" style="display:none;background:#E1F5EE;color:var(--g);font-size:11px;padding:3px 8px;border-radius:100px;font-weight:500;">✓ Vérifié</div>
+          </div>
+          <div class="psub" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);margin-bottom:18px;">
+            <span>📍</span>
+            <span id="profile-ville">Lille</span>
+            <span>·</span>
+            <span id="profile-since">Membre depuis 2026</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">
+            <div style="background:#f7f7f4;border-radius:12px;padding:12px 8px;text-align:center;">
+              <div class="pstn" id="profile-pts" style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--dk);">50</div>
+              <div class="pstl" style="font-size:11px;color:var(--mu);">points</div>
+            </div>
+            <div style="background:#f7f7f4;border-radius:12px;padding:12px 8px;text-align:center;">
+              <div class="pstn" id="profile-prets" style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--dk);">0</div>
+              <div class="pstl" style="font-size:11px;color:var(--mu);">prêts</div>
+            </div>
+            <div style="background:#f7f7f4;border-radius:12px;padding:12px 8px;text-align:center;">
+              <div class="pstn" id="profile-emprunts" style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--dk);">0</div>
+              <div class="pstl" style="font-size:11px;color:var(--mu);">emprunts</div>
+            </div>
+            <div style="background:#f7f7f4;border-radius:12px;padding:12px 8px;text-align:center;">
+              <div class="pstn" id="profile-note" style="font-family:'DM Serif Display',serif;font-size:22px;color:#BA7517;">–</div>
+              <div class="pstl" style="font-size:11px;color:var(--mu);">note</div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div style="display:flex;border-bottom:1px solid rgba(8,80,65,0.1);margin-bottom:18px;">
+            <button type="button" id="ptab-objets" onclick="setProfileTab('objets')" style="flex:1;padding:12px;border:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--g);border-bottom:2px solid var(--g);cursor:pointer;font-weight:500;">Mes objets</button>
+            <button type="button" id="ptab-avis" onclick="setProfileTab('avis')" style="flex:1;padding:12px;border:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mu);cursor:pointer;">Avis</button>
+            <button type="button" id="ptab-param" onclick="setProfileTab('param')" style="flex:1;padding:12px;border:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mu);cursor:pointer;">Paramètres</button>
+          </div>
+
+          <!-- Tab content : Mes objets -->
+          <div id="ptab-content-objets">
+            <div style="background:#f7f7f4;border-radius:14px;padding:14px;margin-bottom:18px;">
+              <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Vérification</div>
+              <div id="trust-section">
+                <div class="ptrow" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                  <div class="ptico ptdone" style="width:22px;height:22px;background:var(--g);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">✓</div>
+                  <div class="ptlbl" style="flex:1;font-size:13px;">Email confirmé</div>
+                </div>
+                <div class="ptrow" id="trust-tel-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                  <div class="ptico" id="trust-tel-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
+                  <div class="ptlbl" id="trust-tel-lbl" style="flex:1;font-size:13px;color:var(--mu);">Numéro de téléphone</div>
+                  <button type="button" id="trust-tel-btn" onclick="alert('Vérification téléphone disponible bientôt 🌻')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Ajouter</button>
+                </div>
+                <div class="ptrow" id="trust-id-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                  <div class="ptico" id="trust-id-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
+                  <div class="ptlbl" id="trust-id-lbl" style="flex:1;font-size:13px;color:var(--mu);">Pièce d'identité</div>
+                  <button type="button" id="trust-id-btn" onclick="go('p-verif')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Ajouter</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Mes objets</div>
+            <div class="pogrid" id="my-objects-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+              <div id="my-objects-empty" style="grid-column:1/-1;text-align:center;padding:24px 16px;color:var(--mu);font-size:13px;">
+                Aucun objet publié pour l'instant.
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab content : Avis -->
+          <div id="ptab-content-avis" style="display:none;">
+            <div id="profile-avis-list" style="text-align:center;padding:30px 20px;color:var(--mu);font-size:13px;">
+              Aucun avis pour l'instant. Tes premiers avis apparaîtront ici après tes premiers échanges.
+            </div>
+          </div>
+
+          <!-- Tab content : Paramètres -->
+          <div id="ptab-content-param" style="display:none;">
+            <button type="button" onclick="openEditProfile()" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;">
+              <span>✏️ Modifier mon profil</span>
+              <span style="color:var(--mu);">›</span>
+            </button>
+            <button type="button" onclick="go('p-verif')" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;">
+              <span>🪪 Vérifier mon identité</span>
+              <span style="color:var(--mu);">›</span>
+            </button>
+            <button type="button" onclick="handleLogout()" style="width:100%;text-align:left;padding:14px;background:#FEE2E2;border:0;border-radius:12px;margin-top:14px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:#EF4444;display:flex;justify-content:space-between;align-items:center;">
+              <span>🚪 Se déconnecter</span>
+              <span>›</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- ADD OBJECT -->
       <div class="ascreen" id="as-addobj">
         <div class="ao-hdr">
-          <button type="button" class="ao-back" aria-label="Retour" onclick="setTab(prevTab||'home')">←</button>
+          <button type="button" class="ao-back" aria-label="Retour" onclick="setTab('home')">←</button>
           <div class="ao-title">Ajouter un objet</div>
         </div>
         <form class="ao-form" onsubmit="event.preventDefault();handleAddObject();" novalidate>
@@ -5147,6 +5183,26 @@
       }
     }
 
+    /* --- Switch entre les onglets du profil --- */
+    function setProfileTab(tab) {
+      ['objets', 'avis', 'param'].forEach(t => {
+        const btn = document.getElementById('ptab-' + t);
+        const content = document.getElementById('ptab-content-' + t);
+        if (btn) {
+          if (t === tab) {
+            btn.style.color = 'var(--g)';
+            btn.style.borderBottom = '2px solid var(--g)';
+            btn.style.fontWeight = '500';
+          } else {
+            btn.style.color = 'var(--mu)';
+            btn.style.borderBottom = 'none';
+            btn.style.fontWeight = '400';
+          }
+        }
+        if (content) content.style.display = (t === tab) ? 'block' : 'none';
+      });
+    }
+
     async function handleLogout() {
       if (confirm('Te déconnecter de Shapio ?')) {
         await sb.auth.signOut();
@@ -5192,16 +5248,8 @@
       setTab('chat');
     }
 
-    /* ---------- SWIPE ---------- */
-    const cards = [
-      { icon: '🚁', bg: '#E1F5EE', pts: 15, dist: '2.3 km', title: 'Drone DJI Mini 3', owner: 'Marie L.', note: '4.9', tags: ['Tech', 'Caméra 4K', 'Débutant ok'] },
-      { icon: '🎮', bg: '#EEEDFE', pts: 8, dist: '0.8 km', title: 'Manette PS5', owner: 'Thomas R.', note: '4.7', tags: ['Gaming', 'Bon état'] },
-      { icon: '🔧', bg: '#FAEEDA', pts: 10, dist: '1.1 km', title: 'Perceuse Bosch', owner: 'Karim B.', note: '5.0', tags: ['Bricolage', 'Accessoires'] },
-      { icon: '🏕', bg: '#FAECE7', pts: 20, dist: '3.2 km', title: 'Tente 4 places', owner: 'Sophie M.', note: '4.8', tags: ['Sport', 'Camping'] },
-      { icon: '📷', bg: '#EEEDFE', pts: 25, dist: '1.6 km', title: 'Sony A7 III', owner: 'Inès F.', note: '4.9', tags: ['Photo', 'Pro'] },
-      { icon: '🛴', bg: '#FAEEDA', pts: 18, dist: '0.5 km', title: 'Trottinette électrique', owner: 'Romain D.', note: '4.7', tags: ['Mobilité'] }
-    ];
-
+    /* ---------- SWIPE (vidé - utilise window.swipeFiltered) ---------- */
+    const cards = [];
     let ci = 0;
 
     function renderCard(i, el) {
@@ -5514,97 +5562,261 @@
       }
     }
 
-    /* --- Charger les objets sur la home --- */
+    /* --- État global filtres --- */
+    window.homeRadius = 50;
+    window.explorerRadius = 1;
+    window.explorerSearch = '';
+    window.explorerCity = '';
+
+    /* --- Distance approximative basée sur la ville (sans géocoding) --- */
+    // Simple : on considère même ville = 0 km, sinon on ne sait pas (on renvoie 999)
+    function approxDistance(ville1, ville2) {
+      if (!ville1 || !ville2) return 9999;
+      const v1 = ville1.toLowerCase().trim();
+      const v2 = ville2.toLowerCase().trim();
+      if (v1 === v2) return 0;
+      // Si une contient l'autre (banlieue): considérer 5km
+      if (v1.includes(v2) || v2.includes(v1)) return 5;
+      return 9999; // Inconnu
+    }
+
+    /* --- Icônes par catégorie --- */
+    const CAT_ICONS = {
+      'Tech': { ico: '📱', bg: '#E1F5EE' },
+      'Bricolage': { ico: '🔧', bg: '#FAEEDA' },
+      'Maison': { ico: '🏠', bg: '#FAECE7' },
+      'Sport': { ico: '⚽', bg: '#E1F5EE' },
+      'Jardinage': { ico: '🌱', bg: '#E1F5EE' },
+      'Cuisine': { ico: '🍳', bg: '#FAEEDA' },
+      'Loisirs': { ico: '🎮', bg: '#EEEDFE' },
+      'Autre': { ico: '📦', bg: '#F3F4F6' }
+    };
+
+    /* --- Card builders --- */
+    function buildNearCard(o) {
+      const c = CAT_ICONS[o.categorie] || CAT_ICONS['Autre'];
+      const photo = (o.photos && o.photos[0])
+        ? '<img src="' + o.photos[0] + '" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="' + o.titre + '"/>'
+        : '<span aria-hidden="true">' + c.ico + '</span>';
+      const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Membre';
+      return '<div class="ncard" role="button" tabindex="0" onclick="openObjectFiche(\'' + o.id + '\')">' +
+        '<div class="nimg" style="background:' + c.bg + ';">' + photo +
+        '<div class="npts">' + o.pts_par_jour + ' pts</div>' +
+        '</div>' +
+        '<div class="ninfo">' +
+        '<div class="nname">' + o.titre + '</div>' +
+        '<div class="ndist">' + (o.ville || 'France') + ' · ' + ownerName + '</div>' +
+        '</div></div>';
+    }
+
+    function buildBrowseCard(o) {
+      const c = CAT_ICONS[o.categorie] || CAT_ICONS['Autre'];
+      const photo = (o.photos && o.photos[0])
+        ? '<img src="' + o.photos[0] + '" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="' + o.titre + '"/>'
+        : '<span aria-hidden="true">' + c.ico + '</span>';
+      const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Membre';
+      const note = o.users?.note_moyenne > 0 ? ('★ ' + o.users.note_moyenne) : '★ –';
+      return '<div class="bcard" role="button" tabindex="0" onclick="openObjectFiche(\'' + o.id + '\')">' +
+        '<div class="bimg" style="background:' + c.bg + ';">' + photo +
+        '<div class="bpts">' + o.pts_par_jour + ' pts</div>' +
+        '</div>' +
+        '<div class="binfo">' +
+        '<div class="bname">' + o.titre + '</div>' +
+        '<div class="bowner">' + ownerName + ' · ' + note + ' · ' + (o.ville || 'France') + '</div>' +
+        '</div></div>';
+    }
+
+    /* --- Charger tous les objets pour la home --- */
     async function loadHomeObjects() {
       if (!sb) return;
-
+      const profile = await getCurrentProfile();
       const nearEl = document.getElementById('home-near');
       const discoverEl = document.getElementById('home-discover');
+      const nearTitle = document.getElementById('home-near-title');
 
       try {
-        // Récupérer tous les objets disponibles, excluant ceux du user connecté
         let query = sb.from('objects')
-          .select('*, users(prenom, nom, note_moyenne, verifie_identite)')
+          .select('*, users(prenom, nom, note_moyenne, verifie_identite, ville)')
           .eq('disponible', true)
-          .order('created_at', { ascending: false })
-          .limit(20);
+          .order('created_at', { ascending: false });
 
-        if (window.currentProfile) {
-          query = query.neq('user_id', window.currentProfile.id);
+        if (profile?.id) {
+          query = query.neq('user_id', profile.id);
         }
 
-        const { data: objects, error } = await query;
+        const { data: allObjects, error } = await query;
         if (error) throw error;
+        const objects = allObjects || [];
 
-        // Catégorie → icône + couleur
-        const catIcons = {
-          'Tech': { ico: '📱', bg: '#E1F5EE' },
-          'Bricolage': { ico: '🔧', bg: '#FAEEDA' },
-          'Maison': { ico: '🏠', bg: '#FAECE7' },
-          'Sport': { ico: '⚽', bg: '#E1F5EE' },
-          'Jardinage': { ico: '🌱', bg: '#E1F5EE' },
-          'Cuisine': { ico: '🍳', bg: '#FAEEDA' },
-          'Loisirs': { ico: '🎮', bg: '#EEEDFE' },
-          'Autre': { ico: '📦', bg: '#F3F4F6' }
-        };
+        // Stocker globalement
+        window.allObjects = objects;
 
-        if (!objects || objects.length === 0) {
-          if (nearEl) nearEl.innerHTML = '<div style="padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Aucun objet disponible pour le moment.<br>Sois le premier à publier !</div>';
-          if (discoverEl) discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;">Bientôt plus d\'objets ici 🌻</div>';
-          return;
+        // Titre dynamique avec ville
+        if (nearTitle && profile?.ville) {
+          nearTitle.textContent = '📍 Près de toi · ' + profile.ville;
         }
 
-        // Près de toi : 4 premiers
+        // Filtre rayon
+        const radius = window.homeRadius || 50;
+        let nearObjects;
+        if (radius >= 9999) {
+          nearObjects = objects;
+        } else if (profile?.ville) {
+          nearObjects = objects.filter(o => approxDistance(o.ville, profile.ville) <= radius);
+        } else {
+          nearObjects = objects;
+        }
+
+        // Render "Près de toi"
         if (nearEl) {
-          nearEl.innerHTML = objects.slice(0, 6).map(o => {
-            const c = catIcons[o.categorie] || catIcons['Autre'];
-            const photo = (o.photos && o.photos[0]) ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>` : `<span aria-hidden="true">${c.ico}</span>`;
-            const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
-            return `<div class="ncard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
-              <div class="nimg" style="background:${c.bg};">${photo}
-                <div class="npts">${o.pts_par_jour} pts</div>
-              </div>
-              <div class="ninfo">
-                <div class="nname">${o.titre}</div>
-                <div class="ndist">${o.ville || 'Lille'} · ${ownerName}</div>
-              </div>
-            </div>`;
-          }).join('');
-        }
-
-        // Découvrir : suivants
-        if (discoverEl) {
-          const discover = objects.slice(0, 6);
-          if (discover.length === 0) {
-            discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px;color:var(--mu);font-size:13px;text-align:center;">Plus d\'objets bientôt 🌻</div>';
+          if (nearObjects.length === 0) {
+            nearEl.innerHTML = '<div style="padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Aucun objet à ' + radius + ' km' + (profile?.ville ? ' autour de ' + profile.ville : '') + '.<br>Essaie d\'élargir le rayon !</div>';
           } else {
-            discoverEl.innerHTML = discover.map(o => {
-              const c = catIcons[o.categorie] || catIcons['Autre'];
-              const photo = (o.photos && o.photos[0]) ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>` : `<span aria-hidden="true">${c.ico}</span>`;
-              const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Voisin';
-              const note = o.users?.note_moyenne > 0 ? ('★ ' + o.users.note_moyenne) : '★ –';
-              return `<div class="bcard" role="button" tabindex="0" onclick="openObjectFiche('${o.id}')">
-                <div class="bimg" style="background:${c.bg};">${photo}
-                  <div class="bpts">${o.pts_par_jour} pts</div>
-                </div>
-                <div class="binfo">
-                  <div class="bname">${o.titre}</div>
-                  <div class="bowner">${ownerName} · ${note}</div>
-                </div>
-              </div>`;
-            }).join('');
+            nearEl.innerHTML = nearObjects.slice(0, 10).map(buildNearCard).join('');
           }
         }
 
-        // Stocker pour le swipe
-        window.allObjects = objects;
+        // Découvrir : aléatoire partout
+        if (discoverEl) {
+          if (objects.length === 0) {
+            discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;">Aucun objet publié pour l\'instant.<br>Sois le premier à publier !</div>';
+          } else {
+            // Shuffle pour aléatoire
+            const shuffled = [...objects].sort(() => Math.random() - 0.5);
+            discoverEl.innerHTML = shuffled.slice(0, 8).map(buildBrowseCard).join('');
+          }
+        }
+
+        // Mettre à jour aussi explorer
+        if (typeof refreshExplorer === 'function') refreshExplorer();
       } catch (err) {
-        console.error('Erreur chargement objets:', err);
-        if (nearEl) nearEl.innerHTML = '<div style="padding:20px;color:var(--mu);font-size:13px;">Erreur de chargement</div>';
+        console.error('loadHomeObjects error:', err);
+        if (nearEl) nearEl.innerHTML = '<div style="padding:20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Erreur de chargement</div>';
       }
     }
 
-    /* --- Charger MES objets pour le profil --- */
+    /* --- Filtre rayon home --- */
+    function setHomeRadius(km, ev) {
+      window.homeRadius = km;
+      document.querySelectorAll('.radius-chip').forEach(c => {
+        c.classList.remove('active-radius');
+        c.style.background = 'white';
+        c.style.color = 'var(--dk)';
+        c.style.borderColor = 'rgba(8,80,65,0.2)';
+      });
+      if (ev?.target) {
+        ev.target.classList.add('active-radius');
+        ev.target.style.background = 'var(--g)';
+        ev.target.style.color = 'white';
+        ev.target.style.borderColor = 'var(--g)';
+      }
+      loadHomeObjects();
+    }
+
+    /* --- Filtre rayon explorer --- */
+    function setExplorerRadius(km, ev) {
+      window.explorerRadius = km;
+      document.querySelectorAll('.exp-radius').forEach(c => {
+        c.classList.remove('active-radius');
+        c.style.background = 'white';
+        c.style.color = 'var(--dk)';
+        c.style.borderColor = 'rgba(8,80,65,0.2)';
+      });
+      if (ev?.target) {
+        ev.target.classList.add('active-radius');
+        ev.target.style.background = 'var(--g)';
+        ev.target.style.color = 'white';
+        ev.target.style.borderColor = 'var(--g)';
+      }
+      refreshExplorer();
+    }
+
+    /* --- Filtrer explorer par recherche/ville/rayon --- */
+    function filterExplorer() {
+      window.explorerSearch = (document.getElementById('explorer-search')?.value || '').toLowerCase().trim();
+      window.explorerCity = (document.getElementById('explorer-city')?.value || '').toLowerCase().trim();
+      refreshExplorer();
+    }
+
+    /* --- Refresh swipe et browse selon filtres --- */
+    function refreshExplorer() {
+      const all = window.allObjects || [];
+      const search = window.explorerSearch || '';
+      const cityFilter = window.explorerCity || '';
+      const radius = window.explorerRadius || 9999;
+      const profile = window.currentProfile;
+      const refCity = cityFilter || profile?.ville || '';
+
+      // Filtrer
+      let filtered = all.filter(o => {
+        if (search && !(o.titre?.toLowerCase().includes(search) || o.description?.toLowerCase().includes(search))) return false;
+        if (refCity && radius < 9999) {
+          if (approxDistance(o.ville, refCity) > radius) return false;
+        }
+        return true;
+      });
+
+      // Browse mode
+      const browseGrid = document.getElementById('browse-grid');
+      const browseCount = document.getElementById('browse-count');
+      if (browseGrid) {
+        if (filtered.length === 0) {
+          browseGrid.innerHTML = '<div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Aucun objet ne correspond à ta recherche.<br>Essaie d\'élargir les filtres.</div>';
+        } else {
+          browseGrid.innerHTML = filtered.map(buildBrowseCard).join('');
+        }
+      }
+      if (browseCount) {
+        browseCount.textContent = filtered.length + ' objet' + (filtered.length > 1 ? 's' : '') + ' disponible' + (filtered.length > 1 ? 's' : '');
+      }
+
+      // Swipe mode - show first card
+      window.swipeFiltered = filtered;
+      window.swipeIndex = 0;
+      renderSwipeCard();
+    }
+
+    /* --- Render swipe card --- */
+    function renderSwipeCard() {
+      const stack = document.getElementById('cstack');
+      if (!stack) return;
+      const filtered = window.swipeFiltered || [];
+      const idx = window.swipeIndex || 0;
+      if (filtered.length === 0 || idx >= filtered.length) {
+        stack.innerHTML = '<div style="padding:60px 30px;text-align:center;color:var(--mu);font-size:14px;">Aucun objet à explorer pour l\'instant.<br><br>Reviens bientôt — les nouveaux objets s\'afficheront ici.</div>';
+        return;
+      }
+      const o = filtered[idx];
+      const c = CAT_ICONS[o.categorie] || CAT_ICONS['Autre'];
+      const photo = (o.photos && o.photos[0])
+        ? '<img src="' + o.photos[0] + '" style="width:100%;height:100%;object-fit:cover;" alt="' + o.titre + '"/>'
+        : '<span aria-hidden="true" style="font-size:80px;">' + c.ico + '</span>';
+      const ownerName = o.users ? (o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.') : 'Membre';
+      const note = o.users?.note_moyenne > 0 ? o.users.note_moyenne : '–';
+      stack.innerHTML = '<div class="scard front" onclick="openObjectFiche(\'' + o.id + '\')">' +
+        '<div class="cphoto" style="background:' + c.bg + ';">' + photo +
+        '<div class="cbadge">' + o.pts_par_jour + ' pts</div>' +
+        '<div class="cdist">' + (o.ville || 'France') + '</div>' +
+        '</div>' +
+        '<div class="cbody">' +
+        '<div class="ctitle">' + o.titre + '</div>' +
+        '<div class="cowner">' +
+        '<div class="cav" aria-hidden="true">' + ((o.users?.prenom?.[0] || '?') + (o.users?.nom?.[0] || '')) + '</div>' +
+        '<span>' + ownerName + '</span>' +
+        '<span class="cstars">★</span>' +
+        '<span style="font-size:11px;color:var(--mu);">' + note + '</span>' +
+        '</div>' +
+        '<div class="ctags"><span class="ctag">' + o.categorie + '</span></div>' +
+        '</div></div>';
+    }
+
+    /* --- Swipe actions (skip / like) --- */
+    function swipeNext() {
+      window.swipeIndex = (window.swipeIndex || 0) + 1;
+      renderSwipeCard();
+    }
+
+        /* --- Charger MES objets pour le profil --- */
     async function loadMyObjects() {
       if (!sb || !window.currentProfile) return;
       const grid = document.getElementById('my-objects-grid');
@@ -5812,9 +6024,9 @@
     function updateProfileUI(profile) {
       if (!profile) return;
 
-      // Initiales avatar
+      // Initiales avatar profil
       const av = document.getElementById('profile-av');
-      if (av) av.textContent = (profile.prenom?.[0] || '') + (profile.nom?.[0] || '');
+      if (av) av.textContent = (profile.prenom?.[0] || '?') + (profile.nom?.[0] || '');
 
       // Nom complet
       const nm = document.getElementById('profile-name');
@@ -5822,9 +6034,11 @@
 
       // Badge vérifié
       const badge = document.getElementById('profile-badge');
-      if (badge) badge.style.display = profile.verifie_identite ? 'flex' : 'none';
+      if (badge) badge.style.display = profile.verifie_identite ? 'inline-block' : 'none';
+      const badgeFloat = document.getElementById('profile-badge-floating');
+      if (badgeFloat) badgeFloat.style.display = profile.verifie_identite ? 'flex' : 'none';
 
-      // Ville + date inscription
+      // Ville + date
       const ville = document.getElementById('profile-ville');
       if (ville) ville.textContent = profile.ville || 'Lille';
       const since = document.getElementById('profile-since');
@@ -5834,7 +6048,7 @@
         since.textContent = 'Membre depuis ' + mois[d.getMonth()] + ' ' + d.getFullYear();
       }
 
-      // Stats
+      // Stats profil
       const pts = document.getElementById('profile-pts');
       if (pts) pts.textContent = profile.points ?? 50;
       const prets = document.getElementById('profile-prets');
@@ -5844,9 +6058,15 @@
       const note = document.getElementById('profile-note');
       if (note) note.textContent = profile.note_moyenne > 0 ? profile.note_moyenne : '–';
 
-      // Points en haut (pill) et wallet
+      // Welcome accueil
+      const welcome = document.getElementById('home-welcome');
+      if (welcome) welcome.textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
+
+      // Points partout
       const ppill = document.getElementById('ppill-points');
       if (ppill) ppill.textContent = (profile.points ?? 50) + ' pts';
+      const bannerPts = document.getElementById('home-pts-banner');
+      if (bannerPts) bannerPts.textContent = profile.points ?? 50;
       const wcn = document.querySelector('.wcn');
       if (wcn) wcn.textContent = profile.points ?? 50;
       const wcbar = document.querySelector('.wcbar');
@@ -5858,11 +6078,11 @@
       const telBtn = document.getElementById('trust-tel-btn');
       if (telIco && telLbl && telBtn) {
         if (profile.verifie_telephone) {
-          telIco.textContent = '✓'; telIco.className = 'ptico ptdone';
+          telIco.textContent = '✓'; telIco.style.background = 'var(--g)'; telIco.style.color = 'white';
           telLbl.style.color = ''; telBtn.style.display = 'none';
         } else {
-          telIco.textContent = '–'; telIco.className = 'ptico ptpend';
-          telLbl.style.color = 'var(--mu)'; telBtn.style.display = 'block';
+          telIco.textContent = '–'; telIco.style.background = 'white'; telIco.style.color = 'var(--mu)';
+          telLbl.style.color = 'var(--mu)'; telBtn.style.display = 'inline-block';
         }
       }
       const idIco = document.getElementById('trust-id-ico');
@@ -5870,26 +6090,21 @@
       const idBtn = document.getElementById('trust-id-btn');
       if (idIco && idLbl && idBtn) {
         if (profile.verifie_identite) {
-          idIco.textContent = '✓'; idIco.className = 'ptico ptdone';
+          idIco.textContent = '✓'; idIco.style.background = 'var(--g)'; idIco.style.color = 'white';
           idLbl.style.color = ''; idBtn.style.display = 'none';
         } else if (profile.statut_verification === 'en_attente') {
-          idIco.textContent = '⏳'; idIco.className = 'ptico';
-          idLbl.textContent = "Pièce d'identité — En cours de vérification";
+          idIco.textContent = '⏳'; idIco.style.background = '#FEF3C7'; idIco.style.color = '#92400E';
+          idLbl.textContent = "Pièce d'identité — En cours";
           idLbl.style.color = 'var(--mu)'; idBtn.style.display = 'none';
         } else {
-          idIco.textContent = '–'; idIco.className = 'ptico ptpend';
-          idLbl.style.color = 'var(--mu)'; idBtn.style.display = 'block';
+          idIco.textContent = '–'; idIco.style.background = 'white'; idIco.style.color = 'var(--mu)';
+          idLbl.style.color = 'var(--mu)'; idBtn.style.display = 'inline-block';
         }
       }
 
-      // Bienvenue
-      const wbttl = document.querySelector('#wb .wbttl');
-      if (wbttl) wbttl.textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
-
-      // Stocker le profil globalement
       window.currentProfile = profile;
 
-      // Charger mes objets + tous les objets
+      // Charger objets après update
       if (typeof loadHomeObjects === 'function') loadHomeObjects();
       if (typeof loadMyObjects === 'function') loadMyObjects();
     }
