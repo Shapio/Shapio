@@ -4077,40 +4077,31 @@
           <button type="button" class="wbdis" onclick="document.getElementById('wb').style.display='none'">Masquer</button>
         </div>
 
-        <!-- Filtre distance "Près de toi" -->
+        <!-- Titre section objets -->
         <div class="srow">
-          <div class="sttl" id="home-near-title">📍 Près de toi · Lille</div>
-        </div>
-        <div style="padding:0 18px 12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;">
-          <button type="button" class="radius-chip" data-radius="1" onclick="setHomeRadius(1, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">1 km</button>
-          <button type="button" class="radius-chip" data-radius="10" onclick="setHomeRadius(10, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">10 km</button>
-          <button type="button" class="radius-chip active-radius" data-radius="50" onclick="setHomeRadius(50, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid var(--g);background:var(--g);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:white;">50 km</button>
-          <button type="button" class="radius-chip" data-radius="200" onclick="setHomeRadius(200, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">200 km</button>
-          <button type="button" class="radius-chip" data-radius="9999" onclick="setHomeRadius(9999, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">France</button>
+          <div class="sttl">✨ À emprunter près de chez toi</div>
         </div>
 
-        <div class="nscroll" id="home-near">
-          <div style="padding:20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Chargement…</div>
+        <!-- Grille d'objets façon Vinted -->
+        <div class="bgrid" id="home-discover" style="padding-bottom:20px;">
+          <div style="grid-column:1/-1;padding:20px;color:var(--mu);font-size:13px;text-align:center;">Chargement…</div>
         </div>
 
-        <!-- Bloc slogan Shapio (remplace "Publie ton premier objet") -->
-        <div style="margin:14px 18px;padding:20px;border-radius:16px;background:linear-gradient(135deg,#E1F5EE,#F7F5F0);border:1px solid rgba(8,80,65,0.08);">
+        <!-- Bloc slogan Shapio (en bas) -->
+        <div style="margin:8px 18px 24px;padding:20px;border-radius:16px;background:linear-gradient(135deg,#E1F5EE,#F7F5F0);border:1px solid rgba(8,80,65,0.08);">
           <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--dk);margin-bottom:6px;">Prête ce que tu n'utilises pas 🌻</div>
           <div style="font-size:13px;color:var(--mu);line-height:1.5;">Emprunte ce dont tu as besoin. Une communauté locale, sans argent, juste des points.</div>
         </div>
 
-        <div class="srow">
-          <div class="sttl">✨ Découvrir partout en France</div>
-          <button type="button" class="slnk" onclick="setTab('swipe')">Mode swipe</button>
-        </div>
-        <div class="bgrid" id="home-discover">
-          <div style="grid-column:1/-1;padding:20px;color:var(--mu);font-size:13px;text-align:center;">Chargement…</div>
-        </div>
+        <!-- Bouton flottant mode swipe -->
+        <button type="button" id="home-swipe-fab" onclick="setTab('swipe');setSwipeMode('swipe')" aria-label="Activer le mode swipe" style="position:fixed;bottom:84px;right:18px;z-index:50;display:flex;align-items:center;gap:8px;padding:12px 18px;border:0;border-radius:100px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(8,80,65,0.35);cursor:pointer;">
+          <span style="font-size:16px;">🔥</span> Mode swipe
+        </button>
       </div>
 
       <!-- SWIPE / EXPLORER -->
       <div class="ascreen" id="as-swipe">
-        <!-- Barre de recherche + filtres -->
+        <!-- Barre de recherche + ville -->
         <div style="padding:14px 18px 0;">
           <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:12px;padding:10px 14px;border:0.5px solid rgba(8,80,65,0.15);margin-bottom:10px;">
             <span aria-hidden="true">🔍</span>
@@ -4120,17 +4111,10 @@
             <span aria-hidden="true">📍</span>
             <input type="text" id="explorer-city" placeholder="Localisation (Lille, Paris…)" oninput="filterExplorer()" style="flex:1;border:0;outline:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);" />
           </div>
-          <div style="display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-bottom:10px;">
-            <button type="button" class="exp-radius active-radius" data-radius="1" onclick="setExplorerRadius(1, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid var(--g);background:var(--g);font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:white;">1 km</button>
-            <button type="button" class="exp-radius" data-radius="10" onclick="setExplorerRadius(10, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">10 km</button>
-            <button type="button" class="exp-radius" data-radius="50" onclick="setExplorerRadius(50, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">50 km</button>
-            <button type="button" class="exp-radius" data-radius="200" onclick="setExplorerRadius(200, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">200 km</button>
-            <button type="button" class="exp-radius" data-radius="9999" onclick="setExplorerRadius(9999, event)" style="flex-shrink:0;padding:6px 14px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">France</button>
-          </div>
         </div>
         <div class="mode-toggle" role="tablist">
-          <button class="mtbtn active" id="mt-swipe" type="button" role="tab" aria-selected="true" onclick="setSwipeMode('swipe')">▶ Swipe</button>
-          <button class="mtbtn" id="mt-browse" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('browse')">⊞ Liste</button>
+          <button class="mtbtn active" id="mt-browse" type="button" role="tab" aria-selected="true" onclick="setSwipeMode('browse')">⊞ Liste</button>
+          <button class="mtbtn" id="mt-swipe" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('swipe')">▶ Swipe</button>
         </div>
         <div class="filters" role="group" aria-label="Filtres par catégorie">
           <button type="button" class="fchip active" onclick="setFilter(this)">Tout</button>
@@ -4139,7 +4123,7 @@
           <button type="button" class="fchip" onclick="setFilter(this)">Sport</button>
           <button type="button" class="fchip" onclick="setFilter(this)">Jardinage</button>
         </div>
-        <div id="swipe-mode" style="display:block;">
+        <div id="swipe-mode" style="display:none;">
           <div class="cstack" id="cstack">
             <div style="padding:60px 30px;text-align:center;color:var(--mu);font-size:14px;">Chargement…</div>
           </div>
@@ -4152,7 +4136,7 @@
             <button class="sabtn slike" type="button" aria-label="Voir le détail" onclick="openObjectFiche(window.swipeFiltered?.[window.swipeIndex]?.id)">♥</button>
           </div>
         </div>
-        <div id="browse-mode" style="display:none;">
+        <div id="browse-mode" style="display:block;">
           <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;" id="browse-count">0 objet disponible</div>
           <div class="bgrid" id="browse-grid">
             <div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
@@ -4268,8 +4252,10 @@
           <h2>Messages</h2>
         </div>
         <div id="msgs-list" style="padding:0 18px;">
-          <div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">
-            Chargement…
+          <div style="padding:60px 24px;text-align:center;color:var(--mu);">
+            <div style="font-size:40px;margin-bottom:12px;">💬</div>
+            <div style="font-size:14px;color:var(--dk);margin-bottom:4px;font-weight:500;">Aucun message pour l'instant</div>
+            <div style="font-size:13px;line-height:1.5;">Quand tu contacteras un voisin pour emprunter un objet, vos échanges apparaîtront ici.</div>
           </div>
         </div>
       </div>
@@ -4286,24 +4272,7 @@
               <button type="button" class="chatact" aria-label="Localisation">📍</button>
             </div>
           </div>
-          <div class="chatmsgs" id="chatmsgs" aria-live="polite">
-            <div>
-              <div class="mb min">Bonjour ! Votre drone est disponible ce weekend ? 🚁</div>
-              <div class="mt">Hier, 18:42</div>
-            </div>
-            <div style="align-self:flex-end">
-              <div class="mb mout">Oui, disponible samedi et dimanche !</div>
-              <div class="mt r">Hier, 18:45</div>
-            </div>
-            <div>
-              <div class="mb min">Super, je peux passer samedi matin vers 10h ?</div>
-              <div class="mt">Hier, 19:10</div>
-            </div>
-            <div style="align-self:flex-end">
-              <div class="mb mout">Parfait, rendez-vous samedi 10h alors 👍</div>
-              <div class="mt r">14:23</div>
-            </div>
-          </div>
+          <div class="chatmsgs" id="chatmsgs" aria-live="polite"></div>
           <form class="chatinput" onsubmit="event.preventDefault();sendMessage();">
             <label for="chat-input" class="visually-hidden">Message</label>
             <input type="text" id="chat-input" name="message" placeholder="Message…" autocomplete="off" />
@@ -4317,7 +4286,6 @@
         <div style="padding:18px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
             <h2 style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);margin:0;">Mon wallet</h2>
-            <div id="wallet-month" style="font-size:12px;color:var(--mu);">Mai 2026</div>
           </div>
 
           <div style="background:linear-gradient(135deg,#085041,#0a6b58);border-radius:20px;padding:24px;color:white;margin-bottom:20px;">
@@ -4364,11 +4332,20 @@
 
             <!-- PROFIL -->
       <div class="ascreen" id="as-profil">
-        <div style="background:var(--gl);height:80px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;">
-          <button type="button" onclick="openEditProfile()" style="position:absolute;top:14px;right:14px;background:rgba(255,255,255,0.95);border:0;border-radius:100px;padding:8px 16px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--dk);cursor:pointer;">Modifier le profil</button>
+        <div id="profile-banner" style="background:var(--gl);height:90px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;transition:background 0.3s;">
+          <!-- Sélecteur de couleur de banderole -->
+          <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,0.9);border-radius:100px;padding:6px 10px;">
+            <button type="button" onclick="setBannerColor('var(--gl)')" aria-label="Couleur vert clair" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:#E1F5EE;cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75)')" aria-label="Couleur vert" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#085041,#1D9E75);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#BA7517,#E0A040)')" aria-label="Couleur or" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#BA7517,#E0A040);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#3B4E8C,#6478C8)')" aria-label="Couleur bleu" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#3B4E8C,#6478C8);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#9C3B6E,#D06BA0)')" aria-label="Couleur rose" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#9C3B6E,#D06BA0);cursor:pointer;padding:0;"></button>
+          </div>
           <div class="pavwrap" style="position:absolute;bottom:-50px;left:18px;">
-            <div class="pav" id="profile-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);">?</div>
-            <div id="profile-badge-floating" style="position:absolute;bottom:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:12px;display:none;">✓</div>
+            <div class="pav" id="profile-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;">?</div>
+            <button type="button" onclick="document.getElementById('profile-photo-input').click()" aria-label="Changer la photo de profil" style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--g);border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;cursor:pointer;padding:0;">📷</button>
+            <input type="file" id="profile-photo-input" accept="image/*" style="display:none;" onchange="previewProfilePhoto(event)" />
+            <div id="profile-badge-floating" style="position:absolute;top:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;">✓</div>
           </div>
         </div>
 
@@ -4427,7 +4404,7 @@
                 <div class="ptrow" id="trust-id-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
                   <div class="ptico" id="trust-id-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
                   <div class="ptlbl" id="trust-id-lbl" style="flex:1;font-size:13px;color:var(--mu);">Pièce d'identité</div>
-                  <button type="button" id="trust-id-btn" onclick="go('p-verif')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Ajouter</button>
+                  <a id="trust-id-btn" href="mailto:contact@shapio.fr?subject=V%C3%A9rification%20d%27identit%C3%A9%20Shapio&body=Bonjour%2C%0A%0AJe%20souhaite%20faire%20v%C3%A9rifier%20mon%20identit%C3%A9.%0AJe%20joins%20une%20photo%20de%20ma%20pi%C3%A8ce%20d%27identit%C3%A9%20%C3%A0%20cet%20email.%0A%0APr%C3%A9nom%20%2F%20Nom%20%3A%20%0A%0AMerci%20%21" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;text-decoration:none;">Vérifier</a>
                 </div>
               </div>
             </div>
@@ -4449,14 +4426,14 @@
 
           <!-- Tab content : Paramètres -->
           <div id="ptab-content-param" style="display:none;">
-            <button type="button" onclick="openEditProfile()" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;">
-              <span>✏️ Modifier mon profil</span>
-              <span style="color:var(--mu);">›</span>
-            </button>
-            <button type="button" onclick="go('p-verif')" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;">
+            <a href="mailto:contact@shapio.fr?subject=V%C3%A9rification%20d%27identit%C3%A9%20Shapio&body=Bonjour%2C%0A%0AJe%20souhaite%20faire%20v%C3%A9rifier%20mon%20identit%C3%A9.%0AJe%20joins%20une%20photo%20de%20ma%20pi%C3%A8ce%20d%27identit%C3%A9%20%C3%A0%20cet%20email.%0A%0APr%C3%A9nom%20%2F%20Nom%20%3A%20%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
               <span>🪪 Vérifier mon identité</span>
               <span style="color:var(--mu);">›</span>
-            </button>
+            </a>
+            <a href="mailto:contact@shapio.fr?subject=Demande%20de%20correction%20de%20nom&body=Bonjour%2C%0A%0AJe%20souhaite%20corriger%20le%20nom%20affich%C3%A9%20sur%20mon%20profil%20Shapio.%0A%0AAncien%20nom%20%3A%20%0ANouveau%20nom%20%3A%20%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
+              <span>✏️ Demander une correction de nom</span>
+              <span style="color:var(--mu);">›</span>
+            </a>
             <button type="button" onclick="handleLogout()" style="width:100%;text-align:left;padding:14px;background:#FEE2E2;border:0;border-radius:12px;margin-top:14px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:#EF4444;display:flex;justify-content:space-between;align-items:center;">
               <span>🚪 Se déconnecter</span>
               <span>›</span>
@@ -4636,7 +4613,10 @@
     function setTab(tab) {
       // Charger les données dynamiques selon l'onglet
       if (tab === 'wallet' && typeof loadWallet === 'function') loadWallet();
-      if (tab === 'profil' && typeof loadMyObjects === 'function') loadMyObjects();
+      if (tab === 'profil') {
+        if (typeof loadMyObjects === 'function') loadMyObjects();
+        getCurrentProfile().then(p => { if (p) updateProfileUI(p); });
+      }
       if (tab === 'home' && typeof loadHomeObjects === 'function') loadHomeObjects();
 
       document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
@@ -4672,6 +4652,9 @@
       if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif') {
         prevTab = tab;
       }
+      // Bouton swipe flottant : visible seulement sur l'accueil
+      const fab = document.getElementById('home-swipe-fab');
+      if (fab) fab.style.display = (tab === 'home') ? 'flex' : 'none';
       window.scrollTo(0, 0);
     }
 
@@ -5564,7 +5547,7 @@
 
     /* --- État global filtres --- */
     window.homeRadius = 50;
-    window.explorerRadius = 1;
+    window.explorerRadius = 9999;
     window.explorerSearch = '';
     window.explorerCity = '';
 
@@ -5630,9 +5613,7 @@
     async function loadHomeObjects() {
       if (!sb) return;
       const profile = await getCurrentProfile();
-      const nearEl = document.getElementById('home-near');
       const discoverEl = document.getElementById('home-discover');
-      const nearTitle = document.getElementById('home-near-title');
 
       try {
         let query = sb.from('objects')
@@ -5651,39 +5632,12 @@
         // Stocker globalement
         window.allObjects = objects;
 
-        // Titre dynamique avec ville
-        if (nearTitle && profile?.ville) {
-          nearTitle.textContent = '📍 Près de toi · ' + profile.ville;
-        }
-
-        // Filtre rayon
-        const radius = window.homeRadius || 50;
-        let nearObjects;
-        if (radius >= 9999) {
-          nearObjects = objects;
-        } else if (profile?.ville) {
-          nearObjects = objects.filter(o => approxDistance(o.ville, profile.ville) <= radius);
-        } else {
-          nearObjects = objects;
-        }
-
-        // Render "Près de toi"
-        if (nearEl) {
-          if (nearObjects.length === 0) {
-            nearEl.innerHTML = '<div style="padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Aucun objet à ' + radius + ' km' + (profile?.ville ? ' autour de ' + profile.ville : '') + '.<br>Essaie d\'élargir le rayon !</div>';
-          } else {
-            nearEl.innerHTML = nearObjects.slice(0, 10).map(buildNearCard).join('');
-          }
-        }
-
-        // Découvrir : aléatoire partout
+        // Grille façon Vinted (tous les objets, plus récents d'abord)
         if (discoverEl) {
           if (objects.length === 0) {
-            discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:30px 20px;color:var(--mu);font-size:13px;text-align:center;">Aucun objet publié pour l\'instant.<br>Sois le premier à publier !</div>';
+            discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:40px 20px;color:var(--mu);font-size:13px;text-align:center;">Aucun objet disponible pour l\'instant.<br>Sois le premier à publier ! 🌻</div>';
           } else {
-            // Shuffle pour aléatoire
-            const shuffled = [...objects].sort(() => Math.random() - 0.5);
-            discoverEl.innerHTML = shuffled.slice(0, 8).map(buildBrowseCard).join('');
+            discoverEl.innerHTML = objects.map(buildBrowseCard).join('');
           }
         }
 
@@ -5691,7 +5645,7 @@
         if (typeof refreshExplorer === 'function') refreshExplorer();
       } catch (err) {
         console.error('loadHomeObjects error:', err);
-        if (nearEl) nearEl.innerHTML = '<div style="padding:20px;color:var(--mu);font-size:13px;text-align:center;width:100%;">Erreur de chargement</div>';
+        if (discoverEl) discoverEl.innerHTML = '<div style="grid-column:1/-1;padding:20px;color:var(--mu);font-size:13px;text-align:center;">Erreur de chargement</div>';
       }
     }
 
@@ -6021,6 +5975,26 @@
     }
 
     /* --- Mettre à jour l'affichage du profil --- */
+    /* --- Personnalisation banderole + photo de profil (visuel) --- */
+    function setBannerColor(color) {
+      const banner = document.getElementById('profile-banner');
+      if (banner) banner.style.background = color;
+    }
+
+    function previewProfilePhoto(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        const av = document.getElementById('profile-av');
+        if (av) {
+          av.style.backgroundImage = 'url(' + e.target.result + ')';
+          av.textContent = '';
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
     function updateProfileUI(profile) {
       if (!profile) return;
 
