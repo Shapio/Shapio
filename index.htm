@@ -1172,6 +1172,13 @@
       display: block;
     }
 
+    #as-home.active {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+    #as-home #home-discover { flex: 0 0 auto; }
+
     .anav {
       padding: 10px 0 14px;
       display: flex;
@@ -4055,9 +4062,9 @@
         <div class="wbanner" id="wb">
           <div class="wbt">
             <div class="wbttl" id="home-welcome">Bienvenue ! 👋</div>
-            <div class="wbpts">
-              <div class="wbn" id="home-pts-banner">50</div>
-              <div class="wbl">points</div>
+            <div class="wbpts" style="text-align:right;">
+              <div class="wbn" id="home-level-banner">1</div>
+              <div class="wbl">niveau</div>
             </div>
           </div>
           <div class="wbsteps">
@@ -4074,7 +4081,6 @@
               <div class="wbsl">Explorer</div>
             </div>
           </div>
-          <button type="button" class="wbdis" onclick="document.getElementById('wb').style.display='none'">Masquer</button>
         </div>
 
         <!-- Titre section objets -->
@@ -4083,12 +4089,12 @@
         </div>
 
         <!-- Grille d'objets façon Vinted -->
-        <div class="bgrid" id="home-discover" style="padding-bottom:20px;">
+        <div class="bgrid" id="home-discover" style="padding-bottom:12px;">
           <div style="grid-column:1/-1;padding:20px;color:var(--mu);font-size:13px;text-align:center;">Chargement…</div>
         </div>
 
-        <!-- Bloc slogan Shapio (en bas) -->
-        <div style="margin:8px 18px 24px;padding:20px;border-radius:16px;background:linear-gradient(135deg,#E1F5EE,#F7F5F0);border:1px solid rgba(8,80,65,0.08);">
+        <!-- Bloc slogan Shapio (poussé en bas de page) -->
+        <div style="margin:18px;margin-top:auto;padding:20px;border-radius:16px;background:linear-gradient(135deg,#E1F5EE,#F7F5F0);border:1px solid rgba(8,80,65,0.08);">
           <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--dk);margin-bottom:6px;">Prête ce que tu n'utilises pas 🌻</div>
           <div style="font-size:13px;color:var(--mu);line-height:1.5;">Emprunte ce dont tu as besoin. Une communauté locale, sans argent, juste des points.</div>
         </div>
@@ -4320,7 +4326,7 @@
           <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Transactions récentes</div>
           <div id="wallet-transactions">
             <div style="text-align:center;padding:30px 20px;color:var(--mu);font-size:13px;">
-              Chargement…
+              Aucune transaction réalisée pour le moment.
             </div>
           </div>
 
@@ -4426,18 +4432,44 @@
 
           <!-- Tab content : Paramètres -->
           <div id="ptab-content-param" style="display:none;">
+            <button type="button" onclick="openChangePassword()" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;">
+              <span>🔑 Changer mon mot de passe</span>
+              <span style="color:var(--mu);">›</span>
+            </button>
             <a href="mailto:contact@shapio.fr?subject=V%C3%A9rification%20d%27identit%C3%A9%20Shapio&body=Bonjour%2C%0A%0AJe%20souhaite%20faire%20v%C3%A9rifier%20mon%20identit%C3%A9.%0AJe%20joins%20une%20photo%20de%20ma%20pi%C3%A8ce%20d%27identit%C3%A9%20%C3%A0%20cet%20email.%0A%0APr%C3%A9nom%20%2F%20Nom%20%3A%20%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
               <span>🪪 Vérifier mon identité</span>
               <span style="color:var(--mu);">›</span>
             </a>
-            <a href="mailto:contact@shapio.fr?subject=Demande%20de%20correction%20de%20nom&body=Bonjour%2C%0A%0AJe%20souhaite%20corriger%20le%20nom%20affich%C3%A9%20sur%20mon%20profil%20Shapio.%0A%0AAncien%20nom%20%3A%20%0ANouveau%20nom%20%3A%20%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
-              <span>✏️ Demander une correction de nom</span>
+            <a href="mailto:contact@shapio.fr?subject=Demande%20de%20correction%20de%20profil&body=Bonjour%2C%0A%0AJe%20souhaite%20modifier%20les%20informations%20de%20mon%20profil%20Shapio.%0A%0A%C3%89l%C3%A9ment%20%C3%A0%20corriger%20(nom%2C%20pr%C3%A9nom%2C%20ville%E2%80%A6)%20%3A%20%0ANouvelle%20valeur%20souhait%C3%A9e%20%3A%20%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
+              <span>✏️ Demander une correction du profil</span>
+              <span style="color:var(--mu);">›</span>
+            </a>
+            <button type="button" onclick="setProfileTab('reglement')" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;">
+              <span>📜 Règlement & conditions</span>
+              <span style="color:var(--mu);">›</span>
+            </button>
+            <a href="mailto:contact@shapio.fr?subject=Probl%C3%A8me%20sur%20Shapio&body=Bonjour%2C%0A%0AJe%20rencontre%20un%20probl%C3%A8me%20sur%20Shapio%20%3A%0A%0A(d%C3%A9cris%20ton%20probl%C3%A8me%20ici)%0A%0AMerci%20pour%20votre%20aide%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
+              <span>🆘 Un problème ? Contacte-nous</span>
               <span style="color:var(--mu);">›</span>
             </a>
             <button type="button" onclick="handleLogout()" style="width:100%;text-align:left;padding:14px;background:#FEE2E2;border:0;border-radius:12px;margin-top:14px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:#EF4444;display:flex;justify-content:space-between;align-items:center;">
               <span>🚪 Se déconnecter</span>
               <span>›</span>
             </button>
+          </div>
+
+          <!-- Tab content : Règlement -->
+          <div id="ptab-content-reglement" style="display:none;">
+            <button type="button" onclick="setProfileTab('param')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;margin-bottom:14px;padding:0;">‹ Retour aux paramètres</button>
+            <div style="font-size:14px;line-height:1.6;color:var(--dk);">
+              <h3 style="font-family:'DM Serif Display',serif;font-size:18px;margin:0 0 10px;">Règlement de Shapio</h3>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">1. Principe.</strong> Shapio est une plateforme de prêt d'objets entre particuliers, fondée sur un système de points (sans argent réel).</p>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">2. Points.</strong> Chaque membre démarre avec 50 points. Le prix d'un prêt est librement fixé par le prêteur. Les points bloqués sont libérés au retour de l'objet.</p>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">3. Respect.</strong> Les objets empruntés doivent être restitués dans l'état et dans les délais convenus entre les membres.</p>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">4. Confiance.</strong> Les membres peuvent vérifier leur identité pour renforcer la confiance. Les avis sont publics.</p>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">5. Litiges.</strong> En cas de problème, Shapio peut intervenir. Contacte-nous à contact@shapio.fr.</p>
+              <p style="margin:12px 0 0;font-size:12px;color:var(--mu);">Pour les conditions complètes (CGU, RGPD), consulte les <a href="/mentions-legales" style="color:var(--g);">mentions légales</a>.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -5168,6 +5200,17 @@
 
     /* --- Switch entre les onglets du profil --- */
     function setProfileTab(tab) {
+      const reglement = document.getElementById('ptab-content-reglement');
+      // Sous-page règlement (accessible depuis paramètres)
+      if (tab === 'reglement') {
+        ['objets', 'avis', 'param'].forEach(t => {
+          const c = document.getElementById('ptab-content-' + t);
+          if (c) c.style.display = 'none';
+        });
+        if (reglement) reglement.style.display = 'block';
+        return;
+      }
+      if (reglement) reglement.style.display = 'none';
       ['objets', 'avis', 'param'].forEach(t => {
         const btn = document.getElementById('ptab-' + t);
         const content = document.getElementById('ptab-content-' + t);
@@ -5184,6 +5227,30 @@
         }
         if (content) content.style.display = (t === tab) ? 'block' : 'none';
       });
+    }
+
+    /* --- Changer le mot de passe (utilisateur connecté) --- */
+    async function openChangePassword() {
+      const np = prompt('Entre ton nouveau mot de passe (8 caractères minimum) :');
+      if (np === null) return; // annulé
+      if (!np || np.length < 8) {
+        alert('Le mot de passe doit faire au moins 8 caractères.');
+        return;
+      }
+      const np2 = prompt('Confirme ton nouveau mot de passe :');
+      if (np2 === null) return;
+      if (np !== np2) {
+        alert('Les deux mots de passe ne correspondent pas.');
+        return;
+      }
+      try {
+        const { error } = await sb.auth.updateUser({ password: np });
+        if (error) throw error;
+        alert('✅ Mot de passe mis à jour avec succès !');
+      } catch (e) {
+        console.error('changePassword error:', e);
+        alert('Erreur : ' + (e.message || 'impossible de changer le mot de passe.'));
+      }
     }
 
     async function handleLogout() {
@@ -5995,6 +6062,13 @@
       reader.readAsDataURL(file);
     }
 
+    /* --- Calcul du niveau à partir des points --- */
+    function computeLevel(points) {
+      // Niveau progressif : chaque palier de 25 points = +1 niveau
+      // 50 pts (départ) = niveau 2, puis monte avec les points reçus
+      return Math.max(1, Math.floor((points || 0) / 25) + 1);
+    }
+
     function updateProfileUI(profile) {
       if (!profile) return;
 
@@ -6002,9 +6076,12 @@
       const av = document.getElementById('profile-av');
       if (av) av.textContent = (profile.prenom?.[0] || '?') + (profile.nom?.[0] || '');
 
-      // Nom complet
+      // Nom complet (gestion des valeurs manquantes)
       const nm = document.getElementById('profile-name');
-      if (nm) nm.textContent = profile.prenom + ' ' + profile.nom;
+      if (nm) {
+        const fullName = [profile.prenom, profile.nom].filter(Boolean).join(' ').trim();
+        nm.textContent = fullName || profile.pseudo || 'Mon profil';
+      }
 
       // Badge vérifié
       const badge = document.getElementById('profile-badge');
@@ -6034,13 +6111,15 @@
 
       // Welcome accueil
       const welcome = document.getElementById('home-welcome');
-      if (welcome) welcome.textContent = 'Bienvenue ' + profile.prenom + ' ! 👋';
+      if (welcome) welcome.textContent = 'Bienvenue ' + (profile.prenom || '') + ' ! 👋';
+
+      // Niveau dans la bannière accueil (monte avec les points reçus)
+      const lvlBanner = document.getElementById('home-level-banner');
+      if (lvlBanner) lvlBanner.textContent = computeLevel(profile.points ?? 50);
 
       // Points partout
       const ppill = document.getElementById('ppill-points');
       if (ppill) ppill.textContent = (profile.points ?? 50) + ' pts';
-      const bannerPts = document.getElementById('home-pts-banner');
-      if (bannerPts) bannerPts.textContent = profile.points ?? 50;
       const wcn = document.querySelector('.wcn');
       if (wcn) wcn.textContent = profile.points ?? 50;
       const wcbar = document.querySelector('.wcbar');
