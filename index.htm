@@ -1095,18 +1095,24 @@
     }
 
     .atop {
-      padding: 13px 18px 10px;
+      padding: 14px 18px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 0.5px solid #f0f0ed;
+      border-bottom: 1px solid rgba(8, 80, 65, 0.06);
       flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 30;
     }
 
     .alogo {
       font-family: 'DM Serif Display', serif;
-      font-size: 20px;
+      font-size: 22px;
       color: var(--dk);
+      letter-spacing: -0.3px;
     }
 
     .alogo span {
@@ -1123,38 +1129,46 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      padding: 5px 10px;
-      border-radius: 20px;
-      background: var(--gl);
-      border: 0.5px solid #9FE1CB;
+      padding: 6px 12px;
+      border-radius: 100px;
+      background: linear-gradient(135deg, #E1F5EE, #D1F0E0);
+      border: 1px solid rgba(8, 80, 65, 0.12);
       font-size: 12px;
       font-weight: 600;
       color: var(--g);
+      box-shadow: 0 1px 2px rgba(8, 80, 65, 0.04);
     }
 
     .ibtn {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      border: 0.5px solid #e8e8e4;
-      background: #f7f7f4;
+      border: 1px solid rgba(8, 80, 65, 0.08);
+      background: white;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 13px;
+      font-size: 14px;
       position: relative;
       padding: 0;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .ibtn:hover {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      transform: translateY(-1px);
     }
 
     .ibtn-dot {
       position: absolute;
       top: 4px;
       right: 4px;
-      width: 7px;
-      height: 7px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      background: #C8362F;
+      background: #EF4444;
       border: 1.5px solid white;
     }
 
@@ -1183,8 +1197,11 @@
       padding: 10px 0 14px;
       display: flex;
       justify-content: space-around;
-      border-top: 0.5px solid #f0f0ed;
+      border-top: 1px solid rgba(8, 80, 65, 0.06);
       flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.02);
     }
 
     .ni {
@@ -1448,61 +1465,71 @@
     .bgrid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-      padding: 0 14px 14px;
+      gap: 14px;
+      padding: 4px 16px 18px;
     }
 
     .bcard {
-      border-radius: 12px;
-      border: 0.5px solid #ebebea;
+      border-radius: 16px;
+      border: 1px solid rgba(8, 80, 65, 0.08);
       overflow: hidden;
       cursor: pointer;
       background: white;
-      transition: transform 0.15s;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.03);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .bcard:hover {
+      box-shadow: 0 4px 12px rgba(8, 80, 65, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
+      transform: translateY(-1px);
     }
 
     .bcard:active {
-      transform: scale(0.97);
+      transform: scale(0.98);
     }
 
     .bimg {
-      height: 106px;
+      height: 132px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 34px;
+      font-size: 36px;
       position: relative;
+      overflow: hidden;
     }
 
     .bpts {
       position: absolute;
-      bottom: 6px;
-      right: 6px;
-      padding: 3px 7px;
-      border-radius: 8px;
-      background: white;
-      font-size: 10px;
+      bottom: 8px;
+      right: 8px;
+      padding: 4px 9px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
+      font-size: 11px;
       font-weight: 600;
-      color: var(--gm);
+      color: var(--g);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     }
 
     .binfo {
-      padding: 7px 9px;
+      padding: 10px 12px 12px;
     }
 
     .bname {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 500;
       color: var(--dk);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      letter-spacing: -0.1px;
     }
 
     .bowner {
-      font-size: 10px;
+      font-size: 11px;
       color: var(--mu);
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     /* SWIPE */
@@ -3930,9 +3957,15 @@
             <label for="su-email">Email</label>
             <input type="email" id="su-email" name="email" placeholder="thomas@email.com" autocomplete="email" required />
           </div>
-          <div class="fl">
-            <label for="su-ville">Ville</label>
-            <input type="text" id="su-ville" name="city" placeholder="Lille" autocomplete="address-level2" required />
+          <div class="fl" style="display:grid;grid-template-columns:1fr 2fr;gap:8px;">
+            <div>
+              <label for="su-cp">Code postal</label>
+              <input type="text" id="su-cp" name="postal-code" placeholder="59000" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="off" required />
+            </div>
+            <div>
+              <label for="su-ville">Ville</label>
+              <input type="text" id="su-ville" name="city" placeholder="Ex : Lille, La Madeleine…" autocomplete="off" required />
+            </div>
           </div>
           <div class="form-error" id="s1-error" role="alert" aria-live="polite"></div>
           <button class="obtn" type="submit">Continuer →</button>
@@ -4095,10 +4128,6 @@
           <div style="font-size:13px;color:var(--mu);line-height:1.5;">Emprunte ce dont tu as besoin. Une communauté locale, sans argent, juste des points.</div>
         </div>
 
-        <!-- Bouton flottant mode swipe -->
-        <button type="button" id="home-swipe-fab" onclick="setTab('swipe');setSwipeMode('swipe')" aria-label="Activer le mode swipe" style="position:fixed;bottom:84px;right:18px;z-index:50;display:flex;align-items:center;gap:8px;padding:12px 18px;border:0;border-radius:100px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(8,80,65,0.35);cursor:pointer;">
-          <span style="font-size:16px;">🔥</span> Mode swipe
-        </button>
       </div>
 
       <!-- SWIPE / EXPLORER -->
@@ -4244,11 +4273,12 @@
 
       <!-- PROFIL PUBLIC D'UN AUTRE MEMBRE -->
       <div class="ascreen" id="as-pubprofile">
-        <div id="pub-banner" style="background:var(--gl);height:90px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;">
-          <button type="button" aria-label="Retour" onclick="closePublicProfile()" style="position:absolute;top:14px;left:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,0.95);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">←</button>
-          <div style="position:absolute;bottom:-50px;left:18px;">
-            <div id="pub-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;">?</div>
-            <div id="pub-badge" style="position:absolute;top:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;">✓</div>
+        <div id="pub-banner" style="background:var(--gl);height:110px;position:relative;border-radius:0 0 28px 28px;margin-bottom:60px;overflow:hidden;">
+          <div id="pub-banner-overlay" style="position:absolute;inset:0;pointer-events:none;"></div>
+          <button type="button" aria-label="Retour" onclick="closePublicProfile()" style="position:absolute;top:14px;left:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);z-index:2;">←</button>
+          <div style="position:absolute;bottom:-50px;left:18px;z-index:2;">
+            <div id="pub-av" style="width:90px;height:90px;background:white;border:4px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:30px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">?</div>
+            <div id="pub-badge" style="position:absolute;top:0;right:0;width:26px;height:26px;background:var(--g);border:2.5px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.15);">✓</div>
           </div>
         </div>
 
@@ -4390,20 +4420,44 @@
 
             <!-- PROFIL -->
       <div class="ascreen" id="as-profil">
-        <div id="profile-banner" style="background:var(--gl);height:90px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;transition:background 0.3s;">
-          <!-- Sélecteur de couleur de banderole -->
-          <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,0.9);border-radius:100px;padding:6px 10px;">
-            <button type="button" onclick="setBannerColor('var(--gl)')" aria-label="Couleur vert clair" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:#E1F5EE;cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75)')" aria-label="Couleur vert" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#085041,#1D9E75);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#BA7517,#E0A040)')" aria-label="Couleur or" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#BA7517,#E0A040);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#3B4E8C,#6478C8)')" aria-label="Couleur bleu" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#3B4E8C,#6478C8);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#9C3B6E,#D06BA0)')" aria-label="Couleur rose" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#9C3B6E,#D06BA0);cursor:pointer;padding:0;"></button>
+        <div id="profile-banner" style="background:var(--gl);height:110px;position:relative;border-radius:0 0 28px 28px;margin-bottom:60px;transition:background 0.3s;overflow:hidden;">
+          <!-- Overlay décoratif subtil -->
+          <div id="profile-banner-overlay" style="position:absolute;inset:0;pointer-events:none;"></div>
+          <!-- Bouton ouvrir le sélecteur -->
+          <button type="button" onclick="toggleBannerPicker()" aria-label="Personnaliser la bannière" style="position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);font-size:16px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;">🎨</button>
+          <!-- Panneau de sélection -->
+          <div id="banner-picker" style="display:none;position:absolute;top:58px;right:14px;background:white;border-radius:14px;padding:14px;box-shadow:0 8px 24px rgba(0,0,0,0.12);border:1px solid rgba(0,0,0,0.04);z-index:20;width:260px;">
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--mu);margin-bottom:8px;font-weight:600;">Dégradés</div>
+            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px;">
+              <button type="button" onclick="setBannerColor('var(--gl)')" aria-label="Vert clair" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:#E1F5EE;cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75)')" aria-label="Vert forêt" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#085041,#1D9E75);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#BA7517,#E0A040)')" aria-label="Or" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#BA7517,#E0A040);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#3B4E8C,#6478C8)')" aria-label="Bleu" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#3B4E8C,#6478C8);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#9C3B6E,#D06BA0)')" aria-label="Rose" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#9C3B6E,#D06BA0);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#FF6B6B,#FFA07A)')" aria-label="Corail" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#FF6B6B,#FFA07A);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#667eea,#764ba2)')" aria-label="Violet" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#667eea,#764ba2);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#11998e,#38ef7d)')" aria-label="Émeraude" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#11998e,#38ef7d);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#fc4a1a,#f7b733)')" aria-label="Coucher de soleil" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#fc4a1a,#f7b733);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#2c3e50,#4ca1af)')" aria-label="Océan" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#2c3e50,#4ca1af);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#f857a6,#ff5858)')" aria-label="Framboise" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#f857a6,#ff5858);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#232526,#414345)')" aria-label="Charbon" style="width:30px;height:30px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#232526,#414345);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
+            </div>
+            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--mu);margin-bottom:8px;font-weight:600;">Motifs</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75),radial-gradient(circle at 20% 50%,rgba(255,255,255,0.2),transparent 50%),radial-gradient(circle at 80% 20%,rgba(255,255,255,0.15),transparent 50%)')" aria-label="Bulles vertes" style="height:34px;border-radius:8px;border:0;cursor:pointer;background:linear-gradient(135deg,#085041,#1D9E75),radial-gradient(circle at 20% 50%,rgba(255,255,255,0.3),transparent 50%);box-shadow:0 1px 3px rgba(0,0,0,0.08);">Bulles</button>
+              <button type="button" onclick='setBannerColor("linear-gradient(135deg,#3B4E8C,#6478C8)"); setBannerOverlay("radial-gradient(circle at 15% 30%,rgba(255,255,255,0.18) 0,transparent 18%),radial-gradient(circle at 85% 70%,rgba(255,255,255,0.13) 0,transparent 22%),radial-gradient(circle at 50% 90%,rgba(255,255,255,0.12) 0,transparent 16%)")' style="height:34px;border-radius:8px;border:0;cursor:pointer;background:linear-gradient(135deg,#3B4E8C,#6478C8);color:white;font-size:10px;box-shadow:0 1px 3px rgba(0,0,0,0.08);">Étoiles</button>
+              <button type="button" onclick='setBannerColor("linear-gradient(135deg,#BA7517,#E0A040)"); setBannerOverlay("repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(255,255,255,0.07) 12px,rgba(255,255,255,0.07) 24px)")' style="height:34px;border-radius:8px;border:0;cursor:pointer;background:linear-gradient(135deg,#BA7517,#E0A040);color:white;font-size:10px;box-shadow:0 1px 3px rgba(0,0,0,0.08);">Rayures</button>
+              <button type="button" onclick='setBannerColor("linear-gradient(135deg,#9C3B6E,#D06BA0)"); setBannerOverlay("repeating-radial-gradient(circle at 0 0,transparent 0,rgba(255,255,255,0.08) 14px,transparent 28px)")' style="height:34px;border-radius:8px;border:0;cursor:pointer;background:linear-gradient(135deg,#9C3B6E,#D06BA0);color:white;font-size:10px;box-shadow:0 1px 3px rgba(0,0,0,0.08);">Points</button>
+              <button type="button" onclick='setBannerColor("linear-gradient(135deg,#11998e,#38ef7d)"); setBannerOverlay("linear-gradient(45deg,rgba(255,255,255,0.06) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.06) 75%,transparent 75%,transparent) 0/24px 24px")' style="height:34px;border-radius:8px;border:0;cursor:pointer;background:linear-gradient(135deg,#11998e,#38ef7d);color:white;font-size:10px;box-shadow:0 1px 3px rgba(0,0,0,0.08);">Damier</button>
+              <button type="button" onclick='setBannerColor("linear-gradient(135deg,#fc4a1a,#f7b733)"); setBannerOverlay("radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.15))")' style="height:34px;border-radius:8px;border:0;cursor:pointer;background:linear-gradient(135deg,#fc4a1a,#f7b733);color:white;font-size:10px;box-shadow:0 1px 3px rgba(0,0,0,0.08);">Vignette</button>
+            </div>
+            <button type="button" onclick='setBannerOverlay("")' style="margin-top:10px;width:100%;padding:8px;border-radius:8px;border:0;background:#f7f7f4;color:var(--mu);font-family:inherit;font-size:11px;cursor:pointer;">Retirer le motif</button>
           </div>
           <div class="pavwrap" style="position:absolute;bottom:-50px;left:18px;">
-            <div class="pav" id="profile-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;">?</div>
-            <button type="button" onclick="document.getElementById('profile-photo-input').click()" aria-label="Changer la photo de profil" style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--g);border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;cursor:pointer;padding:0;">📷</button>
+            <div class="pav" id="profile-av" style="width:90px;height:90px;background:white;border:4px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:30px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">?</div>
+            <button type="button" onclick="document.getElementById('profile-photo-input').click()" aria-label="Changer la photo de profil" style="position:absolute;bottom:0;right:0;width:30px;height:30px;background:var(--g);border:2.5px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;cursor:pointer;padding:0;box-shadow:0 2px 6px rgba(0,0,0,0.15);">📷</button>
             <input type="file" id="profile-photo-input" accept="image/*" style="display:none;" onchange="previewProfilePhoto(event)" />
-            <div id="profile-badge-floating" style="position:absolute;top:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;">✓</div>
+            <div id="profile-badge-floating" style="position:absolute;top:0;right:0;width:26px;height:26px;background:var(--g);border:2.5px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.15);">✓</div>
           </div>
         </div>
 
@@ -4827,14 +4881,18 @@
       const prenom = document.getElementById('su-prenom').value.trim();
       const nom = document.getElementById('su-nom').value.trim();
       const email = document.getElementById('su-email').value.trim();
+      const cp = document.getElementById('su-cp').value.trim();
       const ville = document.getElementById('su-ville').value.trim();
+      console.log('[DEBUG inscription] Ville saisie :', JSON.stringify(ville), '| CP :', JSON.stringify(cp));
       if (!prenom || prenom.length < 2) { showError('s1-error', 'Prénom requis (min. 2 caractères).'); return; }
       if (!nom || nom.length < 2) { showError('s1-error', 'Nom requis (min. 2 caractères).'); return; }
       if (!email || !isValidEmail(email)) { showError('s1-error', 'Email invalide.'); return; }
+      if (!cp || !/^[0-9]{5}$/.test(cp)) { showError('s1-error', 'Code postal invalide (5 chiffres).'); return; }
       if (!ville || ville.length < 2) { showError('s1-error', 'Ville requise.'); return; }
       sessionStorage.setItem('signup_prenom', prenom);
       sessionStorage.setItem('signup_nom', nom);
       sessionStorage.setItem('signup_email', email);
+      sessionStorage.setItem('signup_cp', cp);
       sessionStorage.setItem('signup_ville', ville);
       go('p-s2');
     }
@@ -4852,6 +4910,7 @@
       const prenom = sessionStorage.getItem('signup_prenom') || '';
       const nom = sessionStorage.getItem('signup_nom') || '';
       const email = sessionStorage.getItem('signup_email') || '';
+      const cp = sessionStorage.getItem('signup_cp') || '';
       const ville = sessionStorage.getItem('signup_ville') || '';
 
       try {
@@ -4864,13 +4923,17 @@
 
         // Créer le profil dans users
         const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
-        await sb.from('users').insert({
+        const { error: insertErr } = await sb.from('users').insert({
           auth_id: authData.user.id,
-          prenom, nom, pseudo, email, ville,
+          prenom, nom, pseudo, email, ville, code_postal: cp,
           points: 50,
           verifie_telephone: false,
           statut_verification: 'non_demande'
         });
+        if (insertErr) {
+          console.error('users INSERT error:', insertErr);
+          // On laisse continuer : l'utilisateur est créé côté Auth, on essaiera de recréer le profil au premier login
+        }
 
         // Afficher l'email dans l'étape 3
         const display = document.getElementById('s3-email-display');
@@ -4985,7 +5048,37 @@
       try {
         const { data: { session } } = await sb.auth.getSession();
         if (!session?.user) return null;
-        const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+
+        let { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+
+        // Si pas de profil (l'INSERT à l'inscription a échoué), on le crée maintenant
+        if (!profile) {
+          console.warn('Profil manquant, création de secours');
+          const u = session.user;
+          const meta = u.user_metadata || {};
+          // Essayer de récupérer la ville depuis sessionStorage (saisie à l'inscription)
+          const villeFromSignup = sessionStorage.getItem('signup_ville') || '';
+          const cpFromSignup = sessionStorage.getItem('signup_cp') || '';
+          const prenom = meta.prenom || sessionStorage.getItem('signup_prenom') || (u.email?.split('@')[0] || 'Membre');
+          const nom = meta.nom || sessionStorage.getItem('signup_nom') || '';
+          const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
+          const { data: newProfile, error: insertErr } = await sb.from('users').insert({
+            auth_id: u.id,
+            prenom, nom, pseudo,
+            email: u.email,
+            ville: villeFromSignup,
+            code_postal: cpFromSignup,
+            points: 50,
+            verifie_telephone: false,
+            statut_verification: 'non_demande'
+          }).select().single();
+          if (insertErr) {
+            console.error('Création de secours échouée:', insertErr);
+          } else {
+            profile = newProfile;
+          }
+        }
+
         if (profile) {
           window.currentProfile = profile;
           updateProfileUI(profile);
@@ -5099,9 +5192,9 @@
         if (error) throw error;
 
         if (userData.user.email_confirmed_at || userData.user.confirmed_at) {
-          // Email confirmé : créer la session, mettre à jour le profil et continuer
+          // Email confirmé : créer la session, mettre à jour le profil et entrer dans l'app
           await getCurrentProfile();
-          go('p-s4');
+          go('p-app');
         } else {
           showError('s3-error', '⚠️ Email pas encore confirmé. Clique sur le lien dans ton email avant de continuer.');
           btn.textContent = 'J\'ai confirmé mon email →'; btn.disabled = false;
@@ -5975,11 +6068,11 @@
 
       try {
         const { data: users, error } = await sb.from('users')
-          .select('id, prenom, nom, ville, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
+          .select('id, prenom, nom, ville, code_postal, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
           .order('created_at', { ascending: false });
         if (error) throw error;
 
-        // Filtres : exclure soi-même + recherche nom + filtre ville
+        // Filtres : exclure soi-même + recherche nom + filtre ville/CP
         const filtered = (users || []).filter(u => {
           if (me && u.id === me.id) return false;
           if (search) {
@@ -5988,7 +6081,9 @@
           }
           if (cityFilter) {
             const uc = (u.ville || '').toLowerCase();
-            if (!uc.includes(cityFilter) && !cityFilter.includes(uc)) return false;
+            const ucp = (u.code_postal || '');
+            // On matche soit sur le nom de ville, soit sur le code postal
+            if (!uc.includes(cityFilter) && !cityFilter.includes(uc) && !ucp.startsWith(cityFilter)) return false;
           }
           return true;
         });
@@ -6045,7 +6140,7 @@
                 '<div style="font-weight:500;color:var(--dk);font-size:14px;">' + name + '</div>' +
                 (idV ? '<span style="background:var(--g);color:white;border-radius:50%;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span>' : '') +
               '</div>' +
-              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville || 'France') + ' · ' + sinceTxt + '</div>' +
+              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville ? ((u.code_postal ? u.code_postal + ' ' : '') + u.ville) : 'France') + ' · ' + sinceTxt + '</div>' +
               '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;">' +
                 '<span style="background:' + tBg + ';color:' + tColor + ';padding:2px 8px;border-radius:100px;font-weight:600;">' + score + '/2 confiance</span>' +
                 '<span style="color:var(--mu);">' + note + '</span>' +
@@ -6140,7 +6235,7 @@
       try {
         // Charger l'utilisateur (toutes ses infos publiques)
         const { data: u, error } = await sb.from('users')
-          .select('id, prenom, nom, ville, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, created_at')
+          .select('id, prenom, nom, ville, code_postal, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, motif_banniere, created_at')
           .eq('id', userId)
           .single();
         if (error) throw error;
@@ -6148,6 +6243,8 @@
         // Banderole
         const banner = document.getElementById('pub-banner');
         if (banner) banner.style.background = u.couleur_banniere || 'var(--gl)';
+        const bannerOv = document.getElementById('pub-banner-overlay');
+        if (bannerOv) bannerOv.style.background = u.motif_banniere || '';
 
         // Avatar
         const av = document.getElementById('pub-av');
@@ -6169,7 +6266,10 @@
         const name = document.getElementById('pub-name');
         if (name) name.textContent = (u.prenom || 'Membre') + ' ' + (u.nom?.[0] ? u.nom[0] + '.' : '');
         const ville = document.getElementById('pub-ville');
-        if (ville) ville.textContent = '📍 ' + (u.ville || 'France');
+        if (ville) {
+          const cp = u.code_postal ? u.code_postal + ' ' : '';
+          ville.textContent = '📍 ' + (u.ville ? (cp + u.ville) : 'France');
+        }
         const since = document.getElementById('pub-since');
         if (since && u.created_at) {
           const d = new Date(u.created_at);
@@ -6797,6 +6897,29 @@
     }
 
     /* --- Personnalisation banderole + photo de profil (persistant Supabase) --- */
+    /* --- Ouvrir/fermer le panneau de personnalisation --- */
+    function toggleBannerPicker() {
+      const picker = document.getElementById('banner-picker');
+      if (!picker) return;
+      picker.style.display = (picker.style.display === 'none' || !picker.style.display) ? 'block' : 'none';
+    }
+
+    /* --- Définir un motif (overlay) sur la bannière --- */
+    async function setBannerOverlay(overlay) {
+      const ov = document.getElementById('profile-banner-overlay');
+      if (ov) ov.style.background = overlay || '';
+      try {
+        const profile = await getCurrentProfile();
+        if (!profile) return;
+        const { error } = await sb.from('users').update({ motif_banniere: overlay || null }).eq('id', profile.id);
+        if (error) console.warn('setBannerOverlay save error (colonne motif_banniere manquante ?):', error);
+        profile.motif_banniere = overlay;
+        window.currentProfile = profile;
+      } catch (e) {
+        console.error('setBannerOverlay error:', e);
+      }
+    }
+
     async function setBannerColor(color) {
       const banner = document.getElementById('profile-banner');
       if (banner) banner.style.background = color;
@@ -6884,6 +7007,11 @@
       if (banner && profile.couleur_banniere) {
         banner.style.background = profile.couleur_banniere;
       }
+      // Motif (overlay) de la banderole
+      const bannerOv = document.getElementById('profile-banner-overlay');
+      if (bannerOv) {
+        bannerOv.style.background = profile.motif_banniere || '';
+      }
 
       // Nom complet (gestion des valeurs manquantes)
       const nm = document.getElementById('profile-name');
@@ -6900,7 +7028,10 @@
 
       // Ville + date
       const ville = document.getElementById('profile-ville');
-      if (ville) ville.textContent = profile.ville || '–';
+      if (ville) {
+        const cp = profile.code_postal ? profile.code_postal + ' ' : '';
+        ville.textContent = profile.ville ? (cp + profile.ville) : '–';
+      }
       const since = document.getElementById('profile-since');
       if (since && profile.created_at) {
         const d = new Date(profile.created_at);
@@ -7035,7 +7166,7 @@
       }
       // Détecter si l'utilisateur arrive depuis un lien de confirmation email
       if (hash && hash.includes('type=signup')) {
-        go('p-s4');
+        go('p-app');
         return;
       }
 
