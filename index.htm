@@ -6041,25 +6041,65 @@
       if (closeBtn) closeBtn.focus();
     }
 
-    /* --- Mettre à jour l'affichage du profil --- */
-    /* --- Personnalisation banderole + photo de profil (visuel) --- */
-    function setBannerColor(color) {
+    /* --- Personnalisation banderole + photo de profil (persistant Supabase) --- */
+    async function setBannerColor(color) {
       const banner = document.getElementById('profile-banner');
       if (banner) banner.style.background = color;
+      try {
+        const profile = await getCurrentProfile();
+        if (!profile) return;
+        const { error } = await sb.from('users').update({ couleur_banniere: color }).eq('id', profile.id);
+        if (error) throw error;
+        profile.couleur_banniere = color;
+        window.currentProfile = profile;
+      } catch (e) {
+        console.error('setBannerColor error:', e);
+      }
     }
 
-    function previewProfilePhoto(event) {
+    async function previewProfilePhoto(event) {
       const file = event.target.files?.[0];
       if (!file) return;
+      const av = document.getElementById('profile-av');
+
+      // 1) Prévisualisation immédiate
       const reader = new FileReader();
       reader.onload = e => {
-        const av = document.getElementById('profile-av');
         if (av) {
           av.style.backgroundImage = 'url(' + e.target.result + ')';
           av.textContent = '';
         }
       };
       reader.readAsDataURL(file);
+
+      // 2) Upload Supabase Storage + sauvegarde URL en base
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session?.user) { alert('Tu dois être connecté.'); return; }
+        const profile = await getCurrentProfile();
+        if (!profile) return;
+
+        const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+        const path = session.user.id + '/avatar.' + ext;
+
+        const { error: upErr } = await sb.storage
+          .from('avatars')
+          .upload(path, file, { upsert: true, contentType: file.type });
+        if (upErr) throw upErr;
+
+        const { data: pub } = sb.storage.from('avatars').getPublicUrl(path);
+        const url = pub.publicUrl + '?t=' + Date.now(); // cache-bust
+
+        const { error: dbErr } = await sb.from('users').update({ avatar_url: url }).eq('id', profile.id);
+        if (dbErr) throw dbErr;
+
+        profile.avatar_url = url;
+        window.currentProfile = profile;
+        if (av) av.style.backgroundImage = 'url(' + url + ')';
+      } catch (e) {
+        console.error('previewProfilePhoto error:', e);
+        alert('Erreur lors de l\'envoi de la photo : ' + (e.message || e));
+      }
     }
 
     /* --- Calcul du niveau à partir des points --- */
@@ -6072,9 +6112,23 @@
     function updateProfileUI(profile) {
       if (!profile) return;
 
-      // Initiales avatar profil
+      // Initiales OU photo de profil
       const av = document.getElementById('profile-av');
-      if (av) av.textContent = (profile.prenom?.[0] || '?') + (profile.nom?.[0] || '');
+      if (av) {
+        if (profile.avatar_url) {
+          av.style.backgroundImage = 'url(' + profile.avatar_url + ')';
+          av.textContent = '';
+        } else {
+          av.style.backgroundImage = '';
+          av.textContent = (profile.prenom?.[0] || '?') + (profile.nom?.[0] || '');
+        }
+      }
+
+      // Couleur de la banderole
+      const banner = document.getElementById('profile-banner');
+      if (banner && profile.couleur_banniere) {
+        banner.style.background = profile.couleur_banniere;
+      }
 
       // Nom complet (gestion des valeurs manquantes)
       const nm = document.getElementById('profile-name');
