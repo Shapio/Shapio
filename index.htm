@@ -3996,9 +3996,6 @@
           <div class="form-error" id="s3-error" role="alert" aria-live="polite"></div>
           <button class="obtn" type="button" onclick="checkEmailConfirmed()" style="margin-bottom:10px;">J'ai confirmé mon email →</button>
           <div class="resend">Pas reçu l'email ? <button type="button" class="link-btn" onclick="resendEmail(this)">Renvoyer</button></div>
-          <div style="margin-top:16px;padding-top:14px;border-top:1px solid #f0f0ed;">
-            <button type="button" onclick="go('p-app')" style="background:none;border:0;color:var(--mu);font-size:13px;cursor:pointer;font-family:inherit;text-decoration:underline;">Confirmer plus tard, accéder à Shapio →</button>
-          </div>
         </div>
       </div>
     </div>
@@ -4055,7 +4052,7 @@
           <div class="ppill" id="ppill-points" aria-label="Solde de points">50 pts</div>
           <button class="ibtn" type="button" aria-label="Notifications" onclick="setTab('notif')">
             <span aria-hidden="true">🔔</span>
-            <span class="ibtn-dot" aria-hidden="true"></span>
+            <span class="ibtn-dot hidden" id="notif-dot" aria-hidden="true"></span>
           </button>
         </div>
       </div>
@@ -4199,18 +4196,41 @@
           </div>
         </div>
         <div id="fiche-confirm" role="dialog" aria-modal="true" aria-labelledby="fiche-confirm-title"
-          style="display:none;background:rgba(0,0,0,0.88);border-radius:18px;margin:0 14px 14px;padding:26px;text-align:center;">
-          <div id="fiche-confirm-title" style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:10px;">Confirmer la
-            demande</div>
-          <div style="font-size:36px;margin-bottom:8px;" aria-hidden="true">🚁</div>
-          <div style="font-size:26px;font-weight:600;color:var(--ga);margin-bottom:8px;">15 pts / jour</div>
-          <div style="font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:16px;">Ces points seront
-            bloqués jusqu'au retour confirmé.</div>
+          style="display:none;background:rgba(0,0,0,0.92);border-radius:18px;margin:0 14px 14px;padding:24px;">
+          <div id="fiche-confirm-title" style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:14px;text-align:center;">Demande d'emprunt</div>
+
+          <!-- Récap objet -->
+          <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:14px;">
+            <div id="confirm-objet-titre" style="color:white;font-size:14px;font-weight:500;margin-bottom:4px;">–</div>
+            <div id="confirm-objet-prix" style="color:var(--ga);font-size:13px;">– pts / jour</div>
+          </div>
+
+          <!-- Sélecteur de jours -->
+          <div style="margin-bottom:14px;">
+            <label for="confirm-days" style="display:block;color:rgba(255,255,255,0.85);font-size:13px;margin-bottom:8px;">Durée de l'emprunt</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button type="button" onclick="adjustConfirmDays(-1)" aria-label="Moins" style="width:36px;height:36px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:white;font-size:18px;cursor:pointer;">–</button>
+              <input type="number" id="confirm-days" min="1" max="60" value="1" oninput="updateConfirmTotal()" style="flex:1;text-align:center;background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:8px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;"/>
+              <button type="button" onclick="adjustConfirmDays(1)" aria-label="Plus" style="width:36px;height:36px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:white;font-size:18px;cursor:pointer;">+</button>
+              <div style="color:rgba(255,255,255,0.6);font-size:12px;min-width:50px;" id="confirm-days-label">jour</div>
+            </div>
+            <div style="color:rgba(255,255,255,0.4);font-size:11px;margin-top:6px;" id="confirm-max-info"></div>
+          </div>
+
+          <!-- Total -->
+          <div style="background:var(--g);border-radius:12px;padding:14px;margin-bottom:14px;text-align:center;">
+            <div style="color:rgba(255,255,255,0.7);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Total à bloquer</div>
+            <div style="color:white;font-family:'DM Serif Display',serif;font-size:28px;" id="confirm-total">– pts</div>
+          </div>
+
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:14px;text-align:center;">
+            Les points seront bloqués jusqu'au retour confirmé.<br>Le prêteur peut accepter, refuser ou proposer un ajustement.
+          </div>
+
           <button type="button" onclick="confirmFicheRequest()"
-            style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:13px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer
-            la demande</button>
+            style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer la demande</button>
           <button type="button" onclick="hideFicheConfirm()"
-            style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.2);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Annuler</button>
+            style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.15);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Annuler</button>
         </div>
         <div class="fbar" id="fbar">
           <div class="fbarinfo">
@@ -4480,7 +4500,7 @@
               <span>🪪 Vérifier mon identité</span>
               <span style="color:var(--mu);">›</span>
             </a>
-            <a href="mailto:contact@shapio.fr?subject=Demande%20de%20correction%20de%20profil&body=Bonjour%2C%0A%0AJe%20souhaite%20modifier%20les%20informations%20de%20mon%20profil%20Shapio.%0A%0A%C3%89l%C3%A9ment%20%C3%A0%20corriger%20(nom%2C%20pr%C3%A9nom%2C%20ville%E2%80%A6)%20%3A%20%0ANouvelle%20valeur%20souhait%C3%A9e%20%3A%20%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
+            <a href="mailto:contact@shapio.fr?subject=Demande%20de%20correction%20de%20profil&body=Bonjour%2C%0A%0AJe%20souhaite%20modifier%20les%20informations%20suivantes%20sur%20mon%20profil%20Shapio%20%3A%0A%0A-%20Pr%C3%A9nom%20%3A%20%0A-%20Nom%20%3A%20%0A-%20Ville%20%3A%20%0A-%20Autre%20%3A%20%0A%0A(Remplis%20uniquement%20les%20champs%20%C3%A0%20modifier)%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
               <span>✏️ Demander une correction du profil</span>
               <span style="color:var(--mu);">›</span>
             </a>
@@ -4691,6 +4711,10 @@
       }
       if (tab === 'home' && typeof loadHomeObjects === 'function') loadHomeObjects();
       if (tab === 'msgs' && typeof loadMessages === 'function') loadMessages();
+      if (tab === 'notif') {
+        const dot = document.getElementById('notif-dot');
+        if (dot) dot.classList.add('hidden');
+      }
 
       document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.ni').forEach(n => {
@@ -5323,6 +5347,22 @@
     }
 
     function showFicheConfirm() {
+      const o = window.currentObject;
+      if (!o) return;
+      // Remplir les infos dynamiquement
+      const titre = document.getElementById('confirm-objet-titre');
+      if (titre) titre.textContent = o.titre || 'Objet';
+      const prix = document.getElementById('confirm-objet-prix');
+      if (prix) prix.textContent = (o.pts_par_jour || 0) + ' pts / jour';
+      const dureeMax = o.duree_max || 30;
+      const daysInput = document.getElementById('confirm-days');
+      if (daysInput) {
+        daysInput.value = 1;
+        daysInput.max = dureeMax;
+      }
+      const maxInfo = document.getElementById('confirm-max-info');
+      if (maxInfo) maxInfo.textContent = 'Durée maximale autorisée par le prêteur : ' + dureeMax + ' jour' + (dureeMax > 1 ? 's' : '');
+      updateConfirmTotal();
       document.getElementById('fiche-confirm').style.display = 'block';
       document.getElementById('fbar').style.display = 'none';
     }
@@ -5332,24 +5372,66 @@
       document.getElementById('fbar').style.display = 'flex';
     }
 
+    function adjustConfirmDays(delta) {
+      const input = document.getElementById('confirm-days');
+      if (!input) return;
+      let v = parseInt(input.value, 10) || 1;
+      const max = parseInt(input.max, 10) || 60;
+      v = Math.max(1, Math.min(max, v + delta));
+      input.value = v;
+      updateConfirmTotal();
+    }
+
+    function updateConfirmTotal() {
+      const o = window.currentObject;
+      if (!o) return;
+      const input = document.getElementById('confirm-days');
+      const days = Math.max(1, parseInt(input?.value, 10) || 1);
+      const pts = o.pts_par_jour || 0;
+      const total = days * pts;
+      const totalEl = document.getElementById('confirm-total');
+      if (totalEl) totalEl.textContent = total + ' pts';
+      const lblEl = document.getElementById('confirm-days-label');
+      if (lblEl) lblEl.textContent = days > 1 ? 'jours' : 'jour';
+    }
+
     async function confirmFicheRequest() {
-      hideFicheConfirm();
       const o = window.currentObject;
       if (!o || !o.users) { alert('Erreur : objet introuvable.'); return; }
       const me = await getCurrentProfile();
       if (!me) { alert('Tu dois être connecté.'); return; }
       if (me.id === o.users.id) { alert('Tu es le propriétaire de cet objet.'); return; }
 
+      const daysInput = document.getElementById('confirm-days');
+      const days = Math.max(1, parseInt(daysInput?.value, 10) || 1);
+      const pts = o.pts_par_jour || 0;
+      const total = days * pts;
+
+      hideFicheConfirm();
+
       try {
-        const messageText = '📦 Demande d\'emprunt : "' + o.titre + '" (' + (o.pts_par_jour || 0) + ' pts/jour). Peux-tu confirmer la disponibilité ?';
+        // Message structuré que l'autre partie pourra reconnaître
+        // Format : LOAN_REQUEST||{json} pour qu'on puisse parser côté affichage
+        const payload = {
+          type: 'LOAN_REQUEST',
+          object_id: o.id,
+          object_titre: o.titre,
+          pts_par_jour: pts,
+          days: days,
+          total: total
+        };
+        const messageText = 'LOAN_REQUEST::' + JSON.stringify(payload);
         const { error } = await sb.from('messages').insert({
           expediteur_id: me.id,
           destinataire_id: o.users.id,
           contenu: messageText
         });
         if (error) throw error;
-        alert('✅ Demande envoyée à ' + (o.users.prenom || 'au propriétaire') + ' !\nElle pourra accepter et bloquer les points au moment du prêt.');
-        setTab('msgs');
+        alert('✅ Demande envoyée à ' + (o.users.prenom || 'au propriétaire') + ' !\n' +
+              days + ' jour' + (days > 1 ? 's' : '') + ' · ' + total + ' pts à bloquer.\n\n' +
+              'Tu peux suivre la conversation dans tes messages.');
+        // Ouvrir directement la conversation pour qu'il voie le message
+        openChat(o.users.id);
       } catch (err) {
         console.error('confirmFicheRequest error:', err);
         alert('Erreur : ' + (err.message || err));
@@ -5623,7 +5705,7 @@
           categorie: cat,
           pts_par_jour: pts,
           disponible: true,
-          ville: window.currentProfile.ville || 'Lille',
+          ville: window.currentProfile.ville || '',
           code_postal: window.currentProfile.code_postal || '',
           photos: photoUrl ? [photoUrl] : [],
           etat: etat
@@ -6324,7 +6406,13 @@
           const avatar = u.avatar_url
             ? '<div style="width:46px;height:46px;border-radius:50%;background:url(\'' + u.avatar_url + '\') center/cover no-repeat;flex-shrink:0;"></div>'
             : '<div style="width:46px;height:46px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-family:\'DM Serif Display\',serif;color:var(--g);flex-shrink:0;">' + initials + '</div>';
-          const lastTxt = (c.last.contenu || '').slice(0, 60);
+          // Preview lisible (pour les messages structurés LOAN_*)
+          let lastTxt = c.last.contenu || '';
+          if (lastTxt.startsWith('LOAN_REQUEST::')) lastTxt = '📦 Demande d\'emprunt';
+          else if (lastTxt.startsWith('LOAN_ACCEPT::')) lastTxt = '✅ Demande acceptée';
+          else if (lastTxt.startsWith('LOAN_REFUSE::')) lastTxt = '✕ Demande refusée';
+          else if (lastTxt.startsWith('LOAN_COUNTER::')) lastTxt = '↔ Contre-proposition';
+          else lastTxt = lastTxt.slice(0, 60);
           return '<div role="button" tabindex="0" onclick="openChat(\'' + u.id + '\')" style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0ed;cursor:pointer;">' +
             avatar +
             '<div style="flex:1;min-width:0;">' +
@@ -6378,14 +6466,7 @@
 
         const container = document.getElementById('chatmsgs');
         if (container) {
-          container.innerHTML = (msgs || []).map(m => {
-            const isMine = m.expediteur_id === me.id;
-            const time = new Date(m.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-            return '<div' + (isMine ? ' style="align-self:flex-end"' : '') + '>' +
-              '<div class="mb ' + (isMine ? 'mout' : 'min') + '">' + (m.contenu || '').replace(/</g, '&lt;') + '</div>' +
-              '<div class="mt' + (isMine ? ' r' : '') + '">' + time + '</div>' +
-              '</div>';
-          }).join('');
+          container.innerHTML = (msgs || []).map(m => renderChatMessage(m, me.id)).join('');
           container.scrollTop = container.scrollHeight;
         }
 
@@ -6393,6 +6474,170 @@
       } catch (err) {
         console.error('openChat error:', err);
         alert('Erreur : ' + (err.message || err));
+      }
+    }
+
+    /* --- Render un message du chat (gère les demandes de prêt) --- */
+    function renderChatMessage(m, myId) {
+      const isMine = m.expediteur_id === myId;
+      const time = new Date(m.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      const content = m.contenu || '';
+
+      // Détection messages structurés
+      const match = content.match(/^(LOAN_REQUEST|LOAN_ACCEPT|LOAN_REFUSE|LOAN_COUNTER)::(.+)$/);
+      if (match) {
+        try {
+          const type = match[1];
+          const data = JSON.parse(match[2]);
+          return renderLoanCard(type, data, m, isMine);
+        } catch (e) { /* fallback texte brut */ }
+      }
+
+      // Message texte normal
+      return '<div' + (isMine ? ' style="align-self:flex-end"' : '') + '>' +
+        '<div class="mb ' + (isMine ? 'mout' : 'min') + '">' + content.replace(/</g, '&lt;') + '</div>' +
+        '<div class="mt' + (isMine ? ' r' : '') + '">' + time + '</div>' +
+        '</div>';
+    }
+
+    /* --- Carte spéciale de demande/réponse de prêt --- */
+    function renderLoanCard(type, data, m, isMine) {
+      const time = new Date(m.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      const days = data.days || 1;
+      const total = data.total || 0;
+      const titre = (data.object_titre || 'Objet').replace(/</g, '&lt;');
+
+      let badge, color, intro, actions = '';
+      if (type === 'LOAN_REQUEST') {
+        badge = '📦 Demande d\'emprunt';
+        color = '#1D9E75';
+        intro = isMine
+          ? 'Tu as envoyé une demande pour <strong>' + titre + '</strong>.'
+          : 'Te demande d\'emprunter <strong>' + titre + '</strong>.';
+        if (!isMine) {
+          // Le propriétaire voit des boutons d'action
+          actions =
+            '<div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">' +
+              '<button type="button" onclick="loanAccept(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✓ Accepter</button>' +
+              '<button type="button" onclick="loanCounter(\'' + m.id + '\')" style="padding:9px 12px;border:1px solid var(--g);border-radius:8px;background:white;color:var(--g);font-family:inherit;font-size:13px;cursor:pointer;">↔ Contre-proposition</button>' +
+              '<button type="button" onclick="loanRefuse(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:#FEE2E2;color:#EF4444;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✕ Refuser</button>' +
+            '</div>';
+        }
+      } else if (type === 'LOAN_ACCEPT') {
+        badge = '✅ Demande acceptée';
+        color = '#22C55E';
+        intro = (isMine ? 'Tu as accepté' : 'A accepté') + ' la demande d\'emprunt pour <strong>' + titre + '</strong>.';
+      } else if (type === 'LOAN_REFUSE') {
+        badge = '✕ Demande refusée';
+        color = '#EF4444';
+        intro = (isMine ? 'Tu as refusé' : 'A refusé') + ' la demande d\'emprunt pour <strong>' + titre + '</strong>.';
+      } else if (type === 'LOAN_COUNTER') {
+        badge = '↔ Contre-proposition';
+        color = '#F59E0B';
+        intro = (isMine ? 'Tu proposes' : 'Te propose') + ' un ajustement pour <strong>' + titre + '</strong>.';
+        if (!isMine) {
+          actions =
+            '<div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">' +
+              '<button type="button" onclick="loanAccept(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✓ Accepter</button>' +
+              '<button type="button" onclick="loanRefuse(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:#FEE2E2;color:#EF4444;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✕ Refuser</button>' +
+            '</div>';
+        }
+      }
+
+      return '<div style="align-self:stretch;background:#f7f7f4;border-radius:14px;padding:12px;margin:6px 0;border-left:3px solid ' + color + ';">' +
+        '<div style="font-size:11px;color:' + color + ';text-transform:uppercase;letter-spacing:0.5px;font-weight:600;margin-bottom:6px;">' + badge + '</div>' +
+        '<div style="font-size:13px;color:var(--dk);margin-bottom:8px;">' + intro + '</div>' +
+        '<div style="background:white;border-radius:8px;padding:8px 10px;font-size:13px;color:var(--dk);">' +
+          '<div>📅 ' + days + ' jour' + (days > 1 ? 's' : '') + '</div>' +
+          '<div>💎 ' + (data.pts_par_jour || 0) + ' pts/jour</div>' +
+          '<div style="font-weight:500;margin-top:4px;">Total : ' + total + ' pts</div>' +
+        '</div>' +
+        actions +
+        '<div style="font-size:10px;color:var(--mu);margin-top:6px;text-align:right;">' + time + '</div>' +
+        '</div>';
+    }
+
+    /* --- Actions sur une demande de prêt --- */
+    async function loanGetOriginal(messageId) {
+      const { data: m, error } = await sb.from('messages').select('*').eq('id', messageId).single();
+      if (error) throw error;
+      const match = (m.contenu || '').match(/^(LOAN_REQUEST|LOAN_COUNTER)::(.+)$/);
+      if (!match) throw new Error('Message invalide');
+      return { msg: m, data: JSON.parse(match[2]) };
+    }
+
+    async function loanAccept(messageId) {
+      try {
+        const { msg, data } = await loanGetOriginal(messageId);
+        const me = await getCurrentProfile();
+        if (!me) return;
+        // L'expéditeur de la demande devient le destinataire de la réponse
+        const responseTo = msg.expediteur_id;
+        const payload = { type: 'LOAN_ACCEPT', ...data };
+        const { error } = await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: responseTo,
+          contenu: 'LOAN_ACCEPT::' + JSON.stringify(payload)
+        });
+        if (error) throw error;
+        await openChat(responseTo);
+      } catch (e) {
+        console.error('loanAccept error:', e);
+        alert('Erreur : ' + (e.message || e));
+      }
+    }
+
+    async function loanRefuse(messageId) {
+      try {
+        const { msg, data } = await loanGetOriginal(messageId);
+        const me = await getCurrentProfile();
+        if (!me) return;
+        if (!confirm('Refuser cette demande ?')) return;
+        const responseTo = msg.expediteur_id;
+        const payload = { type: 'LOAN_REFUSE', ...data };
+        const { error } = await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: responseTo,
+          contenu: 'LOAN_REFUSE::' + JSON.stringify(payload)
+        });
+        if (error) throw error;
+        await openChat(responseTo);
+      } catch (e) {
+        console.error('loanRefuse error:', e);
+        alert('Erreur : ' + (e.message || e));
+      }
+    }
+
+    async function loanCounter(messageId) {
+      try {
+        const { msg, data } = await loanGetOriginal(messageId);
+        const me = await getCurrentProfile();
+        if (!me) return;
+        const newDaysStr = prompt('Nouvelle durée proposée (en jours) :', data.days || 1);
+        if (newDaysStr === null) return;
+        const newDays = Math.max(1, parseInt(newDaysStr, 10) || 1);
+        const newPtsStr = prompt('Prix proposé (pts/jour) :', data.pts_par_jour || 0);
+        if (newPtsStr === null) return;
+        const newPts = Math.max(0, parseInt(newPtsStr, 10) || 0);
+        const responseTo = msg.expediteur_id;
+        const payload = {
+          type: 'LOAN_COUNTER',
+          object_id: data.object_id,
+          object_titre: data.object_titre,
+          pts_par_jour: newPts,
+          days: newDays,
+          total: newDays * newPts
+        };
+        const { error } = await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: responseTo,
+          contenu: 'LOAN_COUNTER::' + JSON.stringify(payload)
+        });
+        if (error) throw error;
+        await openChat(responseTo);
+      } catch (e) {
+        console.error('loanCounter error:', e);
+        alert('Erreur : ' + (e.message || e));
       }
     }
 
@@ -6655,7 +6900,7 @@
 
       // Ville + date
       const ville = document.getElementById('profile-ville');
-      if (ville) ville.textContent = profile.ville || 'Lille';
+      if (ville) ville.textContent = profile.ville || '–';
       const since = document.getElementById('profile-since');
       if (since && profile.created_at) {
         const d = new Date(profile.created_at);
