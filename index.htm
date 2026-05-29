@@ -4152,79 +4152,43 @@
 
             <!-- FICHE -->
       <div class="ascreen" id="as-fiche">
-        <div class="fphoto" style="background:#E1F5EE;"><span aria-hidden="true">🚁</span>
+        <div class="fphoto" id="fiche-photo" style="background:#E1F5EE;"><span id="fiche-photo-emoji" aria-hidden="true">📦</span>
           <button type="button" class="fback" aria-label="Retour" onclick="backFromFiche()">←</button>
           <button type="button" class="fsave" id="fsavebtn" aria-label="Sauvegarder l'objet" aria-pressed="false" onclick="toggleFSave()">♡</button>
-          <div class="fdots" aria-hidden="true">
-            <div class="fdot active"></div>
-            <div class="fdot"></div>
-            <div class="fdot"></div>
-          </div>
         </div>
         <div class="fbody">
           <div class="ftrow">
             <div class="ftitle" id="fiche-titre">Objet</div>
             <div class="fpts">
-              <div class="fptsn">15</div>
+              <div class="fptsn" id="fiche-pts">–</div>
               <div class="fptsl">pts/jour</div>
             </div>
           </div>
           <div class="fmeta">
-            <div class="fmc"><span aria-hidden="true">📍</span> 2.3 km</div>
+            <div class="fmc"><span aria-hidden="true">📍</span> <span id="fiche-ville">–</span></div>
             <div class="fmdot" aria-hidden="true"></div>
-            <div class="fmc"><span aria-hidden="true">⭐</span> 4.9 (12 avis)</div>
-            <div class="fmdot" aria-hidden="true"></div>
-            <div class="fmc"><span aria-hidden="true">🔄</span> 8 prêts</div>
+            <div class="fmc"><span aria-hidden="true">⭐</span> <span id="fiche-note">–</span></div>
           </div>
           <div class="fstates">
-            <div class="fst fst-g">Disponible</div>
-            <div class="fst fst-gr">Très bon état</div>
+            <div class="fst fst-g" id="fiche-dispo">Disponible</div>
+            <div class="fst fst-gr" id="fiche-etat">Bon état</div>
           </div>
-          <div class="fdesc">Drone compact 4K avec stabilisateur. Autonomie ~34 min. Livré avec 2 batteries, chargeur et
-            pochette.</div>
+          <div class="fdesc" id="fiche-desc">Pas de description.</div>
           <div class="fdiv"></div>
           <div class="fslbl">Prêté par</div>
-          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil de Membre">
-            <div class="foav" aria-hidden="true">ML</div>
+          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil">
+            <div class="foav" id="fiche-owner-av" aria-hidden="true">–</div>
             <div class="foinfo">
-              <div class="foname" id="fiche-owner-name">Membre <div class="fobadge">✓ Vérifié</div>
-              </div>
-              <div class="fosub">⭐ 4.9 · 23 prêts · Membre depuis 2024</div>
+              <div class="foname" id="fiche-owner-name">Membre</div>
+              <div class="fosub" id="fiche-owner-sub">–</div>
             </div>
             <span style="font-size:14px;color:var(--mu);" aria-hidden="true">›</span>
           </div>
-          <div class="fslbl">Disponibilités</div>
+          <div class="fslbl">Durée maximale du prêt</div>
           <div class="fdispo">
-            <div class="fdc">
-              <div class="fdcd">Weekends</div>
-              <div class="fdct">Toute la journée</div>
-            </div>
-            <div class="fdc">
-              <div class="fdcd">Semaine</div>
-              <div class="fdct">Après 18h</div>
-            </div>
             <div class="fdc" style="grid-column:span 2;">
               <div class="fdcd">Durée max</div>
               <div class="fdct" id="fiche-duree-max">7 jours</div>
-            </div>
-          </div>
-          <div class="fslbl">Avis récents</div>
-          <div class="frevs">
-            <div class="frev">
-              <div class="frevh">
-                <div class="frevav" aria-hidden="true">TR</div>
-                <div class="frevn">Membre</div>
-                <div class="frevs2" aria-label="5 étoiles">★★★★★</div>
-              </div>
-              <div class="frevt">Avis exemple</div>
-            </div>
-            <div class="frev">
-              <div class="frevh">
-                <div class="frevav" aria-hidden="true">SB</div>
-                <div class="frevn">Sophie B.</div>
-                <div class="frevs2" aria-label="5 étoiles">★★★★★</div>
-              </div>
-              <div class="frevt">Super expérience, objet comme décrit.</div>
             </div>
           </div>
         </div>
@@ -4244,10 +4208,10 @@
         </div>
         <div class="fbar" id="fbar">
           <div class="fbarinfo">
-            <div class="fbarin">15 pts</div>
+            <div class="fbarin" id="fbar-pts">– pts</div>
             <div class="fbarl">par jour · bloqués jusqu'au retour</div>
           </div>
-          <button type="button" class="fmsgbtn" aria-label="Envoyer un message" onclick="setTab('chat')">💬</button>
+          <button type="button" class="fmsgbtn" aria-label="Envoyer un message au propriétaire" onclick="contactOwner()">💬</button>
           <button type="button" class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
         </div>
       </div>
@@ -4650,6 +4614,7 @@
         getCurrentProfile().then(p => { if (p) updateProfileUI(p); });
       }
       if (tab === 'home' && typeof loadHomeObjects === 'function') loadHomeObjects();
+      if (tab === 'msgs' && typeof loadMessages === 'function') loadMessages();
 
       document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.ni').forEach(n => {
@@ -5290,12 +5255,28 @@
       document.getElementById('fbar').style.display = 'flex';
     }
 
-    function confirmFicheRequest() {
+    async function confirmFicheRequest() {
       hideFicheConfirm();
-      // Décrémenter les points (factice mais visuel)
-      decrementPoints(15);
-      // Aller dans Messages
-      setTab('chat');
+      const o = window.currentObject;
+      if (!o || !o.users) { alert('Erreur : objet introuvable.'); return; }
+      const me = await getCurrentProfile();
+      if (!me) { alert('Tu dois être connecté.'); return; }
+      if (me.id === o.users.id) { alert('Tu es le propriétaire de cet objet.'); return; }
+
+      try {
+        const messageText = '📦 Demande d\'emprunt : "' + o.titre + '" (' + (o.pts_par_jour || 0) + ' pts/jour). Peux-tu confirmer la disponibilité ?';
+        const { error } = await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: o.users.id,
+          contenu: messageText
+        });
+        if (error) throw error;
+        alert('✅ Demande envoyée à ' + (o.users.prenom || 'au propriétaire') + ' !\nElle pourra accepter et bloquer les points au moment du prêt.');
+        setTab('msgs');
+      } catch (err) {
+        console.error('confirmFicheRequest error:', err);
+        alert('Erreur : ' + (err.message || err));
+      }
     }
 
     /* ---------- SWIPE (vidé - utilise window.swipeFiltered) ---------- */
@@ -5422,38 +5403,6 @@
       const current = parseInt(match[1], 10);
       const next = Math.max(0, current - amount);
       ppill.textContent = next + ' pts';
-    }
-
-    /* ---------- CHAT ---------- */
-    function sendMessage() {
-      const input = document.getElementById('chat-input');
-      if (!input) return;
-      const txt = input.value.trim();
-      if (!txt) return;
-      const list = document.getElementById('chatmsgs');
-      if (!list) return;
-      const wrap = document.createElement('div');
-      wrap.style.alignSelf = 'flex-end';
-      const now = new Date();
-      const hh = String(now.getHours()).padStart(2, '0');
-      const mm = String(now.getMinutes()).padStart(2, '0');
-      wrap.innerHTML = '<div class="mb mout"></div><div class="mt r">' + hh + ':' + mm + '</div>';
-      // Sécurité : on insère le texte sans interpréter le HTML
-      wrap.querySelector('.mb').textContent = txt;
-      list.appendChild(wrap);
-      input.value = '';
-      list.scrollTop = list.scrollHeight;
-
-      // Faux retour automatique
-      setTimeout(() => {
-        const reply = document.createElement('div');
-        reply.innerHTML = '<div class="mb min"></div><div class="mt"></div>';
-        reply.querySelector('.mb').textContent = 'Reçu, je te réponds dès que possible !';
-        const now2 = new Date();
-        reply.querySelector('.mt').textContent = String(now2.getHours()).padStart(2, '0') + ':' + String(now2.getMinutes()).padStart(2, '0');
-        list.appendChild(reply);
-        list.scrollTop = list.scrollHeight;
-      }, 1200);
     }
 
     /* ---------- AJOUTER UN OBJET ---------- */
@@ -5897,38 +5846,233 @@
 
     /* --- Ouvrir la fiche d'un objet réel --- */
     async function openObjectFiche(objectId) {
-      if (!sb) return;
+      if (!sb || !objectId) return;
       try {
         const { data: o, error } = await sb.from('objects')
-          .select('*, users(id, prenom, nom, ville, note_moyenne, nb_prets, verifie_identite, created_at)')
+          .select('*, users(id, prenom, nom, ville, note_moyenne, nb_prets, verifie_identite, created_at, avatar_url)')
           .eq('id', objectId)
           .single();
         if (error) throw error;
         window.currentObject = o;
 
-        // Mettre à jour la fiche
-        const ficheTitle = document.querySelector('#p-fiche .fttl, #p-fiche h2');
-        if (ficheTitle) ficheTitle.textContent = o.titre;
+        const c = (typeof CAT_ICONS !== 'undefined' && CAT_ICONS[o.categorie]) ? CAT_ICONS[o.categorie] : { bg: '#E1F5EE', ico: '📦' };
 
-        const ficheDesc = document.querySelector('#p-fiche .fdesc, #p-fiche .fdescr');
-        if (ficheDesc) ficheDesc.textContent = o.description || 'Pas de description';
+        // Photo / emoji
+        const photo = document.getElementById('fiche-photo');
+        const emoji = document.getElementById('fiche-photo-emoji');
+        if (photo) {
+          if (o.photos && o.photos[0]) {
+            photo.style.background = "url('" + o.photos[0] + "') center/cover no-repeat";
+            if (emoji) emoji.style.display = 'none';
+          } else {
+            photo.style.background = c.bg;
+            if (emoji) { emoji.style.display = ''; emoji.textContent = c.ico; }
+          }
+        }
 
-        const fichePts = document.querySelector('#p-fiche .fpts, #p-fiche .fbprice');
-        if (fichePts) fichePts.textContent = o.pts_par_jour + ' pts/jour';
+        // Titre, prix
+        const titre = document.getElementById('fiche-titre');
+        if (titre) titre.textContent = o.titre || 'Objet';
+        const pts = document.getElementById('fiche-pts');
+        if (pts) pts.textContent = o.pts_par_jour ?? '–';
+        const fbarPts = document.getElementById('fbar-pts');
+        if (fbarPts) fbarPts.textContent = (o.pts_par_jour ?? '–') + ' pts';
 
+        // Métas
+        const ville = document.getElementById('fiche-ville');
+        if (ville) ville.textContent = o.ville || (o.users?.ville) || 'France';
+        const note = document.getElementById('fiche-note');
+        if (note) note.textContent = (o.users?.note_moyenne > 0) ? o.users.note_moyenne.toFixed(1) : '–';
+        const dispo = document.getElementById('fiche-dispo');
+        if (dispo) dispo.textContent = o.disponible ? 'Disponible' : 'Indisponible';
+        const etat = document.getElementById('fiche-etat');
+        if (etat) etat.textContent = o.etat || 'Bon état';
+        const desc = document.getElementById('fiche-desc');
+        if (desc) desc.textContent = o.description || 'Pas de description.';
+
+        // Propriétaire
+        const u = o.users || {};
+        const oname = document.getElementById('fiche-owner-name');
+        if (oname) oname.textContent = (u.prenom || 'Membre') + ' ' + (u.nom?.[0] ? u.nom[0] + '.' : '');
+        const oav = document.getElementById('fiche-owner-av');
+        if (oav) {
+          if (u.avatar_url) {
+            oav.style.background = "url('" + u.avatar_url + "') center/cover no-repeat";
+            oav.textContent = '';
+          } else {
+            oav.style.background = '';
+            oav.textContent = (u.prenom?.[0] || '?') + (u.nom?.[0] || '');
+          }
+        }
+        const osub = document.getElementById('fiche-owner-sub');
+        if (osub) {
+          const parts = [];
+          if (u.note_moyenne > 0) parts.push('⭐ ' + u.note_moyenne.toFixed(1));
+          if (u.nb_prets > 0) parts.push(u.nb_prets + ' prêts');
+          if (u.verifie_identite) parts.push('✓ Vérifié');
+          osub.textContent = parts.length ? parts.join(' · ') : 'Nouveau membre';
+        }
+
+        // Durée
         const ficheDuree = document.getElementById('fiche-duree-max');
         if (ficheDuree) {
           const d = o.duree_max || 7;
           ficheDuree.textContent = d === 1 ? '1 jour' : d < 7 ? d + ' jours' : d === 7 ? '1 semaine' : d === 14 ? '2 semaines' : d === 30 ? '1 mois' : d + ' jours';
         }
 
-        const ficheOwner = document.querySelector('#p-fiche .foname');
-        if (ficheOwner && o.users) ficheOwner.textContent = o.users.prenom + ' ' + (o.users.nom?.[0] || '') + '.';
-
-        go('p-fiche');
+        setTab('fiche');
       } catch (err) {
-        console.error('Erreur fiche:', err);
+        console.error('openObjectFiche error:', err);
         alert('Impossible de charger cet objet.');
+      }
+    }
+
+    /* --- Charger la liste des conversations (Messages) --- */
+    async function loadMessages() {
+      if (!sb) return;
+      const listEl = document.getElementById('msgs-list');
+      if (!listEl) return;
+      const me = await getCurrentProfile();
+      if (!me) return;
+
+      try {
+        // Récupérer tous les messages où je suis impliqué
+        const { data: msgs, error } = await sb.from('messages')
+          .select('*, expediteur:expediteur_id(id, prenom, nom, avatar_url), destinataire:destinataire_id(id, prenom, nom, avatar_url)')
+          .or('expediteur_id.eq.' + me.id + ',destinataire_id.eq.' + me.id)
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+
+        if (!msgs || msgs.length === 0) {
+          listEl.innerHTML = '<div style="padding:60px 24px;text-align:center;color:var(--mu);">' +
+            '<div style="font-size:40px;margin-bottom:12px;">💬</div>' +
+            '<div style="font-size:14px;color:var(--dk);margin-bottom:4px;font-weight:500;">Aucun message pour l\'instant</div>' +
+            '<div style="font-size:13px;line-height:1.5;">Quand tu contacteras un voisin pour emprunter un objet, vos échanges apparaîtront ici.</div>' +
+            '</div>';
+          return;
+        }
+
+        // Regrouper par interlocuteur (la conversation = entre deux personnes)
+        const convs = {};
+        for (const m of msgs) {
+          const other = (m.expediteur_id === me.id) ? m.destinataire : m.expediteur;
+          if (!other) continue;
+          if (!convs[other.id]) {
+            convs[other.id] = { user: other, last: m, count: 0 };
+          }
+          convs[other.id].count++;
+        }
+
+        const items = Object.values(convs).map(c => {
+          const u = c.user;
+          const name = (u.prenom || 'Membre') + ' ' + (u.nom?.[0] ? u.nom[0] + '.' : '');
+          const initials = (u.prenom?.[0] || '?') + (u.nom?.[0] || '');
+          const avatar = u.avatar_url
+            ? '<div style="width:46px;height:46px;border-radius:50%;background:url(\'' + u.avatar_url + '\') center/cover no-repeat;flex-shrink:0;"></div>'
+            : '<div style="width:46px;height:46px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-family:\'DM Serif Display\',serif;color:var(--g);flex-shrink:0;">' + initials + '</div>';
+          const lastTxt = (c.last.contenu || '').slice(0, 60);
+          return '<div role="button" tabindex="0" onclick="openChat(\'' + u.id + '\')" style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0ed;cursor:pointer;">' +
+            avatar +
+            '<div style="flex:1;min-width:0;">' +
+              '<div style="font-weight:500;color:var(--dk);font-size:14px;margin-bottom:2px;">' + name + '</div>' +
+              '<div style="font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + lastTxt + '</div>' +
+            '</div>' +
+            '<span style="color:var(--mu);">›</span>' +
+            '</div>';
+        }).join('');
+
+        listEl.innerHTML = items;
+      } catch (err) {
+        console.error('loadMessages error:', err);
+        listEl.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
+      }
+    }
+
+    /* --- Ouvrir une conversation avec un user --- */
+    async function openChat(otherUserId) {
+      if (!sb || !otherUserId) return;
+      const me = await getCurrentProfile();
+      if (!me) return;
+      window.currentChatUserId = otherUserId;
+
+      try {
+        // Charger l'autre utilisateur
+        const { data: other } = await sb.from('users').select('id, prenom, nom, avatar_url').eq('id', otherUserId).single();
+
+        // Mettre à jour le header du chat
+        const chatTitle = document.querySelector('#as-chat .cttl, #as-chat h2, #as-chat .cuname');
+        if (chatTitle && other) chatTitle.textContent = (other.prenom || 'Membre') + ' ' + (other.nom?.[0] ? other.nom[0] + '.' : '');
+
+        // Charger les messages
+        const { data: msgs, error } = await sb.from('messages')
+          .select('*')
+          .or('and(expediteur_id.eq.' + me.id + ',destinataire_id.eq.' + otherUserId + '),and(expediteur_id.eq.' + otherUserId + ',destinataire_id.eq.' + me.id + ')')
+          .order('created_at', { ascending: true });
+        if (error) throw error;
+
+        const container = document.getElementById('chatmsgs');
+        if (container) {
+          container.innerHTML = (msgs || []).map(m => {
+            const isMine = m.expediteur_id === me.id;
+            const time = new Date(m.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            return '<div' + (isMine ? ' style="align-self:flex-end"' : '') + '>' +
+              '<div class="mb ' + (isMine ? 'mout' : 'min') + '">' + (m.contenu || '').replace(/</g, '&lt;') + '</div>' +
+              '<div class="mt' + (isMine ? ' r' : '') + '">' + time + '</div>' +
+              '</div>';
+          }).join('');
+          container.scrollTop = container.scrollHeight;
+        }
+
+        setTab('chat');
+      } catch (err) {
+        console.error('openChat error:', err);
+        alert('Erreur : ' + (err.message || err));
+      }
+    }
+
+    /* --- Envoyer un nouveau message dans la conversation ouverte --- */
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      if (!input) return;
+      const text = (input.value || '').trim();
+      if (!text) return;
+      const me = await getCurrentProfile();
+      if (!me || !window.currentChatUserId) return;
+      try {
+        const { error } = await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: window.currentChatUserId,
+          contenu: text
+        });
+        if (error) throw error;
+        input.value = '';
+        await openChat(window.currentChatUserId); // recharger
+      } catch (err) {
+        console.error('sendMessage error:', err);
+        alert('Erreur : ' + (err.message || err));
+      }
+    }
+    async function contactOwner() {
+      const o = window.currentObject;
+      if (!o || !o.users) { alert('Impossible de trouver le propriétaire.'); return; }
+      const me = await getCurrentProfile();
+      if (!me) { alert('Tu dois être connecté.'); return; }
+      if (me.id === o.users.id) { alert('Tu es le propriétaire de cet objet.'); return; }
+
+      try {
+        // Envoyer un premier message pour démarrer la conversation
+        const messageText = 'Bonjour, je suis intéressé(e) par ton objet "' + o.titre + '". Est-il disponible ?';
+        const { error } = await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: o.users.id,
+          contenu: messageText
+        });
+        if (error) throw error;
+        alert('✅ Message envoyé à ' + (o.users.prenom || 'au propriétaire') + ' ! Tu peux suivre la conversation dans tes messages.');
+        setTab('msgs');
+      } catch (err) {
+        console.error('contactOwner error:', err);
+        alert('Erreur lors de l\'envoi du message : ' + (err.message || err));
       }
     }
 
@@ -6235,7 +6379,11 @@
       if (session && session.user) {
         const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
         if (profile) {
+          window.currentProfile = profile;
           updateProfileUI(profile);
+          // Restaurer la session : aller directement dans l'app
+          go('p-app');
+          if (typeof loadHomeObjects === 'function') loadHomeObjects();
         }
       }
       // Fermer menu mobile en cliquant dehors
