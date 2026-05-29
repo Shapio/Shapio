@@ -5132,6 +5132,31 @@
       }
     }
 
+    /* --- Solde réellement dépensable (total - points bloqués) --- */
+    function soldeDispo(p) {
+      if (!p) return 0;
+      return (p.points ?? 50) - (p.points_bloques || 0);
+    }
+
+    /* --- Re-télécharge le profil depuis la base et rafraîchit l'UI.
+           À appeler après toute opération qui touche les points. --- */
+    async function refreshProfile() {
+      if (!sb) return null;
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session?.user) return null;
+        const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+        if (profile) {
+          window.currentProfile = profile;
+          updateProfileUI(profile);
+        }
+        return profile;
+      } catch (e) {
+        console.error('refreshProfile error:', e);
+        return null;
+      }
+    }
+
     /* --- Ouvrir le formulaire d'édition du profil --- */
     async function openEditProfile() {
       const profile = await getCurrentProfile();
@@ -5350,49 +5375,124 @@
     /* --- Charger l'historique des transactions du wallet --- */
     async function loadWallet() {
       if (!sb) return;
-      const profile = await getCurrentProfile();
+      const profile = (await refreshProfile()) || (await getCurrentProfile());
       if (!profile) return;
 
       const txList = document.getElementById('wallet-transactions');
       if (!txList) return;
 
+      // Solde dépensable + points bloqués (source de vérité : la table users)
+      const wcn = document.querySelector('.wcn');
+      if (wcn) wcn.textContent = soldeDispo(profile);
+      const blockEl = document.getElementById('wallet-bloques');
+      if (blockEl) blockEl.textContent = (profile.points_bloques || 0) + ' pts';
+
+      // Mois courant
+      const moisNoms = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+      const now = new Date();
+      const monthEl = document.getElementById('wallet-month');
+      if (monthEl) monthEl.textContent = moisNoms[now.getMonth()] + ' ' + now.getFullYear();
+
       try {
-        // Pour l'instant on a juste le bonus d'inscription + les futurs prêts
-        // Les transactions seront calculées depuis les loans plus tard
-        const dateInscription = new Date(profile.created_at);
-        const dateStr = dateInscription.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+        // Tous les prêts où je suis emprunteur OU prêteur
+        const { data: loans, error } = await sb.from('loans')
+          .select('*')
+          .or('emprunteur_id.eq.' + profile.id + ',preteur_id.eq.' + profile.id)
+          .order('date_debut', { ascending: false });
+        if (error) throw error;
+        const list = loans || [];
 
-        txList.innerHTML = `
-          <div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">
-            <div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>
-            <div style="flex:1;">
-              <div style="font-size:14px;font-weight:500;color:var(--dk);">Bonus inscription</div>
-              <div style="font-size:11px;color:var(--mu);">Bienvenue sur Shapio · ${dateStr}</div>
-            </div>
-            <div style="font-size:14px;font-weight:600;color:#1D9E75;">+50 pts</div>
-          </div>
-          <div style="text-align:center;padding:24px 20px;color:var(--mu);font-size:13px;">
-            Tes prochaines transactions apparaîtront ici après tes premiers prêts ou emprunts.
-          </div>
-        `;
-
-        // Mettre à jour les stats
-        const blockEl = document.getElementById('wallet-bloques');
-        const gagnesEl = document.getElementById('wallet-gagnes');
-        const depEl = document.getElementById('wallet-depenses');
-        const evolEl = document.getElementById('wallet-month-evol');
-        if (blockEl) blockEl.textContent = '0 pts';
-        if (gagnesEl) gagnesEl.textContent = '+0 pts';
-        if (depEl) depEl.textContent = '0 pts';
-        if (evolEl) evolEl.textContent = '+0 pts';
-
-        // Mois courant
-        const monthEl = document.getElementById('wallet-month');
-        if (monthEl) {
-          const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-          const now = new Date();
-          monthEl.textContent = mois[now.getMonth()] + ' ' + now.getFullYear();
+        // Titres d'objets + prénoms des contreparties (requêtes groupées)
+        const objIds = [...new Set(list.map(l => l.object_id).filter(Boolean))];
+        const userIds = [...new Set(list.flatMap(l => [l.emprunteur_id, l.preteur_id]).filter(Boolean))];
+        const objMap = {}, userMap = {};
+        if (objIds.length) {
+          const { data: objs } = await sb.from('objects').select('id, titre').in('id', objIds);
+          (objs || []).forEach(o => { objMap[o.id] = o.titre; });
         }
+        if (userIds.length) {
+          const { data: us } = await sb.from('users').select('id, prenom').in('id', userIds);
+          (us || []).forEach(u => { userMap[u.id] = u.prenom; });
+        }
+
+        // Stats du mois (prêts terminés ce mois-ci)
+        let gagnes = 0, depenses = 0;
+        list.forEach(l => {
+          if (l.statut !== 'termine' || !l.date_fin) return;
+          const d = new Date(l.date_fin);
+          if (d.getMonth() !== now.getMonth() || d.getFullYear() !== now.getFullYear()) return;
+          if (l.preteur_id === profile.id) gagnes += (l.total_pts || 0);
+          if (l.emprunteur_id === profile.id) depenses += (l.total_pts || 0);
+        });
+        const gEl = document.getElementById('wallet-gagnes');
+        if (gEl) gEl.textContent = '+' + gagnes + ' pts';
+        const dEl = document.getElementById('wallet-depenses');
+        if (dEl) dEl.textContent = '-' + depenses + ' pts';
+        const evEl = document.getElementById('wallet-month-evol');
+        if (evEl) { const net = gagnes - depenses; evEl.textContent = (net >= 0 ? '+' : '') + net + ' pts'; }
+
+        // Lignes de transactions
+        const rows = list.map(l => {
+          const iAmLender = l.preteur_id === profile.id;
+          const titre = (objMap[l.object_id] || 'Objet').replace(/</g, '&lt;');
+          const otherName = (userMap[iAmLender ? l.emprunteur_id : l.preteur_id] || 'Membre').replace(/</g, '&lt;');
+          const dateRef = l.date_fin || l.date_debut;
+          const dateStr = dateRef ? new Date(dateRef).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' }) : '';
+          const amount = l.total_pts || 0;
+
+          let icon, label, sub, amountHtml, action = '';
+          if (l.statut === 'en_cours') {
+            if (iAmLender) {
+              icon = '⏳'; label = 'Prêt en cours · ' + titre;
+              sub = 'Emprunté par ' + otherName + ' · ' + amount + ' pts bloqués';
+              amountHtml = '<div style="font-size:13px;font-weight:600;color:var(--mu);">en cours</div>';
+              action = '<button type="button" onclick="loanConfirmReturn(\'' + l.id + '\',\'' + l.emprunteur_id + '\')" style="margin-top:10px;width:100%;padding:9px;border:0;border-radius:8px;background:var(--g);color:#fff;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;">✓ Confirmer le retour</button>';
+            } else {
+              icon = '🔒'; label = 'Emprunt en cours · ' + titre;
+              sub = 'Prêté par ' + otherName + ' · ' + amount + ' pts bloqués';
+              amountHtml = '<div style="font-size:13px;font-weight:600;color:#F59E0B;">-' + amount + ' pts</div>';
+              action = '<div style="margin-top:8px;font-size:11px;color:var(--mu);text-align:center;">En attente de la confirmation de retour par ' + otherName + '.</div>';
+            }
+          } else if (l.statut === 'termine') {
+            if (iAmLender) {
+              icon = '💎'; label = 'Prêt terminé · ' + titre;
+              sub = 'Rendu par ' + otherName + (dateStr ? ' · ' + dateStr : '');
+              amountHtml = '<div style="font-size:14px;font-weight:600;color:#1D9E75;">+' + amount + ' pts</div>';
+            } else {
+              icon = '📦'; label = 'Emprunt terminé · ' + titre;
+              sub = 'Prêté par ' + otherName + (dateStr ? ' · ' + dateStr : '');
+              amountHtml = '<div style="font-size:14px;font-weight:600;color:#EF4444;">-' + amount + ' pts</div>';
+            }
+          } else {
+            icon = '✕'; label = (iAmLender ? 'Prêt' : 'Emprunt') + ' annulé · ' + titre;
+            sub = dateStr; amountHtml = '<div style="font-size:13px;color:var(--mu);">—</div>';
+          }
+
+          return '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;margin-bottom:10px;">' +
+              '<div style="display:flex;align-items:center;gap:12px;">' +
+                '<div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + icon + '</div>' +
+                '<div style="flex:1;min-width:0;">' +
+                  '<div style="font-size:14px;font-weight:500;color:var(--dk);">' + label + '</div>' +
+                  '<div style="font-size:11px;color:var(--mu);">' + sub + '</div>' +
+                '</div>' + amountHtml +
+              '</div>' + action +
+            '</div>';
+        }).join('');
+
+        // Bonus d'inscription, toujours en bas de l'historique
+        const dInsc = profile.created_at ? new Date(profile.created_at) : new Date();
+        const inscStr = dInsc.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+        const bonus =
+          '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">' +
+            '<div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>' +
+            '<div style="flex:1;">' +
+              '<div style="font-size:14px;font-weight:500;color:var(--dk);">Bonus inscription</div>' +
+              '<div style="font-size:11px;color:var(--mu);">Bienvenue sur Shapio · ' + inscStr + '</div>' +
+            '</div>' +
+            '<div style="font-size:14px;font-weight:600;color:#1D9E75;">+50 pts</div>' +
+          '</div>';
+
+        txList.innerHTML = (rows || '') + bonus;
       } catch (err) {
         console.error('loadWallet error:', err);
         txList.innerHTML = '<div style="text-align:center;padding:30px;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
@@ -5541,6 +5641,15 @@
       const days = Math.max(1, parseInt(daysInput?.value, 10) || 1);
       const pts = o.pts_par_jour || 0;
       const total = days * pts;
+
+      // Vérification du solde dépensable avant d'engager la demande
+      const dispo = soldeDispo(me);
+      if (total > dispo) {
+        alert('Solde insuffisant 😕\n' +
+              'Cette demande coûterait ' + total + ' pts mais tu n\'as que ' + dispo + ' pts disponibles' +
+              ((me.points_bloques || 0) > 0 ? ' (' + me.points_bloques + ' pts déjà bloqués sur d\'autres prêts).' : '.'));
+        return;
+      }
 
       hideFicheConfirm();
 
@@ -6554,6 +6663,7 @@
           else if (lastTxt.startsWith('LOAN_ACCEPT::')) lastTxt = '✅ Demande acceptée';
           else if (lastTxt.startsWith('LOAN_REFUSE::')) lastTxt = '✕ Demande refusée';
           else if (lastTxt.startsWith('LOAN_COUNTER::')) lastTxt = '↔ Contre-proposition';
+          else if (lastTxt.startsWith('LOAN_RETURNED::')) lastTxt = '🔄 Retour confirmé';
           else lastTxt = lastTxt.slice(0, 60);
           return '<div role="button" tabindex="0" onclick="openChat(\'' + u.id + '\')" style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0ed;cursor:pointer;">' +
             avatar +
@@ -6626,7 +6736,7 @@
       const content = m.contenu || '';
 
       // Détection messages structurés
-      const match = content.match(/^(LOAN_REQUEST|LOAN_ACCEPT|LOAN_REFUSE|LOAN_COUNTER)::(.+)$/);
+      const match = content.match(/^(LOAN_REQUEST|LOAN_ACCEPT|LOAN_REFUSE|LOAN_COUNTER|LOAN_RETURNED)::(.+)$/);
       if (match) {
         try {
           const type = match[1];
@@ -6668,7 +6778,14 @@
       } else if (type === 'LOAN_ACCEPT') {
         badge = '✅ Demande acceptée';
         color = '#22C55E';
-        intro = (isMine ? 'Tu as accepté' : 'A accepté') + ' la demande d\'emprunt pour <strong>' + titre + '</strong>.';
+        intro = (isMine ? 'Tu as accepté' : 'A accepté') + ' la demande d\'emprunt pour <strong>' + titre + '</strong>. Les points sont bloqués jusqu\'au retour.';
+        if (isMine && data.loan_id) {
+          // Côté prêteur : possibilité de confirmer le retour pour débloquer/transférer les points.
+          actions =
+            '<div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">' +
+              '<button type="button" onclick="loanConfirmReturn(\'' + data.loan_id + '\',\'' + m.destinataire_id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✓ Confirmer le retour</button>' +
+            '</div>';
+        }
       } else if (type === 'LOAN_REFUSE') {
         badge = '✕ Demande refusée';
         color = '#EF4444';
@@ -6684,16 +6801,26 @@
               '<button type="button" onclick="loanRefuse(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:#FEE2E2;color:#EF4444;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✕ Refuser</button>' +
             '</div>';
         }
+      } else if (type === 'LOAN_RETURNED') {
+        badge = '🔄 Retour confirmé';
+        color = '#085041';
+        intro = (isMine ? 'Tu as confirmé le retour.' : 'Le retour a été confirmé par le prêteur.') + ' Les points ont été transférés. 🎉';
       }
+
+      // Le bloc détails (durée / pts) n'a de sens que pour une négociation, pas pour un retour confirmé.
+      const hasDetails = type !== 'LOAN_RETURNED' && (data.days || data.total || data.pts_par_jour);
+      const detailsBox = hasDetails
+        ? ('<div style="background:white;border-radius:8px;padding:8px 10px;font-size:13px;color:var(--dk);">' +
+            '<div>📅 ' + days + ' jour' + (days > 1 ? 's' : '') + '</div>' +
+            '<div>💎 ' + (data.pts_par_jour || 0) + ' pts/jour</div>' +
+            '<div style="font-weight:500;margin-top:4px;">Total : ' + total + ' pts</div>' +
+          '</div>')
+        : '';
 
       return '<div style="align-self:stretch;background:#f7f7f4;border-radius:14px;padding:12px;margin:6px 0;border-left:3px solid ' + color + ';">' +
         '<div style="font-size:11px;color:' + color + ';text-transform:uppercase;letter-spacing:0.5px;font-weight:600;margin-bottom:6px;">' + badge + '</div>' +
         '<div style="font-size:13px;color:var(--dk);margin-bottom:8px;">' + intro + '</div>' +
-        '<div style="background:white;border-radius:8px;padding:8px 10px;font-size:13px;color:var(--dk);">' +
-          '<div>📅 ' + days + ' jour' + (days > 1 ? 's' : '') + '</div>' +
-          '<div>💎 ' + (data.pts_par_jour || 0) + ' pts/jour</div>' +
-          '<div style="font-weight:500;margin-top:4px;">Total : ' + total + ' pts</div>' +
-        '</div>' +
+        detailsBox +
         actions +
         '<div style="font-size:10px;color:var(--mu);margin-top:6px;text-align:right;">' + time + '</div>' +
         '</div>';
@@ -6713,18 +6840,103 @@
         const { msg, data } = await loanGetOriginal(messageId);
         const me = await getCurrentProfile();
         if (!me) return;
-        // L'expéditeur de la demande devient le destinataire de la réponse
-        const responseTo = msg.expediteur_id;
-        const payload = { type: 'LOAN_ACCEPT', ...data };
+
+        // Qui possède l'objet ? C'est lui le prêteur (celui qui bloque/encaisse les points).
+        const { data: obj, error: objErr } = await sb.from('objects')
+          .select('id, user_id, titre').eq('id', data.object_id).single();
+        if (objErr || !obj) { alert('Objet introuvable.'); return; }
+
+        const iAmOwner = obj.user_id === me.id;
+        const otherId = msg.expediteur_id; // l'autre partie de la négociation
+        const jours = Math.max(1, parseInt(data.days, 10) || 1);
+        const ptsJour = Math.max(0, parseInt(data.pts_par_jour, 10) || 0);
+        const total = jours * ptsJour;
+
+        if (!iAmOwner) {
+          // Je suis l'emprunteur et j'accepte une contre-proposition du prêteur.
+          // Le blocage des points doit être déclenché côté prêteur (propriétaire de l'objet) :
+          // on lui renvoie donc une demande aux conditions convenues, qu'il validera d'un clic.
+          if (total > soldeDispo(me)) {
+            alert('Solde insuffisant : il te faut ' + total + ' pts disponibles pour accepter (tu en as ' + soldeDispo(me) + ').');
+            return;
+          }
+          const reqPayload = {
+            type: 'LOAN_REQUEST',
+            object_id: data.object_id,
+            object_titre: data.object_titre || obj.titre,
+            pts_par_jour: ptsJour,
+            days: jours,
+            total: total
+          };
+          const { error } = await sb.from('messages').insert({
+            expediteur_id: me.id,
+            destinataire_id: otherId,
+            contenu: 'LOAN_REQUEST::' + JSON.stringify(reqPayload)
+          });
+          if (error) throw error;
+          alert('👍 Tu as accepté les conditions. Le prêteur n\'a plus qu\'à valider pour bloquer les points.');
+          await openChat(otherId);
+          return;
+        }
+
+        // Je suis le prêteur : je bloque les points de l'emprunteur et je crée le prêt (transaction atomique côté SQL).
+        const emprunteurId = otherId;
+        const { data: loanId, error: rpcErr } = await sb.rpc('accepter_pret', {
+          p_object_id: data.object_id,
+          p_emprunteur_id: emprunteurId,
+          p_jours: jours,
+          p_pts_jour: ptsJour,
+          p_message_id: messageId
+        });
+        if (rpcErr) throw rpcErr;
+
+        // Confirmation visible par l'emprunteur, avec l'id du prêt (sert au bouton « Confirmer le retour »).
+        const payload = {
+          type: 'LOAN_ACCEPT',
+          loan_id: loanId,
+          object_id: data.object_id,
+          object_titre: data.object_titre || obj.titre,
+          pts_par_jour: ptsJour,
+          days: jours,
+          total: total
+        };
         const { error } = await sb.from('messages').insert({
           expediteur_id: me.id,
-          destinataire_id: responseTo,
+          destinataire_id: emprunteurId,
           contenu: 'LOAN_ACCEPT::' + JSON.stringify(payload)
         });
         if (error) throw error;
-        await openChat(responseTo);
+
+        await refreshProfile();
+        await openChat(emprunteurId);
       } catch (e) {
         console.error('loanAccept error:', e);
+        alert('Erreur : ' + (e.message || e));
+      }
+    }
+
+    /* --- Le prêteur confirme que l'objet lui a été rendu :
+           transfert définitif des points (emprunteur → prêteur) via la fonction SQL. --- */
+    async function loanConfirmReturn(loanId, otherId) {
+      try {
+        if (!loanId) { alert('Prêt introuvable.'); return; }
+        if (!confirm('Confirmer que l\'objet t\'a bien été rendu ?\nLes points bloqués seront définitivement transférés sur ton compte.')) return;
+        const { error } = await sb.rpc('confirmer_retour', { p_loan_id: loanId });
+        if (error) throw error;
+        const me = await refreshProfile();
+        // Message visible des deux côtés
+        if (otherId && me) {
+          await sb.from('messages').insert({
+            expediteur_id: me.id,
+            destinataire_id: otherId,
+            contenu: 'LOAN_RETURNED::' + JSON.stringify({ type: 'LOAN_RETURNED', loan_id: loanId })
+          });
+        }
+        if (typeof loadWallet === 'function') loadWallet();
+        alert('✅ Retour confirmé. Les points ont été transférés !');
+        if (otherId) await openChat(otherId);
+      } catch (e) {
+        console.error('loanConfirmReturn error:', e);
         alert('Erreur : ' + (e.message || e));
       }
     }
@@ -7095,13 +7307,14 @@
       const welcome = document.getElementById('home-welcome');
       if (welcome) welcome.textContent = 'Bienvenue ' + (profile.prenom || '') + ' ! 👋';
 
-      // Points partout
+      // Points dépensables partout (total - bloqués)
+      const dispo = soldeDispo(profile);
       const ppill = document.getElementById('ppill-points');
-      if (ppill) ppill.textContent = (profile.points ?? 50) + ' pts';
+      if (ppill) ppill.textContent = dispo + ' pts';
       const wcn = document.querySelector('.wcn');
-      if (wcn) wcn.textContent = profile.points ?? 50;
+      if (wcn) wcn.textContent = dispo;
       const wcbar = document.querySelector('.wcbar');
-      if (wcbar) wcbar.style.width = Math.min((profile.points ?? 50), 100) + '%';
+      if (wcbar) wcbar.style.width = Math.min(Math.max(dispo, 0), 100) + '%';
 
       // Vérifications graduées 0/3 → 3/3
       updateTrustUI(profile);
@@ -7257,4 +7470,140 @@
         dark: {
           bg1: '#0a0e1a', bg2: '#13182b',
           orbs: ['rgba(120,180,255,0.30)', 'rgba(180,120,255,0.28)', 'rgba(255,180,80,0.22)', 'rgba(80,255,180,0.20)', 'rgba(255,100,150,0.22)'],
-          stars: 'rgba(255
+          stars: 'rgba(255,255,255,0.7)'
+        }
+      };
+
+      // Orbes lumineux (gros blobs flottants)
+      const orbs = [];
+      function initOrbs() {
+        orbs.length = 0;
+        const n = window.innerWidth < 900 ? 0 : 6; // pas d'orbes sur mobile (pas visibles)
+        for (let i = 0; i < n; i++) {
+          orbs.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: 120 + Math.random() * 180,
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
+            color: i
+          });
+        }
+      }
+
+      // Étoiles
+      const stars = [];
+      function initStars() {
+        stars.length = 0;
+        const n = window.innerWidth < 900 ? 0 : 120;
+        for (let i = 0; i < n; i++) {
+          stars.push({
+            x: Math.random() * W,
+            y: Math.random() * H,
+            r: Math.random() * 1.6,
+            tw: Math.random() * Math.PI * 2,
+            tws: 0.005 + Math.random() * 0.015
+          });
+        }
+      }
+
+      function resize() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        initOrbs();
+        initStars();
+      }
+
+      function draw() {
+        const t = isDark ? themes.dark : themes.light;
+        // Fond dégradé
+        const grad = ctx.createLinearGradient(0, 0, W, H);
+        grad.addColorStop(0, t.bg1);
+        grad.addColorStop(1, t.bg2);
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Easing souris (parallax)
+        mouseX += (tMouseX - mouseX) * 0.05;
+        mouseY += (tMouseY - mouseY) * 0.05;
+        const parallaxX = (mouseX - W / 2) / 40;
+        const parallaxY = (mouseY - H / 2) / 40;
+
+        // Étoiles scintillantes
+        ctx.fillStyle = t.stars;
+        for (const s of stars) {
+          s.tw += s.tws;
+          const alpha = 0.4 + Math.sin(s.tw) * 0.4;
+          ctx.globalAlpha = alpha;
+          ctx.beginPath();
+          ctx.arc(s.x + parallaxX * 0.3, s.y + parallaxY * 0.3, s.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+
+        // Orbes lumineux
+        for (const o of orbs) {
+          // Déplacement doux + influence souris
+          o.x += o.vx + parallaxX * 0.005;
+          o.y += o.vy + parallaxY * 0.005;
+          if (o.x < -o.r) o.x = W + o.r;
+          if (o.x > W + o.r) o.x = -o.r;
+          if (o.y < -o.r) o.y = H + o.r;
+          if (o.y > H + o.r) o.y = -o.r;
+
+          const px = o.x + parallaxX * (1 + (o.color * 0.3));
+          const py = o.y + parallaxY * (1 + (o.color * 0.3));
+          const g = ctx.createRadialGradient(px, py, 0, px, py, o.r);
+          g.addColorStop(0, t.orbs[o.color % t.orbs.length]);
+          g.addColorStop(1, 'transparent');
+          ctx.fillStyle = g;
+          ctx.beginPath();
+          ctx.arc(px, py, o.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      let raf;
+      function loop() {
+        draw();
+        raf = requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        tMouseX = e.clientX;
+        tMouseY = e.clientY;
+      });
+      window.addEventListener('resize', resize);
+
+      resize();
+      // Centrer la souris au démarrage
+      tMouseX = W / 2; tMouseY = H / 2;
+      mouseX = tMouseX; mouseY = tMouseY;
+      loop();
+
+      // Expose le toggle thème pour le bouton
+      window.toggleTheme = function () {
+        isDark = !isDark;
+        document.body.classList.toggle('dark', isDark);
+        const btn = document.getElementById('theme-toggle');
+        if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+        try { localStorage.setItem('shapio_theme', isDark ? 'dark' : 'light'); } catch (e) {}
+      };
+
+      // Restaurer thème depuis localStorage
+      try {
+        if (localStorage.getItem('shapio_theme') === 'dark') {
+          window.toggleTheme();
+        }
+      } catch (e) {}
+    })();
+  </script>
+</body>
+
+</html>
+
