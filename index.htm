@@ -124,7 +124,6 @@
       background: var(--cr);
       color: var(--dk);
       overflow-x: hidden;
-      position: relative;
     }
 
     .page {
@@ -1091,35 +1090,23 @@
       background: white;
       display: flex;
       flex-direction: column;
-      position: relative;
-      z-index: 1;
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+      border-left: 0.5px solid var(--bd);
+      border-right: 0.5px solid var(--bd);
     }
-    @media (min-width: 900px) {
-      .app {
-        border-radius: 0;
-        box-shadow: 0 0 80px rgba(0, 0, 0, 0.15);
-      }
-    }
+
     .atop {
-      padding: 14px 18px 12px;
+      padding: 13px 18px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(8, 80, 65, 0.06);
+      border-bottom: 0.5px solid #f0f0ed;
       flex-shrink: 0;
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      position: sticky;
-      top: 0;
-      z-index: 30;
     }
 
     .alogo {
       font-family: 'DM Serif Display', serif;
-      font-size: 22px;
+      font-size: 20px;
       color: var(--dk);
-      letter-spacing: -0.3px;
     }
 
     .alogo span {
@@ -1136,46 +1123,38 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      padding: 6px 12px;
-      border-radius: 100px;
-      background: linear-gradient(135deg, #E1F5EE, #D1F0E0);
-      border: 1px solid rgba(8, 80, 65, 0.12);
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: var(--gl);
+      border: 0.5px solid #9FE1CB;
       font-size: 12px;
       font-weight: 600;
       color: var(--g);
-      box-shadow: 0 1px 2px rgba(8, 80, 65, 0.04);
     }
 
     .ibtn {
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-      border: 1px solid rgba(8, 80, 65, 0.08);
-      background: white;
+      border: 0.5px solid #e8e8e4;
+      background: #f7f7f4;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
       position: relative;
       padding: 0;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .ibtn:hover {
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-      transform: translateY(-1px);
     }
 
     .ibtn-dot {
       position: absolute;
       top: 4px;
       right: 4px;
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
-      background: #EF4444;
+      background: #C8362F;
       border: 1.5px solid white;
     }
 
@@ -1204,11 +1183,8 @@
       padding: 10px 0 14px;
       display: flex;
       justify-content: space-around;
-      border-top: 1px solid rgba(8, 80, 65, 0.06);
+      border-top: 0.5px solid #f0f0ed;
       flex-shrink: 0;
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.02);
     }
 
     .ni {
@@ -1472,71 +1448,61 @@
     .bgrid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      padding: 4px 16px 18px;
+      gap: 10px;
+      padding: 0 14px 14px;
     }
 
     .bcard {
-      border-radius: 16px;
-      border: 1px solid rgba(8, 80, 65, 0.08);
+      border-radius: 12px;
+      border: 0.5px solid #ebebea;
       overflow: hidden;
       cursor: pointer;
       background: white;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 6px rgba(0, 0, 0, 0.03);
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
-
-    .bcard:hover {
-      box-shadow: 0 4px 12px rgba(8, 80, 65, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-      transform: translateY(-1px);
+      transition: transform 0.15s;
     }
 
     .bcard:active {
-      transform: scale(0.98);
+      transform: scale(0.97);
     }
 
     .bimg {
-      height: 132px;
+      height: 106px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
+      font-size: 34px;
       position: relative;
-      overflow: hidden;
     }
 
     .bpts {
       position: absolute;
-      bottom: 8px;
-      right: 8px;
-      padding: 4px 9px;
-      border-radius: 100px;
-      background: rgba(255, 255, 255, 0.96);
-      backdrop-filter: blur(8px);
-      font-size: 11px;
+      bottom: 6px;
+      right: 6px;
+      padding: 3px 7px;
+      border-radius: 8px;
+      background: white;
+      font-size: 10px;
       font-weight: 600;
-      color: var(--g);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      color: var(--gm);
     }
 
     .binfo {
-      padding: 10px 12px 12px;
+      padding: 7px 9px;
     }
 
     .bname {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
       color: var(--dk);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      letter-spacing: -0.1px;
     }
 
     .bowner {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--mu);
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
     /* SWIPE */
@@ -3964,15 +3930,9 @@
             <label for="su-email">Email</label>
             <input type="email" id="su-email" name="email" placeholder="thomas@email.com" autocomplete="email" required />
           </div>
-          <div class="fl" style="display:grid;grid-template-columns:1fr 2fr;gap:8px;">
-            <div>
-              <label for="su-cp">Code postal</label>
-              <input type="text" id="su-cp" name="postal-code" placeholder="59000" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="off" required />
-            </div>
-            <div>
-              <label for="su-ville">Ville</label>
-              <input type="text" id="su-ville" name="city" placeholder="Ex : Lille, La Madeleine…" autocomplete="off" required />
-            </div>
+          <div class="fl">
+            <label for="su-ville">Ville</label>
+            <input type="text" id="su-ville" name="city" placeholder="Lille" autocomplete="address-level2" required />
           </div>
           <div class="form-error" id="s1-error" role="alert" aria-live="polite"></div>
           <button class="obtn" type="submit">Continuer →</button>
@@ -4135,6 +4095,10 @@
           <div style="font-size:13px;color:var(--mu);line-height:1.5;">Emprunte ce dont tu as besoin. Une communauté locale, sans argent, juste des points.</div>
         </div>
 
+        <!-- Bouton flottant mode swipe -->
+        <button type="button" id="home-swipe-fab" onclick="setTab('swipe');setSwipeMode('swipe')" aria-label="Activer le mode swipe" style="position:fixed;bottom:84px;right:18px;z-index:50;display:flex;align-items:center;gap:8px;padding:12px 18px;border:0;border-radius:100px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(8,80,65,0.35);cursor:pointer;">
+          <span style="font-size:16px;">🔥</span> Mode swipe
+        </button>
       </div>
 
       <!-- SWIPE / EXPLORER -->
@@ -4280,12 +4244,11 @@
 
       <!-- PROFIL PUBLIC D'UN AUTRE MEMBRE -->
       <div class="ascreen" id="as-pubprofile">
-        <div id="pub-banner" style="background:var(--gl);height:110px;position:relative;border-radius:0 0 28px 28px;margin-bottom:60px;overflow:hidden;">
-          <div id="pub-banner-overlay" style="position:absolute;inset:0;pointer-events:none;"></div>
-          <button type="button" aria-label="Retour" onclick="closePublicProfile()" style="position:absolute;top:14px;left:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.12);z-index:2;">←</button>
-          <div style="position:absolute;bottom:-50px;left:18px;z-index:2;">
-            <div id="pub-av" style="width:90px;height:90px;background:white;border:4px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:30px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">?</div>
-            <div id="pub-badge" style="position:absolute;top:0;right:0;width:26px;height:26px;background:var(--g);border:2.5px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.15);">✓</div>
+        <div id="pub-banner" style="background:var(--gl);height:90px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;">
+          <button type="button" aria-label="Retour" onclick="closePublicProfile()" style="position:absolute;top:14px;left:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,0.95);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">←</button>
+          <div style="position:absolute;bottom:-50px;left:18px;">
+            <div id="pub-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;">?</div>
+            <div id="pub-badge" style="position:absolute;top:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;">✓</div>
           </div>
         </div>
 
@@ -4427,36 +4390,20 @@
 
             <!-- PROFIL -->
       <div class="ascreen" id="as-profil">
-        <div id="profile-banner" style="background:var(--gl);height:110px;position:relative;border-radius:0 0 28px 28px;margin-bottom:60px;transition:background 0.3s;overflow:hidden;">
-          <div id="profile-banner-overlay" style="position:absolute;inset:0;pointer-events:none;"></div>
-          <!-- Sélecteur compact dans la bannière -->
-          <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:100px;padding:6px 10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);z-index:2;max-width:calc(100% - 28px);overflow-x:auto;scrollbar-width:none;">
-            <button type="button" onclick="setBannerColor('var(--gl)')" aria-label="Vert clair" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:#E1F5EE;cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75)')" aria-label="Vert" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#085041,#1D9E75);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#BA7517,#E0A040)')" aria-label="Or" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#BA7517,#E0A040);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#3B4E8C,#6478C8)')" aria-label="Bleu" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#3B4E8C,#6478C8);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#9C3B6E,#D06BA0)')" aria-label="Rose" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#9C3B6E,#D06BA0);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#FF6B6B,#FFA07A)')" aria-label="Corail" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#FF6B6B,#FFA07A);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#667eea,#764ba2)')" aria-label="Violet" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#667eea,#764ba2);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#11998e,#38ef7d)')" aria-label="Émeraude" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#11998e,#38ef7d);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#fc4a1a,#f7b733)')" aria-label="Sunset" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#fc4a1a,#f7b733);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#2c3e50,#4ca1af)')" aria-label="Océan" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#2c3e50,#4ca1af);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#232526,#414345)')" aria-label="Charbon" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#232526,#414345);cursor:pointer;padding:0;"></button>
-            <!-- Séparateur -->
-            <div style="width:1px;height:16px;background:rgba(0,0,0,0.1);flex-shrink:0;"></div>
-            <!-- Motifs -->
-            <button type="button" onclick='setBannerOverlay("")' aria-label="Aucun motif" title="Aucun motif" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(0,0,0,0.15);background:white;cursor:pointer;padding:0;font-size:11px;color:var(--mu);">∅</button>
-            <button type="button" onclick='setBannerOverlay("radial-gradient(circle at 15% 30%,rgba(255,255,255,0.18) 0,transparent 18%),radial-gradient(circle at 85% 70%,rgba(255,255,255,0.13) 0,transparent 22%),radial-gradient(circle at 50% 90%,rgba(255,255,255,0.12) 0,transparent 16%)")' aria-label="Étoiles" title="Étoiles" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:#444 radial-gradient(circle at 30% 30%,rgba(255,255,255,0.6) 0,transparent 30%),radial-gradient(circle at 70% 60%,rgba(255,255,255,0.5) 0,transparent 30%);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick='setBannerOverlay("repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(255,255,255,0.12) 12px,rgba(255,255,255,0.12) 24px)")' aria-label="Rayures" title="Rayures" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:#444 repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(255,255,255,0.3) 4px,rgba(255,255,255,0.3) 8px);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick='setBannerOverlay("repeating-radial-gradient(circle at 0 0,transparent 0,rgba(255,255,255,0.12) 14px,transparent 28px)")' aria-label="Points" title="Points" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:#444 repeating-radial-gradient(circle at 0 0,transparent 0,rgba(255,255,255,0.3) 5px,transparent 10px);cursor:pointer;padding:0;"></button>
-            <button type="button" onclick='setBannerOverlay("linear-gradient(45deg,rgba(255,255,255,0.08) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.08) 75%,transparent 75%,transparent) 0/24px 24px")' aria-label="Damier" title="Damier" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:#444 linear-gradient(45deg,rgba(255,255,255,0.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.4) 50%,rgba(255,255,255,0.4) 75%,transparent 75%,transparent) 0/8px 8px;cursor:pointer;padding:0;"></button>
-            <button type="button" onclick='setBannerOverlay("radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.2))")' aria-label="Vignette" title="Vignette" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:radial-gradient(ellipse at center,#666,#222);cursor:pointer;padding:0;"></button>
+        <div id="profile-banner" style="background:var(--gl);height:90px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;transition:background 0.3s;">
+          <!-- Sélecteur de couleur de banderole -->
+          <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,0.9);border-radius:100px;padding:6px 10px;">
+            <button type="button" onclick="setBannerColor('var(--gl)')" aria-label="Couleur vert clair" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:#E1F5EE;cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75)')" aria-label="Couleur vert" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#085041,#1D9E75);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#BA7517,#E0A040)')" aria-label="Couleur or" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#BA7517,#E0A040);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#3B4E8C,#6478C8)')" aria-label="Couleur bleu" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#3B4E8C,#6478C8);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#9C3B6E,#D06BA0)')" aria-label="Couleur rose" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#9C3B6E,#D06BA0);cursor:pointer;padding:0;"></button>
           </div>
-          <div class="pavwrap" style="position:absolute;bottom:-50px;left:18px;z-index:3;">
-            <div class="pav" id="profile-av" style="width:90px;height:90px;background:white;border:4px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:30px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">?</div>
-            <button type="button" onclick="document.getElementById('profile-photo-input').click()" aria-label="Changer la photo de profil" style="position:absolute;bottom:0;right:0;width:30px;height:30px;background:var(--g);border:2.5px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;cursor:pointer;padding:0;box-shadow:0 2px 6px rgba(0,0,0,0.15);">📷</button>
+          <div class="pavwrap" style="position:absolute;bottom:-50px;left:18px;">
+            <div class="pav" id="profile-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;">?</div>
+            <button type="button" onclick="document.getElementById('profile-photo-input').click()" aria-label="Changer la photo de profil" style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--g);border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;cursor:pointer;padding:0;">📷</button>
             <input type="file" id="profile-photo-input" accept="image/*" style="display:none;" onchange="previewProfilePhoto(event)" />
-            <div id="profile-badge-floating" style="position:absolute;top:0;right:0;width:26px;height:26px;background:var(--g);border:2.5px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.15);">✓</div>
+            <div id="profile-badge-floating" style="position:absolute;top:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;">✓</div>
           </div>
         </div>
 
@@ -4880,18 +4827,14 @@
       const prenom = document.getElementById('su-prenom').value.trim();
       const nom = document.getElementById('su-nom').value.trim();
       const email = document.getElementById('su-email').value.trim();
-      const cp = document.getElementById('su-cp').value.trim();
       const ville = document.getElementById('su-ville').value.trim();
-      console.log('[DEBUG inscription] Ville saisie :', JSON.stringify(ville), '| CP :', JSON.stringify(cp));
       if (!prenom || prenom.length < 2) { showError('s1-error', 'Prénom requis (min. 2 caractères).'); return; }
       if (!nom || nom.length < 2) { showError('s1-error', 'Nom requis (min. 2 caractères).'); return; }
       if (!email || !isValidEmail(email)) { showError('s1-error', 'Email invalide.'); return; }
-      if (!cp || !/^[0-9]{5}$/.test(cp)) { showError('s1-error', 'Code postal invalide (5 chiffres).'); return; }
       if (!ville || ville.length < 2) { showError('s1-error', 'Ville requise.'); return; }
       sessionStorage.setItem('signup_prenom', prenom);
       sessionStorage.setItem('signup_nom', nom);
       sessionStorage.setItem('signup_email', email);
-      sessionStorage.setItem('signup_cp', cp);
       sessionStorage.setItem('signup_ville', ville);
       go('p-s2');
     }
@@ -4909,7 +4852,6 @@
       const prenom = sessionStorage.getItem('signup_prenom') || '';
       const nom = sessionStorage.getItem('signup_nom') || '';
       const email = sessionStorage.getItem('signup_email') || '';
-      const cp = sessionStorage.getItem('signup_cp') || '';
       const ville = sessionStorage.getItem('signup_ville') || '';
 
       try {
@@ -4922,17 +4864,13 @@
 
         // Créer le profil dans users
         const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
-        const { error: insertErr } = await sb.from('users').insert({
+        await sb.from('users').insert({
           auth_id: authData.user.id,
-          prenom, nom, pseudo, email, ville, code_postal: cp,
+          prenom, nom, pseudo, email, ville,
           points: 50,
           verifie_telephone: false,
           statut_verification: 'non_demande'
         });
-        if (insertErr) {
-          console.error('users INSERT error:', insertErr);
-          // On laisse continuer : l'utilisateur est créé côté Auth, on essaiera de recréer le profil au premier login
-        }
 
         // Afficher l'email dans l'étape 3
         const display = document.getElementById('s3-email-display');
@@ -5047,37 +4985,7 @@
       try {
         const { data: { session } } = await sb.auth.getSession();
         if (!session?.user) return null;
-
-        let { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
-
-        // Si pas de profil (l'INSERT à l'inscription a échoué), on le crée maintenant
-        if (!profile) {
-          console.warn('Profil manquant, création de secours');
-          const u = session.user;
-          const meta = u.user_metadata || {};
-          // Essayer de récupérer la ville depuis sessionStorage (saisie à l'inscription)
-          const villeFromSignup = sessionStorage.getItem('signup_ville') || '';
-          const cpFromSignup = sessionStorage.getItem('signup_cp') || '';
-          const prenom = meta.prenom || sessionStorage.getItem('signup_prenom') || (u.email?.split('@')[0] || 'Membre');
-          const nom = meta.nom || sessionStorage.getItem('signup_nom') || '';
-          const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
-          const { data: newProfile, error: insertErr } = await sb.from('users').insert({
-            auth_id: u.id,
-            prenom, nom, pseudo,
-            email: u.email,
-            ville: villeFromSignup,
-            code_postal: cpFromSignup,
-            points: 50,
-            verifie_telephone: false,
-            statut_verification: 'non_demande'
-          }).select().single();
-          if (insertErr) {
-            console.error('Création de secours échouée:', insertErr);
-          } else {
-            profile = newProfile;
-          }
-        }
-
+        const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
         if (profile) {
           window.currentProfile = profile;
           updateProfileUI(profile);
@@ -5191,9 +5099,9 @@
         if (error) throw error;
 
         if (userData.user.email_confirmed_at || userData.user.confirmed_at) {
-          // Email confirmé : créer la session, mettre à jour le profil et entrer dans l'app
+          // Email confirmé : créer la session, mettre à jour le profil et continuer
           await getCurrentProfile();
-          go('p-app');
+          go('p-s4');
         } else {
           showError('s3-error', '⚠️ Email pas encore confirmé. Clique sur le lien dans ton email avant de continuer.');
           btn.textContent = 'J\'ai confirmé mon email →'; btn.disabled = false;
@@ -5305,151 +5213,54 @@
     }
 
     /* --- Charger l'historique des transactions du wallet --- */
-    /* --- Recharge le profil depuis Supabase (solde, points bloqués, stats à jour) --- */
-    async function refreshProfile() {
-      window.currentProfile = null;
-      return await getCurrentProfile();
-    }
-
-    /* --- Le prêteur confirme le retour de l'objet : transfert définitif des points --- */
-    async function confirmRetour(loanId) {
-      if (!loanId) return;
-      if (!confirm('Confirmer que l\'objet t\'a bien été rendu ?\n\nLes points bloqués seront transférés définitivement sur ton compte.')) return;
-      try {
-        const { error } = await sb.rpc('confirmer_retour', { p_loan_id: loanId });
-        if (error) throw error;
-        await refreshProfile();
-        await loadWallet();
-        alert('✅ Retour confirmé ! Les points ont été transférés sur ton compte.');
-      } catch (e) {
-        console.error('confirmRetour error:', e);
-        alert('Erreur : ' + (e.message || e));
-      }
-    }
-
     async function loadWallet() {
       if (!sb) return;
-      const profile = await refreshProfile();
+      const profile = await getCurrentProfile();
       if (!profile) return;
 
       const txList = document.getElementById('wallet-transactions');
       if (!txList) return;
 
-      // --- Carte solde ---
-      const totalPts = profile.points ?? 50;
-      const bloques = profile.points_bloques ?? 0;
-      const dispo = Math.max(0, totalPts - bloques);
-
-      const wcn = document.querySelector('#as-wallet .wcn');
-      if (wcn) wcn.textContent = dispo;
-      const wcbar = document.querySelector('#as-wallet .wcbar');
-      if (wcbar) wcbar.style.width = Math.min(dispo, 100) + '%';
-      const blockEl = document.getElementById('wallet-bloques');
-      if (blockEl) blockEl.textContent = bloques + ' pts';
-
-      // Mois courant
-      const monthEl = document.getElementById('wallet-month');
-      if (monthEl) {
-        const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-        const now = new Date();
-        monthEl.textContent = mois[now.getMonth()] + ' ' + now.getFullYear();
-      }
-
       try {
-        // Tous mes prêts, que je sois emprunteur ou prêteur
-        const { data: loans, error } = await sb.from('loans')
-          .select('*, objet:object_id(titre), emprunteur:emprunteur_id(prenom,nom), preteur:preteur_id(prenom,nom)')
-          .or('emprunteur_id.eq.' + profile.id + ',preteur_id.eq.' + profile.id)
-          .order('date_debut', { ascending: false });
-        if (error) throw error;
+        // Pour l'instant on a juste le bonus d'inscription + les futurs prêts
+        // Les transactions seront calculées depuis les loans plus tard
+        const dateInscription = new Date(profile.created_at);
+        const dateStr = dateInscription.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
 
-        const list = loans || [];
+        txList.innerHTML = `
+          <div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">
+            <div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>
+            <div style="flex:1;">
+              <div style="font-size:14px;font-weight:500;color:var(--dk);">Bonus inscription</div>
+              <div style="font-size:11px;color:var(--mu);">Bienvenue sur Shapio · ${dateStr}</div>
+            </div>
+            <div style="font-size:14px;font-weight:600;color:#1D9E75;">+50 pts</div>
+          </div>
+          <div style="text-align:center;padding:24px 20px;color:var(--mu);font-size:13px;">
+            Tes prochaines transactions apparaîtront ici après tes premiers prêts ou emprunts.
+          </div>
+        `;
 
-        // --- Stats du mois (sur les prêts terminés) ---
-        const now = new Date();
-        const thisMonth = now.getMonth(), thisYear = now.getFullYear();
-        let gagnes = 0, depenses = 0;
-        for (const l of list) {
-          if (l.statut !== 'termine') continue;
-          const d = l.date_fin ? new Date(l.date_fin) : null;
-          if (!d || d.getMonth() !== thisMonth || d.getFullYear() !== thisYear) continue;
-          if (l.preteur_id === profile.id) gagnes += (l.total_pts || 0);
-          else if (l.emprunteur_id === profile.id) depenses += (l.total_pts || 0);
-        }
-        const evol = gagnes - depenses;
+        // Mettre à jour les stats
+        const blockEl = document.getElementById('wallet-bloques');
         const gagnesEl = document.getElementById('wallet-gagnes');
-        if (gagnesEl) gagnesEl.textContent = '+' + gagnes + ' pts';
         const depEl = document.getElementById('wallet-depenses');
-        if (depEl) depEl.textContent = depenses + ' pts';
         const evolEl = document.getElementById('wallet-month-evol');
-        if (evolEl) evolEl.textContent = (evol >= 0 ? '+' : '') + evol + ' pts';
+        if (blockEl) blockEl.textContent = '0 pts';
+        if (gagnesEl) gagnesEl.textContent = '+0 pts';
+        if (depEl) depEl.textContent = '0 pts';
+        if (evolEl) evolEl.textContent = '+0 pts';
 
-        // --- Listes ---
-        const enCours = list.filter(l => l.statut === 'en_cours');
-        const termines = list.filter(l => l.statut === 'termine');
-
-        const nomOf = (u) => u ? ((u.prenom || 'Membre') + (u.nom?.[0] ? ' ' + u.nom[0] + '.' : '')) : 'Membre';
-        const titreOf = (l) => (l.objet?.titre || 'Objet').replace(/</g, '&lt;');
-
-        let html = '';
-
-        // Prêts en cours (action selon le rôle)
-        for (const l of enCours) {
-          const iAmPreteur = l.preteur_id === profile.id;
-          const other = iAmPreteur ? l.emprunteur : l.preteur;
-          const role = (iAmPreteur ? 'Prêt à ' : 'Emprunt auprès de ') + nomOf(other);
-          const action = iAmPreteur
-            ? '<button type="button" onclick="confirmRetour(\'' + l.id + '\')" style="margin-top:10px;width:100%;padding:9px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;">✓ Confirmer le retour</button>'
-            : '<div style="margin-top:8px;font-size:11px;color:var(--mu);">⏳ En attente de la confirmation du retour par le prêteur.</div>';
-          html +=
-            '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;margin-bottom:10px;">' +
-              '<div style="display:flex;align-items:center;gap:12px;">' +
-                '<div style="width:38px;height:38px;background:#FEF3C7;border-radius:50%;display:flex;align-items:center;justify-content:center;">📦</div>' +
-                '<div style="flex:1;min-width:0;">' +
-                  '<div style="font-size:14px;font-weight:500;color:var(--dk);">' + titreOf(l) + '</div>' +
-                  '<div style="font-size:11px;color:var(--mu);">' + role + ' · ' + (l.jours || 1) + ' j · en cours</div>' +
-                '</div>' +
-                '<div style="font-size:14px;font-weight:600;color:#BA7517;">🔒 ' + (l.total_pts || 0) + ' pts</div>' +
-              '</div>' +
-              action +
-            '</div>';
+        // Mois courant
+        const monthEl = document.getElementById('wallet-month');
+        if (monthEl) {
+          const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+          const now = new Date();
+          monthEl.textContent = mois[now.getMonth()] + ' ' + now.getFullYear();
         }
-
-        // Historique terminé
-        for (const l of termines) {
-          const iAmPreteur = l.preteur_id === profile.id;
-          const other = iAmPreteur ? l.emprunteur : l.preteur;
-          const role = (iAmPreteur ? 'Prêté à ' : 'Emprunté auprès de ') + nomOf(other);
-          const amount = (iAmPreteur ? '+' : '−') + (l.total_pts || 0) + ' pts';
-          const amountColor = iAmPreteur ? '#1D9E75' : '#EF4444';
-          const dStr = l.date_fin ? new Date(l.date_fin).toLocaleDateString('fr-FR', {day:'numeric', month:'long'}) : '';
-          html +=
-            '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px;">' +
-              '<div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">' + (iAmPreteur ? '📤' : '📥') + '</div>' +
-              '<div style="flex:1;min-width:0;">' +
-                '<div style="font-size:14px;font-weight:500;color:var(--dk);">' + titreOf(l) + '</div>' +
-                '<div style="font-size:11px;color:var(--mu);">' + role + (dStr ? ' · ' + dStr : '') + '</div>' +
-              '</div>' +
-              '<div style="font-size:14px;font-weight:600;color:' + amountColor + ';">' + amount + '</div>' +
-            '</div>';
-        }
-
-        // Bonus d'inscription (origine du solde, toujours affiché en bas)
-        const inscritStr = new Date(profile.created_at).toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
-        html +=
-          '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">' +
-            '<div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>' +
-            '<div style="flex:1;">' +
-              '<div style="font-size:14px;font-weight:500;color:var(--dk);">Bonus inscription</div>' +
-              '<div style="font-size:11px;color:var(--mu);">Bienvenue sur Shapio · ' + inscritStr + '</div>' +
-            '</div>' +
-            '<div style="font-size:14px;font-weight:600;color:#1D9E75;">+50 pts</div>' +
-          '</div>';
-
-        txList.innerHTML = html;
       } catch (err) {
         console.error('loadWallet error:', err);
-        txList.innerHTML = '<div style="text-align:center;padding:30px;color:var(--mu);font-size:13px;">Erreur de chargement de l\'historique.</div>';
+        txList.innerHTML = '<div style="text-align:center;padding:30px;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
       }
     }
 
@@ -5595,17 +5406,6 @@
       const days = Math.max(1, parseInt(daysInput?.value, 10) || 1);
       const pts = o.pts_par_jour || 0;
       const total = days * pts;
-
-      // Vérification du solde disponible (= points − points déjà bloqués).
-      // La vérification définitive se refait côté serveur au moment de l'acceptation.
-      const fresh = await refreshProfile() || me;
-      const dispo = (fresh.points || 0) - (fresh.points_bloques || 0);
-      if (dispo < total) {
-        alert('Solde insuffisant 😕\n\n' +
-              'Cette demande nécessite ' + total + ' pts disponibles, mais tu n\'en as que ' + dispo + '.\n\n' +
-              'Récupère des points en prêtant tes objets, puis réessaie.');
-        return;
-      }
 
       hideFicheConfirm();
 
@@ -6175,11 +5975,11 @@
 
       try {
         const { data: users, error } = await sb.from('users')
-          .select('id, prenom, nom, ville, code_postal, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
+          .select('id, prenom, nom, ville, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
           .order('created_at', { ascending: false });
         if (error) throw error;
 
-        // Filtres : exclure soi-même + recherche nom + filtre ville/CP
+        // Filtres : exclure soi-même + recherche nom + filtre ville
         const filtered = (users || []).filter(u => {
           if (me && u.id === me.id) return false;
           if (search) {
@@ -6188,9 +5988,7 @@
           }
           if (cityFilter) {
             const uc = (u.ville || '').toLowerCase();
-            const ucp = (u.code_postal || '');
-            // On matche soit sur le nom de ville, soit sur le code postal
-            if (!uc.includes(cityFilter) && !cityFilter.includes(uc) && !ucp.startsWith(cityFilter)) return false;
+            if (!uc.includes(cityFilter) && !cityFilter.includes(uc)) return false;
           }
           return true;
         });
@@ -6247,7 +6045,7 @@
                 '<div style="font-weight:500;color:var(--dk);font-size:14px;">' + name + '</div>' +
                 (idV ? '<span style="background:var(--g);color:white;border-radius:50%;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span>' : '') +
               '</div>' +
-              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville ? ((u.code_postal ? u.code_postal + ' ' : '') + u.ville) : 'France') + ' · ' + sinceTxt + '</div>' +
+              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville || 'France') + ' · ' + sinceTxt + '</div>' +
               '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;">' +
                 '<span style="background:' + tBg + ';color:' + tColor + ';padding:2px 8px;border-radius:100px;font-weight:600;">' + score + '/2 confiance</span>' +
                 '<span style="color:var(--mu);">' + note + '</span>' +
@@ -6342,7 +6140,7 @@
       try {
         // Charger l'utilisateur (toutes ses infos publiques)
         const { data: u, error } = await sb.from('users')
-          .select('id, prenom, nom, ville, code_postal, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, motif_banniere, created_at')
+          .select('id, prenom, nom, ville, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, created_at')
           .eq('id', userId)
           .single();
         if (error) throw error;
@@ -6350,8 +6148,6 @@
         // Banderole
         const banner = document.getElementById('pub-banner');
         if (banner) banner.style.background = u.couleur_banniere || 'var(--gl)';
-        const bannerOv = document.getElementById('pub-banner-overlay');
-        if (bannerOv) bannerOv.style.background = u.motif_banniere || '';
 
         // Avatar
         const av = document.getElementById('pub-av');
@@ -6373,10 +6169,7 @@
         const name = document.getElementById('pub-name');
         if (name) name.textContent = (u.prenom || 'Membre') + ' ' + (u.nom?.[0] ? u.nom[0] + '.' : '');
         const ville = document.getElementById('pub-ville');
-        if (ville) {
-          const cp = u.code_postal ? u.code_postal + ' ' : '';
-          ville.textContent = '📍 ' + (u.ville ? (cp + u.ville) : 'France');
-        }
+        if (ville) ville.textContent = '📍 ' + (u.ville || 'France');
         const since = document.getElementById('pub-since');
         if (since && u.created_at) {
           const d = new Date(u.created_at);
@@ -6778,49 +6571,19 @@
         const { msg, data } = await loanGetOriginal(messageId);
         const me = await getCurrentProfile();
         if (!me) return;
-
-        // On ne voit le bouton "Accepter" que sur un message reçu : l'expéditeur est donc l'autre partie.
-        const otherId = msg.expediteur_id;
-
-        // Le prêteur est TOUJOURS le propriétaire de l'objet ; l'autre est l'emprunteur.
-        const { data: obj, error: objErr } = await sb.from('objects')
-          .select('user_id').eq('id', data.object_id).single();
-        if (objErr) throw objErr;
-        const preteurId = obj.user_id;
-        const emprunteurId = (preteurId === me.id) ? otherId : me.id;
-
-        if (preteurId === emprunteurId) { alert('Auto-prêt impossible.'); return; }
-
-        const days = Math.max(1, parseInt(data.days, 10) || 1);
-        const ptsJour = Math.max(0, parseInt(data.pts_par_jour, 10) || 0);
-        const total = days * ptsJour;
-
-        if (!confirm('Confirmer l\'accord ?\n\n' + total + ' pts vont être bloqués sur le compte de l\'emprunteur jusqu\'au retour de l\'objet.')) return;
-
-        // Transaction atomique côté Supabase : vérifie le solde, bloque les points et crée le prêt.
-        const { data: loanId, error: rpcErr } = await sb.rpc('accepter_pret', {
-          p_object_id: data.object_id,
-          p_emprunteur_id: emprunteurId,
-          p_jours: days,
-          p_pts_jour: ptsJour,
-          p_message_id: messageId
-        });
-        if (rpcErr) throw rpcErr;
-
-        // Message de confirmation visible dans la conversation.
-        const payload = { type: 'LOAN_ACCEPT', ...data, loan_id: loanId };
+        // L'expéditeur de la demande devient le destinataire de la réponse
+        const responseTo = msg.expediteur_id;
+        const payload = { type: 'LOAN_ACCEPT', ...data };
         const { error } = await sb.from('messages').insert({
           expediteur_id: me.id,
-          destinataire_id: otherId,
+          destinataire_id: responseTo,
           contenu: 'LOAN_ACCEPT::' + JSON.stringify(payload)
         });
         if (error) throw error;
-
-        await refreshProfile();
-        await openChat(otherId);
+        await openChat(responseTo);
       } catch (e) {
         console.error('loanAccept error:', e);
-        alert('Impossible d\'accepter : ' + (e.message || e));
+        alert('Erreur : ' + (e.message || e));
       }
     }
 
@@ -7034,29 +6797,6 @@
     }
 
     /* --- Personnalisation banderole + photo de profil (persistant Supabase) --- */
-    /* --- Ouvrir/fermer le modal de personnalisation --- */
-    function toggleBannerPicker() {
-      const picker = document.getElementById('banner-picker');
-      if (!picker) return;
-      picker.style.display = (picker.style.display === 'none' || !picker.style.display) ? 'flex' : 'none';
-    }
-
-    /* --- Définir un motif (overlay) sur la bannière --- */
-    async function setBannerOverlay(overlay) {
-      const ov = document.getElementById('profile-banner-overlay');
-      if (ov) ov.style.background = overlay || '';
-      try {
-        const profile = await getCurrentProfile();
-        if (!profile) return;
-        const { error } = await sb.from('users').update({ motif_banniere: overlay || null }).eq('id', profile.id);
-        if (error) console.warn('setBannerOverlay save error (colonne motif_banniere manquante ?):', error);
-        profile.motif_banniere = overlay;
-        window.currentProfile = profile;
-      } catch (e) {
-        console.error('setBannerOverlay error:', e);
-      }
-    }
-
     async function setBannerColor(color) {
       const banner = document.getElementById('profile-banner');
       if (banner) banner.style.background = color;
@@ -7144,11 +6884,6 @@
       if (banner && profile.couleur_banniere) {
         banner.style.background = profile.couleur_banniere;
       }
-      // Motif (overlay) de la banderole
-      const bannerOv = document.getElementById('profile-banner-overlay');
-      if (bannerOv) {
-        bannerOv.style.background = profile.motif_banniere || '';
-      }
 
       // Nom complet (gestion des valeurs manquantes)
       const nm = document.getElementById('profile-name');
@@ -7165,10 +6900,7 @@
 
       // Ville + date
       const ville = document.getElementById('profile-ville');
-      if (ville) {
-        const cp = profile.code_postal ? profile.code_postal + ' ' : '';
-        ville.textContent = profile.ville ? (cp + profile.ville) : '–';
-      }
+      if (ville) ville.textContent = profile.ville || '–';
       const since = document.getElementById('profile-since');
       if (since && profile.created_at) {
         const d = new Date(profile.created_at);
@@ -7303,7 +7035,7 @@
       }
       // Détecter si l'utilisateur arrive depuis un lien de confirmation email
       if (hash && hash.includes('type=signup')) {
-        go('p-app');
+        go('p-s4');
         return;
       }
 
@@ -7329,8 +7061,6 @@
       });
     });
   </script>
-
 </body>
 
 </html>
-
