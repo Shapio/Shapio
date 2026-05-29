@@ -4846,9 +4846,6 @@
       if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif' && tab !== 'pubprofile') {
         prevTab = tab;
       }
-      // Bouton swipe flottant : visible seulement sur l'accueil
-      const fab = document.getElementById('home-swipe-fab');
-      if (fab) fab.style.display = (tab === 'home') ? 'flex' : 'none';
       window.scrollTo(0, 0);
     }
 
