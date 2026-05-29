@@ -124,6 +124,44 @@
       background: var(--cr);
       color: var(--dk);
       overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Canvas du fond animé */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Toggle thème (caché sur petit écran) */
+    #theme-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 0;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      z-index: 200;
+      transition: transform 0.2s ease;
+    }
+    #theme-toggle:hover { transform: scale(1.08); }
+    @media (min-width: 900px) {
+      #theme-toggle { display: flex; }
+    }
+    body.dark #theme-toggle {
+      background: rgba(30,30,40,0.85);
+      color: white;
     }
 
     .page {
@@ -1090,8 +1128,18 @@
       background: white;
       display: flex;
       flex-direction: column;
-      border-left: 0.5px solid var(--bd);
-      border-right: 0.5px solid var(--bd);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+    }
+    @media (min-width: 900px) {
+      .app {
+        border-radius: 0;
+        box-shadow: 0 0 80px rgba(0, 0, 0, 0.15);
+      }
+    }
+    body.dark .app {
+      box-shadow: 0 0 80px rgba(100, 120, 200, 0.3);
     }
 
     .atop {
@@ -3595,6 +3643,8 @@
 </head>
 
 <body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <button type="button" id="theme-toggle" aria-label="Changer de thème" onclick="toggleTheme()">🌙</button>
 
   <a href="#main-content" class="skip-link">Aller au contenu</a>
 
@@ -4421,50 +4471,35 @@
             <!-- PROFIL -->
       <div class="ascreen" id="as-profil">
         <div id="profile-banner" style="background:var(--gl);height:110px;position:relative;border-radius:0 0 28px 28px;margin-bottom:60px;transition:background 0.3s;overflow:hidden;">
-          <!-- Overlay décoratif subtil -->
           <div id="profile-banner-overlay" style="position:absolute;inset:0;pointer-events:none;"></div>
-          <!-- Bouton ouvrir le sélecteur -->
-          <button type="button" onclick="toggleBannerPicker()" aria-label="Personnaliser la bannière" style="position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(8px);font-size:16px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;z-index:2;">🎨</button>
+          <!-- Sélecteur compact dans la bannière -->
+          <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);border-radius:100px;padding:6px 10px;box-shadow:0 2px 8px rgba(0,0,0,0.08);z-index:2;max-width:calc(100% - 28px);overflow-x:auto;scrollbar-width:none;">
+            <button type="button" onclick="setBannerColor('var(--gl)')" aria-label="Vert clair" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:#E1F5EE;cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75)')" aria-label="Vert" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#085041,#1D9E75);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#BA7517,#E0A040)')" aria-label="Or" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#BA7517,#E0A040);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#3B4E8C,#6478C8)')" aria-label="Bleu" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#3B4E8C,#6478C8);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#9C3B6E,#D06BA0)')" aria-label="Rose" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#9C3B6E,#D06BA0);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#FF6B6B,#FFA07A)')" aria-label="Corail" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#FF6B6B,#FFA07A);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#667eea,#764ba2)')" aria-label="Violet" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#667eea,#764ba2);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#11998e,#38ef7d)')" aria-label="Émeraude" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#11998e,#38ef7d);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#fc4a1a,#f7b733)')" aria-label="Sunset" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#fc4a1a,#f7b733);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#2c3e50,#4ca1af)')" aria-label="Océan" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#2c3e50,#4ca1af);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#232526,#414345)')" aria-label="Charbon" style="flex-shrink:0;width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#232526,#414345);cursor:pointer;padding:0;"></button>
+            <!-- Séparateur -->
+            <div style="width:1px;height:16px;background:rgba(0,0,0,0.1);flex-shrink:0;"></div>
+            <!-- Motifs -->
+            <button type="button" onclick='setBannerOverlay("")' aria-label="Aucun motif" title="Aucun motif" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:1.5px solid rgba(0,0,0,0.15);background:white;cursor:pointer;padding:0;font-size:11px;color:var(--mu);">∅</button>
+            <button type="button" onclick='setBannerOverlay("radial-gradient(circle at 15% 30%,rgba(255,255,255,0.18) 0,transparent 18%),radial-gradient(circle at 85% 70%,rgba(255,255,255,0.13) 0,transparent 22%),radial-gradient(circle at 50% 90%,rgba(255,255,255,0.12) 0,transparent 16%)")' aria-label="Étoiles" title="Étoiles" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:#444 radial-gradient(circle at 30% 30%,rgba(255,255,255,0.6) 0,transparent 30%),radial-gradient(circle at 70% 60%,rgba(255,255,255,0.5) 0,transparent 30%);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick='setBannerOverlay("repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(255,255,255,0.12) 12px,rgba(255,255,255,0.12) 24px)")' aria-label="Rayures" title="Rayures" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:#444 repeating-linear-gradient(45deg,transparent,transparent 4px,rgba(255,255,255,0.3) 4px,rgba(255,255,255,0.3) 8px);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick='setBannerOverlay("repeating-radial-gradient(circle at 0 0,transparent 0,rgba(255,255,255,0.12) 14px,transparent 28px)")' aria-label="Points" title="Points" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:#444 repeating-radial-gradient(circle at 0 0,transparent 0,rgba(255,255,255,0.3) 5px,transparent 10px);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick='setBannerOverlay("linear-gradient(45deg,rgba(255,255,255,0.08) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.08) 75%,transparent 75%,transparent) 0/24px 24px")' aria-label="Damier" title="Damier" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:#444 linear-gradient(45deg,rgba(255,255,255,0.4) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.4) 50%,rgba(255,255,255,0.4) 75%,transparent 75%,transparent) 0/8px 8px;cursor:pointer;padding:0;"></button>
+            <button type="button" onclick='setBannerOverlay("radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.2))")' aria-label="Vignette" title="Vignette" style="flex-shrink:0;width:20px;height:20px;border-radius:6px;border:0;background:radial-gradient(ellipse at center,#666,#222);cursor:pointer;padding:0;"></button>
+          </div>
           <div class="pavwrap" style="position:absolute;bottom:-50px;left:18px;z-index:3;">
             <div class="pav" id="profile-av" style="width:90px;height:90px;background:white;border:4px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:30px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);">?</div>
             <button type="button" onclick="document.getElementById('profile-photo-input').click()" aria-label="Changer la photo de profil" style="position:absolute;bottom:0;right:0;width:30px;height:30px;background:var(--g);border:2.5px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;cursor:pointer;padding:0;box-shadow:0 2px 6px rgba(0,0,0,0.15);">📷</button>
             <input type="file" id="profile-photo-input" accept="image/*" style="display:none;" onchange="previewProfilePhoto(event)" />
             <div id="profile-badge-floating" style="position:absolute;top:0;right:0;width:26px;height:26px;background:var(--g);border:2.5px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,0.15);">✓</div>
-          </div>
-        </div>
-
-        <!-- Modal de personnalisation de bannière (hors flux, centré) -->
-        <div id="banner-picker" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:100;align-items:center;justify-content:center;padding:18px;" onclick="if(event.target===this)toggleBannerPicker()">
-          <div style="background:white;border-radius:18px;padding:18px;max-width:340px;width:100%;max-height:80vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,0.2);">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-              <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--dk);">Personnaliser ma bannière</div>
-              <button type="button" onclick="toggleBannerPicker()" aria-label="Fermer" style="width:30px;height:30px;border-radius:50%;border:0;background:#f7f7f4;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;">×</button>
-            </div>
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--mu);margin-bottom:10px;font-weight:600;">Couleur</div>
-            <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:18px;">
-              <button type="button" onclick="setBannerColor('var(--gl)')" aria-label="Vert clair" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:#E1F5EE;cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75)')" aria-label="Vert forêt" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#085041,#1D9E75);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#BA7517,#E0A040)')" aria-label="Or" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#BA7517,#E0A040);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#3B4E8C,#6478C8)')" aria-label="Bleu" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#3B4E8C,#6478C8);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#9C3B6E,#D06BA0)')" aria-label="Rose" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#9C3B6E,#D06BA0);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#FF6B6B,#FFA07A)')" aria-label="Corail" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#FF6B6B,#FFA07A);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#667eea,#764ba2)')" aria-label="Violet" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#667eea,#764ba2);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#11998e,#38ef7d)')" aria-label="Émeraude" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#11998e,#38ef7d);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#fc4a1a,#f7b733)')" aria-label="Coucher de soleil" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#fc4a1a,#f7b733);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#2c3e50,#4ca1af)')" aria-label="Océan" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#2c3e50,#4ca1af);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#f857a6,#ff5858)')" aria-label="Framboise" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#f857a6,#ff5858);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-              <button type="button" onclick="setBannerColor('linear-gradient(135deg,#232526,#414345)')" aria-label="Charbon" style="aspect-ratio:1;width:100%;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#232526,#414345);cursor:pointer;padding:0;box-shadow:0 1px 3px rgba(0,0,0,0.08);"></button>
-            </div>
-            <div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--mu);margin-bottom:10px;font-weight:600;">Effet décoratif</div>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;">
-              <button type="button" onclick='setBannerOverlay("")' style="aspect-ratio:2/1;border-radius:10px;border:1px solid rgba(0,0,0,0.06);cursor:pointer;background:white;color:var(--mu);font-family:inherit;font-size:11px;">Aucun</button>
-              <button type="button" onclick='setBannerOverlay("radial-gradient(circle at 15% 30%,rgba(255,255,255,0.18) 0,transparent 18%),radial-gradient(circle at 85% 70%,rgba(255,255,255,0.13) 0,transparent 22%),radial-gradient(circle at 50% 90%,rgba(255,255,255,0.12) 0,transparent 16%)")' style="aspect-ratio:2/1;border-radius:10px;border:0;cursor:pointer;background:#444 radial-gradient(circle at 15% 30%,rgba(255,255,255,0.5) 0,transparent 30%),radial-gradient(circle at 85% 70%,rgba(255,255,255,0.4) 0,transparent 30%);color:white;font-family:inherit;font-size:11px;">Étoiles</button>
-              <button type="button" onclick='setBannerOverlay("repeating-linear-gradient(45deg,transparent,transparent 12px,rgba(255,255,255,0.07) 12px,rgba(255,255,255,0.07) 24px)")' style="aspect-ratio:2/1;border-radius:10px;border:0;cursor:pointer;background:#444 repeating-linear-gradient(45deg,transparent,transparent 6px,rgba(255,255,255,0.25) 6px,rgba(255,255,255,0.25) 12px);color:white;font-family:inherit;font-size:11px;">Rayures</button>
-              <button type="button" onclick='setBannerOverlay("repeating-radial-gradient(circle at 0 0,transparent 0,rgba(255,255,255,0.08) 14px,transparent 28px)")' style="aspect-ratio:2/1;border-radius:10px;border:0;cursor:pointer;background:#444 repeating-radial-gradient(circle at 0 0,transparent 0,rgba(255,255,255,0.2) 7px,transparent 14px);color:white;font-family:inherit;font-size:11px;">Points</button>
-              <button type="button" onclick='setBannerOverlay("linear-gradient(45deg,rgba(255,255,255,0.06) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.06) 50%,rgba(255,255,255,0.06) 75%,transparent 75%,transparent) 0/24px 24px")' style="aspect-ratio:2/1;border-radius:10px;border:0;cursor:pointer;background:#444 linear-gradient(45deg,rgba(255,255,255,0.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.2) 50%,rgba(255,255,255,0.2) 75%,transparent 75%,transparent) 0/12px 12px;color:white;font-family:inherit;font-size:11px;">Damier</button>
-              <button type="button" onclick='setBannerOverlay("radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,0.15))")' style="aspect-ratio:2/1;border-radius:10px;border:0;cursor:pointer;background:radial-gradient(ellipse at center,#666,#222);color:white;font-family:inherit;font-size:11px;">Vignette</button>
-            </div>
-            <button type="button" onclick="toggleBannerPicker()" style="width:100%;padding:11px;border-radius:10px;border:0;background:var(--g);color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;">Terminé</button>
           </div>
         </div>
 
@@ -7199,7 +7234,27 @@
       });
     });
   </script>
-</body>
+  <script>
+    /* ============================================
+       FOND ANIMÉ INTERACTIF (visible sur grand écran)
+       Mélange : orbes lumineux + étoiles + parallax souris
+       ============================================ */
+    (function () {
+      const canvas = document.getElementById('bg-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let mouseX = 0, mouseY = 0, tMouseX = 0, tMouseY = 0;
+      let isDark = false;
 
-</html>
-
+      // Thèmes
+      const themes = {
+        light: {
+          bg1: '#FDF8F0', bg2: '#F7F0E5',
+          orbs: ['rgba(232,167,69,0.35)', 'rgba(29,158,117,0.30)', 'rgba(100,120,200,0.25)', 'rgba(208,107,160,0.28)', 'rgba(56,239,125,0.20)'],
+          stars: 'rgba(8,80,65,0.22)'
+        },
+        dark: {
+          bg1: '#0a0e1a', bg2: '#13182b',
+          orbs: ['rgba(120,180,255,0.30)', 'rgba(180,120,255,0.28)', 'rgba(255,180,80,0.22)', 'rgba(80,255,180,0.20)', 'rgba(255,100,150,0.22)'],
+          stars: 'rgba(255
