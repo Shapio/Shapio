@@ -3996,6 +3996,9 @@
           <div class="form-error" id="s3-error" role="alert" aria-live="polite"></div>
           <button class="obtn" type="button" onclick="checkEmailConfirmed()" style="margin-bottom:10px;">J'ai confirmé mon email →</button>
           <div class="resend">Pas reçu l'email ? <button type="button" class="link-btn" onclick="resendEmail(this)">Renvoyer</button></div>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid #f0f0ed;">
+            <button type="button" onclick="go('p-app')" style="background:none;border:0;color:var(--mu);font-size:13px;cursor:pointer;font-family:inherit;text-decoration:underline;">Confirmer plus tard, accéder à Shapio →</button>
+          </div>
         </div>
       </div>
     </div>
@@ -4062,10 +4065,6 @@
         <div class="wbanner" id="wb">
           <div class="wbt">
             <div class="wbttl" id="home-welcome">Bienvenue ! 👋</div>
-            <div class="wbpts" style="text-align:right;">
-              <div class="wbn" id="home-level-banner">1</div>
-              <div class="wbl">niveau</div>
-            </div>
           </div>
           <div class="wbsteps">
             <div class="wbs done">
@@ -4121,8 +4120,9 @@
         <div class="mode-toggle" role="tablist">
           <button class="mtbtn active" id="mt-browse" type="button" role="tab" aria-selected="true" onclick="setSwipeMode('browse')">⊞ Liste</button>
           <button class="mtbtn" id="mt-swipe" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('swipe')">▶ Swipe</button>
+          <button class="mtbtn" id="mt-members" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('members')">👥 Membres</button>
         </div>
-        <div class="filters" role="group" aria-label="Filtres par catégorie">
+        <div class="filters" id="filters-cat" role="group" aria-label="Filtres par catégorie">
           <button type="button" class="fchip active" onclick="setFilter(this)">Tout</button>
           <button type="button" class="fchip" onclick="setFilter(this)">Tech</button>
           <button type="button" class="fchip" onclick="setFilter(this)">Maison</button>
@@ -4146,6 +4146,12 @@
           <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;" id="browse-count">0 objet disponible</div>
           <div class="bgrid" id="browse-grid">
             <div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
+          </div>
+        </div>
+        <div id="members-mode" style="display:none;padding:0 18px;">
+          <div style="font-size:11px;color:var(--mu);padding:4px 0 8px;" id="members-count">– membre</div>
+          <div id="members-list" style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;">
+            <div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
           </div>
         </div>
       </div>
@@ -4176,7 +4182,7 @@
           <div class="fdesc" id="fiche-desc">Pas de description.</div>
           <div class="fdiv"></div>
           <div class="fslbl">Prêté par</div>
-          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil">
+          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil du prêteur" onclick="openPublicProfile(window.currentObject?.users?.id)" onkeypress="if(event.key==='Enter')openPublicProfile(window.currentObject?.users?.id)" style="cursor:pointer;">
             <div class="foav" id="fiche-owner-av" aria-hidden="true">–</div>
             <div class="foinfo">
               <div class="foname" id="fiche-owner-name">Membre</div>
@@ -4216,6 +4222,72 @@
         </div>
       </div>
 
+      <!-- PROFIL PUBLIC D'UN AUTRE MEMBRE -->
+      <div class="ascreen" id="as-pubprofile">
+        <div id="pub-banner" style="background:var(--gl);height:90px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;">
+          <button type="button" aria-label="Retour" onclick="closePublicProfile()" style="position:absolute;top:14px;left:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,0.95);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">←</button>
+          <div style="position:absolute;bottom:-50px;left:18px;">
+            <div id="pub-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;">?</div>
+            <div id="pub-badge" style="position:absolute;top:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;">✓</div>
+          </div>
+        </div>
+
+        <div style="padding:0 18px 100px;">
+          <div style="margin-bottom:8px;">
+            <div id="pub-name" style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);">Membre</div>
+            <div id="pub-ville" style="font-size:13px;color:var(--mu);margin-top:2px;">📍 –</div>
+            <div id="pub-since" style="font-size:12px;color:var(--mu);margin-top:2px;">–</div>
+          </div>
+
+          <!-- Stats -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 18px;">
+            <div style="text-align:center;padding:10px;background:#f7f7f4;border-radius:12px;">
+              <div id="pub-prets" style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">0</div>
+              <div style="font-size:11px;color:var(--mu);">prêts</div>
+            </div>
+            <div style="text-align:center;padding:10px;background:#f7f7f4;border-radius:12px;">
+              <div id="pub-emprunts" style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">0</div>
+              <div style="font-size:11px;color:var(--mu);">emprunts</div>
+            </div>
+            <div style="text-align:center;padding:10px;background:#f7f7f4;border-radius:12px;">
+              <div id="pub-note" style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">–</div>
+              <div style="font-size:11px;color:var(--mu);">⭐ note</div>
+            </div>
+          </div>
+
+          <!-- Niveau de confiance -->
+          <div style="background:#f7f7f4;border-radius:14px;padding:14px;margin-bottom:18px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;">Niveau de confiance</div>
+              <div id="pub-trust-badge" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:#FEE2E2;color:#EF4444;">0/3</div>
+            </div>
+            <div style="height:6px;background:#e6e6e0;border-radius:100px;overflow:hidden;margin-bottom:14px;">
+              <div id="pub-trust-bar" style="height:100%;width:0%;background:#EF4444;border-radius:100px;transition:width 0.3s,background 0.3s;"></div>
+            </div>
+            <div id="pub-trust-rows" style="font-size:13px;color:var(--mu);"></div>
+          </div>
+
+          <!-- Ses objets -->
+          <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Ses objets en prêt</div>
+          <div class="pogrid" id="pub-objects-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;">
+            <div id="pub-objects-empty" style="grid-column:1/-1;text-align:center;padding:24px 16px;color:var(--mu);font-size:13px;">
+              Aucun objet publié.
+            </div>
+          </div>
+
+          <!-- Ses avis -->
+          <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Avis reçus</div>
+          <div id="pub-avis-list" style="font-size:13px;color:var(--mu);">
+            <div style="text-align:center;padding:20px;">Aucun avis pour l'instant.</div>
+          </div>
+        </div>
+
+        <!-- Barre du bas : bouton contacter -->
+        <div style="position:fixed;left:0;right:0;bottom:0;background:white;border-top:1px solid #f0f0ed;padding:12px 18px;display:flex;gap:10px;z-index:40;max-width:480px;margin:0 auto;">
+          <button type="button" id="pub-contact-btn" onclick="contactFromPublic()" style="flex:1;padding:12px;border:0;border-radius:11px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">💬 Envoyer un message</button>
+        </div>
+      </div>
+
             <!-- MESSAGES -->
       <div class="ascreen" id="as-msgs">
         <div class="msg-hdr">
@@ -4235,12 +4307,8 @@
         <div style="display:flex;flex-direction:column;height:100%;">
           <div class="chat-hdr">
             <button class="cback" type="button" aria-label="Retour aux messages" onclick="setTab('msgs')">←</button>
-            <div class="chatav" aria-hidden="true">🚁</div>
-            <div class="chatname" id="chat-name">Conversation</div>
-            <div class="chat-acts">
-              <button type="button" class="chatact" aria-label="Appel vocal">🎙</button>
-              <button type="button" class="chatact" aria-label="Localisation">📍</button>
-            </div>
+            <div class="chatav" id="chat-avatar" role="button" tabindex="0" aria-label="Voir le profil" onclick="openPublicProfile(window.currentChatUserId)" onkeypress="if(event.key==='Enter')openPublicProfile(window.currentChatUserId)" style="cursor:pointer;">👤</div>
+            <div class="chatname" id="chat-name" role="button" tabindex="0" aria-label="Voir le profil" onclick="openPublicProfile(window.currentChatUserId)" onkeypress="if(event.key==='Enter')openPublicProfile(window.currentChatUserId)" style="cursor:pointer;">Conversation</div>
           </div>
           <div class="chatmsgs" id="chatmsgs" aria-live="polite"></div>
           <form class="chatinput" onsubmit="event.preventDefault();sendMessage();">
@@ -4360,21 +4428,29 @@
           <!-- Tab content : Mes objets -->
           <div id="ptab-content-objets">
             <div style="background:#f7f7f4;border-radius:14px;padding:14px;margin-bottom:18px;">
-              <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Vérification</div>
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;">Niveau de confiance</div>
+                <div id="trust-badge" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:#FEE2E2;color:#EF4444;">0/3</div>
+              </div>
+              <!-- Barre de progression -->
+              <div style="height:6px;background:#e6e6e0;border-radius:100px;overflow:hidden;margin-bottom:14px;">
+                <div id="trust-bar" style="height:100%;width:0%;background:#EF4444;border-radius:100px;transition:width 0.3s,background 0.3s;"></div>
+              </div>
               <div id="trust-section">
-                <div class="ptrow" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
-                  <div class="ptico ptdone" style="width:22px;height:22px;background:var(--g);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">✓</div>
-                  <div class="ptlbl" style="flex:1;font-size:13px;">Email confirmé</div>
-                </div>
-                <div class="ptrow" id="trust-tel-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
-                  <div class="ptico" id="trust-tel-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
-                  <div class="ptlbl" id="trust-tel-lbl" style="flex:1;font-size:13px;color:var(--mu);">Numéro de téléphone</div>
-                  <button type="button" id="trust-tel-btn" onclick="alert('Vérification téléphone disponible bientôt 🌻')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Ajouter</button>
+                <div class="ptrow" id="trust-email-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                  <div class="ptico" id="trust-email-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
+                  <div class="ptlbl" id="trust-email-lbl" style="flex:1;font-size:13px;color:var(--mu);">Email confirmé</div>
+                  <button type="button" id="trust-email-btn" onclick="resendConfirmEmail()" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Renvoyer</button>
                 </div>
                 <div class="ptrow" id="trust-id-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
                   <div class="ptico" id="trust-id-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
                   <div class="ptlbl" id="trust-id-lbl" style="flex:1;font-size:13px;color:var(--mu);">Pièce d'identité</div>
                   <a id="trust-id-btn" href="mailto:contact@shapio.fr?subject=V%C3%A9rification%20d%27identit%C3%A9%20Shapio&body=Bonjour%2C%0A%0AJe%20souhaite%20faire%20v%C3%A9rifier%20mon%20identit%C3%A9.%0AJe%20joins%20une%20photo%20de%20ma%20pi%C3%A8ce%20d%27identit%C3%A9%20%C3%A0%20cet%20email.%0A%0APr%C3%A9nom%20%2F%20Nom%20%3A%20%0A%0AMerci%20%21" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;text-decoration:none;">Vérifier</a>
+                </div>
+                <div class="ptrow" id="trust-tel-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                  <div class="ptico" id="trust-tel-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
+                  <div class="ptlbl" id="trust-tel-lbl" style="flex:1;font-size:13px;color:var(--mu);">Numéro de téléphone</div>
+                  <button type="button" id="trust-tel-btn" onclick="alert('Vérification téléphone disponible bientôt 🌻')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Ajouter</button>
                 </div>
               </div>
             </div>
@@ -4629,6 +4705,7 @@
         wallet: 'as-wallet',
         profil: 'as-profil',
         fiche: 'as-fiche',
+        pubprofile: 'as-pubprofile',
         addobj: 'as-addobj',
         notif: 'as-notif'
       };
@@ -4646,7 +4723,7 @@
         navItem.classList.add('active');
         navItem.setAttribute('aria-current', 'page');
       }
-      if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif') {
+      if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif' && tab !== 'pubprofile') {
         prevTab = tab;
       }
       // Bouton swipe flottant : visible seulement sur l'accueil
@@ -5337,22 +5414,36 @@
     function setSwipeMode(m) {
       const swipeEl = document.getElementById('swipe-mode');
       const browseEl = document.getElementById('browse-mode');
+      const membersEl = document.getElementById('members-mode');
+      const filtersCat = document.getElementById('filters-cat');
       const tSwipe = document.getElementById('mt-swipe');
       const tBrowse = document.getElementById('mt-browse');
+      const tMembers = document.getElementById('mt-members');
+
+      // Reset tous les onglets
+      [tSwipe, tBrowse, tMembers].forEach(b => {
+        if (b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); }
+      });
+
+      // Reset toutes les vues
+      if (swipeEl) swipeEl.style.display = 'none';
+      if (browseEl) browseEl.style.display = 'none';
+      if (membersEl) membersEl.style.display = 'none';
+
       if (m === 'swipe') {
-        swipeEl.style.display = 'block';
-        browseEl.style.display = 'none';
-        tSwipe.classList.add('active');
-        tSwipe.setAttribute('aria-selected', 'true');
-        tBrowse.classList.remove('active');
-        tBrowse.setAttribute('aria-selected', 'false');
+        if (swipeEl) swipeEl.style.display = 'block';
+        if (filtersCat) filtersCat.style.display = '';
+        if (tSwipe) { tSwipe.classList.add('active'); tSwipe.setAttribute('aria-selected', 'true'); }
+      } else if (m === 'members') {
+        if (membersEl) membersEl.style.display = 'block';
+        if (filtersCat) filtersCat.style.display = 'none'; // catégories non pertinentes pour les membres
+        if (tMembers) { tMembers.classList.add('active'); tMembers.setAttribute('aria-selected', 'true'); }
+        if (typeof loadMembers === 'function') loadMembers();
       } else {
-        swipeEl.style.display = 'none';
-        browseEl.style.display = 'block';
-        tBrowse.classList.add('active');
-        tBrowse.setAttribute('aria-selected', 'true');
-        tSwipe.classList.remove('active');
-        tSwipe.setAttribute('aria-selected', 'false');
+        // browse par défaut
+        if (browseEl) browseEl.style.display = 'block';
+        if (filtersCat) filtersCat.style.display = '';
+        if (tBrowse) { tBrowse.classList.add('active'); tBrowse.setAttribute('aria-selected', 'true'); }
       }
     }
 
@@ -5706,6 +5797,11 @@
       window.explorerSearch = (document.getElementById('explorer-search')?.value || '').toLowerCase().trim();
       window.explorerCity = (document.getElementById('explorer-city')?.value || '').toLowerCase().trim();
       refreshExplorer();
+      // Si l'onglet membres est actif, recharger aussi la liste membres
+      const membersMode = document.getElementById('members-mode');
+      if (membersMode && membersMode.style.display !== 'none') {
+        if (typeof loadMembers === 'function') loadMembers();
+      }
     }
 
     /* --- Refresh swipe et browse selon filtres --- */
@@ -5720,7 +5816,11 @@
       // Filtrer
       let filtered = all.filter(o => {
         if (search && !(o.titre?.toLowerCase().includes(search) || o.description?.toLowerCase().includes(search))) return false;
-        if (refCity && radius < 9999) {
+        // Filtre ville : matching texte direct sur la ville de l'objet
+        if (cityFilter) {
+          const objCity = (o.ville || '').toLowerCase().trim();
+          if (!objCity.includes(cityFilter) && !cityFilter.includes(objCity)) return false;
+        } else if (refCity && radius < 9999) {
           if (approxDistance(o.ville, refCity) > radius) return false;
         }
         return true;
@@ -5778,6 +5878,106 @@
         '</div>' +
         '<div class="ctags"><span class="ctag">' + o.categorie + '</span></div>' +
         '</div></div>';
+    }
+
+    /* --- Charger la liste des membres pour l'onglet Membres --- */
+    async function loadMembers() {
+      if (!sb) return;
+      const listEl = document.getElementById('members-list');
+      const countEl = document.getElementById('members-count');
+      if (!listEl) return;
+
+      const me = await getCurrentProfile();
+      const search = (document.getElementById('explorer-search')?.value || '').toLowerCase().trim();
+      const cityFilter = (document.getElementById('explorer-city')?.value || '').toLowerCase().trim();
+
+      try {
+        const { data: users, error } = await sb.from('users')
+          .select('id, prenom, nom, ville, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+
+        // Filtres : exclure soi-même + recherche nom + filtre ville
+        const filtered = (users || []).filter(u => {
+          if (me && u.id === me.id) return false;
+          if (search) {
+            const fullName = ((u.prenom || '') + ' ' + (u.nom || '')).toLowerCase();
+            if (!fullName.includes(search)) return false;
+          }
+          if (cityFilter) {
+            const uc = (u.ville || '').toLowerCase();
+            if (!uc.includes(cityFilter) && !cityFilter.includes(uc)) return false;
+          }
+          return true;
+        });
+
+        if (countEl) countEl.textContent = filtered.length + ' membre' + (filtered.length > 1 ? 's' : '');
+
+        if (filtered.length === 0) {
+          listEl.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">' +
+            (search || cityFilter ? 'Aucun membre ne correspond à ta recherche.' : 'Aucun membre pour l\'instant.') +
+            '</div>';
+          return;
+        }
+
+        listEl.innerHTML = filtered.map(u => {
+          const name = (u.prenom || 'Membre') + ' ' + (u.nom?.[0] ? u.nom[0] + '.' : '');
+          const initials = (u.prenom?.[0] || '?') + (u.nom?.[0] || '');
+          const avatar = u.avatar_url
+            ? '<div style="width:56px;height:56px;border-radius:50%;background:url(\'' + u.avatar_url + '\') center/cover no-repeat;flex-shrink:0;"></div>'
+            : '<div style="width:56px;height:56px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-family:\'DM Serif Display\',serif;color:var(--g);font-size:18px;flex-shrink:0;">' + initials + '</div>';
+
+          // Niveau de confiance (sur /2 publiquement comme dans le profil public)
+          const idV = !!u.verifie_identite;
+          const telV = !!u.verifie_telephone;
+          const score = (idV ? 1 : 0) + (telV ? 1 : 0);
+          let tColor, tBg;
+          if (score === 0) { tColor = '#EF4444'; tBg = '#FEE2E2'; }
+          else if (score === 1) { tColor = '#F59E0B'; tBg = '#FEF3C7'; }
+          else { tColor = 'var(--g)'; tBg = '#D1FAE5'; }
+
+          // Date d'inscription (utile pour repérer les comptes récents)
+          let sinceTxt = '';
+          if (u.created_at) {
+            const d = new Date(u.created_at);
+            const now = new Date();
+            const diffDays = Math.floor((now - d) / (1000 * 60 * 60 * 24));
+            if (diffDays < 7) sinceTxt = '🆕 Nouveau';
+            else if (diffDays < 30) sinceTxt = 'Inscrit il y a ' + diffDays + ' jours';
+            else {
+              const mois = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+              sinceTxt = 'Depuis ' + mois[d.getMonth()] + ' ' + d.getFullYear();
+            }
+          }
+
+          const note = (u.note_moyenne > 0) ? '⭐ ' + u.note_moyenne.toFixed(1) : '⭐ –';
+          const prets = (u.nb_prets || 0) + ' prêt' + ((u.nb_prets || 0) > 1 ? 's' : '');
+          const emprunts = (u.nb_emprunts || 0) + ' empr.';
+
+          return '<div role="button" tabindex="0" onclick="openPublicProfile(\'' + u.id + '\')" ' +
+            'onkeypress="if(event.key===\'Enter\')openPublicProfile(\'' + u.id + '\')" ' +
+            'style="display:flex;gap:12px;padding:14px;background:#f7f7f4;border-radius:14px;cursor:pointer;align-items:center;">' +
+            avatar +
+            '<div style="flex:1;min-width:0;">' +
+              '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">' +
+                '<div style="font-weight:500;color:var(--dk);font-size:14px;">' + name + '</div>' +
+                (idV ? '<span style="background:var(--g);color:white;border-radius:50%;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span>' : '') +
+              '</div>' +
+              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville || 'France') + ' · ' + sinceTxt + '</div>' +
+              '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;">' +
+                '<span style="background:' + tBg + ';color:' + tColor + ';padding:2px 8px;border-radius:100px;font-weight:600;">' + score + '/2 confiance</span>' +
+                '<span style="color:var(--mu);">' + note + '</span>' +
+                '<span style="color:var(--mu);">' + prets + '</span>' +
+                '<span style="color:var(--mu);">' + emprunts + '</span>' +
+              '</div>' +
+            '</div>' +
+            '<span style="color:var(--mu);">›</span>' +
+            '</div>';
+        }).join('');
+      } catch (err) {
+        console.error('loadMembers error:', err);
+        listEl.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
+      }
     }
 
     /* --- Swipe actions (skip / like) --- */
@@ -5845,6 +6045,160 @@
     }
 
     /* --- Ouvrir la fiche d'un objet réel --- */
+    /* --- Ouvrir le profil public d'un autre membre --- */
+    async function openPublicProfile(userId) {
+      if (!sb || !userId) return;
+      const me = await getCurrentProfile();
+      // Si c'est mon propre profil, rediriger vers l'onglet profil
+      if (me && me.id === userId) { setTab('profil'); return; }
+
+      window.viewingProfileUserId = userId;
+      window.viewingProfileSource = (document.querySelector('.ascreen.active')?.id || 'as-home').replace('as-', '');
+
+      try {
+        // Charger l'utilisateur (toutes ses infos publiques)
+        const { data: u, error } = await sb.from('users')
+          .select('id, prenom, nom, ville, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, created_at')
+          .eq('id', userId)
+          .single();
+        if (error) throw error;
+
+        // Banderole
+        const banner = document.getElementById('pub-banner');
+        if (banner) banner.style.background = u.couleur_banniere || 'var(--gl)';
+
+        // Avatar
+        const av = document.getElementById('pub-av');
+        if (av) {
+          if (u.avatar_url) {
+            av.style.backgroundImage = "url('" + u.avatar_url + "')";
+            av.textContent = '';
+          } else {
+            av.style.backgroundImage = '';
+            av.textContent = (u.prenom?.[0] || '?') + (u.nom?.[0] || '');
+          }
+        }
+
+        // Badge vérifié sur l'avatar
+        const badge = document.getElementById('pub-badge');
+        if (badge) badge.style.display = u.verifie_identite ? 'flex' : 'none';
+
+        // Nom, ville, depuis
+        const name = document.getElementById('pub-name');
+        if (name) name.textContent = (u.prenom || 'Membre') + ' ' + (u.nom?.[0] ? u.nom[0] + '.' : '');
+        const ville = document.getElementById('pub-ville');
+        if (ville) ville.textContent = '📍 ' + (u.ville || 'France');
+        const since = document.getElementById('pub-since');
+        if (since && u.created_at) {
+          const d = new Date(u.created_at);
+          const mois = ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+          since.textContent = 'Membre depuis ' + mois[d.getMonth()] + ' ' + d.getFullYear();
+        }
+
+        // Stats
+        const prets = document.getElementById('pub-prets');
+        if (prets) prets.textContent = u.nb_prets ?? 0;
+        const emp = document.getElementById('pub-emprunts');
+        if (emp) emp.textContent = u.nb_emprunts ?? 0;
+        const note = document.getElementById('pub-note');
+        if (note) note.textContent = (u.note_moyenne > 0) ? u.note_moyenne.toFixed(1) : '–';
+
+        // Niveau de confiance (on ne sait pas si son email est confirmé côté autre user, on suppose true par défaut s'il est connecté)
+        // Pour le public, on ne peut PAS lire auth.users.email_confirmed_at d'un autre user via le client.
+        // On affiche donc juste les 2 vérifs visibles : identité + téléphone.
+        const idV = !!u.verifie_identite;
+        const telV = !!u.verifie_telephone;
+        const score = (idV ? 1 : 0) + (telV ? 1 : 0);
+        // Note : on affiche /2 publiquement car email pas accessible
+        let color, bg;
+        if (score === 0) { color = '#EF4444'; bg = '#FEE2E2'; }
+        else if (score === 1) { color = '#F59E0B'; bg = '#FEF3C7'; }
+        else { color = 'var(--g)'; bg = '#D1FAE5'; }
+        const tBadge = document.getElementById('pub-trust-badge');
+        if (tBadge) { tBadge.textContent = score + '/2'; tBadge.style.background = bg; tBadge.style.color = color; }
+        const tBar = document.getElementById('pub-trust-bar');
+        if (tBar) { tBar.style.width = ((score / 2) * 100) + '%'; tBar.style.background = color; }
+        const trustRows = document.getElementById('pub-trust-rows');
+        if (trustRows) {
+          const pending = u.statut_verification === 'en_attente';
+          const idLine = idV ? '✓ Identité vérifiée' : (pending ? '⏳ Identité en cours de validation' : '– Identité non vérifiée');
+          const telLine = telV ? '✓ Numéro de téléphone vérifié' : '– Téléphone non vérifié';
+          trustRows.innerHTML = '<div style="padding:4px 0;color:' + (idV ? 'var(--dk)' : 'var(--mu)') + ';">' + idLine + '</div>' +
+            '<div style="padding:4px 0;color:' + (telV ? 'var(--dk)' : 'var(--mu)') + ';">' + telLine + '</div>';
+        }
+
+        // Charger ses objets
+        const grid = document.getElementById('pub-objects-grid');
+        const empty = document.getElementById('pub-objects-empty');
+        const { data: objs, error: oErr } = await sb.from('objects')
+          .select('*')
+          .eq('user_id', userId)
+          .eq('disponible', true)
+          .order('created_at', { ascending: false });
+        if (oErr) console.error('pub objects error:', oErr);
+
+        if (grid) {
+          if (!objs || objs.length === 0) {
+            grid.innerHTML = '<div id="pub-objects-empty" style="grid-column:1/-1;text-align:center;padding:24px 16px;color:var(--mu);font-size:13px;">Aucun objet publié.</div>';
+          } else {
+            grid.innerHTML = objs.map(o => {
+              const c = (typeof CAT_ICONS !== 'undefined' && CAT_ICONS[o.categorie]) ? CAT_ICONS[o.categorie] : { bg: '#E1F5EE', ico: '📦' };
+              const photo = (o.photos && o.photos[0])
+                ? '<img src="' + o.photos[0] + '" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="' + (o.titre || '') + '"/>'
+                : '<span aria-hidden="true">' + c.ico + '</span>';
+              return '<div class="bcard" role="button" tabindex="0" onclick="openObjectFiche(\'' + o.id + '\')">' +
+                '<div class="bimg" style="background:' + c.bg + ';">' + photo +
+                '<div class="bpts">' + (o.pts_par_jour || 0) + ' pts</div></div>' +
+                '<div class="binfo"><div class="bname">' + (o.titre || 'Objet') + '</div>' +
+                '<div class="bowner">' + (o.ville || 'France') + '</div></div></div>';
+            }).join('');
+          }
+        }
+
+        // Charger ses avis reçus
+        const avisList = document.getElementById('pub-avis-list');
+        const { data: avis, error: aErr } = await sb.from('reviews')
+          .select('*, auteur:auteur_id(prenom, nom, avatar_url)')
+          .eq('destinataire_id', userId)
+          .order('created_at', { ascending: false })
+          .limit(10);
+        if (aErr) console.error('pub avis error:', aErr);
+        if (avisList) {
+          if (!avis || avis.length === 0) {
+            avisList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mu);">Aucun avis pour l\'instant.</div>';
+          } else {
+            avisList.innerHTML = avis.map(a => {
+              const author = a.auteur || {};
+              const authName = (author.prenom || 'Membre') + ' ' + (author.nom?.[0] ? author.nom[0] + '.' : '');
+              const stars = '★'.repeat(a.note || 0) + '☆'.repeat(Math.max(0, 5 - (a.note || 0)));
+              return '<div style="padding:12px;background:#f7f7f4;border-radius:12px;margin-bottom:8px;">' +
+                '<div style="display:flex;justify-content:space-between;margin-bottom:6px;">' +
+                '<div style="font-weight:500;color:var(--dk);font-size:13px;">' + authName + '</div>' +
+                '<div style="color:#F59E0B;font-size:13px;">' + stars + '</div>' +
+                '</div>' +
+                '<div style="font-size:13px;color:var(--dk);line-height:1.5;">' + (a.commentaire || '').replace(/</g,'&lt;') + '</div>' +
+                '</div>';
+            }).join('');
+          }
+        }
+
+        setTab('pubprofile');
+      } catch (err) {
+        console.error('openPublicProfile error:', err);
+        alert('Impossible de charger ce profil.');
+      }
+    }
+
+    function closePublicProfile() {
+      setTab(window.viewingProfileSource || 'home');
+    }
+
+    async function contactFromPublic() {
+      const userId = window.viewingProfileUserId;
+      if (!userId) return;
+      openChat(userId);
+    }
+
     async function openObjectFiche(objectId) {
       if (!sb || !objectId) return;
       try {
@@ -5999,9 +6353,21 @@
         // Charger l'autre utilisateur
         const { data: other } = await sb.from('users').select('id, prenom, nom, avatar_url').eq('id', otherUserId).single();
 
-        // Mettre à jour le header du chat
-        const chatTitle = document.querySelector('#as-chat .cttl, #as-chat h2, #as-chat .cuname');
-        if (chatTitle && other) chatTitle.textContent = (other.prenom || 'Membre') + ' ' + (other.nom?.[0] ? other.nom[0] + '.' : '');
+        // Header du chat (nom + avatar)
+        const chatName = document.getElementById('chat-name');
+        if (chatName && other) chatName.textContent = (other.prenom || 'Membre') + ' ' + (other.nom?.[0] ? other.nom[0] + '.' : '');
+        const chatAvatar = document.getElementById('chat-avatar');
+        if (chatAvatar && other) {
+          if (other.avatar_url) {
+            chatAvatar.style.backgroundImage = "url('" + other.avatar_url + "')";
+            chatAvatar.style.backgroundSize = 'cover';
+            chatAvatar.style.backgroundPosition = 'center';
+            chatAvatar.textContent = '';
+          } else {
+            chatAvatar.style.backgroundImage = '';
+            chatAvatar.textContent = (other.prenom?.[0] || '?') + (other.nom?.[0] || '');
+          }
+        }
 
         // Charger les messages
         const { data: msgs, error } = await sb.from('messages')
@@ -6311,10 +6677,6 @@
       const welcome = document.getElementById('home-welcome');
       if (welcome) welcome.textContent = 'Bienvenue ' + (profile.prenom || '') + ' ! 👋';
 
-      // Niveau dans la bannière accueil (monte avec les points reçus)
-      const lvlBanner = document.getElementById('home-level-banner');
-      if (lvlBanner) lvlBanner.textContent = computeLevel(profile.points ?? 50);
-
       // Points partout
       const ppill = document.getElementById('ppill-points');
       if (ppill) ppill.textContent = (profile.points ?? 50) + ' pts';
@@ -6323,41 +6685,99 @@
       const wcbar = document.querySelector('.wcbar');
       if (wcbar) wcbar.style.width = Math.min((profile.points ?? 50), 100) + '%';
 
-      // Vérifications
-      const telIco = document.getElementById('trust-tel-ico');
-      const telLbl = document.getElementById('trust-tel-lbl');
-      const telBtn = document.getElementById('trust-tel-btn');
-      if (telIco && telLbl && telBtn) {
-        if (profile.verifie_telephone) {
-          telIco.textContent = '✓'; telIco.style.background = 'var(--g)'; telIco.style.color = 'white';
-          telLbl.style.color = ''; telBtn.style.display = 'none';
-        } else {
-          telIco.textContent = '–'; telIco.style.background = 'white'; telIco.style.color = 'var(--mu)';
-          telLbl.style.color = 'var(--mu)'; telBtn.style.display = 'inline-block';
-        }
-      }
-      const idIco = document.getElementById('trust-id-ico');
-      const idLbl = document.getElementById('trust-id-lbl');
-      const idBtn = document.getElementById('trust-id-btn');
-      if (idIco && idLbl && idBtn) {
-        if (profile.verifie_identite) {
-          idIco.textContent = '✓'; idIco.style.background = 'var(--g)'; idIco.style.color = 'white';
-          idLbl.style.color = ''; idBtn.style.display = 'none';
-        } else if (profile.statut_verification === 'en_attente') {
-          idIco.textContent = '⏳'; idIco.style.background = '#FEF3C7'; idIco.style.color = '#92400E';
-          idLbl.textContent = "Pièce d'identité — En cours";
-          idLbl.style.color = 'var(--mu)'; idBtn.style.display = 'none';
-        } else {
-          idIco.textContent = '–'; idIco.style.background = 'white'; idIco.style.color = 'var(--mu)';
-          idLbl.style.color = 'var(--mu)'; idBtn.style.display = 'inline-block';
-        }
-      }
+      // Vérifications graduées 0/3 → 3/3
+      updateTrustUI(profile);
 
       window.currentProfile = profile;
 
       // Charger objets après update
       if (typeof loadHomeObjects === 'function') loadHomeObjects();
       if (typeof loadMyObjects === 'function') loadMyObjects();
+    }
+
+    /* --- Mettre à jour la jauge de confiance 0/3 → 3/3 --- */
+    async function updateTrustUI(profile) {
+      if (!profile) return;
+      // Email vérifié = depuis Supabase Auth (auth.users.email_confirmed_at)
+      let emailVerified = false;
+      try {
+        const { data: { user } } = await sb.auth.getUser();
+        emailVerified = !!(user?.email_confirmed_at || user?.confirmed_at);
+      } catch (e) { /* silent */ }
+
+      const idVerified = !!profile.verifie_identite;
+      const telVerified = !!profile.verifie_telephone;
+      const idPending = profile.statut_verification === 'en_attente';
+
+      // Score
+      const score = (emailVerified ? 1 : 0) + (idVerified ? 1 : 0) + (telVerified ? 1 : 0);
+
+      // Couleur (rouge 0, orange 1, vert 2+)
+      let color, bg;
+      if (score === 0) { color = '#EF4444'; bg = '#FEE2E2'; }
+      else if (score === 1) { color = '#F59E0B'; bg = '#FEF3C7'; }
+      else { color = 'var(--g)'; bg = '#D1FAE5'; }
+
+      // Badge "x/3"
+      const badge = document.getElementById('trust-badge');
+      if (badge) {
+        badge.textContent = score + '/3';
+        badge.style.background = bg;
+        badge.style.color = color;
+      }
+      // Barre de progression
+      const bar = document.getElementById('trust-bar');
+      if (bar) {
+        bar.style.width = ((score / 3) * 100) + '%';
+        bar.style.background = color;
+      }
+
+      // Ligne Email
+      setTrustRow('trust-email', emailVerified, false, 'Email confirmé');
+      // Ligne Identité (avec état "en attente" possible)
+      setTrustRow('trust-id', idVerified, idPending, "Pièce d'identité");
+      // Ligne Téléphone
+      setTrustRow('trust-tel', telVerified, false, 'Numéro de téléphone');
+    }
+
+    function setTrustRow(prefix, verified, pending, defaultLbl) {
+      const ico = document.getElementById(prefix + '-ico');
+      const lbl = document.getElementById(prefix + '-lbl');
+      const btn = document.getElementById(prefix + '-btn');
+      if (!ico || !lbl) return;
+      if (verified) {
+        ico.textContent = '✓';
+        ico.style.background = 'var(--g)'; ico.style.color = 'white'; ico.style.border = '0';
+        lbl.textContent = defaultLbl;
+        lbl.style.color = '';
+        if (btn) btn.style.display = 'none';
+      } else if (pending) {
+        ico.textContent = '⏳';
+        ico.style.background = '#FEF3C7'; ico.style.color = '#92400E'; ico.style.border = '0';
+        lbl.textContent = defaultLbl + ' — En cours de validation';
+        lbl.style.color = 'var(--mu)';
+        if (btn) btn.style.display = 'none';
+      } else {
+        ico.textContent = '–';
+        ico.style.background = 'white'; ico.style.color = 'var(--mu)'; ico.style.border = '1px solid rgba(8,80,65,0.2)';
+        lbl.textContent = defaultLbl;
+        lbl.style.color = 'var(--mu)';
+        if (btn) btn.style.display = 'inline-block';
+      }
+    }
+
+    /* --- Renvoyer l'email de confirmation --- */
+    async function resendConfirmEmail() {
+      try {
+        const { data: { user } } = await sb.auth.getUser();
+        if (!user?.email) { alert('Tu dois être connecté.'); return; }
+        const { error } = await sb.auth.resend({ type: 'signup', email: user.email });
+        if (error) throw error;
+        alert('✅ Email de confirmation renvoyé à ' + user.email + ' !');
+      } catch (e) {
+        console.error('resendConfirmEmail error:', e);
+        alert('Erreur : ' + (e.message || e));
+      }
     }
 
     /* ---------- INIT au chargement ---------- */
