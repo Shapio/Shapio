@@ -3930,9 +3930,15 @@
             <label for="su-email">Email</label>
             <input type="email" id="su-email" name="email" placeholder="thomas@email.com" autocomplete="email" required />
           </div>
-          <div class="fl">
-            <label for="su-ville">Ville</label>
-            <input type="text" id="su-ville" name="city" placeholder="Lille" autocomplete="address-level2" required />
+          <div class="fl" style="display:grid;grid-template-columns:1fr 2fr;gap:8px;">
+            <div>
+              <label for="su-cp">Code postal</label>
+              <input type="text" id="su-cp" name="postal-code" placeholder="59000" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="off" required />
+            </div>
+            <div>
+              <label for="su-ville">Ville</label>
+              <input type="text" id="su-ville" name="city" placeholder="Ex : Lens, Lille…" autocomplete="off" required />
+            </div>
           </div>
           <div class="form-error" id="s1-error" role="alert" aria-live="polite"></div>
           <button class="obtn" type="submit">Continuer →</button>
@@ -4095,10 +4101,6 @@
           <div style="font-size:13px;color:var(--mu);line-height:1.5;">Emprunte ce dont tu as besoin. Une communauté locale, sans argent, juste des points.</div>
         </div>
 
-        <!-- Bouton flottant mode swipe -->
-        <button type="button" id="home-swipe-fab" onclick="setTab('swipe');setSwipeMode('swipe')" aria-label="Activer le mode swipe" style="position:fixed;bottom:84px;right:18px;z-index:50;display:flex;align-items:center;gap:8px;padding:12px 18px;border:0;border-radius:100px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(8,80,65,0.35);cursor:pointer;">
-          <span style="font-size:16px;">🔥</span> Mode swipe
-        </button>
       </div>
 
       <!-- SWIPE / EXPLORER -->
@@ -4146,7 +4148,11 @@
           </div>
         </div>
         <div id="members-mode" style="display:none;padding:0 18px;">
-          <div style="font-size:11px;color:var(--mu);padding:4px 0 8px;" id="members-count">– membre</div>
+          <div style="position:relative;margin:4px 0 12px;">
+            <input type="text" id="members-search" placeholder="Rechercher un membre par nom…" autocomplete="off" oninput="loadMembers()" style="width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(8,80,65,0.12);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;background:#f7f7f4;box-sizing:border-box;" />
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--mu);" aria-hidden="true">🔍</span>
+          </div>
+          <div style="font-size:11px;color:var(--mu);padding:0 0 8px;" id="members-count">– membre</div>
           <div id="members-list" style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;">
             <div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
           </div>
@@ -4339,6 +4345,39 @@
         </div>
       </div>
 
+      <!-- MESSAGE OFFICIEL SHAPIO (informatif, pas de réponse) -->
+      <div class="ascreen" id="as-shapio">
+        <div style="display:flex;flex-direction:column;height:100%;">
+          <div class="chat-hdr">
+            <button class="cback" type="button" aria-label="Retour aux messages" onclick="setTab('msgs')">←</button>
+            <div class="chatav" style="background:linear-gradient(135deg,#085041,#1D9E75);color:white;font-family:'DM Serif Display',serif;display:flex;align-items:center;justify-content:center;">S</div>
+            <div class="chatname" style="display:flex;align-items:center;gap:5px;">Shapio <span style="background:var(--g);color:white;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span></div>
+          </div>
+          <div class="chatmsgs" style="flex:1;overflow-y:auto;">
+            <div style="background:#f7f7f4;border-radius:14px;padding:16px;margin:6px 0;line-height:1.6;font-size:14px;color:var(--dk);">
+              <div style="font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:10px;">👋 Bienvenue sur Shapio !</div>
+              <p style="margin:0 0 12px;">Shapio, c'est le prêt d'objets entre voisins, sans argent. On utilise un système de <strong>points</strong> pour s'échanger des services en toute confiance.</p>
+              <div style="font-weight:600;margin:14px 0 8px;color:var(--g);">📌 Quelques règles à connaître</div>
+              <ul style="margin:0 0 12px;padding-left:18px;">
+                <li style="margin-bottom:6px;">Tu démarres avec <strong>50 points</strong> offerts.</li>
+                <li style="margin-bottom:6px;">Quand tu empruntes, tes points sont <strong>bloqués</strong> le temps du prêt, puis transférés au prêteur au retour de l'objet.</li>
+                <li style="margin-bottom:6px;">Quand tu prêtes, tu <strong>gagnes des points</strong> que tu pourras utiliser à ton tour.</li>
+                <li style="margin-bottom:6px;">Prends soin des objets empruntés et rends-les <strong>à temps</strong> et en bon état.</li>
+                <li style="margin-bottom:6px;">Sois <strong>respectueux et courtois</strong> dans tes échanges. La communauté repose sur la confiance.</li>
+                <li style="margin-bottom:6px;">Après chaque prêt, laisse un <strong>avis</strong> : ça aide tout le monde.</li>
+              </ul>
+              <div style="font-weight:600;margin:14px 0 8px;color:var(--g);">🛡️ Sécurité</div>
+              <p style="margin:0 0 12px;">Vérifie ton identité et ton numéro de téléphone depuis ton profil pour gagner la confiance des autres membres et accéder à plus de fonctionnalités.</p>
+              <p style="margin:12px 0 0;">Une question ? Contacte-nous à <strong>contact@shapio.fr</strong></p>
+              <p style="margin:8px 0 0;">Bon partage ! 🌻<br>— L'équipe Shapio</p>
+            </div>
+          </div>
+          <div style="padding:14px 18px;text-align:center;font-size:12px;color:var(--mu);background:#f7f7f4;border-top:1px solid #f0f0ed;">
+            🔒 Ce message est informatif. Les réponses ne sont pas suivies.
+          </div>
+        </div>
+      </div>
+
             <!-- WALLET -->
       <div class="ascreen" id="as-wallet">
         <div style="padding:18px;">
@@ -4414,7 +4453,7 @@
           </div>
           <div class="psub" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);margin-bottom:18px;">
             <span>📍</span>
-            <span id="profile-ville">Lille</span>
+            <span id="profile-ville">–</span>
             <span>·</span>
             <span id="profile-since">Membre depuis 2026</span>
           </div>
@@ -4470,7 +4509,7 @@
                 <div class="ptrow" id="trust-tel-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
                   <div class="ptico" id="trust-tel-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
                   <div class="ptlbl" id="trust-tel-lbl" style="flex:1;font-size:13px;color:var(--mu);">Numéro de téléphone</div>
-                  <button type="button" id="trust-tel-btn" onclick="alert('Vérification téléphone disponible bientôt 🌻')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Ajouter</button>
+                  <button type="button" id="trust-tel-btn" onclick="verifierTelephone()" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Vérifier</button>
                 </div>
               </div>
             </div>
@@ -4700,6 +4739,10 @@
       window.scrollTo(0, 0);
       // Update aria pour landing nav
       closeNav();
+      // Démarrer les notifications dès qu'on entre dans l'app
+      if (id === 'p-app' && typeof startNotificationPolling === 'function') {
+        startNotificationPolling();
+      }
     }
 
     function setTab(tab) {
@@ -4711,9 +4754,13 @@
       }
       if (tab === 'home' && typeof loadHomeObjects === 'function') loadHomeObjects();
       if (tab === 'msgs' && typeof loadMessages === 'function') loadMessages();
-      if (tab === 'notif') {
+      if (tab === 'notif' || tab === 'msgs' || tab === 'chat') {
         const dot = document.getElementById('notif-dot');
         if (dot) dot.classList.add('hidden');
+        // On considère tous les messages actuels comme "vus"
+        if (window.lastSeenMessageCount !== undefined) {
+          window.lastSeenMessageCount = window.knownMessageCount || window.lastSeenMessageCount;
+        }
       }
 
       document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
@@ -4726,6 +4773,7 @@
         swipe: 'as-swipe',
         msgs: 'as-msgs',
         chat: 'as-chat',
+        shapio: 'as-shapio',
         wallet: 'as-wallet',
         profil: 'as-profil',
         fiche: 'as-fiche',
@@ -4747,12 +4795,10 @@
         navItem.classList.add('active');
         navItem.setAttribute('aria-current', 'page');
       }
-      if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif' && tab !== 'pubprofile') {
+      if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif' && tab !== 'pubprofile' && tab !== 'shapio') {
         prevTab = tab;
       }
       // Bouton swipe flottant : visible seulement sur l'accueil
-      const fab = document.getElementById('home-swipe-fab');
-      if (fab) fab.style.display = (tab === 'home') ? 'flex' : 'none';
       window.scrollTo(0, 0);
     }
 
@@ -4827,14 +4873,18 @@
       const prenom = document.getElementById('su-prenom').value.trim();
       const nom = document.getElementById('su-nom').value.trim();
       const email = document.getElementById('su-email').value.trim();
+      const cp = document.getElementById('su-cp').value.trim();
       const ville = document.getElementById('su-ville').value.trim();
+      console.log('[DEBUG inscription] Ville:', JSON.stringify(ville), '| CP:', JSON.stringify(cp));
       if (!prenom || prenom.length < 2) { showError('s1-error', 'Prénom requis (min. 2 caractères).'); return; }
       if (!nom || nom.length < 2) { showError('s1-error', 'Nom requis (min. 2 caractères).'); return; }
       if (!email || !isValidEmail(email)) { showError('s1-error', 'Email invalide.'); return; }
+      if (!cp || !/^[0-9]{5}$/.test(cp)) { showError('s1-error', 'Code postal invalide (5 chiffres).'); return; }
       if (!ville || ville.length < 2) { showError('s1-error', 'Ville requise.'); return; }
       sessionStorage.setItem('signup_prenom', prenom);
       sessionStorage.setItem('signup_nom', nom);
       sessionStorage.setItem('signup_email', email);
+      sessionStorage.setItem('signup_cp', cp);
       sessionStorage.setItem('signup_ville', ville);
       go('p-s2');
     }
@@ -4852,6 +4902,7 @@
       const prenom = sessionStorage.getItem('signup_prenom') || '';
       const nom = sessionStorage.getItem('signup_nom') || '';
       const email = sessionStorage.getItem('signup_email') || '';
+      const cp = sessionStorage.getItem('signup_cp') || '';
       const ville = sessionStorage.getItem('signup_ville') || '';
 
       try {
@@ -4864,13 +4915,17 @@
 
         // Créer le profil dans users
         const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
-        await sb.from('users').insert({
+        const { error: insertErr } = await sb.from('users').insert({
           auth_id: authData.user.id,
-          prenom, nom, pseudo, email, ville,
+          prenom, nom, pseudo, email, ville, code_postal: cp,
           points: 50,
           verifie_telephone: false,
           statut_verification: 'non_demande'
         });
+        if (insertErr) {
+          console.error('users INSERT error:', insertErr);
+          // On laisse continuer : profil recréé au 1er login si besoin
+        }
 
         // Afficher l'email dans l'étape 3
         const display = document.getElementById('s3-email-display');
@@ -4979,13 +5034,49 @@
     }
 
     /* --- Récupérer ou recharger le profil utilisateur connecté --- */
+    /* --- Message d'attente pour la vérification téléphone --- */
+    function verifierTelephone() {
+      alert(
+        "Cette fonctionnalité n'est pas encore disponible.\n\n" +
+        "En attendant, merci d'envoyer un message au 06 65 10 69 20 en indiquant les informations suivantes afin de pouvoir valider votre compte :\n\n" +
+        "• Shapio\n" +
+        "• Nom & Prénom\n" +
+        "• Adresse e-mail du compte"
+      );
+    }
+
     async function getCurrentProfile() {
       if (!sb) return null;
       if (window.currentProfile) return window.currentProfile;
       try {
         const { data: { session } } = await sb.auth.getSession();
         if (!session?.user) return null;
-        const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+        let { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+
+        // Si pas de profil (INSERT à l'inscription a échoué), on le crée maintenant
+        if (!profile) {
+          console.warn('Profil manquant → création de secours');
+          const u = session.user;
+          const meta = u.user_metadata || {};
+          const villeFromSignup = sessionStorage.getItem('signup_ville') || '';
+          const cpFromSignup = sessionStorage.getItem('signup_cp') || '';
+          const prenom = meta.prenom || sessionStorage.getItem('signup_prenom') || (u.email?.split('@')[0] || 'Membre');
+          const nom = meta.nom || sessionStorage.getItem('signup_nom') || '';
+          const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
+          const { data: newProfile, error: insertErr } = await sb.from('users').insert({
+            auth_id: u.id,
+            prenom, nom, pseudo,
+            email: u.email,
+            ville: villeFromSignup,
+            code_postal: cpFromSignup,
+            points: 50,
+            verifie_telephone: false,
+            statut_verification: 'non_demande'
+          }).select().single();
+          if (insertErr) console.error('Création de secours échouée:', insertErr);
+          else profile = newProfile;
+        }
+
         if (profile) {
           window.currentProfile = profile;
           updateProfileUI(profile);
@@ -5099,9 +5190,9 @@
         if (error) throw error;
 
         if (userData.user.email_confirmed_at || userData.user.confirmed_at) {
-          // Email confirmé : créer la session, mettre à jour le profil et continuer
+          // Email confirmé : entrer directement dans l'app (plus d'étape selfie/ID)
           await getCurrentProfile();
-          go('p-s4');
+          go('p-app');
         } else {
           showError('s3-error', '⚠️ Email pas encore confirmé. Clique sur le lien dans ton email avant de continuer.');
           btn.textContent = 'J\'ai confirmé mon email →'; btn.disabled = false;
@@ -5970,12 +6061,13 @@
       if (!listEl) return;
 
       const me = await getCurrentProfile();
-      const search = (document.getElementById('explorer-search')?.value || '').toLowerCase().trim();
+      // Barre de recherche dédiée à l'onglet Membres (fallback sur explorer-search)
+      const search = (document.getElementById('members-search')?.value || document.getElementById('explorer-search')?.value || '').toLowerCase().trim();
       const cityFilter = (document.getElementById('explorer-city')?.value || '').toLowerCase().trim();
 
       try {
         const { data: users, error } = await sb.from('users')
-          .select('id, prenom, nom, ville, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
+          .select('id, prenom, nom, ville, code_postal, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
           .order('created_at', { ascending: false });
         if (error) throw error;
 
@@ -6045,7 +6137,7 @@
                 '<div style="font-weight:500;color:var(--dk);font-size:14px;">' + name + '</div>' +
                 (idV ? '<span style="background:var(--g);color:white;border-radius:50%;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span>' : '') +
               '</div>' +
-              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville || 'France') + ' · ' + sinceTxt + '</div>' +
+              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville ? ((u.code_postal ? u.code_postal + ' ' : '') + u.ville) : 'France') + ' · ' + sinceTxt + '</div>' +
               '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;">' +
                 '<span style="background:' + tBg + ';color:' + tColor + ';padding:2px 8px;border-radius:100px;font-weight:600;">' + score + '/2 confiance</span>' +
                 '<span style="color:var(--mu);">' + note + '</span>' +
@@ -6140,7 +6232,7 @@
       try {
         // Charger l'utilisateur (toutes ses infos publiques)
         const { data: u, error } = await sb.from('users')
-          .select('id, prenom, nom, ville, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, created_at')
+          .select('id, prenom, nom, ville, code_postal, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, created_at')
           .eq('id', userId)
           .single();
         if (error) throw error;
@@ -6169,7 +6261,10 @@
         const name = document.getElementById('pub-name');
         if (name) name.textContent = (u.prenom || 'Membre') + ' ' + (u.nom?.[0] ? u.nom[0] + '.' : '');
         const ville = document.getElementById('pub-ville');
-        if (ville) ville.textContent = '📍 ' + (u.ville || 'France');
+        if (ville) {
+          const cp = u.code_postal ? u.code_postal + ' ' : '';
+          ville.textContent = '📍 ' + (u.ville ? (cp + u.ville) : 'France');
+        }
         const since = document.getElementById('pub-since');
         if (since && u.created_at) {
           const d = new Date(u.created_at);
@@ -6364,6 +6459,24 @@
     }
 
     /* --- Charger la liste des conversations (Messages) --- */
+    // Carte de bienvenue Shapio (toujours en haut de la liste)
+    function shapioWelcomeCard() {
+      return '<div role="button" tabindex="0" onclick="openShapioWelcome()" ' +
+        'style="display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:6px;border-radius:14px;background:linear-gradient(135deg,rgba(8,80,65,0.06),rgba(29,158,117,0.06));border:1px solid rgba(8,80,65,0.1);cursor:pointer;">' +
+        '<div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#085041,#1D9E75);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:\'DM Serif Display\',serif;color:white;font-size:22px;">S</div>' +
+        '<div style="flex:1;min-width:0;">' +
+          '<div style="font-weight:600;color:var(--dk);font-size:14px;margin-bottom:2px;display:flex;align-items:center;gap:5px;">Shapio <span style="background:var(--g);color:white;border-radius:50%;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span></div>' +
+          '<div style="font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">👋 Bienvenue sur Shapio ! Quelques règles à connaître…</div>' +
+        '</div>' +
+        '<span style="color:var(--mu);">›</span>' +
+        '</div>';
+    }
+
+    /* --- Ouvrir le message officiel Shapio (informatif) --- */
+    function openShapioWelcome() {
+      setTab('shapio');
+    }
+
     async function loadMessages() {
       if (!sb) return;
       const listEl = document.getElementById('msgs-list');
@@ -6380,7 +6493,8 @@
         if (error) throw error;
 
         if (!msgs || msgs.length === 0) {
-          listEl.innerHTML = '<div style="padding:60px 24px;text-align:center;color:var(--mu);">' +
+          listEl.innerHTML = shapioWelcomeCard() +
+            '<div style="padding:40px 24px 60px;text-align:center;color:var(--mu);">' +
             '<div style="font-size:40px;margin-bottom:12px;">💬</div>' +
             '<div style="font-size:14px;color:var(--dk);margin-bottom:4px;font-weight:500;">Aucun message pour l\'instant</div>' +
             '<div style="font-size:13px;line-height:1.5;">Quand tu contacteras un voisin pour emprunter un objet, vos échanges apparaîtront ici.</div>' +
@@ -6423,7 +6537,7 @@
             '</div>';
         }).join('');
 
-        listEl.innerHTML = items;
+        listEl.innerHTML = shapioWelcomeCard() + items;
       } catch (err) {
         console.error('loadMessages error:', err);
         listEl.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
@@ -6898,9 +7012,12 @@
       const badgeFloat = document.getElementById('profile-badge-floating');
       if (badgeFloat) badgeFloat.style.display = profile.verifie_identite ? 'flex' : 'none';
 
-      // Ville + date
+      // Ville + code postal + date
       const ville = document.getElementById('profile-ville');
-      if (ville) ville.textContent = profile.ville || '–';
+      if (ville) {
+        const cp = profile.code_postal ? profile.code_postal + ' ' : '';
+        ville.textContent = profile.ville ? (cp + profile.ville) : '–';
+      }
       const since = document.getElementById('profile-since');
       if (since && profile.created_at) {
         const d = new Date(profile.created_at);
@@ -7026,6 +7143,87 @@
     }
 
     /* ---------- INIT au chargement ---------- */
+    /* ============================================
+       NOTIFICATIONS : nouveaux messages reçus
+       (son + pastille rouge sur la cloche)
+       ============================================ */
+    window.knownMessageCount = 0;
+    window.lastSeenMessageCount = 0;
+    let notifPollingTimer = null;
+
+    // Petit son de notification (généré, pas de fichier externe)
+    function playNotifSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+        // Deux notes douces (ding-dong)
+        [880, 1108].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          const start = now + i * 0.12;
+          gain.gain.setValueAtTime(0, start);
+          gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, start + 0.28);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(start);
+          osc.stop(start + 0.3);
+        });
+        // Fermer le contexte après usage
+        setTimeout(() => { try { ctx.close(); } catch (e) {} }, 800);
+      } catch (e) { /* silencieux si le navigateur bloque */ }
+    }
+
+    async function checkNewMessages() {
+      if (!sb) return;
+      try {
+        const me = await getCurrentProfile();
+        if (!me) return;
+        // Compter les messages que j'ai REÇUS
+        const { count, error } = await sb.from('messages')
+          .select('id', { count: 'exact', head: true })
+          .eq('destinataire_id', me.id);
+        if (error) return;
+        const total = count || 0;
+
+        // Première mesure : on initialise sans alerter
+        if (window.knownMessageCount === 0 && window.lastSeenMessageCount === 0) {
+          window.knownMessageCount = total;
+          window.lastSeenMessageCount = total;
+          return;
+        }
+
+        window.knownMessageCount = total;
+
+        // Si on a plus de messages reçus que ce qu'on a "vu" → notifier
+        const activeScreen = document.querySelector('.ascreen.active')?.id;
+        const onMessages = (activeScreen === 'as-msgs' || activeScreen === 'as-chat');
+
+        if (total > window.lastSeenMessageCount && !onMessages) {
+          const dot = document.getElementById('notif-dot');
+          if (dot) dot.classList.remove('hidden');
+          playNotifSound();
+        }
+        // Si on est sur les messages, on considère tout comme vu
+        if (onMessages) {
+          window.lastSeenMessageCount = total;
+        }
+      } catch (e) {
+        console.error('checkNewMessages error:', e);
+      }
+    }
+
+    function startNotificationPolling() {
+      if (notifPollingTimer) return; // déjà démarré
+      // Première vérification après 2s, puis toutes les 15s
+      setTimeout(checkNewMessages, 2000);
+      notifPollingTimer = setInterval(checkNewMessages, 15000);
+    }
+
     document.addEventListener('DOMContentLoaded', async () => {
       // Détecter si l'utilisateur arrive depuis un lien de reset password
       const hash = window.location.hash;
@@ -7035,7 +7233,7 @@
       }
       // Détecter si l'utilisateur arrive depuis un lien de confirmation email
       if (hash && hash.includes('type=signup')) {
-        go('p-s4');
+        go('p-app');
         return;
       }
 
@@ -7049,6 +7247,7 @@
           // Restaurer la session : aller directement dans l'app
           go('p-app');
           if (typeof loadHomeObjects === 'function') loadHomeObjects();
+          startNotificationPolling();
         }
       }
       // Fermer menu mobile en cliquant dehors
