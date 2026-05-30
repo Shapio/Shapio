@@ -2269,6 +2269,7 @@
     .chatmsgs {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 14px;
       display: flex;
       flex-direction: column;
@@ -2281,6 +2282,9 @@
       border-radius: 16px;
       font-size: 13px;
       line-height: 1.45;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      white-space: pre-wrap;
     }
 
     .min {
@@ -6608,7 +6612,7 @@
       }
 
       // Message texte normal
-      return '<div' + (isMine ? ' style="align-self:flex-end"' : '') + '>' +
+      return '<div style="max-width:100%;display:flex;flex-direction:column;' + (isMine ? 'align-items:flex-end;' : 'align-items:flex-start;') + '">' +
         '<div class="mb ' + (isMine ? 'mout' : 'min') + '">' + content.replace(/</g, '&lt;') + '</div>' +
         '<div class="mt' + (isMine ? ' r' : '') + '">' + time + '</div>' +
         '</div>';
@@ -7149,6 +7153,7 @@
        ============================================ */
     window.knownMessageCount = 0;
     window.lastSeenMessageCount = 0;
+    window.notifInitialized = false;
     let notifPollingTimer = null;
 
     // Petit son de notification (généré, pas de fichier externe)
@@ -7173,7 +7178,6 @@
           osc.start(start);
           osc.stop(start + 0.3);
         });
-        // Fermer le contexte après usage
         setTimeout(() => { try { ctx.close(); } catch (e) {} }, 800);
       } catch (e) { /* silencieux si le navigateur bloque */ }
     }
@@ -7187,28 +7191,30 @@
         const { count, error } = await sb.from('messages')
           .select('id', { count: 'exact', head: true })
           .eq('destinataire_id', me.id);
-        if (error) return;
+        if (error) { console.warn('[notif] erreur count:', error); return; }
         const total = count || 0;
+        console.log('[notif] messages reçus =', total, '| vus =', window.lastSeenMessageCount, '| init =', window.notifInitialized);
 
-        // Première mesure : on initialise sans alerter
-        if (window.knownMessageCount === 0 && window.lastSeenMessageCount === 0) {
+        const activeScreen = document.querySelector('.ascreen.active')?.id;
+        const onMessages = (activeScreen === 'as-msgs' || activeScreen === 'as-chat');
+
+        // Première mesure : on initialise le compteur de référence sans alerter
+        if (!window.notifInitialized) {
+          window.notifInitialized = true;
           window.knownMessageCount = total;
-          window.lastSeenMessageCount = total;
+          window.lastSeenMessageCount = onMessages ? total : total; // référence = état actuel
           return;
         }
 
         window.knownMessageCount = total;
 
-        // Si on a plus de messages reçus que ce qu'on a "vu" → notifier
-        const activeScreen = document.querySelector('.ascreen.active')?.id;
-        const onMessages = (activeScreen === 'as-msgs' || activeScreen === 'as-chat');
-
+        // Nouveau(x) message(s) reçu(s) → notifier (sauf si on est déjà dans les messages)
         if (total > window.lastSeenMessageCount && !onMessages) {
           const dot = document.getElementById('notif-dot');
           if (dot) dot.classList.remove('hidden');
           playNotifSound();
         }
-        // Si on est sur les messages, on considère tout comme vu
+        // Si on est sur l'écran messages, tout est considéré comme vu
         if (onMessages) {
           window.lastSeenMessageCount = total;
         }
@@ -7219,9 +7225,9 @@
 
     function startNotificationPolling() {
       if (notifPollingTimer) return; // déjà démarré
-      // Première vérification après 2s, puis toutes les 15s
-      setTimeout(checkNewMessages, 2000);
-      notifPollingTimer = setInterval(checkNewMessages, 15000);
+      // Première vérification après 1.5s, puis toutes les 8s
+      setTimeout(checkNewMessages, 1500);
+      notifPollingTimer = setInterval(checkNewMessages, 8000);
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
