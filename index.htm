@@ -2269,6 +2269,7 @@
     .chatmsgs {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 14px;
       display: flex;
       flex-direction: column;
@@ -2281,6 +2282,9 @@
       border-radius: 16px;
       font-size: 13px;
       line-height: 1.45;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      white-space: pre-wrap;
     }
 
     .min {
@@ -3930,9 +3934,15 @@
             <label for="su-email">Email</label>
             <input type="email" id="su-email" name="email" placeholder="thomas@email.com" autocomplete="email" required />
           </div>
-          <div class="fl">
-            <label for="su-ville">Ville</label>
-            <input type="text" id="su-ville" name="city" placeholder="Lille" autocomplete="address-level2" required />
+          <div class="fl" style="display:grid;grid-template-columns:1fr 2fr;gap:8px;">
+            <div>
+              <label for="su-cp">Code postal</label>
+              <input type="text" id="su-cp" name="postal-code" placeholder="59000" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="off" required />
+            </div>
+            <div>
+              <label for="su-ville">Ville</label>
+              <input type="text" id="su-ville" name="city" placeholder="Ex : Lens, Lille…" autocomplete="off" required />
+            </div>
           </div>
           <div class="form-error" id="s1-error" role="alert" aria-live="polite"></div>
           <button class="obtn" type="submit">Continuer →</button>
@@ -4095,10 +4105,6 @@
           <div style="font-size:13px;color:var(--mu);line-height:1.5;">Emprunte ce dont tu as besoin. Une communauté locale, sans argent, juste des points.</div>
         </div>
 
-        <!-- Bouton flottant mode swipe -->
-        <button type="button" id="home-swipe-fab" onclick="setTab('swipe');setSwipeMode('swipe')" aria-label="Activer le mode swipe" style="position:fixed;bottom:84px;right:18px;z-index:50;display:flex;align-items:center;gap:8px;padding:12px 18px;border:0;border-radius:100px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;box-shadow:0 6px 20px rgba(8,80,65,0.35);cursor:pointer;">
-          <span style="font-size:16px;">🔥</span> Mode swipe
-        </button>
       </div>
 
       <!-- SWIPE / EXPLORER -->
@@ -4146,7 +4152,11 @@
           </div>
         </div>
         <div id="members-mode" style="display:none;padding:0 18px;">
-          <div style="font-size:11px;color:var(--mu);padding:4px 0 8px;" id="members-count">– membre</div>
+          <div style="position:relative;margin:4px 0 12px;">
+            <input type="text" id="members-search" placeholder="Rechercher un membre par nom…" autocomplete="off" oninput="loadMembers()" style="width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(8,80,65,0.12);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;background:#f7f7f4;box-sizing:border-box;" />
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--mu);" aria-hidden="true">🔍</span>
+          </div>
+          <div style="font-size:11px;color:var(--mu);padding:0 0 8px;" id="members-count">– membre</div>
           <div id="members-list" style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;">
             <div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
           </div>
@@ -4339,6 +4349,39 @@
         </div>
       </div>
 
+      <!-- MESSAGE OFFICIEL SHAPIO (informatif, pas de réponse) -->
+      <div class="ascreen" id="as-shapio">
+        <div style="display:flex;flex-direction:column;height:100%;">
+          <div class="chat-hdr">
+            <button class="cback" type="button" aria-label="Retour aux messages" onclick="setTab('msgs')">←</button>
+            <div class="chatav" style="background:linear-gradient(135deg,#085041,#1D9E75);color:white;font-family:'DM Serif Display',serif;display:flex;align-items:center;justify-content:center;">S</div>
+            <div class="chatname" style="display:flex;align-items:center;gap:5px;">Shapio <span style="background:var(--g);color:white;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span></div>
+          </div>
+          <div class="chatmsgs" style="flex:1;overflow-y:auto;">
+            <div style="background:#f7f7f4;border-radius:14px;padding:16px;margin:6px 0;line-height:1.6;font-size:14px;color:var(--dk);">
+              <div style="font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:10px;">👋 Bienvenue sur Shapio !</div>
+              <p style="margin:0 0 12px;">Shapio, c'est le prêt d'objets entre voisins, sans argent. On utilise un système de <strong>points</strong> pour s'échanger des services en toute confiance.</p>
+              <div style="font-weight:600;margin:14px 0 8px;color:var(--g);">📌 Quelques règles à connaître</div>
+              <ul style="margin:0 0 12px;padding-left:18px;">
+                <li style="margin-bottom:6px;">Tu démarres avec <strong>50 points</strong> offerts.</li>
+                <li style="margin-bottom:6px;">Quand tu empruntes, tes points sont <strong>bloqués</strong> le temps du prêt, puis transférés au prêteur au retour de l'objet.</li>
+                <li style="margin-bottom:6px;">Quand tu prêtes, tu <strong>gagnes des points</strong> que tu pourras utiliser à ton tour.</li>
+                <li style="margin-bottom:6px;">Prends soin des objets empruntés et rends-les <strong>à temps</strong> et en bon état.</li>
+                <li style="margin-bottom:6px;">Sois <strong>respectueux et courtois</strong> dans tes échanges. La communauté repose sur la confiance.</li>
+                <li style="margin-bottom:6px;">Après chaque prêt, laisse un <strong>avis</strong> : ça aide tout le monde.</li>
+              </ul>
+              <div style="font-weight:600;margin:14px 0 8px;color:var(--g);">🛡️ Sécurité</div>
+              <p style="margin:0 0 12px;">Vérifie ton identité et ton numéro de téléphone depuis ton profil pour gagner la confiance des autres membres et accéder à plus de fonctionnalités.</p>
+              <p style="margin:12px 0 0;">Une question ? Contacte-nous à <strong>contact@shapio.fr</strong></p>
+              <p style="margin:8px 0 0;">Bon partage ! 🌻<br>— L'équipe Shapio</p>
+            </div>
+          </div>
+          <div style="padding:14px 18px;text-align:center;font-size:12px;color:var(--mu);background:#f7f7f4;border-top:1px solid #f0f0ed;">
+            🔒 Ce message est informatif. Les réponses ne sont pas suivies.
+          </div>
+        </div>
+      </div>
+
             <!-- WALLET -->
       <div class="ascreen" id="as-wallet">
         <div style="padding:18px;">
@@ -4373,6 +4416,11 @@
                 <div style="font-size:16px;font-weight:600;" id="wallet-depenses">0 pts</div>
               </div>
             </div>
+          </div>
+
+          <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Mes prêts en cours</div>
+          <div id="wallet-loans" style="margin-bottom:20px;">
+            <div style="text-align:center;padding:20px;color:var(--mu);font-size:13px;">Chargement…</div>
           </div>
 
           <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Transactions récentes</div>
@@ -4414,7 +4462,7 @@
           </div>
           <div class="psub" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);margin-bottom:18px;">
             <span>📍</span>
-            <span id="profile-ville">Lille</span>
+            <span id="profile-ville">–</span>
             <span>·</span>
             <span id="profile-since">Membre depuis 2026</span>
           </div>
@@ -4470,7 +4518,7 @@
                 <div class="ptrow" id="trust-tel-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
                   <div class="ptico" id="trust-tel-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
                   <div class="ptlbl" id="trust-tel-lbl" style="flex:1;font-size:13px;color:var(--mu);">Numéro de téléphone</div>
-                  <button type="button" id="trust-tel-btn" onclick="alert('Vérification téléphone disponible bientôt 🌻')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Ajouter</button>
+                  <button type="button" id="trust-tel-btn" onclick="verifierTelephone()" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Vérifier</button>
                 </div>
               </div>
             </div>
@@ -4700,6 +4748,10 @@
       window.scrollTo(0, 0);
       // Update aria pour landing nav
       closeNav();
+      // Démarrer les notifications dès qu'on entre dans l'app
+      if (id === 'p-app' && typeof startNotificationPolling === 'function') {
+        startNotificationPolling();
+      }
     }
 
     function setTab(tab) {
@@ -4711,9 +4763,13 @@
       }
       if (tab === 'home' && typeof loadHomeObjects === 'function') loadHomeObjects();
       if (tab === 'msgs' && typeof loadMessages === 'function') loadMessages();
-      if (tab === 'notif') {
+      if (tab === 'notif' || tab === 'msgs' || tab === 'chat') {
         const dot = document.getElementById('notif-dot');
         if (dot) dot.classList.add('hidden');
+        // On considère tous les messages actuels comme "vus"
+        if (window.lastSeenMessageCount !== undefined) {
+          window.lastSeenMessageCount = window.knownMessageCount || window.lastSeenMessageCount;
+        }
       }
 
       document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
@@ -4726,6 +4782,7 @@
         swipe: 'as-swipe',
         msgs: 'as-msgs',
         chat: 'as-chat',
+        shapio: 'as-shapio',
         wallet: 'as-wallet',
         profil: 'as-profil',
         fiche: 'as-fiche',
@@ -4747,12 +4804,10 @@
         navItem.classList.add('active');
         navItem.setAttribute('aria-current', 'page');
       }
-      if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif' && tab !== 'pubprofile') {
+      if (tab !== 'chat' && tab !== 'fiche' && tab !== 'addobj' && tab !== 'notif' && tab !== 'pubprofile' && tab !== 'shapio') {
         prevTab = tab;
       }
       // Bouton swipe flottant : visible seulement sur l'accueil
-      const fab = document.getElementById('home-swipe-fab');
-      if (fab) fab.style.display = (tab === 'home') ? 'flex' : 'none';
       window.scrollTo(0, 0);
     }
 
@@ -4827,14 +4882,18 @@
       const prenom = document.getElementById('su-prenom').value.trim();
       const nom = document.getElementById('su-nom').value.trim();
       const email = document.getElementById('su-email').value.trim();
+      const cp = document.getElementById('su-cp').value.trim();
       const ville = document.getElementById('su-ville').value.trim();
+      console.log('[DEBUG inscription] Ville:', JSON.stringify(ville), '| CP:', JSON.stringify(cp));
       if (!prenom || prenom.length < 2) { showError('s1-error', 'Prénom requis (min. 2 caractères).'); return; }
       if (!nom || nom.length < 2) { showError('s1-error', 'Nom requis (min. 2 caractères).'); return; }
       if (!email || !isValidEmail(email)) { showError('s1-error', 'Email invalide.'); return; }
+      if (!cp || !/^[0-9]{5}$/.test(cp)) { showError('s1-error', 'Code postal invalide (5 chiffres).'); return; }
       if (!ville || ville.length < 2) { showError('s1-error', 'Ville requise.'); return; }
       sessionStorage.setItem('signup_prenom', prenom);
       sessionStorage.setItem('signup_nom', nom);
       sessionStorage.setItem('signup_email', email);
+      sessionStorage.setItem('signup_cp', cp);
       sessionStorage.setItem('signup_ville', ville);
       go('p-s2');
     }
@@ -4852,6 +4911,7 @@
       const prenom = sessionStorage.getItem('signup_prenom') || '';
       const nom = sessionStorage.getItem('signup_nom') || '';
       const email = sessionStorage.getItem('signup_email') || '';
+      const cp = sessionStorage.getItem('signup_cp') || '';
       const ville = sessionStorage.getItem('signup_ville') || '';
 
       try {
@@ -4864,13 +4924,17 @@
 
         // Créer le profil dans users
         const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
-        await sb.from('users').insert({
+        const { error: insertErr } = await sb.from('users').insert({
           auth_id: authData.user.id,
-          prenom, nom, pseudo, email, ville,
+          prenom, nom, pseudo, email, ville, code_postal: cp,
           points: 50,
           verifie_telephone: false,
           statut_verification: 'non_demande'
         });
+        if (insertErr) {
+          console.error('users INSERT error:', insertErr);
+          // On laisse continuer : profil recréé au 1er login si besoin
+        }
 
         // Afficher l'email dans l'étape 3
         const display = document.getElementById('s3-email-display');
@@ -4979,13 +5043,49 @@
     }
 
     /* --- Récupérer ou recharger le profil utilisateur connecté --- */
+    /* --- Message d'attente pour la vérification téléphone --- */
+    function verifierTelephone() {
+      alert(
+        "Cette fonctionnalité n'est pas encore disponible.\n\n" +
+        "En attendant, merci d'envoyer un message au 06 65 10 69 20 en indiquant les informations suivantes afin de pouvoir valider votre compte :\n\n" +
+        "• Shapio\n" +
+        "• Nom & Prénom\n" +
+        "• Adresse e-mail du compte"
+      );
+    }
+
     async function getCurrentProfile() {
       if (!sb) return null;
       if (window.currentProfile) return window.currentProfile;
       try {
         const { data: { session } } = await sb.auth.getSession();
         if (!session?.user) return null;
-        const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+        let { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+
+        // Si pas de profil (INSERT à l'inscription a échoué), on le crée maintenant
+        if (!profile) {
+          console.warn('Profil manquant → création de secours');
+          const u = session.user;
+          const meta = u.user_metadata || {};
+          const villeFromSignup = sessionStorage.getItem('signup_ville') || '';
+          const cpFromSignup = sessionStorage.getItem('signup_cp') || '';
+          const prenom = meta.prenom || sessionStorage.getItem('signup_prenom') || (u.email?.split('@')[0] || 'Membre');
+          const nom = meta.nom || sessionStorage.getItem('signup_nom') || '';
+          const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
+          const { data: newProfile, error: insertErr } = await sb.from('users').insert({
+            auth_id: u.id,
+            prenom, nom, pseudo,
+            email: u.email,
+            ville: villeFromSignup,
+            code_postal: cpFromSignup,
+            points: 50,
+            verifie_telephone: false,
+            statut_verification: 'non_demande'
+          }).select().single();
+          if (insertErr) console.error('Création de secours échouée:', insertErr);
+          else profile = newProfile;
+        }
+
         if (profile) {
           window.currentProfile = profile;
           updateProfileUI(profile);
@@ -5099,9 +5199,9 @@
         if (error) throw error;
 
         if (userData.user.email_confirmed_at || userData.user.confirmed_at) {
-          // Email confirmé : créer la session, mettre à jour le profil et continuer
+          // Email confirmé : entrer directement dans l'app (plus d'étape selfie/ID)
           await getCurrentProfile();
-          go('p-s4');
+          go('p-app');
         } else {
           showError('s3-error', '⚠️ Email pas encore confirmé. Clique sur le lien dans ton email avant de continuer.');
           btn.textContent = 'J\'ai confirmé mon email →'; btn.disabled = false;
@@ -5215,52 +5315,110 @@
     /* --- Charger l'historique des transactions du wallet --- */
     async function loadWallet() {
       if (!sb) return;
+      window.currentProfile = null; // forcer le rechargement des points
       const profile = await getCurrentProfile();
       if (!profile) return;
 
+      // Solde principal
+      const points = profile.points ?? 50;
+      const bloques = profile.points_bloques ?? 0;
+      const disponible = points - bloques;
+
+      const wcn = document.querySelector('#as-wallet .wcn');
+      if (wcn) wcn.textContent = disponible;
+      const wcbar = document.querySelector('#as-wallet .wcbar');
+      if (wcbar) wcbar.style.width = Math.min(disponible, 100) + '%';
+      const blockEl = document.getElementById('wallet-bloques');
+      if (blockEl) blockEl.textContent = bloques + ' pts';
+
+      const loansEl = document.getElementById('wallet-loans');
       const txList = document.getElementById('wallet-transactions');
-      if (!txList) return;
 
       try {
-        // Pour l'instant on a juste le bonus d'inscription + les futurs prêts
-        // Les transactions seront calculées depuis les loans plus tard
+        // Charger tous mes prêts (en tant qu'emprunteur OU prêteur)
+        const { data: loans, error } = await sb.from('loans')
+          .select('*, obj:object_id(titre), emprunteur:emprunteur_id(prenom, nom), preteur:preteur_id(prenom, nom)')
+          .or('emprunteur_id.eq.' + profile.id + ',preteur_id.eq.' + profile.id)
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+
+        const enCours = (loans || []).filter(l => l.statut === 'en_cours');
+        const termines = (loans || []).filter(l => l.statut === 'termine');
+
+        // --- Prêts en cours ---
+        if (loansEl) {
+          if (enCours.length === 0) {
+            loansEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mu);font-size:13px;background:#f7f7f4;border-radius:14px;">Aucun prêt en cours.</div>';
+          } else {
+            loansEl.innerHTML = enCours.map(l => {
+              const jeSuisPreteur = (l.preteur_id === profile.id);
+              const titre = (l.obj?.titre || 'Objet').replace(/</g, '&lt;');
+              const autre = jeSuisPreteur
+                ? ('Emprunté par ' + (l.emprunteur?.prenom || 'un membre'))
+                : ('Prêté par ' + (l.preteur?.prenom || 'un membre'));
+              const roleColor = jeSuisPreteur ? '#1D9E75' : '#F59E0B';
+              const roleLabel = jeSuisPreteur ? '🔼 Tu prêtes' : '🔽 Tu empruntes';
+              let btn = '';
+              if (jeSuisPreteur) {
+                btn = '<button type="button" onclick="confirmerRetour(\'' + l.id + '\')" style="width:100%;margin-top:10px;padding:9px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;">📦 Confirmer le retour</button>';
+              } else {
+                btn = '<div style="margin-top:8px;font-size:11px;color:var(--mu);text-align:center;">En attente de confirmation du retour par le prêteur.</div>';
+              }
+              return '<div style="background:white;border:1px solid rgba(8,80,65,0.1);border-radius:14px;padding:14px;margin-bottom:10px;">' +
+                '<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px;">' +
+                  '<div style="font-size:14px;font-weight:500;color:var(--dk);">' + titre + '</div>' +
+                  '<span style="font-size:10px;font-weight:600;color:' + roleColor + ';white-space:nowrap;">' + roleLabel + '</span>' +
+                '</div>' +
+                '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">' + autre + '</div>' +
+                '<div style="font-size:12px;color:var(--dk);">📅 ' + (l.jours || 0) + ' jour(s) · 💎 ' + (l.total_pts || 0) + ' pts ' + (jeSuisPreteur ? 'à recevoir' : 'bloqués') + '</div>' +
+                btn +
+                '</div>';
+            }).join('');
+          }
+        }
+
+        // --- Historique des transactions ---
         const dateInscription = new Date(profile.created_at);
         const dateStr = dateInscription.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
 
-        txList.innerHTML = `
-          <div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">
-            <div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>
-            <div style="flex:1;">
-              <div style="font-size:14px;font-weight:500;color:var(--dk);">Bonus inscription</div>
-              <div style="font-size:11px;color:var(--mu);">Bienvenue sur Shapio · ${dateStr}</div>
-            </div>
-            <div style="font-size:14px;font-weight:600;color:#1D9E75;">+50 pts</div>
-          </div>
-          <div style="text-align:center;padding:24px 20px;color:var(--mu);font-size:13px;">
-            Tes prochaines transactions apparaîtront ici après tes premiers prêts ou emprunts.
-          </div>
-        `;
+        let txHtml = '';
+        // Prêts terminés = transactions
+        for (const l of termines) {
+          const jeSuisPreteur = (l.preteur_id === profile.id);
+          const titre = (l.obj?.titre || 'Objet').replace(/</g, '&lt;');
+          const d = l.date_fin ? new Date(l.date_fin).toLocaleDateString('fr-FR', {day:'numeric', month:'long'}) : '';
+          const montant = jeSuisPreteur ? ('+' + (l.total_pts || 0)) : ('-' + (l.total_pts || 0));
+          const color = jeSuisPreteur ? '#1D9E75' : '#EF4444';
+          const ico = jeSuisPreteur ? '🔼' : '🔽';
+          const label = jeSuisPreteur ? ('Prêt de "' + titre + '"') : ('Emprunt de "' + titre + '"');
+          txHtml += '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;">' +
+            '<div style="width:38px;height:38px;background:#f7f7f4;border-radius:50%;display:flex;align-items:center;justify-content:center;">' + ico + '</div>' +
+            '<div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--dk);">' + label + '</div>' +
+            '<div style="font-size:11px;color:var(--mu);">' + d + '</div></div>' +
+            '<div style="font-size:14px;font-weight:600;color:' + color + ';">' + montant + ' pts</div>' +
+            '</div>';
+        }
+        // Bonus inscription (toujours en bas)
+        txHtml += '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">' +
+          '<div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>' +
+          '<div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--dk);">Bonus inscription</div>' +
+          '<div style="font-size:11px;color:var(--mu);">Bienvenue sur Shapio · ' + dateStr + '</div></div>' +
+          '<div style="font-size:14px;font-weight:600;color:#1D9E75;">+50 pts</div></div>';
 
-        // Mettre à jour les stats
-        const blockEl = document.getElementById('wallet-bloques');
+        if (txList) txList.innerHTML = txHtml;
+
+        // Stats résumées
+        const gagnes = termines.filter(l => l.preteur_id === profile.id).reduce((s, l) => s + (l.total_pts || 0), 0);
+        const depenses = termines.filter(l => l.emprunteur_id === profile.id).reduce((s, l) => s + (l.total_pts || 0), 0);
         const gagnesEl = document.getElementById('wallet-gagnes');
         const depEl = document.getElementById('wallet-depenses');
         const evolEl = document.getElementById('wallet-month-evol');
-        if (blockEl) blockEl.textContent = '0 pts';
-        if (gagnesEl) gagnesEl.textContent = '+0 pts';
-        if (depEl) depEl.textContent = '0 pts';
-        if (evolEl) evolEl.textContent = '+0 pts';
-
-        // Mois courant
-        const monthEl = document.getElementById('wallet-month');
-        if (monthEl) {
-          const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-          const now = new Date();
-          monthEl.textContent = mois[now.getMonth()] + ' ' + now.getFullYear();
-        }
+        if (gagnesEl) gagnesEl.textContent = '+' + gagnes + ' pts';
+        if (depEl) depEl.textContent = depenses + ' pts';
+        if (evolEl) evolEl.textContent = (gagnes - depenses >= 0 ? '+' : '') + (gagnes - depenses) + ' pts';
       } catch (err) {
         console.error('loadWallet error:', err);
-        txList.innerHTML = '<div style="text-align:center;padding:30px;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
+        if (loansEl) loansEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
       }
     }
 
@@ -5346,7 +5504,7 @@
       b.setAttribute('aria-pressed', String(!isSaved));
     }
 
-    function showFicheConfirm() {
+    async function showFicheConfirm() {
       const o = window.currentObject;
       if (!o) return;
       // Remplir les infos dynamiquement
@@ -5362,6 +5520,9 @@
       }
       const maxInfo = document.getElementById('confirm-max-info');
       if (maxInfo) maxInfo.textContent = 'Durée maximale autorisée par le prêteur : ' + dureeMax + ' jour' + (dureeMax > 1 ? 's' : '');
+      // Mémoriser mon solde disponible
+      const me = await getCurrentProfile();
+      window.myAvailablePoints = me ? ((me.points ?? 0) - (me.points_bloques ?? 0)) : 0;
       updateConfirmTotal();
       document.getElementById('fiche-confirm').style.display = 'block';
       document.getElementById('fbar').style.display = 'none';
@@ -5390,7 +5551,17 @@
       const pts = o.pts_par_jour || 0;
       const total = days * pts;
       const totalEl = document.getElementById('confirm-total');
-      if (totalEl) totalEl.textContent = total + ' pts';
+      if (totalEl) {
+        totalEl.textContent = total + ' pts';
+        // Alerte si solde insuffisant
+        const dispo = window.myAvailablePoints ?? 9999;
+        if (total > dispo) {
+          totalEl.style.color = '#EF4444';
+          totalEl.innerHTML = total + ' pts ⚠️<div style="font-size:11px;font-weight:400;margin-top:4px;">Solde insuffisant (' + dispo + ' pts dispo)</div>';
+        } else {
+          totalEl.style.color = '';
+        }
+      }
       const lblEl = document.getElementById('confirm-days-label');
       if (lblEl) lblEl.textContent = days > 1 ? 'jours' : 'jour';
     }
@@ -5406,6 +5577,13 @@
       const days = Math.max(1, parseInt(daysInput?.value, 10) || 1);
       const pts = o.pts_par_jour || 0;
       const total = days * pts;
+
+      // Vérifier le solde disponible
+      const dispo = (me.points ?? 0) - (me.points_bloques ?? 0);
+      if (total > dispo) {
+        alert('❌ Solde insuffisant.\n\nIl te faut ' + total + ' points pour cette demande, mais tu n\'as que ' + dispo + ' points disponibles.\n\nPrête des objets pour gagner des points !');
+        return;
+      }
 
       hideFicheConfirm();
 
@@ -5970,12 +6148,13 @@
       if (!listEl) return;
 
       const me = await getCurrentProfile();
-      const search = (document.getElementById('explorer-search')?.value || '').toLowerCase().trim();
+      // Barre de recherche dédiée à l'onglet Membres (fallback sur explorer-search)
+      const search = (document.getElementById('members-search')?.value || document.getElementById('explorer-search')?.value || '').toLowerCase().trim();
       const cityFilter = (document.getElementById('explorer-city')?.value || '').toLowerCase().trim();
 
       try {
         const { data: users, error } = await sb.from('users')
-          .select('id, prenom, nom, ville, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
+          .select('id, prenom, nom, ville, code_postal, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, avatar_url, couleur_banniere, created_at')
           .order('created_at', { ascending: false });
         if (error) throw error;
 
@@ -6045,7 +6224,7 @@
                 '<div style="font-weight:500;color:var(--dk);font-size:14px;">' + name + '</div>' +
                 (idV ? '<span style="background:var(--g);color:white;border-radius:50%;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span>' : '') +
               '</div>' +
-              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville || 'France') + ' · ' + sinceTxt + '</div>' +
+              '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">📍 ' + (u.ville ? ((u.code_postal ? u.code_postal + ' ' : '') + u.ville) : 'France') + ' · ' + sinceTxt + '</div>' +
               '<div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px;">' +
                 '<span style="background:' + tBg + ';color:' + tColor + ';padding:2px 8px;border-radius:100px;font-weight:600;">' + score + '/2 confiance</span>' +
                 '<span style="color:var(--mu);">' + note + '</span>' +
@@ -6140,7 +6319,7 @@
       try {
         // Charger l'utilisateur (toutes ses infos publiques)
         const { data: u, error } = await sb.from('users')
-          .select('id, prenom, nom, ville, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, created_at')
+          .select('id, prenom, nom, ville, code_postal, points, note_moyenne, nb_prets, nb_emprunts, verifie_identite, verifie_telephone, statut_verification, avatar_url, couleur_banniere, created_at')
           .eq('id', userId)
           .single();
         if (error) throw error;
@@ -6169,7 +6348,10 @@
         const name = document.getElementById('pub-name');
         if (name) name.textContent = (u.prenom || 'Membre') + ' ' + (u.nom?.[0] ? u.nom[0] + '.' : '');
         const ville = document.getElementById('pub-ville');
-        if (ville) ville.textContent = '📍 ' + (u.ville || 'France');
+        if (ville) {
+          const cp = u.code_postal ? u.code_postal + ' ' : '';
+          ville.textContent = '📍 ' + (u.ville ? (cp + u.ville) : 'France');
+        }
         const since = document.getElementById('pub-since');
         if (since && u.created_at) {
           const d = new Date(u.created_at);
@@ -6364,6 +6546,24 @@
     }
 
     /* --- Charger la liste des conversations (Messages) --- */
+    // Carte de bienvenue Shapio (toujours en haut de la liste)
+    function shapioWelcomeCard() {
+      return '<div role="button" tabindex="0" onclick="openShapioWelcome()" ' +
+        'style="display:flex;align-items:center;gap:12px;padding:14px;margin-bottom:6px;border-radius:14px;background:linear-gradient(135deg,rgba(8,80,65,0.06),rgba(29,158,117,0.06));border:1px solid rgba(8,80,65,0.1);cursor:pointer;">' +
+        '<div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#085041,#1D9E75);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:\'DM Serif Display\',serif;color:white;font-size:22px;">S</div>' +
+        '<div style="flex:1;min-width:0;">' +
+          '<div style="font-weight:600;color:var(--dk);font-size:14px;margin-bottom:2px;display:flex;align-items:center;gap:5px;">Shapio <span style="background:var(--g);color:white;border-radius:50%;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span></div>' +
+          '<div style="font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">👋 Bienvenue sur Shapio ! Quelques règles à connaître…</div>' +
+        '</div>' +
+        '<span style="color:var(--mu);">›</span>' +
+        '</div>';
+    }
+
+    /* --- Ouvrir le message officiel Shapio (informatif) --- */
+    function openShapioWelcome() {
+      setTab('shapio');
+    }
+
     async function loadMessages() {
       if (!sb) return;
       const listEl = document.getElementById('msgs-list');
@@ -6380,7 +6580,8 @@
         if (error) throw error;
 
         if (!msgs || msgs.length === 0) {
-          listEl.innerHTML = '<div style="padding:60px 24px;text-align:center;color:var(--mu);">' +
+          listEl.innerHTML = shapioWelcomeCard() +
+            '<div style="padding:40px 24px 60px;text-align:center;color:var(--mu);">' +
             '<div style="font-size:40px;margin-bottom:12px;">💬</div>' +
             '<div style="font-size:14px;color:var(--dk);margin-bottom:4px;font-weight:500;">Aucun message pour l\'instant</div>' +
             '<div style="font-size:13px;line-height:1.5;">Quand tu contacteras un voisin pour emprunter un objet, vos échanges apparaîtront ici.</div>' +
@@ -6423,7 +6624,7 @@
             '</div>';
         }).join('');
 
-        listEl.innerHTML = items;
+        listEl.innerHTML = shapioWelcomeCard() + items;
       } catch (err) {
         console.error('loadMessages error:', err);
         listEl.innerHTML = '<div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
@@ -6484,7 +6685,7 @@
       const content = m.contenu || '';
 
       // Détection messages structurés
-      const match = content.match(/^(LOAN_REQUEST|LOAN_ACCEPT|LOAN_REFUSE|LOAN_COUNTER)::(.+)$/);
+      const match = content.match(/^(LOAN_REQUEST|LOAN_ACCEPT|LOAN_REFUSE|LOAN_COUNTER|LOAN_RETURNED)::(.+)$/);
       if (match) {
         try {
           const type = match[1];
@@ -6494,7 +6695,7 @@
       }
 
       // Message texte normal
-      return '<div' + (isMine ? ' style="align-self:flex-end"' : '') + '>' +
+      return '<div style="max-width:100%;display:flex;flex-direction:column;' + (isMine ? 'align-items:flex-end;' : 'align-items:flex-start;') + '">' +
         '<div class="mb ' + (isMine ? 'mout' : 'min') + '">' + content.replace(/</g, '&lt;') + '</div>' +
         '<div class="mt' + (isMine ? ' r' : '') + '">' + time + '</div>' +
         '</div>';
@@ -6527,6 +6728,18 @@
         badge = '✅ Demande acceptée';
         color = '#22C55E';
         intro = (isMine ? 'Tu as accepté' : 'A accepté') + ' la demande d\'emprunt pour <strong>' + titre + '</strong>.';
+        // Le prêteur (celui qui a envoyé l'acceptation = isMine) peut confirmer le retour
+        if (isMine && data.loan_id) {
+          actions =
+            '<div style="margin-top:10px;">' +
+              '<button type="button" onclick="confirmerRetour(\'' + data.loan_id + '\')" style="width:100%;padding:10px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">📦 Confirmer le retour de l\'objet</button>' +
+              '<div style="font-size:11px;color:var(--mu);margin-top:6px;text-align:center;">À cliquer quand l\'emprunteur t\'a rendu l\'objet. Les points seront alors transférés.</div>' +
+            '</div>';
+        }
+      } else if (type === 'LOAN_RETURNED') {
+        badge = '🎉 Prêt terminé';
+        color = '#085041';
+        intro = 'L\'objet <strong>' + titre + '</strong> a été rendu. ' + total + ' pts ont été transférés' + (isMine ? ' à toi' : '') + '.';
       } else if (type === 'LOAN_REFUSE') {
         badge = '✕ Demande refusée';
         color = '#EF4444';
@@ -6571,16 +6784,46 @@
         const { msg, data } = await loanGetOriginal(messageId);
         const me = await getCurrentProfile();
         if (!me) return;
-        // L'expéditeur de la demande devient le destinataire de la réponse
-        const responseTo = msg.expediteur_id;
-        const payload = { type: 'LOAN_ACCEPT', ...data };
-        const { error } = await sb.from('messages').insert({
+        // L'expéditeur de la demande = l'emprunteur
+        const emprunteurId = msg.expediteur_id;
+
+        if (!confirm('Accepter ce prêt ?\n\n' + (data.object_titre || 'Objet') + '\n' +
+          (data.days || 1) + ' jour(s) · ' + (data.total || 0) + ' pts seront bloqués chez l\'emprunteur.')) return;
+
+        // Appel de la fonction SQL atomique : vérifie le solde, bloque les points, crée le prêt
+        const { data: loanId, error: rpcErr } = await sb.rpc('accepter_pret', {
+          p_object_id: data.object_id,
+          p_emprunteur_id: emprunteurId,
+          p_jours: data.days || 1,
+          p_pts_jour: data.pts_par_jour || 0,
+          p_message_id: messageId
+        });
+
+        if (rpcErr) {
+          console.error('accepter_pret error:', rpcErr);
+          // Messages d'erreur lisibles
+          let m = rpcErr.message || 'Erreur';
+          if (m.includes('insuffisant')) m = '❌ L\'emprunteur n\'a pas assez de points disponibles pour ce prêt.';
+          else if (m.includes('Auto-prêt')) m = '❌ Tu ne peux pas accepter ta propre demande.';
+          else if (m.includes('TES objets')) m = '❌ Tu ne peux accepter que pour tes propres objets.';
+          alert(m);
+          return;
+        }
+
+        // Envoyer la carte "accepté" dans le chat
+        const payload = { type: 'LOAN_ACCEPT', ...data, loan_id: loanId };
+        await sb.from('messages').insert({
           expediteur_id: me.id,
-          destinataire_id: responseTo,
+          destinataire_id: emprunteurId,
           contenu: 'LOAN_ACCEPT::' + JSON.stringify(payload)
         });
-        if (error) throw error;
-        await openChat(responseTo);
+
+        // Rafraîchir le profil (points à jour)
+        window.currentProfile = null;
+        await getCurrentProfile();
+
+        alert('✅ Prêt accepté ! Les points sont bloqués chez l\'emprunteur jusqu\'au retour de l\'objet.\n\nTu pourras confirmer le retour dans ton wallet ou la conversation.');
+        await openChat(emprunteurId);
       } catch (e) {
         console.error('loanAccept error:', e);
         alert('Erreur : ' + (e.message || e));
@@ -6637,6 +6880,67 @@
         await openChat(responseTo);
       } catch (e) {
         console.error('loanCounter error:', e);
+        alert('Erreur : ' + (e.message || e));
+      }
+    }
+
+    /* --- Confirmer le retour d'un objet (transfert définitif des points) --- */
+    async function confirmerRetour(loanId) {
+      if (!loanId) { alert('Prêt introuvable.'); return; }
+      try {
+        const me = await getCurrentProfile();
+        if (!me) return;
+
+        // Récupérer les infos du prêt pour le message + savoir à qui notifier
+        const { data: loan, error: loanErr } = await sb.from('loans')
+          .select('*, obj:object_id(titre)')
+          .eq('id', loanId)
+          .single();
+        if (loanErr || !loan) { alert('Prêt introuvable.'); return; }
+
+        if (loan.statut === 'termine') { alert('Ce prêt est déjà terminé.'); return; }
+
+        if (!confirm('Confirmer que l\'objet t\'a bien été rendu ?\n\nLes ' + (loan.total_pts || 0) + ' points seront définitivement transférés de l\'emprunteur vers toi.')) return;
+
+        // Appel de la fonction SQL atomique
+        const { error: rpcErr } = await sb.rpc('confirmer_retour', { p_loan_id: loanId });
+        if (rpcErr) {
+          console.error('confirmer_retour error:', rpcErr);
+          let m = rpcErr.message || 'Erreur';
+          if (m.includes('prêteur')) m = '❌ Seul le prêteur peut confirmer le retour.';
+          else if (m.includes('pas en cours')) m = 'Ce prêt n\'est plus en cours.';
+          alert(m);
+          return;
+        }
+
+        // Message "prêt terminé" dans le chat
+        const emprunteurId = loan.emprunteur_id;
+        const payload = {
+          type: 'LOAN_RETURNED',
+          object_titre: loan.obj?.titre || 'Objet',
+          days: loan.jours || 0,
+          pts_par_jour: (loan.jours ? Math.round((loan.total_pts || 0) / loan.jours) : 0),
+          total: loan.total_pts || 0,
+          loan_id: loanId
+        };
+        await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: emprunteurId,
+          contenu: 'LOAN_RETURNED::' + JSON.stringify(payload)
+        });
+
+        // Rafraîchir les points
+        window.currentProfile = null;
+        await getCurrentProfile();
+
+        alert('🎉 Retour confirmé ! Tu as reçu ' + (loan.total_pts || 0) + ' points.');
+
+        // Rafraîchir l'écran courant
+        const activeScreen = document.querySelector('.ascreen.active')?.id;
+        if (activeScreen === 'as-wallet' && typeof loadWallet === 'function') loadWallet();
+        else if (activeScreen === 'as-chat') await openChat(emprunteurId);
+      } catch (e) {
+        console.error('confirmerRetour error:', e);
         alert('Erreur : ' + (e.message || e));
       }
     }
@@ -6898,9 +7202,12 @@
       const badgeFloat = document.getElementById('profile-badge-floating');
       if (badgeFloat) badgeFloat.style.display = profile.verifie_identite ? 'flex' : 'none';
 
-      // Ville + date
+      // Ville + code postal + date
       const ville = document.getElementById('profile-ville');
-      if (ville) ville.textContent = profile.ville || '–';
+      if (ville) {
+        const cp = profile.code_postal ? profile.code_postal + ' ' : '';
+        ville.textContent = profile.ville ? (cp + profile.ville) : '–';
+      }
       const since = document.getElementById('profile-since');
       if (since && profile.created_at) {
         const d = new Date(profile.created_at);
@@ -6922,13 +7229,14 @@
       const welcome = document.getElementById('home-welcome');
       if (welcome) welcome.textContent = 'Bienvenue ' + (profile.prenom || '') + ' ! 👋';
 
-      // Points partout
+      // Points partout (solde disponible = points - bloqués)
+      const dispoPts = (profile.points ?? 50) - (profile.points_bloques ?? 0);
       const ppill = document.getElementById('ppill-points');
-      if (ppill) ppill.textContent = (profile.points ?? 50) + ' pts';
+      if (ppill) ppill.textContent = dispoPts + ' pts';
       const wcn = document.querySelector('.wcn');
-      if (wcn) wcn.textContent = profile.points ?? 50;
+      if (wcn) wcn.textContent = dispoPts;
       const wcbar = document.querySelector('.wcbar');
-      if (wcbar) wcbar.style.width = Math.min((profile.points ?? 50), 100) + '%';
+      if (wcbar) wcbar.style.width = Math.min(dispoPts, 100) + '%';
 
       // Vérifications graduées 0/3 → 3/3
       updateTrustUI(profile);
@@ -7026,6 +7334,89 @@
     }
 
     /* ---------- INIT au chargement ---------- */
+    /* ============================================
+       NOTIFICATIONS : nouveaux messages reçus
+       (son + pastille rouge sur la cloche)
+       ============================================ */
+    window.knownMessageCount = 0;
+    window.lastSeenMessageCount = 0;
+    window.notifInitialized = false;
+    let notifPollingTimer = null;
+
+    // Petit son de notification (généré, pas de fichier externe)
+    function playNotifSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const now = ctx.currentTime;
+        // Deux notes douces (ding-dong)
+        [880, 1108].forEach((freq, i) => {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          const start = now + i * 0.12;
+          gain.gain.setValueAtTime(0, start);
+          gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, start + 0.28);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(start);
+          osc.stop(start + 0.3);
+        });
+        setTimeout(() => { try { ctx.close(); } catch (e) {} }, 800);
+      } catch (e) { /* silencieux si le navigateur bloque */ }
+    }
+
+    async function checkNewMessages() {
+      if (!sb) return;
+      try {
+        const me = await getCurrentProfile();
+        if (!me) return;
+        // Compter les messages que j'ai REÇUS
+        const { count, error } = await sb.from('messages')
+          .select('id', { count: 'exact', head: true })
+          .eq('destinataire_id', me.id);
+        if (error) { console.warn('[notif] erreur count:', error); return; }
+        const total = count || 0;
+        console.log('[notif] messages reçus =', total, '| vus =', window.lastSeenMessageCount, '| init =', window.notifInitialized);
+
+        const activeScreen = document.querySelector('.ascreen.active')?.id;
+        const onMessages = (activeScreen === 'as-msgs' || activeScreen === 'as-chat');
+
+        // Première mesure : on initialise le compteur de référence sans alerter
+        if (!window.notifInitialized) {
+          window.notifInitialized = true;
+          window.knownMessageCount = total;
+          window.lastSeenMessageCount = onMessages ? total : total; // référence = état actuel
+          return;
+        }
+
+        window.knownMessageCount = total;
+
+        // Nouveau(x) message(s) reçu(s) → notifier (sauf si on est déjà dans les messages)
+        if (total > window.lastSeenMessageCount && !onMessages) {
+          const dot = document.getElementById('notif-dot');
+          if (dot) dot.classList.remove('hidden');
+          playNotifSound();
+        }
+        // Si on est sur l'écran messages, tout est considéré comme vu
+        if (onMessages) {
+          window.lastSeenMessageCount = total;
+        }
+      } catch (e) {
+        console.error('checkNewMessages error:', e);
+      }
+    }
+
+    function startNotificationPolling() {
+      if (notifPollingTimer) return; // déjà démarré
+      // Première vérification après 1.5s, puis toutes les 8s
+      setTimeout(checkNewMessages, 1500);
+      notifPollingTimer = setInterval(checkNewMessages, 8000);
+    }
+
     document.addEventListener('DOMContentLoaded', async () => {
       // Détecter si l'utilisateur arrive depuis un lien de reset password
       const hash = window.location.hash;
@@ -7035,7 +7426,7 @@
       }
       // Détecter si l'utilisateur arrive depuis un lien de confirmation email
       if (hash && hash.includes('type=signup')) {
-        go('p-s4');
+        go('p-app');
         return;
       }
 
@@ -7049,6 +7440,7 @@
           // Restaurer la session : aller directement dans l'app
           go('p-app');
           if (typeof loadHomeObjects === 'function') loadHomeObjects();
+          startNotificationPolling();
         }
       }
       // Fermer menu mobile en cliquant dehors
