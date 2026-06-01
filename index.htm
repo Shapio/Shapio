@@ -4305,6 +4305,12 @@
             </div>
           </div>
 
+          <!-- Historique prêts / emprunts -->
+          <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Historique des échanges</div>
+          <div id="pub-history-list" style="font-size:13px;color:var(--mu);margin-bottom:18px;">
+            <div style="text-align:center;padding:20px;">Aucun échange terminé.</div>
+          </div>
+
           <!-- Ses avis -->
           <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Avis reçus</div>
           <div id="pub-avis-list" style="font-size:13px;color:var(--mu);">
@@ -4712,9 +4718,10 @@
           <div class="nico" aria-hidden="true">🔍</div>
           <div class="nlbl">Explorer</div>
         </button>
-        <button type="button" class="ni" id="ni-msgs" aria-label="Messages" onclick="setTab('msgs')">
+        <button type="button" class="ni" id="ni-msgs" aria-label="Messages" onclick="setTab('msgs')" style="position:relative;">
           <div class="nico" aria-hidden="true">💬</div>
           <div class="nlbl">Messages</div>
+          <span id="msgs-badge" style="display:none;position:absolute;top:-2px;right:50%;transform:translateX(18px);min-width:18px;height:18px;padding:0 5px;border-radius:100px;background:#EF4444;color:white;font-size:11px;font-weight:600;line-height:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.2);">0</span>
         </button>
         <button type="button" class="ni" id="ni-wallet" aria-label="Mes points" onclick="setTab('wallet')">
           <div class="nico" aria-hidden="true">💰</div>
@@ -4770,6 +4777,8 @@
         if (window.lastSeenMessageCount !== undefined) {
           window.lastSeenMessageCount = window.knownMessageCount || window.lastSeenMessageCount;
         }
+        const badge = document.getElementById('msgs-badge');
+        if (badge) badge.style.display = 'none';
       }
 
       document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
@@ -5345,6 +5354,13 @@
         const enCours = (loans || []).filter(l => l.statut === 'en_cours');
         const termines = (loans || []).filter(l => l.statut === 'termine');
 
+        // Charger les avis que J'AI déjà laissés (pour ne pas reproposer)
+        let reviewedLoanIds = new Set();
+        try {
+          const { data: myReviews } = await sb.from('reviews').select('loan_id').eq('auteur_id', profile.id);
+          (myReviews || []).forEach(r => { if (r.loan_id) reviewedLoanIds.add(r.loan_id); });
+        } catch (e) { /* pas grave */ }
+
         // --- Prêts en cours ---
         if (loansEl) {
           if (enCours.length === 0) {
@@ -5391,11 +5407,21 @@
           const color = jeSuisPreteur ? '#1D9E75' : '#EF4444';
           const ico = jeSuisPreteur ? '🔼' : '🔽';
           const label = jeSuisPreteur ? ('Prêt de "' + titre + '"') : ('Emprunt de "' + titre + '"');
-          txHtml += '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:8px;">' +
-            '<div style="width:38px;height:38px;background:#f7f7f4;border-radius:50%;display:flex;align-items:center;justify-content:center;">' + ico + '</div>' +
-            '<div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--dk);">' + label + '</div>' +
-            '<div style="font-size:11px;color:var(--mu);">' + d + '</div></div>' +
-            '<div style="font-size:14px;font-weight:600;color:' + color + ';">' + montant + ' pts</div>' +
+          // Bouton avis si pas encore noté
+          const autreId = jeSuisPreteur ? l.emprunteur_id : l.preteur_id;
+          const autreNom = jeSuisPreteur ? (l.emprunteur?.prenom || 'ce membre') : (l.preteur?.prenom || 'ce membre');
+          const dejaNote = reviewedLoanIds.has(l.id);
+          const avisBtn = dejaNote
+            ? '<div style="font-size:11px;color:var(--g);margin-top:8px;">✓ Avis laissé</div>'
+            : '<button type="button" onclick="openReviewModal(\'' + l.id + '\',\'' + autreId + '\',\'' + (l.obj?.titre || 'Objet').replace(/'/g, "\\'") + '\',\'' + autreNom.replace(/'/g, "\\'") + '\')" style="margin-top:8px;padding:7px 12px;border:1px solid var(--g);border-radius:8px;background:white;color:var(--g);font-family:inherit;font-size:12px;cursor:pointer;">⭐ Laisser un avis</button>';
+          txHtml += '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;margin-bottom:8px;">' +
+            '<div style="display:flex;align-items:center;gap:12px;">' +
+              '<div style="width:38px;height:38px;background:#f7f7f4;border-radius:50%;display:flex;align-items:center;justify-content:center;">' + ico + '</div>' +
+              '<div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--dk);">' + label + '</div>' +
+              '<div style="font-size:11px;color:var(--mu);">' + d + '</div></div>' +
+              '<div style="font-size:14px;font-weight:600;color:' + color + ';">' + montant + ' pts</div>' +
+            '</div>' +
+            avisBtn +
             '</div>';
         }
         // Bonus inscription (toujours en bas)
@@ -6446,6 +6472,42 @@
           }
         }
 
+        // Charger l'historique des échanges terminés
+        const histList = document.getElementById('pub-history-list');
+        if (histList) {
+          try {
+            const { data: hist } = await sb.from('loans')
+              .select('*, obj:object_id(titre), emprunteur:emprunteur_id(prenom), preteur:preteur_id(prenom)')
+              .or('emprunteur_id.eq.' + userId + ',preteur_id.eq.' + userId)
+              .eq('statut', 'termine')
+              .order('date_fin', { ascending: false })
+              .limit(15);
+            if (!hist || hist.length === 0) {
+              histList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mu);">Aucun échange terminé.</div>';
+            } else {
+              histList.innerHTML = hist.map(l => {
+                const estPreteur = (l.preteur_id === userId);
+                const titre = (l.obj?.titre || 'Objet').replace(/</g, '&lt;');
+                const d = l.date_fin ? new Date(l.date_fin).toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'}) : '';
+                const ico = estPreteur ? '🔼' : '🔽';
+                const autre = estPreteur
+                  ? ('a prêté à ' + (l.emprunteur?.prenom || 'un membre'))
+                  : ('a emprunté à ' + (l.preteur?.prenom || 'un membre'));
+                return '<div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f7f7f4;border-radius:12px;margin-bottom:6px;">' +
+                  '<div style="font-size:16px;">' + ico + '</div>' +
+                  '<div style="flex:1;min-width:0;">' +
+                    '<div style="font-size:13px;color:var(--dk);font-weight:500;">' + titre + '</div>' +
+                    '<div style="font-size:11px;color:var(--mu);">' + autre + ' · ' + d + '</div>' +
+                  '</div>' +
+                  '</div>';
+              }).join('');
+            }
+          } catch (e) {
+            console.error('pub history error:', e);
+            histList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mu);">Historique indisponible.</div>';
+          }
+        }
+
         setTab('pubprofile');
       } catch (err) {
         console.error('openPublicProfile error:', err);
@@ -6882,6 +6944,100 @@
         console.error('loanCounter error:', e);
         alert('Erreur : ' + (e.message || e));
       }
+    }
+
+    /* ============================================
+       SYSTÈME D'AVIS (note + commentaire)
+       ============================================ */
+    window.reviewContext = null; // { loanId, destinataireId, objetTitre }
+    window.reviewRating = 0;
+
+    function openReviewModal(loanId, destinataireId, objetTitre, destinataireNom) {
+      window.reviewContext = { loanId, destinataireId, objetTitre };
+      window.reviewRating = 0;
+      setReviewStars(0);
+      const sub = document.getElementById('review-subtitle');
+      if (sub) sub.textContent = 'Note ton échange avec ' + (destinataireNom || 'ce membre') + (objetTitre ? ' pour « ' + objetTitre + ' »' : '');
+      const comment = document.getElementById('review-comment');
+      if (comment) comment.value = '';
+      const modal = document.getElementById('review-modal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeReviewModal() {
+      const modal = document.getElementById('review-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function setReviewStars(n) {
+      window.reviewRating = n;
+      const container = document.getElementById('review-stars');
+      if (container) {
+        container.querySelectorAll('span').forEach(s => {
+          const v = parseInt(s.getAttribute('data-star'), 10);
+          s.textContent = (v <= n) ? '★' : '☆';
+          s.style.color = (v <= n) ? '#F59E0B' : '#d8d8d2';
+        });
+      }
+      const label = document.getElementById('review-stars-label');
+      if (label) {
+        const txt = ['Touche une étoile pour noter', 'Décevant', 'Moyen', 'Correct', 'Très bien', 'Excellent !'];
+        label.textContent = txt[n] || txt[0];
+      }
+    }
+
+    async function submitReview() {
+      if (!window.reviewContext) return;
+      if (window.reviewRating < 1) { alert('Choisis une note (1 à 5 étoiles).'); return; }
+      const me = await getCurrentProfile();
+      if (!me) return;
+      const { loanId, destinataireId } = window.reviewContext;
+      const comment = (document.getElementById('review-comment')?.value || '').trim();
+      const btn = document.getElementById('review-submit-btn');
+      if (btn) { btn.disabled = true; btn.textContent = 'Publication…'; }
+
+      try {
+        const { error } = await sb.from('reviews').insert({
+          auteur_id: me.id,
+          destinataire_id: destinataireId,
+          loan_id: loanId,
+          note: window.reviewRating,
+          commentaire: comment || null
+        });
+        if (error) throw error;
+
+        // Recalculer la note moyenne du destinataire
+        await recalcNoteMoyenne(destinataireId);
+
+        closeReviewModal();
+        alert('✅ Merci pour ton avis !');
+        // Rafraîchir le wallet si on y est
+        if (document.querySelector('.ascreen.active')?.id === 'as-wallet' && typeof loadWallet === 'function') loadWallet();
+      } catch (e) {
+        console.error('submitReview error:', e);
+        if (e.code === '23505') alert('Tu as déjà laissé un avis pour ce prêt.');
+        else alert('Erreur : ' + (e.message || e));
+      } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Publier mon avis'; }
+      }
+    }
+
+    async function recalcNoteMoyenne(userId) {
+      try {
+        const { data: avis } = await sb.from('reviews').select('note').eq('destinataire_id', userId);
+        if (avis && avis.length > 0) {
+          const moy = avis.reduce((s, a) => s + (a.note || 0), 0) / avis.length;
+          await sb.from('users').update({ note_moyenne: Math.round(moy * 10) / 10 }).eq('id', userId);
+        }
+      } catch (e) { console.error('recalcNoteMoyenne error:', e); }
+    }
+
+    // Vérifier si j'ai déjà laissé un avis pour un prêt donné
+    async function hasReviewed(loanId, auteurId) {
+      try {
+        const { data } = await sb.from('reviews').select('id').eq('loan_id', loanId).eq('auteur_id', auteurId).maybeSingle();
+        return !!data;
+      } catch (e) { return false; }
     }
 
     /* --- Confirmer le retour d'un objet (transfert définitif des points) --- */
@@ -7336,21 +7492,19 @@
     /* ---------- INIT au chargement ---------- */
     /* ============================================
        NOTIFICATIONS : nouveaux messages reçus
-       (son + pastille rouge sur la cloche)
+       (badge sur l'onglet Messages + son + auto-refresh)
        ============================================ */
     window.knownMessageCount = 0;
     window.lastSeenMessageCount = 0;
     window.notifInitialized = false;
     let notifPollingTimer = null;
 
-    // Petit son de notification (généré, pas de fichier externe)
     function playNotifSound() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         if (!AudioCtx) return;
         const ctx = new AudioCtx();
         const now = ctx.currentTime;
-        // Deux notes douces (ding-dong)
         [880, 1108].forEach((freq, i) => {
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
@@ -7366,7 +7520,21 @@
           osc.stop(start + 0.3);
         });
         setTimeout(() => { try { ctx.close(); } catch (e) {} }, 800);
-      } catch (e) { /* silencieux si le navigateur bloque */ }
+      } catch (e) {}
+    }
+
+    function updateMsgsBadge(unread) {
+      const badge = document.getElementById('msgs-badge');
+      if (!badge) return;
+      if (unread > 0) {
+        badge.textContent = unread > 9 ? '9+' : unread;
+        badge.style.display = 'block';
+      } else {
+        badge.style.display = 'none';
+      }
+      // Pastille cloche aussi
+      const dot = document.getElementById('notif-dot');
+      if (dot) dot.classList.toggle('hidden', unread === 0);
     }
 
     async function checkNewMessages() {
@@ -7374,47 +7542,54 @@
       try {
         const me = await getCurrentProfile();
         if (!me) return;
-        // Compter les messages que j'ai REÇUS
         const { count, error } = await sb.from('messages')
           .select('id', { count: 'exact', head: true })
           .eq('destinataire_id', me.id);
         if (error) { console.warn('[notif] erreur count:', error); return; }
         const total = count || 0;
-        console.log('[notif] messages reçus =', total, '| vus =', window.lastSeenMessageCount, '| init =', window.notifInitialized);
 
         const activeScreen = document.querySelector('.ascreen.active')?.id;
         const onMessages = (activeScreen === 'as-msgs' || activeScreen === 'as-chat');
 
-        // Première mesure : on initialise le compteur de référence sans alerter
+        // Première mesure : initialiser sans alerter
         if (!window.notifInitialized) {
           window.notifInitialized = true;
           window.knownMessageCount = total;
-          window.lastSeenMessageCount = onMessages ? total : total; // référence = état actuel
+          window.lastSeenMessageCount = total;
           return;
         }
 
+        const prev = window.knownMessageCount;
         window.knownMessageCount = total;
 
-        // Nouveau(x) message(s) reçu(s) → notifier (sauf si on est déjà dans les messages)
-        if (total > window.lastSeenMessageCount && !onMessages) {
-          const dot = document.getElementById('notif-dot');
-          if (dot) dot.classList.remove('hidden');
-          playNotifSound();
+        // Nouveau(x) message(s) reçu(s)
+        if (total > prev) {
+          if (onMessages) {
+            // On est sur les messages → rafraîchir la liste/chat en direct
+            window.lastSeenMessageCount = total;
+            if (activeScreen === 'as-msgs' && typeof loadMessages === 'function') loadMessages();
+            else if (activeScreen === 'as-chat' && window.currentChatUserId && typeof openChat === 'function') {
+              openChat(window.currentChatUserId);
+            }
+          } else {
+            // Sinon : badge + son
+            playNotifSound();
+          }
         }
-        // Si on est sur l'écran messages, tout est considéré comme vu
-        if (onMessages) {
-          window.lastSeenMessageCount = total;
-        }
+
+        // Badge = messages reçus non encore "vus"
+        if (onMessages) window.lastSeenMessageCount = total;
+        const unread = Math.max(0, total - window.lastSeenMessageCount);
+        updateMsgsBadge(unread);
       } catch (e) {
         console.error('checkNewMessages error:', e);
       }
     }
 
     function startNotificationPolling() {
-      if (notifPollingTimer) return; // déjà démarré
-      // Première vérification après 1.5s, puis toutes les 8s
+      if (notifPollingTimer) return;
       setTimeout(checkNewMessages, 1500);
-      notifPollingTimer = setInterval(checkNewMessages, 8000);
+      notifPollingTimer = setInterval(checkNewMessages, 4000);
     }
 
     document.addEventListener('DOMContentLoaded', async () => {
@@ -7453,6 +7628,30 @@
       });
     });
   </script>
+
+  <!-- MODAL : Laisser un avis -->
+  <div id="review-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;align-items:center;justify-content:center;padding:18px;" onclick="if(event.target===this)closeReviewModal()">
+    <div style="background:white;border-radius:18px;padding:22px;max-width:360px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,0.25);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">Laisser un avis</div>
+        <button type="button" onclick="closeReviewModal()" aria-label="Fermer" style="width:30px;height:30px;border-radius:50%;border:0;background:#f7f7f4;font-size:16px;cursor:pointer;">×</button>
+      </div>
+      <div id="review-subtitle" style="font-size:13px;color:var(--mu);margin-bottom:18px;">Comment s'est passé l'échange ?</div>
+
+      <!-- Étoiles -->
+      <div style="text-align:center;margin-bottom:18px;">
+        <div id="review-stars" style="font-size:38px;letter-spacing:6px;cursor:pointer;user-select:none;">
+          <span data-star="1" onclick="setReviewStars(1)">☆</span><span data-star="2" onclick="setReviewStars(2)">☆</span><span data-star="3" onclick="setReviewStars(3)">☆</span><span data-star="4" onclick="setReviewStars(4)">☆</span><span data-star="5" onclick="setReviewStars(5)">☆</span>
+        </div>
+        <div id="review-stars-label" style="font-size:12px;color:var(--mu);margin-top:6px;">Touche une étoile pour noter</div>
+      </div>
+
+      <!-- Commentaire -->
+      <textarea id="review-comment" rows="3" placeholder="Ton commentaire (optionnel)…" style="width:100%;padding:11px;border:1px solid rgba(8,80,65,0.15);border-radius:11px;font-family:'DM Sans',sans-serif;font-size:14px;resize:vertical;box-sizing:border-box;margin-bottom:16px;"></textarea>
+
+      <button type="button" id="review-submit-btn" onclick="submitReview()" style="width:100%;padding:12px;border:0;border-radius:11px;background:var(--g);color:white;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;">Publier mon avis</button>
+    </div>
+  </div>
 </body>
 
 </html>
