@@ -4771,6 +4771,7 @@
       if (tab === 'profil') {
         if (typeof loadMyObjects === 'function') loadMyObjects();
         getCurrentProfile().then(p => { if (p) updateProfileUI(p); });
+        if (typeof refreshMyNote === 'function') refreshMyNote();
       }
       if (tab === 'home' && typeof loadHomeObjects === 'function') loadHomeObjects();
       if (tab === 'msgs' && typeof loadMessages === 'function') loadMessages();
@@ -5565,6 +5566,23 @@
     }
 
     /* --- Charger MES avis reçus (onglet Avis du profil) --- */
+    /* --- Recalculer et afficher ma note moyenne (carte stats du profil) --- */
+    async function refreshMyNote() {
+      if (!sb) return;
+      const me = await getCurrentProfile();
+      if (!me) return;
+      try {
+        const { data: avis } = await sb.from('reviews').select('note').eq('destinataire_id', me.id);
+        const noteEl = document.getElementById('profile-note');
+        if (avis && avis.length > 0) {
+          const moy = avis.reduce((s, a) => s + (a.note || 0), 0) / avis.length;
+          if (noteEl) noteEl.textContent = (Math.round(moy * 10) / 10).toFixed(1);
+        } else if (noteEl) {
+          noteEl.textContent = '–';
+        }
+      } catch (e) { console.error('refreshMyNote error:', e); }
+    }
+
     async function loadMyReviews() {
       if (!sb) return;
       const me = await getCurrentProfile();
@@ -5577,6 +5595,14 @@
           .eq('destinataire_id', me.id)
           .order('created_at', { ascending: false });
         if (error) throw error;
+        // Calculer la note moyenne en direct et l'afficher
+        const noteEl = document.getElementById('profile-note');
+        if (avis && avis.length > 0) {
+          const moy = avis.reduce((s, a) => s + (a.note || 0), 0) / avis.length;
+          if (noteEl) noteEl.textContent = (Math.round(moy * 10) / 10).toFixed(1);
+        } else if (noteEl) {
+          noteEl.textContent = '–';
+        }
         if (!avis || avis.length === 0) {
           list.innerHTML = '<div style="text-align:center;padding:30px 20px;color:var(--mu);font-size:13px;">Tu n\'as pas encore reçu d\'avis.<br>Ils apparaîtront ici après tes premiers prêts ou emprunts.</div>';
           return;
@@ -5593,7 +5619,8 @@
     function renderAvisList(avis) {
       return avis.map(a => {
         const author = a.auteur || {};
-        const authName = (author.prenom || 'Membre') + ' ' + (author.nom?.[0] ? author.nom[0] + '.' : '');
+        const initialeNom = author.nom?.[0] ? author.nom[0].toUpperCase() + '. ' : '';
+        const authName = initialeNom + (author.prenom || 'Membre');
         const stars = '★'.repeat(a.note || 0) + '☆'.repeat(Math.max(0, 5 - (a.note || 0)));
         const d = a.created_at ? new Date(a.created_at).toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'}) : '';
         const clickAttr = author.id ? ' role="button" tabindex="0" onclick="openPublicProfile(\'' + author.id + '\')" style="cursor:pointer;"' : '';
@@ -6598,6 +6625,14 @@
           .order('created_at', { ascending: false })
           .limit(10);
         if (aErr) console.error('pub avis error:', aErr);
+        // Note moyenne calculée en direct
+        const noteEl2 = document.getElementById('pub-note');
+        if (avis && avis.length > 0) {
+          const moy = avis.reduce((s, a) => s + (a.note || 0), 0) / avis.length;
+          if (noteEl2) noteEl2.textContent = (Math.round(moy * 10) / 10).toFixed(1);
+        } else if (noteEl2) {
+          noteEl2.textContent = '–';
+        }
         if (avisList) {
           if (!avis || avis.length === 0) {
             avisList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mu);">Aucun avis pour l\'instant.</div>';
