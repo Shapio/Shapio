@@ -4057,13 +4057,9 @@
   <div class="page" id="p-app">
     <div class="app">
       <div class="atop">
-        <div class="alogo">Sha<span>p</span>io</div>
+        <div class="alogo" role="button" tabindex="0" onclick="setTab('home')" onkeypress="if(event.key==='Enter')setTab('home')" style="cursor:pointer;">Sha<span>p</span>io</div>
         <div class="atr">
           <div class="ppill" id="ppill-points" aria-label="Solde de points">50 pts</div>
-          <button class="ibtn" type="button" aria-label="Notifications" onclick="setTab('notif')">
-            <span aria-hidden="true">🔔</span>
-            <span class="ibtn-dot hidden" id="notif-dot" aria-hidden="true"></span>
-          </button>
         </div>
       </div>
 
@@ -4124,6 +4120,7 @@
           <button class="mtbtn active" id="mt-browse" type="button" role="tab" aria-selected="true" onclick="setSwipeMode('browse')">⊞ Liste</button>
           <button class="mtbtn" id="mt-swipe" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('swipe')">▶ Swipe</button>
           <button class="mtbtn" id="mt-members" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('members')">👥 Membres</button>
+          <button class="mtbtn" id="mt-favoris" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('favoris')">♥ Favoris</button>
         </div>
         <div class="filters" id="filters-cat" role="group" aria-label="Filtres par catégorie">
           <button type="button" class="fchip active" onclick="setFilter(this)">Tout</button>
@@ -4138,11 +4135,11 @@
           </div>
           <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;">
             <span style="font-size:11px;color:var(--mu);">← Passer</span>
-            <span style="font-size:11px;color:var(--mu);">Voir le détail →</span>
+            <span style="font-size:11px;color:var(--mu);">♥ Favori</span>
           </div>
           <div class="sactions">
             <button class="sabtn sask" type="button" aria-label="Passer cet objet" onclick="swipeNext()">✕</button>
-            <button class="sabtn slike" type="button" aria-label="Voir le détail" onclick="openObjectFiche(window.swipeFiltered?.[window.swipeIndex]?.id)">♥</button>
+            <button class="sabtn slike" type="button" aria-label="Ajouter aux favoris" onclick="swipeFavorite()">♥</button>
           </div>
         </div>
         <div id="browse-mode" style="display:block;">
@@ -4159,6 +4156,12 @@
           <div style="font-size:11px;color:var(--mu);padding:0 0 8px;" id="members-count">– membre</div>
           <div id="members-list" style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;">
             <div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
+          </div>
+        </div>
+        <div id="favoris-mode" style="display:none;padding:0 18px;">
+          <div style="font-size:11px;color:var(--mu);padding:4px 0 8px;" id="favoris-count">– objet en favori</div>
+          <div class="bgrid" id="favoris-list" style="padding:0 0 20px;">
+            <div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
           </div>
         </div>
       </div>
@@ -4184,7 +4187,7 @@
           </div>
           <div class="fstates">
             <div class="fst fst-g" id="fiche-dispo">Disponible</div>
-            <div class="fst fst-gr" id="fiche-etat">Bon état</div>
+            <div class="fst fst-gr" id="fiche-lieu" style="background:#f0f0ed;color:var(--dk);">📍 –</div>
           </div>
           <div class="fdesc" id="fiche-desc">Pas de description.</div>
           <div class="fdiv"></div>
@@ -4318,9 +4321,9 @@
           </div>
         </div>
 
-        <!-- Barre du bas : bouton contacter -->
-        <div style="position:fixed;left:0;right:0;bottom:0;background:white;border-top:1px solid #f0f0ed;padding:12px 18px;display:flex;gap:10px;z-index:40;max-width:480px;margin:0 auto;">
-          <button type="button" id="pub-contact-btn" onclick="contactFromPublic()" style="flex:1;padding:12px;border:0;border-radius:11px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">💬 Envoyer un message</button>
+        <!-- Barre du bas : bouton contacter (fixe, centré dans l'app) -->
+        <div style="position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:430px;background:white;border-top:1px solid #f0f0ed;padding:12px 18px;box-sizing:border-box;display:flex;gap:10px;z-index:60;">
+          <button type="button" id="pub-contact-btn" onclick="contactFromPublic()" style="flex:1;padding:13px;border:0;border-radius:11px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">💬 Envoyer un message</button>
         </div>
       </div>
 
@@ -4758,6 +4761,7 @@
       // Démarrer les notifications dès qu'on entre dans l'app
       if (id === 'p-app' && typeof startNotificationPolling === 'function') {
         startNotificationPolling();
+        if (typeof loadFavoritesSet === 'function') loadFavoritesSet();
       }
     }
 
@@ -5322,6 +5326,85 @@
     }
 
     /* --- Charger l'historique des transactions du wallet --- */
+    /* ============================================
+       FAVORIS
+       ============================================ */
+    window.myFavorites = new Set(); // ids d'objets favoris
+
+    async function loadFavoritesSet() {
+      if (!sb) return;
+      try {
+        const me = await getCurrentProfile();
+        if (!me) return;
+        const { data } = await sb.from('favoris').select('object_id').eq('user_id', me.id);
+        window.myFavorites = new Set((data || []).map(f => f.object_id));
+      } catch (e) { console.error('loadFavoritesSet error:', e); }
+    }
+
+    async function toggleFavorite(objectId, btnEl) {
+      if (!sb || !objectId) return;
+      const me = await getCurrentProfile();
+      if (!me) return;
+      const isFav = window.myFavorites.has(objectId);
+      try {
+        if (isFav) {
+          await sb.from('favoris').delete().eq('user_id', me.id).eq('object_id', objectId);
+          window.myFavorites.delete(objectId);
+        } else {
+          await sb.from('favoris').insert({ user_id: me.id, object_id: objectId });
+          window.myFavorites.add(objectId);
+        }
+        // Mettre à jour le bouton visuel
+        if (btnEl) {
+          const nowFav = window.myFavorites.has(objectId);
+          btnEl.textContent = nowFav ? '♥' : '♡';
+          btnEl.style.color = nowFav ? '#EF4444' : '';
+        }
+        // Rafraîchir l'onglet favoris si ouvert
+        const fmode = document.getElementById('favoris-mode');
+        if (fmode && fmode.style.display !== 'none') loadFavorites();
+      } catch (e) {
+        console.error('toggleFavorite error:', e);
+        alert('Erreur : ' + (e.message || e));
+      }
+    }
+
+    async function loadFavorites() {
+      if (!sb) return;
+      const listEl = document.getElementById('favoris-list');
+      const countEl = document.getElementById('favoris-count');
+      if (!listEl) return;
+      const me = await getCurrentProfile();
+      if (!me) return;
+      try {
+        const { data: favs, error } = await sb.from('favoris')
+          .select('object_id, obj:object_id(*, users(id, prenom, nom, ville, note_moyenne))')
+          .eq('user_id', me.id)
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+        const objets = (favs || []).map(f => f.obj).filter(Boolean);
+        if (countEl) countEl.textContent = objets.length + ' objet' + (objets.length > 1 ? 's' : '') + ' en favori';
+        if (objets.length === 0) {
+          listEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--mu);font-size:13px;">💛 Aucun favori pour l\'instant.<br>Touche le cœur sur un objet pour l\'ajouter ici.</div>';
+          return;
+        }
+        listEl.innerHTML = objets.map(o => {
+          const c = (typeof CAT_ICONS !== 'undefined' && CAT_ICONS[o.categorie]) ? CAT_ICONS[o.categorie] : { bg: '#E1F5EE', ico: '📦' };
+          const photo = (o.photos && o.photos[0])
+            ? '<img src="' + o.photos[0] + '" style="width:100%;height:100%;object-fit:cover;" alt="' + (o.titre || '') + '"/>'
+            : '<span aria-hidden="true">' + c.ico + '</span>';
+          return '<div class="bcard" role="button" tabindex="0" onclick="openObjectFiche(\'' + o.id + '\')">' +
+            '<div class="bimg" style="background:' + c.bg + ';">' + photo +
+            '<div class="bpts">' + (o.pts_par_jour || 0) + ' pts</div></div>' +
+            '<div class="binfo"><div class="bname">' + (o.titre || 'Objet') + '</div>' +
+            '<div class="bowner">' + (o.ville || 'France') + '</div></div></div>';
+        }).join('');
+      } catch (e) {
+        console.error('loadFavorites error:', e);
+        listEl.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--mu);font-size:13px;">Erreur de chargement.</div>';
+      }
+    }
+
     async function loadWallet() {
       if (!sb) return;
       window.currentProfile = null; // forcer le rechargement des points
@@ -5477,6 +5560,52 @@
         }
         if (content) content.style.display = (t === tab) ? 'block' : 'none';
       });
+      // Charger les avis reçus quand on ouvre l'onglet Avis
+      if (tab === 'avis' && typeof loadMyReviews === 'function') loadMyReviews();
+    }
+
+    /* --- Charger MES avis reçus (onglet Avis du profil) --- */
+    async function loadMyReviews() {
+      if (!sb) return;
+      const me = await getCurrentProfile();
+      if (!me) return;
+      const list = document.getElementById('profile-avis-list');
+      if (!list) return;
+      try {
+        const { data: avis, error } = await sb.from('reviews')
+          .select('*, auteur:auteur_id(id, prenom, nom, avatar_url)')
+          .eq('destinataire_id', me.id)
+          .order('created_at', { ascending: false });
+        if (error) throw error;
+        if (!avis || avis.length === 0) {
+          list.innerHTML = '<div style="text-align:center;padding:30px 20px;color:var(--mu);font-size:13px;">Tu n\'as pas encore reçu d\'avis.<br>Ils apparaîtront ici après tes premiers prêts ou emprunts.</div>';
+          return;
+        }
+        list.style.textAlign = 'left';
+        list.style.padding = '0';
+        list.innerHTML = renderAvisList(avis);
+      } catch (e) {
+        console.error('loadMyReviews error:', e);
+      }
+    }
+
+    /* --- Rendu commun d'une liste d'avis (avec auteur cliquable) --- */
+    function renderAvisList(avis) {
+      return avis.map(a => {
+        const author = a.auteur || {};
+        const authName = (author.prenom || 'Membre') + ' ' + (author.nom?.[0] ? author.nom[0] + '.' : '');
+        const stars = '★'.repeat(a.note || 0) + '☆'.repeat(Math.max(0, 5 - (a.note || 0)));
+        const d = a.created_at ? new Date(a.created_at).toLocaleDateString('fr-FR', {day:'numeric', month:'short', year:'numeric'}) : '';
+        const clickAttr = author.id ? ' role="button" tabindex="0" onclick="openPublicProfile(\'' + author.id + '\')" style="cursor:pointer;"' : '';
+        return '<div' + clickAttr + ' style="padding:12px;background:#f7f7f4;border-radius:12px;margin-bottom:8px;cursor:pointer;">' +
+          '<div style="display:flex;justify-content:space-between;margin-bottom:6px;align-items:center;">' +
+          '<div style="font-weight:500;color:var(--dk);font-size:13px;">' + authName + ' <span style="color:var(--mu);font-size:11px;">›</span></div>' +
+          '<div style="color:#F59E0B;font-size:13px;">' + stars + '</div>' +
+          '</div>' +
+          (a.commentaire ? '<div style="font-size:13px;color:var(--dk);line-height:1.5;margin-bottom:4px;">' + a.commentaire.replace(/</g,'&lt;') + '</div>' : '') +
+          '<div style="font-size:11px;color:var(--mu);">' + d + '</div>' +
+          '</div>';
+      }).join('');
     }
 
     /* --- Changer le mot de passe (utilisateur connecté) --- */
@@ -5522,12 +5651,11 @@
     }
 
     function toggleFSave() {
+      const o = window.currentObject;
+      if (!o) return;
       const b = document.getElementById('fsavebtn');
-      if (!b) return;
-      const isSaved = b.textContent.trim() === '♥';
-      b.textContent = isSaved ? '♡' : '♥';
-      b.style.color = isSaved ? '' : 'var(--gm)';
-      b.setAttribute('aria-pressed', String(!isSaved));
+      toggleFavorite(o.id, b);
+      if (b) b.setAttribute('aria-pressed', String(window.myFavorites.has(o.id)));
     }
 
     async function showFicheConfirm() {
@@ -5701,13 +5829,15 @@
       const swipeEl = document.getElementById('swipe-mode');
       const browseEl = document.getElementById('browse-mode');
       const membersEl = document.getElementById('members-mode');
+      const favorisEl = document.getElementById('favoris-mode');
       const filtersCat = document.getElementById('filters-cat');
       const tSwipe = document.getElementById('mt-swipe');
       const tBrowse = document.getElementById('mt-browse');
       const tMembers = document.getElementById('mt-members');
+      const tFavoris = document.getElementById('mt-favoris');
 
       // Reset tous les onglets
-      [tSwipe, tBrowse, tMembers].forEach(b => {
+      [tSwipe, tBrowse, tMembers, tFavoris].forEach(b => {
         if (b) { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); }
       });
 
@@ -5715,6 +5845,7 @@
       if (swipeEl) swipeEl.style.display = 'none';
       if (browseEl) browseEl.style.display = 'none';
       if (membersEl) membersEl.style.display = 'none';
+      if (favorisEl) favorisEl.style.display = 'none';
 
       if (m === 'swipe') {
         if (swipeEl) swipeEl.style.display = 'block';
@@ -5722,9 +5853,14 @@
         if (tSwipe) { tSwipe.classList.add('active'); tSwipe.setAttribute('aria-selected', 'true'); }
       } else if (m === 'members') {
         if (membersEl) membersEl.style.display = 'block';
-        if (filtersCat) filtersCat.style.display = 'none'; // catégories non pertinentes pour les membres
+        if (filtersCat) filtersCat.style.display = 'none';
         if (tMembers) { tMembers.classList.add('active'); tMembers.setAttribute('aria-selected', 'true'); }
         if (typeof loadMembers === 'function') loadMembers();
+      } else if (m === 'favoris') {
+        if (favorisEl) favorisEl.style.display = 'block';
+        if (filtersCat) filtersCat.style.display = 'none';
+        if (tFavoris) { tFavoris.classList.add('active'); tFavoris.setAttribute('aria-selected', 'true'); }
+        if (typeof loadFavorites === 'function') loadFavorites();
       } else {
         // browse par défaut
         if (browseEl) browseEl.style.display = 'block';
@@ -6273,6 +6409,15 @@
       renderSwipeCard();
     }
 
+    async function swipeFavorite() {
+      const obj = window.swipeFiltered?.[window.swipeIndex];
+      if (!obj) return;
+      if (!window.myFavorites.has(obj.id)) {
+        await toggleFavorite(obj.id, null);
+      }
+      swipeNext();
+    }
+
         /* --- Charger MES objets pour le profil --- */
     async function loadMyObjects() {
       if (!sb || !window.currentProfile) return;
@@ -6448,7 +6593,7 @@
         // Charger ses avis reçus
         const avisList = document.getElementById('pub-avis-list');
         const { data: avis, error: aErr } = await sb.from('reviews')
-          .select('*, auteur:auteur_id(prenom, nom, avatar_url)')
+          .select('*, auteur:auteur_id(id, prenom, nom, avatar_url)')
           .eq('destinataire_id', userId)
           .order('created_at', { ascending: false })
           .limit(10);
@@ -6457,18 +6602,7 @@
           if (!avis || avis.length === 0) {
             avisList.innerHTML = '<div style="text-align:center;padding:20px;color:var(--mu);">Aucun avis pour l\'instant.</div>';
           } else {
-            avisList.innerHTML = avis.map(a => {
-              const author = a.auteur || {};
-              const authName = (author.prenom || 'Membre') + ' ' + (author.nom?.[0] ? author.nom[0] + '.' : '');
-              const stars = '★'.repeat(a.note || 0) + '☆'.repeat(Math.max(0, 5 - (a.note || 0)));
-              return '<div style="padding:12px;background:#f7f7f4;border-radius:12px;margin-bottom:8px;">' +
-                '<div style="display:flex;justify-content:space-between;margin-bottom:6px;">' +
-                '<div style="font-weight:500;color:var(--dk);font-size:13px;">' + authName + '</div>' +
-                '<div style="color:#F59E0B;font-size:13px;">' + stars + '</div>' +
-                '</div>' +
-                '<div style="font-size:13px;color:var(--dk);line-height:1.5;">' + (a.commentaire || '').replace(/</g,'&lt;') + '</div>' +
-                '</div>';
-            }).join('');
+            avisList.innerHTML = renderAvisList(avis);
           }
         }
 
@@ -6529,11 +6663,19 @@
       if (!sb || !objectId) return;
       try {
         const { data: o, error } = await sb.from('objects')
-          .select('*, users(id, prenom, nom, ville, note_moyenne, nb_prets, verifie_identite, created_at, avatar_url)')
+          .select('*, users(id, prenom, nom, ville, code_postal, note_moyenne, nb_prets, verifie_identite, created_at, avatar_url)')
           .eq('id', objectId)
           .single();
         if (error) throw error;
         window.currentObject = o;
+
+        // État favori du cœur
+        const fsave = document.getElementById('fsavebtn');
+        if (fsave) {
+          const isFav = window.myFavorites.has(o.id);
+          fsave.textContent = isFav ? '♥' : '♡';
+          fsave.style.color = isFav ? '#EF4444' : '';
+        }
 
         const c = (typeof CAT_ICONS !== 'undefined' && CAT_ICONS[o.categorie]) ? CAT_ICONS[o.categorie] : { bg: '#E1F5EE', ico: '📦' };
 
@@ -6565,8 +6707,12 @@
         if (note) note.textContent = (o.users?.note_moyenne > 0) ? o.users.note_moyenne.toFixed(1) : '–';
         const dispo = document.getElementById('fiche-dispo');
         if (dispo) dispo.textContent = o.disponible ? 'Disponible' : 'Indisponible';
-        const etat = document.getElementById('fiche-etat');
-        if (etat) etat.textContent = o.etat || 'Bon état';
+        const lieu = document.getElementById('fiche-lieu');
+        if (lieu) {
+          const cp = o.code_postal ? o.code_postal + ' ' : '';
+          const v = o.ville || o.users?.ville || '';
+          lieu.textContent = '📍 ' + (v ? (cp + v) : 'France');
+        }
         const desc = document.getElementById('fiche-desc');
         if (desc) desc.textContent = o.description || 'Pas de description.';
 
@@ -6782,7 +6928,6 @@
           actions =
             '<div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">' +
               '<button type="button" onclick="loanAccept(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✓ Accepter</button>' +
-              '<button type="button" onclick="loanCounter(\'' + m.id + '\')" style="padding:9px 12px;border:1px solid var(--g);border-radius:8px;background:white;color:var(--g);font-family:inherit;font-size:13px;cursor:pointer;">↔ Contre-proposition</button>' +
               '<button type="button" onclick="loanRefuse(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:#FEE2E2;color:#EF4444;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✕ Refuser</button>' +
             '</div>';
         }
@@ -7379,7 +7524,7 @@
       const emprunts = document.getElementById('profile-emprunts');
       if (emprunts) emprunts.textContent = profile.nb_emprunts ?? 0;
       const note = document.getElementById('profile-note');
-      if (note) note.textContent = profile.note_moyenne > 0 ? profile.note_moyenne : '–';
+      if (note) note.textContent = profile.note_moyenne > 0 ? Number(profile.note_moyenne).toFixed(1) : '–';
 
       // Welcome accueil
       const welcome = document.getElementById('home-welcome');
