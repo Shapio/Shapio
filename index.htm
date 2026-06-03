@@ -1789,12 +1789,22 @@
 
     /* FICHE */
     .fphoto {
-      height: 260px;
+      min-height: 240px;
+      max-height: 380px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 86px;
       position: relative;
+      background: #f0f0ed;
+      overflow: hidden;
+    }
+    .fphoto img.fphoto-img {
+      width: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      display: block;
+      cursor: zoom-in;
     }
 
     .fback {
@@ -3677,8 +3687,8 @@
         <div class="sp-lbl">Profils vérifiés</div>
       </div>
       <div class="sp-item">
-        <div class="sp-num">Hauts-de-France</div>
-        <div class="sp-lbl">Région</div>
+        <div class="sp-num">Lille</div>
+        <div class="sp-lbl">Hauts-de-France</div>
       </div>
     </div>
 
@@ -4733,14 +4743,25 @@
           </div>
 
           <div class="ao-fl">
-            <label for="ao-quartier">Quartier de Lille</label>
-            <input type="text" id="ao-quartier" name="neighborhood" placeholder="Vauban, Vieux-Lille, Wazemmes…" />
+            <label for="ao-quartier">Quartier (optionnel)</label>
+            <input type="text" id="ao-quartier" name="neighborhood" placeholder="Ton quartier…" />
           </div>
 
           <div class="form-error" id="ao-error" role="alert" aria-live="polite"></div>
 
           <button class="ao-submit" type="submit">Publier mon objet</button>
         </form>
+
+        <!-- Overlay de succès (n'écrase pas le formulaire) -->
+        <div id="ao-success-overlay" style="display:none;position:fixed;inset:0;background:rgba(255,255,255,0.97);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;">
+          <div style="font-size:64px;margin-bottom:16px;">✅</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);margin-bottom:8px;">Bravo !</div>
+          <p style="font-size:14px;color:var(--mu);line-height:1.55;max-width:280px;margin:0 auto 24px;">Ton objet est en ligne. Tes voisins peuvent maintenant te le demander en prêt.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:260px;">
+            <button type="button" onclick="document.getElementById('ao-success-overlay').style.display='none';" style="padding:12px;border:0;border-radius:11px;background:var(--g);color:white;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;">Publier un autre objet</button>
+            <button type="button" onclick="document.getElementById('ao-success-overlay').style.display='none';setTab('home');" style="padding:12px;border:1px solid var(--g);border-radius:11px;background:white;color:var(--g);font-family:inherit;font-size:14px;cursor:pointer;">Retour à l'accueil</button>
+          </div>
+        </div>
       </div>
 
       <!-- NOTIFICATIONS -->
@@ -4830,6 +4851,10 @@
         if (typeof refreshMyNote === 'function') refreshMyNote();
       }
       if (tab === 'home' && typeof loadHomeObjects === 'function') loadHomeObjects();
+      if (tab === 'addobj') {
+        const ov = document.getElementById('ao-success-overlay');
+        if (ov) ov.style.display = 'none';
+      }
       if (tab === 'msgs' && typeof loadMessages === 'function') loadMessages();
       if (tab === 'notif' || tab === 'msgs' || tab === 'chat') {
         const dot = document.getElementById('notif-dot');
@@ -6136,19 +6161,30 @@
 
         if (insertError) throw insertError;
 
-        // Show success
-        const screen = document.getElementById('as-addobj');
-        screen.innerHTML =
-          '<div class="ao-hdr">' +
-          '<button type="button" class="ao-back" aria-label="Retour" onclick="setTab(\'home\')">←</button>' +
-          '<div class="ao-title">Objet publié</div>' +
-          '</div>' +
-          '<div class="ao-success" style="padding:40px 20px;text-align:center;">' +
-          '<div style="font-size:64px;margin-bottom:16px;">✓</div>' +
-          '<div style="font-family:\'DM Serif Display\',serif;font-size:24px;color:var(--dk);margin-bottom:8px;">Bravo !</div>' +
-          '<p style="font-size:14px;color:var(--mu);line-height:1.55;max-width:280px;margin:0 auto 22px;">Ton objet est en ligne. Tes voisins peuvent maintenant te le demander en prêt.</p>' +
-          '<button type="button" class="ao-submit" style="max-width:240px;margin:0 auto;display:block;" onclick="setTab(\'home\');loadHomeObjects();loadMyObjects();">Retour à l\u2019accueil</button>' +
-          '</div>';
+        // Réinitialiser le formulaire (sans le détruire)
+        document.getElementById('ao-title').value = '';
+        if (document.getElementById('ao-desc')) document.getElementById('ao-desc').value = '';
+        if (document.getElementById('ao-pts-input')) document.getElementById('ao-pts-input').value = '10';
+        if (document.getElementById('ao-quartier')) document.getElementById('ao-quartier').value = '';
+        if (fileInput) fileInput.value = '';
+        // Réinitialiser l'aperçu photo
+        const photoBtn = document.getElementById('ao-photo-btn');
+        if (photoBtn) {
+          photoBtn.style.backgroundImage = '';
+          photoBtn.innerHTML = '<div class="ao-photo-ico" aria-hidden="true">📷</div>' +
+            '<div class="ao-photo-txt">Ajouter une photo</div>' +
+            '<div class="ao-photo-sub">JPG, PNG · 5 Mo max</div>';
+        }
+        btn.textContent = 'Publier mon objet';
+        btn.disabled = false;
+
+        // Afficher un overlay de succès temporaire (sans détruire le formulaire)
+        const ov = document.getElementById('ao-success-overlay');
+        if (ov) ov.style.display = 'flex';
+
+        // Recharger les listes en arrière-plan
+        if (typeof loadHomeObjects === 'function') loadHomeObjects();
+        if (typeof loadMyObjects === 'function') loadMyObjects();
       } catch (err) {
         console.error('Erreur publication:', err);
         showError('ao-error', 'Erreur : ' + (err.message || 'impossible de publier'));
@@ -6750,6 +6786,23 @@
       openChat(userId);
     }
 
+    /* --- Voir une photo en grand (plein écran) --- */
+    function openPhotoZoom(url) {
+      if (!url) return;
+      let ov = document.getElementById('photo-zoom-overlay');
+      if (!ov) {
+        ov = document.createElement('div');
+        ov.id = 'photo-zoom-overlay';
+        ov.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;cursor:zoom-out;';
+        ov.onclick = function () { ov.style.display = 'none'; };
+        ov.innerHTML = '<img id="photo-zoom-img" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;" alt="Photo en grand"/>' +
+          '<button type="button" aria-label="Fermer" style="position:absolute;top:18px;right:18px;width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,0.15);color:white;font-size:22px;cursor:pointer;">×</button>';
+        document.body.appendChild(ov);
+      }
+      document.getElementById('photo-zoom-img').src = url;
+      ov.style.display = 'flex';
+    }
+
     async function openObjectFiche(objectId) {
       if (!sb || !objectId) return;
       try {
@@ -6774,9 +6827,18 @@
         const photo = document.getElementById('fiche-photo');
         const emoji = document.getElementById('fiche-photo-emoji');
         if (photo) {
+          // Retirer une éventuelle img précédente
+          const oldImg = photo.querySelector('.fphoto-img');
+          if (oldImg) oldImg.remove();
           if (o.photos && o.photos[0]) {
-            photo.style.background = "url('" + o.photos[0] + "') center/cover no-repeat";
+            photo.style.background = '#f0f0ed';
             if (emoji) emoji.style.display = 'none';
+            const img = document.createElement('img');
+            img.className = 'fphoto-img';
+            img.src = o.photos[0];
+            img.alt = o.titre || 'Objet';
+            img.onclick = function () { openPhotoZoom(o.photos[0]); };
+            photo.appendChild(img);
           } else {
             photo.style.background = c.bg;
             if (emoji) { emoji.style.display = ''; emoji.textContent = c.ico; }
