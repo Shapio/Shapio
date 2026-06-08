@@ -4961,7 +4961,8 @@
           return;
         }
 
-        const { data: profile } = await sb.from('users').select('*').eq('auth_id', data.user.id).single();
+        // Charger le profil (et le créer si besoin via getCurrentProfile)
+        const profile = await getCurrentProfile();
         if (profile) {
           updateProfileUI(profile);
         }
@@ -5013,7 +5014,7 @@
         const { data: authData, error: authError } = await sb.auth.signUp({
           email,
           password: pwd,
-          options: { data: { prenom, nom } }
+          options: { data: { prenom, nom, ville, code_postal: cp } }
         });
         if (authError) throw authError;
 
@@ -5155,15 +5156,16 @@
       try {
         const { data: { session } } = await sb.auth.getSession();
         if (!session?.user) return null;
-        let { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+        let { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).maybeSingle();
 
-        // Si pas de profil (INSERT à l'inscription a échoué), on le crée maintenant
+        // Si pas de profil (INSERT à l'inscription a échoué car pas de session), on le crée maintenant
         if (!profile) {
           console.warn('Profil manquant → création de secours');
           const u = session.user;
           const meta = u.user_metadata || {};
-          const villeFromSignup = sessionStorage.getItem('signup_ville') || '';
-          const cpFromSignup = sessionStorage.getItem('signup_cp') || '';
+          // Priorité aux métadonnées auth (persistent), puis sessionStorage en secours
+          const villeFromSignup = meta.ville || sessionStorage.getItem('signup_ville') || '';
+          const cpFromSignup = meta.code_postal || sessionStorage.getItem('signup_cp') || '';
           const prenom = meta.prenom || sessionStorage.getItem('signup_prenom') || (u.email?.split('@')[0] || 'Membre');
           const nom = meta.nom || sessionStorage.getItem('signup_nom') || '';
           const pseudo = (prenom + nom).toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Math.floor(Math.random() * 9999);
@@ -5171,12 +5173,12 @@
             auth_id: u.id,
             prenom, nom, pseudo,
             email: u.email,
-            ville: villeFromSignup,
-            code_postal: cpFromSignup,
+            ville: villeFromSignup || 'Non renseignée',
+            code_postal: cpFromSignup || null,
             points: 50,
             verifie_telephone: false,
             statut_verification: 'non_demande'
-          }).select().single();
+          }).select().maybeSingle();
           if (insertErr) console.error('Création de secours échouée:', insertErr);
           else profile = newProfile;
         }
@@ -7906,7 +7908,7 @@
       // Vérifier si déjà connecté
       const { data: { session } } = await sb.auth.getSession();
       if (session && session.user) {
-        const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single();
+        const profile = await getCurrentProfile();
         if (profile) {
           window.currentProfile = profile;
           updateProfileUI(profile);
