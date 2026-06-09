@@ -67,14 +67,15 @@ requêtes du front**. Il crée toutes les **tables** (users, objects, loans, rev
 messages, favoris) et les **buckets** (avatars, objects), avec des **RLS permissives
 réservées au local**.
 
-Il ne contient **pas** la logique serveur de la prod (invisible côté client) :
-- création d'un **prêt** (`loans`) — le front n'insère jamais dans `loans` ;
-- **transfert de points** au retour (message `LOAN_RETURNED`) ;
-- recalculs éventuels (`note_moyenne`, `nb_prets`).
+Les **fonctions RPC** du cycle de prêt (`accepter_pret`, `confirmer_retour`) sont
+**reconstituées** dans `..._loan_functions_local.sql` à partir de leur signature et des
+messages d'erreur du code — fidèles à l'intention, mais potentiellement différentes de la
+prod sur des cas limites.
 
-➡️ Conséquence : naviguer / créer un objet / messagerie / favoris fonctionnent en local ;
-le cycle de prêt complet (acceptation → prêt en cours → retour → points) peut nécessiter
-la logique serveur ci-dessous.
+➡️ Conséquence : navigation, objets, messagerie, favoris **et** cycle de prêt
+(acceptation → points bloqués → retour → transfert) fonctionnent en local. Si un
+comportement diffère de la prod, récupérez la version exacte via `db pull` (§6) puis
+supprimez les migrations `..._inferred` / `..._loan_functions_local`.
 
 ## 6. Répliquer EXACTEMENT la prod (recommandé si vous avez l'accès)
 
