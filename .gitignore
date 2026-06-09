@@ -1,0 +1,19 @@
+# Dépendances
+node_modules/
+
+# Build
+dist/
+
+# Variables d'environnement (secrets / config)
+.env
+.env.*
+!.env.example
+
+# Base de données locale — ne JAMAIS committer
+*.db
+backend/
+
+# Divers
+.DS_Store
+*.log
+.vite/

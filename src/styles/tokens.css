@@ -1,0 +1,60 @@
+    :root {
+      --g: #085041;
+      --gm: #1D9E75;
+      --gl: #E1F5EE;
+      --ga: #5DCAA5;
+      --cr: #F7F5F0;
+      --dk: #111410;
+      --mu: #6B7068;
+      --bd: rgba(8, 80, 65, 0.12);
+      /* Ombres cohérentes */
+      --sh-sm: 0 1px 2px rgba(17, 20, 16, 0.04), 0 1px 3px rgba(17, 20, 16, 0.03);
+      --sh-md: 0 2px 8px rgba(8, 80, 65, 0.06), 0 1px 3px rgba(17, 20, 16, 0.04);
+      --sh-lg: 0 8px 24px rgba(8, 80, 65, 0.10), 0 2px 6px rgba(17, 20, 16, 0.05);
+      /* Dégradé signature */
+      --grad-g: linear-gradient(135deg, #085041, #1D9E75);
+      --grad-soft: linear-gradient(135deg, #E1F5EE, #D1F0E0);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    button, .bcard, .ni, .ibtn, a {
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+    }
+    button:not(:disabled):active {
+      transform: scale(0.97);
+    }
+
+    /* a11y utility */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    html,
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cr);
+      color: var(--dk);
+      overflow-x: hidden;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+

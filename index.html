@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#085041">
+  <meta name="color-scheme" content="light">
+
+  <title>Shapio — Prêtez, empruntez, faites confiance.</title>
+  <meta name="description"
+    content="Shapio est la plateforme de prêt d'objets entre voisins à Lille. Sans argent, juste des points. Drone, perceuse, tente, jeux… 50 points offerts à l'inscription.">
+  <meta name="keywords" content="prêt entre particuliers, location objets, économie circulaire, Lille, voisinage, partage, points, Shapio">
+  <meta name="author" content="Shapio">
+
+  <link rel="canonical" href="https://shapio.fr/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://shapio.fr/">
+  <meta property="og:title" content="Shapio — Prêtez, empruntez, faites confiance.">
+  <meta property="og:description"
+    content="Une communauté de voisins qui partagent leurs objets — sans argent, juste des points. Lancé à Lille.">
+  <meta property="og:image" content="https://shapio.fr/og-image.png">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Shapio">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Shapio — Prêtez, empruntez, faites confiance.">
+  <meta name="twitter:description"
+    content="Une communauté de voisins qui partagent leurs objets — sans argent, juste des points.">
+  <meta name="twitter:image" content="https://shapio.fr/og-image.png">
+
+  <!-- Favicon (SVG inline = pas de requête supplémentaire) -->
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23085041%22/><text x=%2250%22 y=%2270%22 font-size=%2270%22 text-anchor=%22middle%22 font-family=%22Georgia,serif%22 fill=%22%231D9E75%22 font-style=%22italic%22>p</text></svg>">
+  <link rel="apple-touch-icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23085041%22/><text x=%2250%22 y=%2270%22 font-size=%2270%22 text-anchor=%22middle%22 font-family=%22Georgia,serif%22 fill=%22%231D9E75%22 font-style=%22italic%22>p</text></svg>">
+
+  <!-- Performance: preconnect pour Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Shapio",
+    "url": "https://shapio.fr",
+    "description": "Plateforme de prêt d'objets entre particuliers à Lille. Sans argent, juste des points.",
+    "applicationCategory": "LifestyleApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Lille",
+      "addressRegion": "Hauts-de-France",
+      "addressCountry": "FR"
+    },
+    "inLanguage": "fr-FR"
+  }
+  </script>
+</head>
+
+<body>
+
+  <a href="#main-content" class="skip-link">Aller au contenu</a>
+
+  <!-- LANDING -->
+  <div class="page active" id="p-landing">
+    <nav aria-label="Navigation principale">
+      <a class="nav-logo" href="#" onclick="event.preventDefault();go('p-landing')" aria-label="Shapio - accueil">Sha<span>p</span>io</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navLinks" type="button" onclick="toggleNav()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks" role="menu">
+        <a role="menuitem" tabindex="0" onclick="closeNav();document.getElementById('section-how').scrollIntoView({behavior:'smooth'})" onkeypress="if(event.key==='Enter')this.click()">Comment ça marche</a>
+        <a role="menuitem" tabindex="0" onclick="closeNav();document.getElementById('section-pts').scrollIntoView({behavior:'smooth'})" onkeypress="if(event.key==='Enter')this.click()">Les points</a>
+        <a role="menuitem" tabindex="0" onclick="closeNav();document.getElementById('section-trust').scrollIntoView({behavior:'smooth'})" onkeypress="if(event.key==='Enter')this.click()">Confiance et sécurité</a>
+        <a role="menuitem" tabindex="0" onclick="closeNav();document.getElementById('section-faq').scrollIntoView({behavior:'smooth'})" onkeypress="if(event.key==='Enter')this.click()">FAQ</a>
+      </div>
+      <button class="nav-cta" type="button" onclick="go('p-connexion')">Se connecter</button>
+    </nav>
+
+    <main id="main-content">
+
+    <div class="hero">
+      <div class="hero-tag">
+        <div class="tdot" aria-hidden="true"></div>Lancé à Lille · Hauts-de-France 🌻
+      </div>
+      <h1>Prêtez ce que vous n'utilisez pas.<br><em>Empruntez</em> ce dont vous avez besoin.</h1>
+      <p class="hero-sub">Une communauté de voisins qui partagent leurs objets — sans argent, juste des points.</p>
+      <div class="hero-acts">
+        <button class="btn-p" type="button" onclick="go('p-s1')">Créer mon compte gratuit</button>
+        <button class="btn-gh" type="button" onclick="document.getElementById('section-how').scrollIntoView({behavior:'smooth'})">Voir
+          comment ça marche →</button>
+      </div>
+      <div class="hero-pts" aria-label="Bonus à l'inscription"><span aria-hidden="true">🎁</span> <strong>50 points offerts à l'inscription</strong> </div>
+    </div>
+
+    <div class="sp">
+      <div class="sp-item">
+        <div class="sp-num">0€</div>
+        <div class="sp-lbl">Zéro argent échangé</div>
+      </div>
+      <div class="sp-item">
+        <div class="sp-num">50 pts</div>
+        <div class="sp-lbl">Offerts à l'inscription</div>
+      </div>
+      <div class="sp-item">
+        <div class="sp-num">✓</div>
+        <div class="sp-lbl">Profils vérifiés</div>
+      </div>
+      <div class="sp-item">
+        <div class="sp-num">Lille</div>
+        <div class="sp-lbl">Hauts-de-France</div>
+      </div>
+    </div>
+
+    <section class="lsec" id="section-how">
+      <div class="stag">Comment ça marche</div>
+      <h2>Simple comme un <em>coup de fil</em> à un voisin.</h2>
+      <p class="lsec-sub">Shapio rend le partage aussi naturel que demander un service à un ami.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-n">01</div>
+          <h3>Publiez vos objets</h3>
+          <p>Drone, perceuse, appareil photo… Fixez vous-même le prix en points.</p>
+        </div>
+        <div class="step">
+          <div class="step-n">02</div>
+          <h3>Swipez pour emprunter</h3>
+          <p>Parcourez les objets autour de vous et demandez en un tap.</p>
+        </div>
+        <div class="step">
+          <div class="step-n">03</div>
+          <h3>Échangez en confiance</h3>
+          <p>Profils vérifiés, notes et avis, messagerie intégrée.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pts-sec" id="section-pts">
+      <div class="pbg pbg1"></div>
+      <div class="pbg pbg2"></div>
+      <div class="stag">Le système de points</div>
+      <div class="pts-ttl">Une monnaie <em>équitable</em><br>pour tout le monde.</div>
+      <p class="pts-sub2">Pas d'argent, pas d'inégalités. Juste des points qui créent du lien.</p>
+      <div class="pts-grid">
+        <div class="pts-card">
+          <div class="pts-ico">🎁</div>
+          <h4>Bienvenue</h4>
+          <p>Chaque nouveau membre reçoit des points pour emprunter dès le premier jour.</p><span class="pts-hl">50 pts
+            offerts</span>
+        </div>
+        <div class="pts-card">
+          <div class="pts-ico">📦</div>
+          <h4>Prêtez, gagnez</h4>
+          <p>Chaque prêt rapporte des points fixés par vous. Plus vous prêtez, plus vous empruntez.</p><span
+            class="pts-hl">Vous fixez le prix</span>
+        </div>
+        <div class="pts-card">
+          <div class="pts-ico">🔒</div>
+          <h4>Points sécurisés</h4>
+          <p>Les points sont bloqués à la demande et libérés au retour de l'objet.</p><span class="pts-hl">Sécurité
+            garantie</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="tr-sec" id="section-trust">
+      <div class="stag">Confiance & sécurité</div>
+      <h2>Prêtez l'esprit <em>tranquille.</em></h2>
+      <p class="lsec-sub">Plusieurs niveaux de vérification pour chaque échange.</p>
+      <div class="tr-grid">
+        <div class="tr-card">
+          <div class="tr-ico" aria-hidden="true">📱</div>
+          <h4>Vérification téléphone</h4>
+          <p>Chaque compte est lié à un numéro réel.</p>
+        </div>
+        <div class="tr-card">
+          <div class="tr-ico" aria-hidden="true">🪪</div>
+          <h4>Pièce d'identité</h4>
+          <p>Badge vert pour les membres vérifiés.</p>
+        </div>
+        <div class="tr-card">
+          <div class="tr-ico" aria-hidden="true">⭐</div>
+          <h4>Notes & avis</h4>
+          <p>La réputation se construit prêt après prêt.</p>
+        </div>
+        <div class="tr-card">
+          <div class="tr-ico" aria-hidden="true">🛡</div>
+          <h4>Points bloqués</h4>
+          <p>Transfert au retour confirmé. Litige arbitré sous 24h.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq-sec" id="section-faq">
+      <div class="stag">Questions fréquentes</div>
+      <h2>Tout ce que vous voulez <em>savoir</em>.</h2>
+      <p class="lsec-sub">Une question qui n'est pas listée ? Écrivez-nous à contact@shapio.fr.</p>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Shapio est-il vraiment gratuit ?</summary>
+          <p>Oui, totalement. Pas d'abonnement, pas de commission cachée. Le système fonctionne uniquement avec des points : vous en gagnez en prêtant et en dépensez en empruntant. Vous recevez 50 points à l'inscription pour démarrer.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Comment fonctionnent les points ?</summary>
+          <p>Chaque prêteur fixe lui-même le tarif en points par jour pour son objet. Quand vous empruntez, le montant est bloqué sur votre compte et libéré au prêteur dès que celui-ci confirme le retour.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Que se passe-t-il en cas de problème ou de casse ?</summary>
+          <p>Le système d'avis et de profils vérifiés réduit fortement les risques. En cas de litige, l'équipe Shapio intervient sous 24h pour arbitrer. Les options de caution facultatives seront ajoutées progressivement pour les objets de valeur.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Mes données personnelles sont-elles protégées ?</summary>
+          <p>Vos données sont stockées en Europe et conformes au RGPD. Votre numéro de téléphone et votre adresse exacte ne sont jamais affichés publiquement. Seul votre prénom, l'initiale du nom et le quartier sont visibles par les autres membres.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Quels objets puis-je prêter ?</summary>
+          <p>Tout ce qui est légal et qui peut être utile à un voisin : outils de bricolage, matériel de camping, jeux et consoles, ustensiles de cuisine, instruments de musique, équipements de sport, livres, etc. Les objets dangereux, illégaux ou strictement personnels sont interdits.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Shapio est-il disponible en dehors de Lille ?</summary>
+          <p>Pour l'instant, Shapio se concentre sur la métropole lilloise pour bâtir une communauté solide. L'extension à d'autres villes des Hauts-de-France est prévue dans les prochains mois, puis à toute la France.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="fcta">
+      <h2>Prêt à rejoindre la <em>communauté</em> ?</h2>
+      <p>50 points de bienvenue dès l'inscription.</p>
+      <button class="btn-p" type="button" onclick="go('p-s1')">Créer mon compte gratuit</button>
+    </section>
+    </main>
+
+    <footer>
+      <div class="flogo">Sha<span>p</span>io</div>
+      <p>© 2026 Shapio — Lancé à Lille 🌻</p>
+      <div class="flinks">
+        <button type="button" class="flink-btn" onclick="showLegal('mentions')">Mentions légales</button>
+        <button type="button" class="flink-btn" onclick="showLegal('confidentialite')">Confidentialité</button>
+        <button type="button" class="flink-btn" onclick="showLegal('confiance')">Sécurité</button>
+        <button type="button" class="flink-btn" onclick="showLegal('contact')">Contact</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- CONNEXION -->
+  <div class="page" id="p-connexion">
+    <div class="onboard">
+      <div class="ocard">
+        <div class="ologo">Sha<span>p</span>io</div>
+        <button class="oback" type="button" onclick="go('p-landing')">← Retour au site</button>
+        <h2>Se connecter</h2>
+        <p class="osub">Accédez à votre compte Shapio.</p>
+        <form onsubmit="event.preventDefault();handleLogin();" novalidate>
+          <div class="fl">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" name="email" placeholder="votre@email.com" autocomplete="email" required />
+          </div>
+          <div class="fl">
+            <label for="login-pwd">Mot de passe</label>
+            <input type="password" id="login-pwd" name="password" placeholder="••••••••" autocomplete="current-password" required minlength="6" />
+          </div>
+          <div class="form-error" id="login-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Se connecter →</button>
+        </form>
+        <p class="onote" style="margin-bottom:6px;">
+          <button type="button" class="link-btn" onclick="go('p-reset')">Mot de passe oublié ?</button>
+        </p>
+        <p class="onote">Pas encore de compte ? <button type="button" class="link-btn" onclick="go('p-s1')">Créer un compte</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESET PASSWORD -->
+  <div class="page" id="p-reset">
+    <div class="onboard">
+      <div class="ocard">
+        <div class="ologo">Sha<span>p</span>io</div>
+        <button class="oback" type="button" onclick="go('p-connexion')">← Retour</button>
+        <h2>Mot de passe oublié</h2>
+        <p class="osub">Entre ton adresse email, on t'envoie un lien pour réinitialiser ton mot de passe.</p>
+        <form onsubmit="event.preventDefault();handleResetRequest();" novalidate>
+          <div class="fl">
+            <label for="reset-email">Email</label>
+            <input type="email" id="reset-email" name="email" placeholder="votre@email.com" autocomplete="email" required />
+          </div>
+          <div class="form-error" id="reset-error" role="alert" aria-live="polite"></div>
+          <div id="reset-success" style="display:none;background:#E1F5EE;border-radius:10px;padding:12px 14px;margin:8px 0;font-size:13px;color:#085041;line-height:1.5;">
+            ✅ Email envoyé ! Vérifie ta boîte mail (et tes spams).
+          </div>
+          <button class="obtn" type="submit" id="reset-btn">Envoyer le lien →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- NOUVEAU MOT DE PASSE -->
+  <div class="page" id="p-newpwd">
+    <div class="onboard">
+      <div class="ocard">
+        <div class="ologo">Sha<span>p</span>io</div>
+        <h2>Nouveau mot de passe</h2>
+        <p class="osub">Choisis ton nouveau mot de passe.</p>
+        <form onsubmit="event.preventDefault();handleNewPassword();" novalidate>
+          <div class="fl">
+            <label for="newpwd">Nouveau mot de passe</label>
+            <input type="password" id="newpwd" name="password" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div class="fl">
+            <label for="newpwd2">Confirmer</label>
+            <input type="password" id="newpwd2" name="password2" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div class="form-error" id="newpwd-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Enregistrer →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- DÉTAIL DE MON OBJET -->
+  <div class="page" id="p-myobject">
+    <div class="onboard">
+      <div class="ocard">
+        <button class="oback" type="button" onclick="go('p-app');setTab('profil')">← Retour</button>
+        <div class="ologo">Mon objet</div>
+
+        <div id="myobj-photo" style="background:#f7f7f4;border-radius:14px;height:200px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:60px;">📦</div>
+
+        <form onsubmit="event.preventDefault();saveMyObject();" novalidate>
+          <div class="fl">
+            <label for="myobj-titre">Titre</label>
+            <input type="text" id="myobj-titre" required />
+          </div>
+          <div class="fl">
+            <label for="myobj-desc">Description</label>
+            <textarea id="myobj-desc" rows="3"></textarea>
+          </div>
+          <div class="fl">
+            <label for="myobj-cat">Catégorie</label>
+            <select id="myobj-cat">
+              <option value="Tech">Tech</option>
+              <option value="Bricolage">Bricolage</option>
+              <option value="Maison">Maison</option>
+              <option value="Sport">Sport</option>
+              <option value="Jardinage">Jardinage</option>
+              <option value="Cuisine">Cuisine</option>
+              <option value="Loisirs">Loisirs</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div class="fl">
+            <label for="myobj-pts">Prix par jour (points)</label>
+            <input type="number" id="myobj-pts" min="1" max="1000" required />
+          </div>
+          <div class="fl">
+            <label for="myobj-etat">État</label>
+            <select id="myobj-etat">
+              <option value="neuf">Neuf</option>
+              <option value="tbe">Très bon état</option>
+              <option value="be">Bon état</option>
+              <option value="usage">Avec usage</option>
+            </select>
+          </div>
+          <div class="fl">
+            <label for="myobj-duree">Durée max du prêt (jours)</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <input type="number" id="myobj-duree" min="1" max="365" value="7"
+                style="width:90px;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:#f7f7f4;font-size:16px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;text-align:center;" />
+              <span style="font-size:14px;color:var(--mu);">jours max</span>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+              <button type="button" onclick="document.getElementById('myobj-duree').value=1" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">1j</button>
+              <button type="button" onclick="document.getElementById('myobj-duree').value=3" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">3j</button>
+              <button type="button" onclick="document.getElementById('myobj-duree').value=7" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">1 sem.</button>
+              <button type="button" onclick="document.getElementById('myobj-duree').value=14" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">2 sem.</button>
+              <button type="button" onclick="document.getElementById('myobj-duree').value=30" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">1 mois</button>
+            </div>
+          </div>
+          <div class="fl">
+            <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="myobj-dispo" style="width:18px;height:18px;cursor:pointer;" />
+              <span>Disponible au prêt</span>
+            </label>
+          </div>
+          <div class="form-error" id="myobj-error"></div>
+          <div id="myobj-success" style="display:none;background:#E1F5EE;border-radius:10px;padding:12px;color:#085041;font-size:13px;margin-bottom:10px;">✅ Modifications enregistrées !</div>
+          <button class="obtn" type="submit" style="margin-bottom:10px;">Enregistrer</button>
+          <button type="button" onclick="deleteMyObject()" style="width:100%;padding:14px;border-radius:100px;background:transparent;border:1px solid #EF4444;color:#EF4444;font-size:14px;cursor:pointer;font-family:'DM Sans',sans-serif;">🗑 Supprimer cet objet</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNUP 1 -->
+  <div class="page" id="p-s1">
+    <div class="onboard">
+      <div class="ocard">
+        <div class="ologo">Sha<span>p</span>io</div>
+        <button class="oback" type="button" onclick="go('p-landing')">← Retour au site</button>
+        <div class="ostep">Étape 1 sur 3 · Informations</div>
+        <div class="prog" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" aria-label="Étape 1 sur 3">
+          <div class="pseg act"></div>
+          <div class="pseg"></div>
+          <div class="pseg"></div>
+        </div>
+        <h2>Tes informations</h2>
+        <p class="osub">Ces données restent privées et ne sont jamais partagées.</p>
+        <form onsubmit="event.preventDefault();handleSignup1();" novalidate>
+          <div class="frow">
+            <div class="fl">
+              <label for="su-prenom">Prénom</label>
+              <input type="text" id="su-prenom" name="firstname" placeholder="Thomas" autocomplete="given-name" required minlength="2" />
+            </div>
+            <div class="fl">
+              <label for="su-nom">Nom</label>
+              <input type="text" id="su-nom" name="lastname" placeholder="Dupont" autocomplete="family-name" required minlength="2" />
+            </div>
+          </div>
+          <div class="fl">
+            <label for="su-email">Email</label>
+            <input type="email" id="su-email" name="email" placeholder="thomas@email.com" autocomplete="email" required />
+          </div>
+          <div class="fl" style="display:grid;grid-template-columns:1fr 2fr;gap:8px;">
+            <div>
+              <label for="su-cp">Code postal</label>
+              <input type="text" id="su-cp" name="postal-code" placeholder="59000" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" autocomplete="off" required />
+            </div>
+            <div>
+              <label for="su-ville">Ville</label>
+              <input type="text" id="su-ville" name="city" placeholder="Ex : Lens, Lille…" autocomplete="off" required />
+            </div>
+          </div>
+          <div class="form-error" id="s1-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Continuer →</button>
+        </form>
+        <p class="onote">Déjà membre ? <button type="button" class="link-btn" onclick="go('p-connexion')">Se connecter</button></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNUP 2 -->
+  <div class="page" id="p-s2">
+    <div class="onboard">
+      <div class="ocard">
+        <button class="oback" type="button" onclick="go('p-s1')">← Retour</button>
+        <div class="ologo">Sha<span>p</span>io</div>
+        <div class="ostep">Étape 2 sur 3 · Mot de passe</div>
+        <div class="prog" role="progressbar" aria-valuenow="2" aria-valuemin="1" aria-valuemax="3" aria-label="Étape 2 sur 3">
+          <div class="pseg done"></div>
+          <div class="pseg act"></div>
+          <div class="pseg"></div>
+        </div>
+        <h2>Choisis ton mot de passe</h2>
+        <p class="osub">Minimum 8 caractères. Tu en auras besoin pour te connecter.</p>
+        <form onsubmit="event.preventDefault();handleSignup2();" novalidate>
+          <div class="fl">
+            <label for="su-pwd">Mot de passe</label>
+            <input type="password" id="su-pwd" name="password" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div class="fl">
+            <label for="su-pwd2">Confirmer le mot de passe</label>
+            <input type="password" id="su-pwd2" name="password2" placeholder="••••••••" autocomplete="new-password" required minlength="8" />
+          </div>
+          <div style="background:#f7f7f4;border-radius:10px;padding:11px 13px;margin:12px 0;font-size:12px;color:var(--mu);line-height:1.5;">
+            🔒 Ton mot de passe est chiffré et sécurisé.
+          </div>
+          <div class="form-error" id="s2-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="submit">Continuer →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNUP 3 -->
+  <div class="page" id="p-s3">
+    <div class="onboard">
+      <div class="ocard">
+        <div class="ologo">Sha<span>p</span>io</div>
+        <div class="ostep">Étape 3 sur 3 · Confirmation</div>
+        <div class="prog" role="progressbar" aria-valuenow="3" aria-valuemin="1" aria-valuemax="3" aria-label="Étape 3 sur 3">
+          <div class="pseg done"></div>
+          <div class="pseg done"></div>
+          <div class="pseg act"></div>
+        </div>
+        <div style="text-align:center;padding:20px 0;">
+          <div style="font-size:48px;margin-bottom:16px;">📧</div>
+          <h2 style="margin-bottom:10px;">Vérifie ton email !</h2>
+          <p class="osub" id="s3-email-display">Un lien de confirmation a été envoyé à ton adresse email. Clique dessus pour activer ton compte.</p>
+          <div style="background:#f7f7f4;border-radius:10px;padding:14px;margin:16px 0;font-size:12px;color:var(--mu);line-height:1.6;">
+            💡 Vérifie aussi tes <strong>spams</strong> si tu ne reçois rien dans 2 minutes.
+          </div>
+          <div class="form-error" id="s3-error" role="alert" aria-live="polite"></div>
+          <button class="obtn" type="button" onclick="checkEmailConfirmed()" style="margin-bottom:10px;">J'ai confirmé mon email →</button>
+          <div class="resend">Pas reçu l'email ? <button type="button" class="link-btn" onclick="resendEmail(this)">Renvoyer</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIGNUP 4 -->
+  <div class="page" id="p-s4">
+    <div class="onboard">
+      <div class="ocard">
+        <div class="ologo">Sha<span>p</span>io</div>
+        <div style="text-align:center;margin-bottom:18px;">
+          <div
+            style="width:50px;height:50px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 10px;"
+            aria-hidden="true">
+            ✓</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);margin-bottom:3px;">Compte
+            créé !</div>
+          <div style="font-size:13px;color:var(--mu);">Tu as reçu <strong style="color:var(--gm);">50 points</strong> de
+            bienvenue.</div>
+        </div>
+        <div
+          style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">
+          Renforcer mon profil (optionnel)</div>
+        <div class="vcards">
+          <div class="vc sel" onclick="tvc(this)" role="checkbox" aria-checked="true" tabindex="0" onkeypress="if(event.key==='Enter'||event.key===' '){event.preventDefault();tvc(this)}">
+            <div class="vcico" aria-hidden="true">🪪</div>
+            <div class="vcinfo">
+              <div class="vcname">Pièce d'identité</div>
+              <div class="vcdesc">Carte nationale ou passeport</div>
+            </div>
+            <div class="vcchk" aria-hidden="true">✓</div>
+          </div>
+          <div class="vc" onclick="tvc(this)" role="checkbox" aria-checked="false" tabindex="0" onkeypress="if(event.key==='Enter'||event.key===' '){event.preventDefault();tvc(this)}">
+            <div class="vcico" aria-hidden="true">🤳</div>
+            <div class="vcinfo">
+              <div class="vcname">Selfie de confirmation</div>
+              <div class="vcdesc">Photo correspondant à ta pièce</div>
+            </div>
+            <div class="vcchk" aria-hidden="true"></div>
+          </div>
+        </div>
+        <div class="skip" onclick="go('p-app')" role="button" tabindex="0" onkeypress="if(event.key==='Enter')go('p-app')"><span>Passer</span> — je le ferai plus tard</div>
+        <button class="obtn" type="button" style="margin-top:14px;" onclick="go('p-app')">Accéder à Shapio →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div class="page" id="p-app">
+    <div class="app">
+      <div class="atop">
+        <div class="alogo" role="button" tabindex="0" onclick="setTab('home')" onkeypress="if(event.key==='Enter')setTab('home')" style="cursor:pointer;">Sha<span>p</span>io</div>
+        <div class="atr">
+          <div class="ppill" id="ppill-points" aria-label="Solde de points">50 pts</div>
+        </div>
+      </div>
+
+      <!-- HOME -->
+      <div class="ascreen active" id="as-home">
+        <div class="wbanner" id="wb">
+          <div class="wbt">
+            <div class="wbttl" id="home-welcome">Bienvenue ! 👋</div>
+          </div>
+          <div class="wbsteps">
+            <div class="wbs done">
+              <div class="wbsi" aria-hidden="true">✓</div>
+              <div class="wbsl">Compte créé</div>
+            </div>
+            <div class="wbs" role="button" tabindex="0" onclick="setTab('addobj')" onkeypress="if(event.key==='Enter')this.click()">
+              <div class="wbsi" aria-hidden="true">📷</div>
+              <div class="wbsl">Ajouter un objet</div>
+            </div>
+            <div class="wbs" role="button" tabindex="0" onclick="setTab('swipe')" onkeypress="if(event.key==='Enter')this.click()">
+              <div class="wbsi" aria-hidden="true">🔍</div>
+              <div class="wbsl">Explorer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Titre section objets -->
+        <div class="srow">
+          <div class="sttl">✨ À emprunter près de chez toi</div>
+        </div>
+
+        <!-- Grille d'objets façon Vinted -->
+        <div class="bgrid" id="home-discover" style="padding-bottom:12px;">
+          <div style="grid-column:1/-1;padding:20px;color:var(--mu);font-size:13px;text-align:center;">Chargement…</div>
+        </div>
+
+        <!-- Bloc slogan Shapio (poussé en bas de page) -->
+        <div style="margin:18px;margin-top:auto;padding:20px;border-radius:16px;background:linear-gradient(135deg,#E1F5EE,#F7F5F0);border:1px solid rgba(8,80,65,0.08);">
+          <div style="font-family:'DM Serif Display',serif;font-size:18px;color:var(--dk);margin-bottom:6px;">Prête ce que tu n'utilises pas 🌻</div>
+          <div style="font-size:13px;color:var(--mu);line-height:1.5;">Emprunte ce dont tu as besoin. Une communauté locale, sans argent, juste des points.</div>
+        </div>
+
+      </div>
+
+      <!-- SWIPE / EXPLORER -->
+      <div class="ascreen" id="as-swipe">
+        <!-- Barre de recherche + ville -->
+        <div style="padding:14px 18px 0;">
+          <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:12px;padding:10px 14px;border:0.5px solid rgba(8,80,65,0.15);margin-bottom:10px;">
+            <span aria-hidden="true">🔍</span>
+            <input type="text" id="explorer-search" placeholder="Rechercher un objet…" oninput="filterExplorer()" style="flex:1;border:0;outline:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);" />
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;background:white;border-radius:12px;padding:10px 14px;border:0.5px solid rgba(8,80,65,0.15);margin-bottom:10px;">
+            <span aria-hidden="true">📍</span>
+            <input type="text" id="explorer-city" placeholder="Localisation (Lille, Paris…)" oninput="filterExplorer()" style="flex:1;border:0;outline:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);" />
+          </div>
+        </div>
+        <div class="mode-toggle" role="tablist">
+          <button class="mtbtn active" id="mt-browse" type="button" role="tab" aria-selected="true" onclick="setSwipeMode('browse')">⊞ Liste</button>
+          <button class="mtbtn" id="mt-swipe" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('swipe')">▶ Swipe</button>
+          <button class="mtbtn" id="mt-members" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('members')">👥 Membres</button>
+          <button class="mtbtn" id="mt-favoris" type="button" role="tab" aria-selected="false" onclick="setSwipeMode('favoris')">♥ Favoris</button>
+        </div>
+        <div class="filters" id="filters-cat" role="group" aria-label="Filtres par catégorie">
+          <button type="button" class="fchip active" onclick="setFilter(this)">Tout</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Tech</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Bricolage</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Maison</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Sport</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Jardinage</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Cuisine</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Loisirs</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Autre</button>
+        </div>
+        <div id="swipe-mode" style="display:none;">
+          <div class="cstack" id="cstack">
+            <div style="padding:60px 30px;text-align:center;color:var(--mu);font-size:14px;">Chargement…</div>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:0 28px;margin-bottom:6px;">
+            <span style="font-size:11px;color:var(--mu);">← Passer</span>
+            <span style="font-size:11px;color:var(--mu);">♥ Favori</span>
+          </div>
+          <div class="sactions">
+            <button class="sabtn sask" type="button" aria-label="Passer cet objet" onclick="swipeNext()">✕</button>
+            <button class="sabtn slike" type="button" aria-label="Ajouter aux favoris" onclick="swipeFavorite()">♥</button>
+          </div>
+        </div>
+        <div id="browse-mode" style="display:block;">
+          <div style="font-size:11px;color:var(--mu);padding:4px 18px 8px;" id="browse-count">0 objet disponible</div>
+          <div class="bgrid" id="browse-grid">
+            <div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
+          </div>
+        </div>
+        <div id="members-mode" style="display:none;padding:0 18px;">
+          <div style="position:relative;margin:4px 0 12px;">
+            <input type="text" id="members-search" placeholder="Rechercher un membre par nom…" autocomplete="off" oninput="loadMembers()" style="width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(8,80,65,0.12);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;background:#f7f7f4;box-sizing:border-box;" />
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--mu);" aria-hidden="true">🔍</span>
+          </div>
+          <div style="font-size:11px;color:var(--mu);padding:0 0 8px;" id="members-count">– membre</div>
+          <div id="members-list" style="display:flex;flex-direction:column;gap:10px;padding-bottom:20px;">
+            <div style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
+          </div>
+        </div>
+        <div id="favoris-mode" style="display:none;padding:0 18px;">
+          <div style="font-size:11px;color:var(--mu);padding:4px 0 8px;" id="favoris-count">– objet en favori</div>
+          <div class="bgrid" id="favoris-list" style="padding:0 0 20px;">
+            <div style="grid-column:1/-1;padding:40px 20px;text-align:center;color:var(--mu);font-size:13px;">Chargement…</div>
+          </div>
+        </div>
+      </div>
+
+            <!-- FICHE -->
+      <div class="ascreen" id="as-fiche">
+        <div class="fphoto" id="fiche-photo" style="background:#E1F5EE;"><span id="fiche-photo-emoji" aria-hidden="true">📦</span>
+          <button type="button" class="fback" aria-label="Retour" onclick="backFromFiche()">←</button>
+          <button type="button" class="fsave" id="fsavebtn" aria-label="Sauvegarder l'objet" aria-pressed="false" onclick="toggleFSave()">♡</button>
+        </div>
+        <div class="fbody">
+          <div class="ftrow">
+            <div class="ftitle" id="fiche-titre">Objet</div>
+            <div class="fpts">
+              <div class="fptsn" id="fiche-pts">–</div>
+              <div class="fptsl">pts/jour</div>
+            </div>
+          </div>
+          <div class="fmeta">
+            <div class="fmc"><span aria-hidden="true">📍</span> <span id="fiche-ville">–</span></div>
+            <div class="fmdot" aria-hidden="true"></div>
+            <div class="fmc"><span aria-hidden="true">⭐</span> <span id="fiche-note">–</span></div>
+          </div>
+          <div class="fstates">
+            <div class="fst fst-g" id="fiche-dispo">Disponible</div>
+            <div class="fst fst-gr" id="fiche-lieu" style="background:#f0f0ed;color:var(--dk);">📍 –</div>
+          </div>
+          <div class="fdesc" id="fiche-desc">Pas de description.</div>
+          <div class="fdiv"></div>
+          <div class="fslbl">Prêté par</div>
+          <div class="fownercard" role="button" tabindex="0" aria-label="Voir le profil du prêteur" onclick="openPublicProfile(window.currentObject?.users?.id)" onkeypress="if(event.key==='Enter')openPublicProfile(window.currentObject?.users?.id)" style="cursor:pointer;">
+            <div class="foav" id="fiche-owner-av" aria-hidden="true">–</div>
+            <div class="foinfo">
+              <div class="foname" id="fiche-owner-name">Membre</div>
+              <div class="fosub" id="fiche-owner-sub">–</div>
+            </div>
+            <span style="font-size:14px;color:var(--mu);" aria-hidden="true">›</span>
+          </div>
+          <div class="fslbl">Durée maximale du prêt</div>
+          <div class="fdispo">
+            <div class="fdc" style="grid-column:span 2;">
+              <div class="fdcd">Durée max</div>
+              <div class="fdct" id="fiche-duree-max">7 jours</div>
+            </div>
+          </div>
+        </div>
+        <div id="fiche-confirm" role="dialog" aria-modal="true" aria-labelledby="fiche-confirm-title"
+          style="display:none;background:rgba(0,0,0,0.92);border-radius:18px;margin:0 14px 14px;padding:24px;">
+          <div id="fiche-confirm-title" style="font-family:'DM Serif Display',serif;font-size:20px;color:white;margin-bottom:14px;text-align:center;">Demande d'emprunt</div>
+
+          <!-- Récap objet -->
+          <div style="background:rgba(255,255,255,0.06);border-radius:12px;padding:12px;margin-bottom:14px;">
+            <div id="confirm-objet-titre" style="color:white;font-size:14px;font-weight:500;margin-bottom:4px;">–</div>
+            <div id="confirm-objet-prix" style="color:var(--ga);font-size:13px;">– pts / jour</div>
+          </div>
+
+          <!-- Sélecteur de jours -->
+          <div style="margin-bottom:14px;">
+            <label for="confirm-days" style="display:block;color:rgba(255,255,255,0.85);font-size:13px;margin-bottom:8px;">Durée de l'emprunt</label>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <button type="button" onclick="adjustConfirmDays(-1)" aria-label="Moins" style="width:36px;height:36px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:white;font-size:18px;cursor:pointer;">–</button>
+              <input type="number" id="confirm-days" min="1" max="60" value="1" oninput="updateConfirmTotal()" style="flex:1;text-align:center;background:rgba(255,255,255,0.08);color:white;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:8px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;"/>
+              <button type="button" onclick="adjustConfirmDays(1)" aria-label="Plus" style="width:36px;height:36px;border-radius:10px;border:0;background:rgba(255,255,255,0.1);color:white;font-size:18px;cursor:pointer;">+</button>
+              <div style="color:rgba(255,255,255,0.6);font-size:12px;min-width:50px;" id="confirm-days-label">jour</div>
+            </div>
+            <div style="color:rgba(255,255,255,0.4);font-size:11px;margin-top:6px;" id="confirm-max-info"></div>
+          </div>
+
+          <!-- Total -->
+          <div style="background:var(--g);border-radius:12px;padding:14px;margin-bottom:14px;text-align:center;">
+            <div style="color:rgba(255,255,255,0.7);font-size:11px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px;">Total à bloquer</div>
+            <div style="color:white;font-family:'DM Serif Display',serif;font-size:28px;" id="confirm-total">– pts</div>
+          </div>
+
+          <div style="font-size:11px;color:rgba(255,255,255,0.5);line-height:1.5;margin-bottom:14px;text-align:center;">
+            Les points seront bloqués jusqu'au retour confirmé.<br>Le prêteur peut accepter, refuser ou proposer un ajustement.
+          </div>
+
+          <button type="button" onclick="confirmFicheRequest()"
+            style="width:100%;padding:12px;border-radius:11px;background:var(--gm);color:white;border:none;font-size:14px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer;margin-bottom:8px;">Envoyer la demande</button>
+          <button type="button" onclick="hideFicheConfirm()"
+            style="width:100%;padding:11px;border-radius:11px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);border:0.5px solid rgba(255,255,255,0.15);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;">Annuler</button>
+        </div>
+        <div class="fbar" id="fbar">
+          <div class="fbarinfo">
+            <div class="fbarin" id="fbar-pts">– pts</div>
+            <div class="fbarl">par jour · bloqués jusqu'au retour</div>
+          </div>
+          <button type="button" class="fmsgbtn" aria-label="Envoyer un message au propriétaire" onclick="contactOwner()">💬</button>
+          <button type="button" class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
+        </div>
+      </div>
+
+      <!-- PROFIL PUBLIC D'UN AUTRE MEMBRE -->
+      <div class="ascreen" id="as-pubprofile">
+        <div id="pub-banner" style="background:var(--gl);height:90px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;">
+          <button type="button" aria-label="Retour" onclick="closePublicProfile()" style="position:absolute;top:14px;left:14px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,0.95);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">←</button>
+          <div style="position:absolute;bottom:-50px;left:18px;">
+            <div id="pub-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;">?</div>
+            <div id="pub-badge" style="position:absolute;top:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;">✓</div>
+          </div>
+        </div>
+
+        <div style="padding:0 18px 100px;">
+          <div style="margin-bottom:8px;">
+            <div id="pub-name" style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);">Membre</div>
+            <div id="pub-ville" style="font-size:13px;color:var(--mu);margin-top:2px;">📍 –</div>
+            <div id="pub-since" style="font-size:12px;color:var(--mu);margin-top:2px;">–</div>
+          </div>
+
+          <!-- Stats -->
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 0 18px;">
+            <div style="text-align:center;padding:10px;background:#f7f7f4;border-radius:12px;">
+              <div id="pub-prets" style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">0</div>
+              <div style="font-size:11px;color:var(--mu);">prêts</div>
+            </div>
+            <div style="text-align:center;padding:10px;background:#f7f7f4;border-radius:12px;">
+              <div id="pub-emprunts" style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">0</div>
+              <div style="font-size:11px;color:var(--mu);">emprunts</div>
+            </div>
+            <div style="text-align:center;padding:10px;background:#f7f7f4;border-radius:12px;">
+              <div id="pub-note" style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">–</div>
+              <div style="font-size:11px;color:var(--mu);">⭐ note</div>
+            </div>
+          </div>
+
+          <!-- Niveau de confiance -->
+          <div style="background:#f7f7f4;border-radius:14px;padding:14px;margin-bottom:18px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+              <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;">Niveau de confiance</div>
+              <div id="pub-trust-badge" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:#FEE2E2;color:#EF4444;">0/3</div>
+            </div>
+            <div style="height:6px;background:#e6e6e0;border-radius:100px;overflow:hidden;margin-bottom:14px;">
+              <div id="pub-trust-bar" style="height:100%;width:0%;background:#EF4444;border-radius:100px;transition:width 0.3s,background 0.3s;"></div>
+            </div>
+            <div id="pub-trust-rows" style="font-size:13px;color:var(--mu);"></div>
+          </div>
+
+          <!-- Ses objets -->
+          <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Ses objets en prêt</div>
+          <div class="pogrid" id="pub-objects-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px;">
+            <div id="pub-objects-empty" style="grid-column:1/-1;text-align:center;padding:24px 16px;color:var(--mu);font-size:13px;">
+              Aucun objet publié.
+            </div>
+          </div>
+
+          <!-- Historique prêts / emprunts -->
+          <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Historique des échanges</div>
+          <div id="pub-history-list" style="font-size:13px;color:var(--mu);margin-bottom:18px;">
+            <div style="text-align:center;padding:20px;">Aucun échange terminé.</div>
+          </div>
+
+          <!-- Ses avis -->
+          <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Avis reçus</div>
+          <div id="pub-avis-list" style="font-size:13px;color:var(--mu);">
+            <div style="text-align:center;padding:20px;">Aucun avis pour l'instant.</div>
+          </div>
+        </div>
+
+        <!-- Barre du bas : bouton contacter (fixe, centré dans l'app) -->
+        <div style="position:fixed;left:50%;transform:translateX(-50%);bottom:0;width:100%;max-width:430px;background:white;border-top:1px solid #f0f0ed;padding:12px 18px;box-sizing:border-box;display:flex;gap:10px;z-index:60;">
+          <button type="button" id="pub-contact-btn" onclick="contactFromPublic()" style="flex:1;padding:13px;border:0;border-radius:11px;background:var(--g);color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">💬 Envoyer un message</button>
+        </div>
+      </div>
+
+            <!-- MESSAGES -->
+      <div class="ascreen" id="as-msgs">
+        <div class="msg-hdr">
+          <h2>Messages</h2>
+        </div>
+        <div id="msgs-list" style="padding:0 18px;">
+          <div style="padding:60px 24px;text-align:center;color:var(--mu);">
+            <div style="font-size:40px;margin-bottom:12px;">💬</div>
+            <div style="font-size:14px;color:var(--dk);margin-bottom:4px;font-weight:500;">Aucun message pour l'instant</div>
+            <div style="font-size:13px;line-height:1.5;">Quand tu contacteras un voisin pour emprunter un objet, vos échanges apparaîtront ici.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHAT -->
+      <div class="ascreen" id="as-chat">
+        <div style="display:flex;flex-direction:column;height:100%;">
+          <div class="chat-hdr">
+            <button class="cback" type="button" aria-label="Retour aux messages" onclick="setTab('msgs')">←</button>
+            <div class="chatav" id="chat-avatar" role="button" tabindex="0" aria-label="Voir le profil" onclick="openPublicProfile(window.currentChatUserId)" onkeypress="if(event.key==='Enter')openPublicProfile(window.currentChatUserId)" style="cursor:pointer;">👤</div>
+            <div class="chatname" id="chat-name" role="button" tabindex="0" aria-label="Voir le profil" onclick="openPublicProfile(window.currentChatUserId)" onkeypress="if(event.key==='Enter')openPublicProfile(window.currentChatUserId)" style="cursor:pointer;">Conversation</div>
+          </div>
+          <div class="chatmsgs" id="chatmsgs" aria-live="polite"></div>
+          <form class="chatinput" onsubmit="event.preventDefault();sendMessage();">
+            <label for="chat-input" class="visually-hidden">Message</label>
+            <input type="text" id="chat-input" name="message" placeholder="Message…" autocomplete="off" />
+            <button type="submit" class="sendbtn" aria-label="Envoyer">↑</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- MESSAGE OFFICIEL SHAPIO (informatif, pas de réponse) -->
+      <div class="ascreen" id="as-shapio">
+        <div style="display:flex;flex-direction:column;height:100%;">
+          <div class="chat-hdr">
+            <button class="cback" type="button" aria-label="Retour aux messages" onclick="setTab('msgs')">←</button>
+            <div class="chatav" style="background:linear-gradient(135deg,#085041,#1D9E75);color:white;font-family:'DM Serif Display',serif;display:flex;align-items:center;justify-content:center;">S</div>
+            <div class="chatname" style="display:flex;align-items:center;gap:5px;">Shapio <span style="background:var(--g);color:white;border-radius:50%;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span></div>
+          </div>
+          <div class="chatmsgs" style="flex:1;overflow-y:auto;">
+            <div style="background:#f7f7f4;border-radius:14px;padding:16px;margin:6px 0;line-height:1.6;font-size:14px;color:var(--dk);">
+              <div style="font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:10px;">👋 Bienvenue sur Shapio !</div>
+              <p style="margin:0 0 12px;">Shapio, c'est le prêt d'objets entre voisins, sans argent. On utilise un système de <strong>points</strong> pour s'échanger des services en toute confiance.</p>
+              <div style="font-weight:600;margin:14px 0 8px;color:var(--g);">📌 Quelques règles à connaître</div>
+              <ul style="margin:0 0 12px;padding-left:18px;">
+                <li style="margin-bottom:6px;">Tu démarres avec <strong>50 points</strong> offerts.</li>
+                <li style="margin-bottom:6px;">Quand tu empruntes, tes points sont <strong>bloqués</strong> le temps du prêt, puis transférés au prêteur au retour de l'objet.</li>
+                <li style="margin-bottom:6px;">Quand tu prêtes, tu <strong>gagnes des points</strong> que tu pourras utiliser à ton tour.</li>
+                <li style="margin-bottom:6px;">Prends soin des objets empruntés et rends-les <strong>à temps</strong> et en bon état.</li>
+                <li style="margin-bottom:6px;">Sois <strong>respectueux et courtois</strong> dans tes échanges. La communauté repose sur la confiance.</li>
+                <li style="margin-bottom:6px;">Après chaque prêt, laisse un <strong>avis</strong> : ça aide tout le monde.</li>
+              </ul>
+              <div style="font-weight:600;margin:14px 0 8px;color:var(--g);">🛡️ Sécurité</div>
+              <p style="margin:0 0 12px;">Vérifie ton identité et ton numéro de téléphone depuis ton profil pour gagner la confiance des autres membres et accéder à plus de fonctionnalités.</p>
+              <p style="margin:12px 0 0;">Une question ? Contacte-nous à <strong>contact@shapio.fr</strong></p>
+              <p style="margin:8px 0 0;">Bon partage ! 🌻<br>— L'équipe Shapio</p>
+            </div>
+          </div>
+          <div style="padding:14px 18px;text-align:center;font-size:12px;color:var(--mu);background:#f7f7f4;border-top:1px solid #f0f0ed;">
+            🔒 Ce message est informatif. Les réponses ne sont pas suivies.
+          </div>
+        </div>
+      </div>
+
+            <!-- WALLET -->
+      <div class="ascreen" id="as-wallet">
+        <div style="padding:18px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <h2 style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);margin:0;">Mon wallet</h2>
+          </div>
+
+          <div style="background:linear-gradient(135deg,#085041,#0a6b58);border-radius:20px;padding:24px;color:white;margin-bottom:20px;">
+            <div style="font-size:11px;opacity:0.7;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px;">Solde disponible</div>
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:18px;">
+              <div class="wcn" style="font-family:'DM Serif Display',serif;font-size:48px;">50</div>
+              <div style="font-size:14px;opacity:0.8;">points</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.15);border-radius:100px;height:6px;overflow:hidden;margin-bottom:8px;">
+              <div class="wcbar" style="background:white;height:100%;width:50%;border-radius:100px;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;opacity:0.7;">
+              <span>Évolution ce mois</span>
+              <span id="wallet-month-evol">+0 pts</span>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:18px;">
+              <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:12px;padding:10px;">
+                <div style="font-size:10px;opacity:0.7;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px;">Bloqués</div>
+                <div style="font-size:16px;font-weight:600;" id="wallet-bloques">0 pts</div>
+              </div>
+              <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:12px;padding:10px;">
+                <div style="font-size:10px;opacity:0.7;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px;">Gagnés ce mois</div>
+                <div style="font-size:16px;font-weight:600;" id="wallet-gagnes">+0 pts</div>
+              </div>
+              <div style="flex:1;background:rgba(255,255,255,0.1);border-radius:12px;padding:10px;">
+                <div style="font-size:10px;opacity:0.7;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:4px;">Dépensés</div>
+                <div style="font-size:16px;font-weight:600;" id="wallet-depenses">0 pts</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Mes prêts en cours</div>
+          <div id="wallet-loans" style="margin-bottom:20px;">
+            <div style="text-align:center;padding:20px;color:var(--mu);font-size:13px;">Chargement…</div>
+          </div>
+
+          <div style="font-size:11px;font-weight:500;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;">Transactions récentes</div>
+          <div id="wallet-transactions">
+            <div style="text-align:center;padding:30px 20px;color:var(--mu);font-size:13px;">
+              Aucune transaction réalisée pour le moment.
+            </div>
+          </div>
+
+          <div style="background:#E1F5EE;border-radius:14px;padding:14px;margin-top:20px;font-size:12px;color:#085041;line-height:1.5;">
+            🔒 Les points bloqués sont libérés automatiquement dès que le prêteur confirme le retour. En cas de litige, Shapio intervient sous 24h.
+          </div>
+        </div>
+      </div>
+
+            <!-- PROFIL -->
+      <div class="ascreen" id="as-profil">
+        <div id="profile-banner" style="background:var(--gl);height:90px;position:relative;border-radius:0 0 24px 24px;margin-bottom:60px;transition:background 0.3s;">
+          <!-- Sélecteur de couleur de banderole -->
+          <div style="position:absolute;top:14px;right:14px;display:flex;gap:6px;align-items:center;background:rgba(255,255,255,0.9);border-radius:100px;padding:6px 10px;">
+            <button type="button" onclick="setBannerColor('var(--gl)')" aria-label="Couleur vert clair" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:#E1F5EE;cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#085041,#1D9E75)')" aria-label="Couleur vert" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#085041,#1D9E75);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#BA7517,#E0A040)')" aria-label="Couleur or" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#BA7517,#E0A040);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#3B4E8C,#6478C8)')" aria-label="Couleur bleu" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#3B4E8C,#6478C8);cursor:pointer;padding:0;"></button>
+            <button type="button" onclick="setBannerColor('linear-gradient(135deg,#9C3B6E,#D06BA0)')" aria-label="Couleur rose" style="width:20px;height:20px;border-radius:50%;border:2px solid white;background:linear-gradient(135deg,#9C3B6E,#D06BA0);cursor:pointer;padding:0;"></button>
+          </div>
+          <div class="pavwrap" style="position:absolute;bottom:-50px;left:18px;">
+            <div class="pav" id="profile-av" style="width:84px;height:84px;background:white;border:3px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);overflow:hidden;background-size:cover;background-position:center;">?</div>
+            <button type="button" onclick="document.getElementById('profile-photo-input').click()" aria-label="Changer la photo de profil" style="position:absolute;bottom:0;right:0;width:28px;height:28px;background:var(--g);border:2px solid white;border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:13px;cursor:pointer;padding:0;">📷</button>
+            <input type="file" id="profile-photo-input" accept="image/*" style="display:none;" onchange="previewProfilePhoto(event)" />
+            <div id="profile-badge-floating" style="position:absolute;top:0;right:0;width:24px;height:24px;background:var(--g);border:2px solid white;border-radius:50%;display:none;align-items:center;justify-content:center;color:white;font-size:12px;">✓</div>
+          </div>
+        </div>
+
+        <div style="padding:0 18px;">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+            <div class="pname" id="profile-name" style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);">Chargement…</div>
+            <div class="pvbadge" id="profile-badge" style="display:none;background:#E1F5EE;color:var(--g);font-size:11px;padding:3px 8px;border-radius:100px;font-weight:500;">✓ Vérifié</div>
+          </div>
+          <div class="psub" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);margin-bottom:18px;">
+            <span>📍</span>
+            <span id="profile-ville">–</span>
+            <span>·</span>
+            <span id="profile-since">Membre depuis 2026</span>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">
+            <div style="background:#f7f7f4;border-radius:12px;padding:12px 8px;text-align:center;">
+              <div class="pstn" id="profile-pts" style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--dk);">50</div>
+              <div class="pstl" style="font-size:11px;color:var(--mu);">points</div>
+            </div>
+            <div style="background:#f7f7f4;border-radius:12px;padding:12px 8px;text-align:center;">
+              <div class="pstn" id="profile-prets" style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--dk);">0</div>
+              <div class="pstl" style="font-size:11px;color:var(--mu);">prêts</div>
+            </div>
+            <div style="background:#f7f7f4;border-radius:12px;padding:12px 8px;text-align:center;">
+              <div class="pstn" id="profile-emprunts" style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--dk);">0</div>
+              <div class="pstl" style="font-size:11px;color:var(--mu);">emprunts</div>
+            </div>
+            <div style="background:#f7f7f4;border-radius:12px;padding:12px 8px;text-align:center;">
+              <div class="pstn" id="profile-note" style="font-family:'DM Serif Display',serif;font-size:22px;color:#BA7517;">–</div>
+              <div class="pstl" style="font-size:11px;color:var(--mu);">note</div>
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div style="display:flex;border-bottom:1px solid rgba(8,80,65,0.1);margin-bottom:18px;">
+            <button type="button" id="ptab-objets" onclick="setProfileTab('objets')" style="flex:1;padding:12px;border:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--g);border-bottom:2px solid var(--g);cursor:pointer;font-weight:500;">Mes objets</button>
+            <button type="button" id="ptab-avis" onclick="setProfileTab('avis')" style="flex:1;padding:12px;border:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mu);cursor:pointer;">Avis</button>
+            <button type="button" id="ptab-param" onclick="setProfileTab('param')" style="flex:1;padding:12px;border:0;background:transparent;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--mu);cursor:pointer;">Paramètres</button>
+          </div>
+
+          <!-- Tab content : Mes objets -->
+          <div id="ptab-content-objets">
+            <div style="background:#f7f7f4;border-radius:14px;padding:14px;margin-bottom:18px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;">Niveau de confiance</div>
+                <div id="trust-badge" style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:100px;background:#FEE2E2;color:#EF4444;">0/3</div>
+              </div>
+              <!-- Barre de progression -->
+              <div style="height:6px;background:#e6e6e0;border-radius:100px;overflow:hidden;margin-bottom:14px;">
+                <div id="trust-bar" style="height:100%;width:0%;background:#EF4444;border-radius:100px;transition:width 0.3s,background 0.3s;"></div>
+              </div>
+              <div id="trust-section">
+                <div class="ptrow" id="trust-email-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                  <div class="ptico" id="trust-email-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
+                  <div class="ptlbl" id="trust-email-lbl" style="flex:1;font-size:13px;color:var(--mu);">Email confirmé</div>
+                  <button type="button" id="trust-email-btn" onclick="resendConfirmEmail()" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Renvoyer</button>
+                </div>
+                <div class="ptrow" id="trust-id-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                  <div class="ptico" id="trust-id-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
+                  <div class="ptlbl" id="trust-id-lbl" style="flex:1;font-size:13px;color:var(--mu);">Pièce d'identité</div>
+                  <a id="trust-id-btn" href="mailto:contact@shapio.fr?subject=V%C3%A9rification%20d%27identit%C3%A9%20Shapio&body=Bonjour%2C%0A%0AJe%20souhaite%20faire%20v%C3%A9rifier%20mon%20identit%C3%A9.%0AJe%20joins%20une%20photo%20de%20ma%20pi%C3%A8ce%20d%27identit%C3%A9%20%C3%A0%20cet%20email.%0A%0APr%C3%A9nom%20%2F%20Nom%20%3A%20%0A%0AMerci%20%21" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;text-decoration:none;">Vérifier</a>
+                </div>
+                <div class="ptrow" id="trust-tel-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
+                  <div class="ptico" id="trust-tel-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
+                  <div class="ptlbl" id="trust-tel-lbl" style="flex:1;font-size:13px;color:var(--mu);">Numéro de téléphone</div>
+                  <button type="button" id="trust-tel-btn" onclick="verifierTelephone()" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Vérifier</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Mes objets</div>
+            <div class="pogrid" id="my-objects-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;">
+              <div id="my-objects-empty" style="grid-column:1/-1;text-align:center;padding:24px 16px;color:var(--mu);font-size:13px;">
+                Aucun objet publié pour l'instant.
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab content : Avis -->
+          <div id="ptab-content-avis" style="display:none;">
+            <div id="profile-avis-list" style="text-align:center;padding:30px 20px;color:var(--mu);font-size:13px;">
+              Aucun avis pour l'instant. Tes premiers avis apparaîtront ici après tes premiers échanges.
+            </div>
+          </div>
+
+          <!-- Tab content : Paramètres -->
+          <div id="ptab-content-param" style="display:none;">
+            <button type="button" onclick="openChangePassword()" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;">
+              <span>🔑 Changer mon mot de passe</span>
+              <span style="color:var(--mu);">›</span>
+            </button>
+            <a href="mailto:contact@shapio.fr?subject=V%C3%A9rification%20d%27identit%C3%A9%20Shapio&body=Bonjour%2C%0A%0AJe%20souhaite%20faire%20v%C3%A9rifier%20mon%20identit%C3%A9.%0AJe%20joins%20une%20photo%20de%20ma%20pi%C3%A8ce%20d%27identit%C3%A9%20%C3%A0%20cet%20email.%0A%0APr%C3%A9nom%20%2F%20Nom%20%3A%20%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
+              <span>🪪 Vérifier mon identité</span>
+              <span style="color:var(--mu);">›</span>
+            </a>
+            <a href="mailto:contact@shapio.fr?subject=Demande%20de%20correction%20de%20profil&body=Bonjour%2C%0A%0AJe%20souhaite%20modifier%20les%20informations%20suivantes%20sur%20mon%20profil%20Shapio%20%3A%0A%0A-%20Pr%C3%A9nom%20%3A%20%0A-%20Nom%20%3A%20%0A-%20Ville%20%3A%20%0A-%20Autre%20%3A%20%0A%0A(Remplis%20uniquement%20les%20champs%20%C3%A0%20modifier)%0A%0AMerci%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
+              <span>✏️ Demander une correction du profil</span>
+              <span style="color:var(--mu);">›</span>
+            </a>
+            <button type="button" onclick="setProfileTab('reglement')" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;">
+              <span>📜 Règlement & conditions</span>
+              <span style="color:var(--mu);">›</span>
+            </button>
+            <a href="mailto:contact@shapio.fr?subject=Probl%C3%A8me%20sur%20Shapio&body=Bonjour%2C%0A%0AJe%20rencontre%20un%20probl%C3%A8me%20sur%20Shapio%20%3A%0A%0A(d%C3%A9cris%20ton%20probl%C3%A8me%20ici)%0A%0AMerci%20pour%20votre%20aide%20%21" style="width:100%;text-align:left;padding:14px;background:#f7f7f4;border:0;border-radius:12px;margin-bottom:8px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--dk);display:flex;justify-content:space-between;align-items:center;text-decoration:none;box-sizing:border-box;">
+              <span>🆘 Un problème ? Contacte-nous</span>
+              <span style="color:var(--mu);">›</span>
+            </a>
+            <button type="button" onclick="handleLogout()" style="width:100%;text-align:left;padding:14px;background:#FEE2E2;border:0;border-radius:12px;margin-top:14px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;color:#EF4444;display:flex;justify-content:space-between;align-items:center;">
+              <span>🚪 Se déconnecter</span>
+              <span>›</span>
+            </button>
+          </div>
+
+          <!-- Tab content : Règlement -->
+          <div id="ptab-content-reglement" style="display:none;">
+            <button type="button" onclick="setProfileTab('param')" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;margin-bottom:14px;padding:0;">‹ Retour aux paramètres</button>
+            <div style="font-size:14px;line-height:1.6;color:var(--dk);">
+              <h3 style="font-family:'DM Serif Display',serif;font-size:18px;margin:0 0 10px;">Règlement de Shapio</h3>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">1. Principe.</strong> Shapio est une plateforme de prêt d'objets entre particuliers, fondée sur un système de points (sans argent réel).</p>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">2. Points.</strong> Chaque membre démarre avec 50 points. Le prix d'un prêt est librement fixé par le prêteur. Les points bloqués sont libérés au retour de l'objet.</p>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">3. Respect.</strong> Les objets empruntés doivent être restitués dans l'état et dans les délais convenus entre les membres.</p>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">4. Confiance.</strong> Les membres peuvent vérifier leur identité pour renforcer la confiance. Les avis sont publics.</p>
+              <p style="margin:0 0 12px;color:var(--mu);"><strong style="color:var(--dk);">5. Litiges.</strong> En cas de problème, Shapio peut intervenir. Contacte-nous à contact@shapio.fr.</p>
+              <p style="margin:12px 0 0;font-size:12px;color:var(--mu);">Pour les conditions complètes (CGU, RGPD), consulte les <a href="/mentions-legales" style="color:var(--g);">mentions légales</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADD OBJECT -->
+      <div class="ascreen" id="as-addobj">
+        <div class="ao-hdr">
+          <button type="button" class="ao-back" aria-label="Retour" onclick="setTab('home')">←</button>
+          <div class="ao-title">Ajouter un objet</div>
+        </div>
+        <form class="ao-form" onsubmit="event.preventDefault();handleAddObject();" novalidate>
+          <input type="file" id="ao-photo-file" accept="image/*" capture="environment"
+            onchange="handlePhotoSelected(this)" style="display:none;" aria-hidden="true" tabindex="-1" />
+          <button type="button" class="ao-photo" id="ao-photo-btn" onclick="openPhotoPicker()" aria-label="Ajouter une photo">
+            <div class="ao-photo-ico" aria-hidden="true">📷</div>
+            <div class="ao-photo-txt">Ajouter une photo</div>
+            <div class="ao-photo-sub">JPG, PNG · 5 Mo max</div>
+          </button>
+
+          <div class="ao-fl">
+            <label for="ao-title">Titre de l'objet</label>
+            <input type="text" id="ao-title" name="title" placeholder="Ex : Perceuse Bosch GSR 12V" required minlength="3" maxlength="60" />
+          </div>
+
+          <div class="ao-fl">
+            <label for="ao-desc">Description</label>
+            <textarea id="ao-desc" name="description" placeholder="État, accessoires inclus, conditions d'utilisation…" required minlength="20" maxlength="500"></textarea>
+          </div>
+
+          <div class="ao-fl">
+            <label id="ao-cat-lbl">Catégorie</label>
+            <div class="ao-cats" role="radiogroup" aria-labelledby="ao-cat-lbl">
+              <button type="button" class="ao-cat active" role="radio" aria-checked="true" onclick="aoCat(this)">Tech</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Bricolage</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Maison</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Sport</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Jardinage</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Cuisine</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Loisirs</button>
+              <button type="button" class="ao-cat" role="radio" aria-checked="false" onclick="aoCat(this)">Autre</button>
+            </div>
+          </div>
+
+          <div class="ao-row">
+            <div class="ao-fl">
+              <label for="ao-state">État</label>
+              <select id="ao-state" name="state" required>
+                <option value="">Choisir…</option>
+                <option value="neuf">Neuf</option>
+                <option value="tbe" selected>Très bon état</option>
+                <option value="be">Bon état</option>
+                <option value="usage">Avec usage</option>
+              </select>
+            </div>
+            <div class="ao-fl">
+              <label for="ao-duree">Durée max du prêt</label>
+              <div style="display:flex;align-items:center;gap:10px;">
+                <input type="number" id="ao-duree" name="duration" min="1" max="365" value="7"
+                  style="width:90px;padding:11px 14px;border-radius:10px;border:0.5px solid rgba(8,80,65,0.18);background:var(--cr);font-size:16px;font-family:'DM Sans',sans-serif;color:var(--dk);outline:none;text-align:center;"
+                  inputmode="numeric" required />
+                <span style="font-size:14px;color:var(--mu);">jours maximum</span>
+              </div>
+              <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+                <button type="button" onclick="document.getElementById('ao-duree').value=1" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">1j</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=2" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">2j</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=3" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">3j</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=7" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">1 sem.</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=14" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">2 sem.</button>
+                <button type="button" onclick="document.getElementById('ao-duree').value=30" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--dk);">1 mois</button>
+              </div>
+              <div style="font-size:11px;color:var(--mu);margin-top:6px;">Tu peux saisir n'importe quelle durée entre 1 et 365 jours</div>
+            </div>
+          </div>
+
+          <div class="ao-fl">
+            <label for="ao-pts-input">Prix par jour</label>
+            <div class="ao-pts">
+              <input type="number" id="ao-pts-input" name="points" min="1" max="1000" value="10" inputmode="numeric"
+                oninput="syncPtsFromInput()" aria-label="Prix en points par jour"
+                style="width:90px;font-family:'DM Serif Display',serif;font-size:28px;color:var(--g);background:transparent;border:none;outline:none;text-align:left;padding:0;-moz-appearance:textfield;" />
+              <div class="ao-pts-info">
+                <div class="ao-pts-lbl">points / jour</div>
+                <div class="ao-pts-sub">Tu fixes toi-même le tarif (jusqu'à 1000 pts)</div>
+              </div>
+            </div>
+            <input type="range" id="ao-pts-range" min="1" max="1000" value="10"
+              oninput="syncPtsFromRange()" style="margin-top:10px;width:100%;" aria-label="Ajuster le prix" />
+          </div>
+
+          <div class="ao-fl">
+            <label for="ao-quartier">Quartier (optionnel)</label>
+            <input type="text" id="ao-quartier" name="neighborhood" placeholder="Ton quartier…" />
+          </div>
+
+          <div class="form-error" id="ao-error" role="alert" aria-live="polite"></div>
+
+          <button class="ao-submit" type="submit">Publier mon objet</button>
+        </form>
+
+        <!-- Overlay de succès (n'écrase pas le formulaire) -->
+        <div id="ao-success-overlay" style="display:none;position:fixed;inset:0;background:rgba(255,255,255,0.97);z-index:200;flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;">
+          <div style="font-size:64px;margin-bottom:16px;">✅</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);margin-bottom:8px;">Bravo !</div>
+          <p style="font-size:14px;color:var(--mu);line-height:1.55;max-width:280px;margin:0 auto 24px;">Ton objet est en ligne. Tes voisins peuvent maintenant te le demander en prêt.</p>
+          <div style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:260px;">
+            <button type="button" onclick="document.getElementById('ao-success-overlay').style.display='none';" style="padding:12px;border:0;border-radius:11px;background:var(--g);color:white;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;">Publier un autre objet</button>
+            <button type="button" onclick="document.getElementById('ao-success-overlay').style.display='none';setTab('home');" style="padding:12px;border:1px solid var(--g);border-radius:11px;background:white;color:var(--g);font-family:inherit;font-size:14px;cursor:pointer;">Retour à l'accueil</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NOTIFICATIONS -->
+      <div class="ascreen" id="as-notif">
+        <div class="nt-hdr">
+          <h2>Notifications</h2>
+          <button type="button" class="nt-clear" onclick="clearNotifs()">Tout marquer comme lu</button>
+        </div>
+        <div class="nt-tabs" role="tablist">
+          <button type="button" class="nt-tab active" role="tab" aria-selected="true" onclick="setNotifTab(this,'all')">Toutes</button>
+          <button type="button" class="nt-tab" role="tab" aria-selected="false" onclick="setNotifTab(this,'matches')">Matchs</button>
+          <button type="button" class="nt-tab" role="tab" aria-selected="false" onclick="setNotifTab(this,'msgs')">Messages</button>
+          <button type="button" class="nt-tab" role="tab" aria-selected="false" onclick="setNotifTab(this,'pts')">Points</button>
+        </div>
+        <div class="nt-list" id="nt-list">
+          <div class="nt-item" data-cat="pts">
+            <div class="nt-ico points" aria-hidden="true">🎁</div>
+            <div class="nt-body">
+              <div class="nt-msg">Bienvenue sur Shapio ! <strong>+50 points</strong> de bienvenue</div>
+              <div class="nt-time">À ton inscription</div>
+            </div>
+          </div>
+        </div>
+        <div class="nt-empty" id="nt-empty" style="display:none;">Aucune notification dans cette catégorie.</div>
+      </div>
+
+      <!-- NAV -->
+      <nav class="anav" aria-label="Navigation de l'application">
+        <button type="button" class="ni active" id="ni-home" aria-label="Accueil" aria-current="page" onclick="setTab('home')">
+          <div class="nico" aria-hidden="true">🏠</div>
+          <div class="nlbl">Accueil</div>
+        </button>
+        <button type="button" class="ni" id="ni-swipe" aria-label="Explorer" onclick="setTab('swipe')">
+          <div class="nico" aria-hidden="true">🔍</div>
+          <div class="nlbl">Explorer</div>
+        </button>
+        <button type="button" class="ni" id="ni-msgs" aria-label="Messages" onclick="setTab('msgs')" style="position:relative;">
+          <div class="nico" aria-hidden="true">💬</div>
+          <div class="nlbl">Messages</div>
+          <span id="msgs-badge" style="display:none;position:absolute;top:-2px;right:50%;transform:translateX(18px);min-width:18px;height:18px;padding:0 5px;border-radius:100px;background:#EF4444;color:white;font-size:11px;font-weight:600;line-height:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.2);">0</span>
+        </button>
+        <button type="button" class="ni" id="ni-wallet" aria-label="Mes points" onclick="setTab('wallet')">
+          <div class="nico" aria-hidden="true">💰</div>
+          <div class="nlbl">Points</div>
+        </button>
+        <button type="button" class="ni" id="ni-profil" aria-label="Mon profil" onclick="setTab('profil')">
+          <div class="nico" aria-hidden="true">👤</div>
+          <div class="nlbl">Profil</div>
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- MODAL : Laisser un avis -->
+  <div id="review-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:300;align-items:center;justify-content:center;padding:18px;" onclick="if(event.target===this)closeReviewModal()">
+    <div style="background:white;border-radius:18px;padding:22px;max-width:360px;width:100%;box-shadow:0 12px 40px rgba(0,0,0,0.25);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <div style="font-family:'DM Serif Display',serif;font-size:20px;color:var(--dk);">Laisser un avis</div>
+        <button type="button" onclick="closeReviewModal()" aria-label="Fermer" style="width:30px;height:30px;border-radius:50%;border:0;background:#f7f7f4;font-size:16px;cursor:pointer;">×</button>
+      </div>
+      <div id="review-subtitle" style="font-size:13px;color:var(--mu);margin-bottom:18px;">Comment s'est passé l'échange ?</div>
+
+      <!-- Étoiles -->
+      <div style="text-align:center;margin-bottom:18px;">
+        <div id="review-stars" style="font-size:38px;letter-spacing:6px;cursor:pointer;user-select:none;">
+          <span data-star="1" onclick="setReviewStars(1)">☆</span><span data-star="2" onclick="setReviewStars(2)">☆</span><span data-star="3" onclick="setReviewStars(3)">☆</span><span data-star="4" onclick="setReviewStars(4)">☆</span><span data-star="5" onclick="setReviewStars(5)">☆</span>
+        </div>
+        <div id="review-stars-label" style="font-size:12px;color:var(--mu);margin-top:6px;">Touche une étoile pour noter</div>
+      </div>
+
+      <!-- Commentaire -->
+      <textarea id="review-comment" rows="3" placeholder="Ton commentaire (optionnel)…" style="width:100%;padding:11px;border:1px solid rgba(8,80,65,0.15);border-radius:11px;font-family:'DM Sans',sans-serif;font-size:14px;resize:vertical;box-sizing:border-box;margin-bottom:16px;"></textarea>
+
+      <button type="button" id="review-submit-btn" onclick="submitReview()" style="width:100%;padding:12px;border:0;border-radius:11px;background:var(--g);color:white;font-family:inherit;font-size:14px;font-weight:500;cursor:pointer;">Publier mon avis</button>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
