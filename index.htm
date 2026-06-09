@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <meta name="theme-color" content="#085041">
+  <meta name="theme-color" content="a#085041">
   <meta name="color-scheme" content="light">
 
   <title>Shapio — Prêtez, empruntez, faites confiance.</title>
@@ -4191,9 +4191,13 @@
         <div class="filters" id="filters-cat" role="group" aria-label="Filtres par catégorie">
           <button type="button" class="fchip active" onclick="setFilter(this)">Tout</button>
           <button type="button" class="fchip" onclick="setFilter(this)">Tech</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Bricolage</button>
           <button type="button" class="fchip" onclick="setFilter(this)">Maison</button>
           <button type="button" class="fchip" onclick="setFilter(this)">Sport</button>
           <button type="button" class="fchip" onclick="setFilter(this)">Jardinage</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Cuisine</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Loisirs</button>
+          <button type="button" class="fchip" onclick="setFilter(this)">Autre</button>
         </div>
         <div id="swipe-mode" style="display:none;">
           <div class="cstack" id="cstack">
@@ -5982,7 +5986,10 @@
     function setFilter(btn) {
       document.querySelectorAll('.fchip').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
-      // Future : filtrer réellement les cartes par catégorie
+      const label = (btn.textContent || '').trim();
+      // "Tout" = pas de filtre
+      window.explorerCategory = (label === 'Tout') ? '' : label;
+      if (typeof refreshExplorer === 'function') refreshExplorer();
     }
 
     /* ---------- VÉRIFICATION (signup étape 4) ---------- */
@@ -6200,6 +6207,7 @@
     window.explorerRadius = 9999;
     window.explorerSearch = '';
     window.explorerCity = '';
+    window.explorerCategory = '';
 
     /* --- Distance approximative basée sur la ville (sans géocoding) --- */
     // Simple : on considère même ville = 0 km, sinon on ne sait pas (on renvoie 999)
@@ -6359,6 +6367,8 @@
       // Filtrer
       let filtered = all.filter(o => {
         if (search && !(o.titre?.toLowerCase().includes(search) || o.description?.toLowerCase().includes(search))) return false;
+        // Filtre catégorie
+        if (window.explorerCategory && o.categorie !== window.explorerCategory) return false;
         // Filtre ville : matching texte direct sur la ville de l'objet
         if (cityFilter) {
           const objCity = (o.ville || '').toLowerCase().trim();
