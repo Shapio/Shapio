@@ -33,6 +33,28 @@ npm run build     # build de production → dist/
 npm run preview   # sert le build dist/ localement
 ```
 
+## Base de données locale (Docker) — tester sans toucher à la prod
+
+Pour développer contre une base **locale** (Supabase en Docker) plutôt que le Supabase
+hébergé :
+
+```bash
+npm run db:start   # lance Supabase local via Docker (Postgres, Auth, Storage, Studio)
+npm run db:status  # affiche l'URL d'API + les clés locales
+npm run dev        # avec .env.local présent, le dev tape sur la BDD locale
+```
+
+Le fichier **`.env.local`** (fourni) pointe sur le local et a priorité sur `.env`.
+Guide complet (prérequis Docker, seed, réplication exacte de la prod via `db pull`,
+limites du schéma inféré, dépannage) : **[docs/LOCAL_DB.md](docs/LOCAL_DB.md)**.
+
+| Commande | Effet |
+|---|---|
+| `npm run db:start` / `db:stop` | Démarre / arrête la stack Docker |
+| `npm run db:status` | URL + clés locales |
+| `npm run db:reset` | Recrée la BDD (migrations + seed) |
+| `npm run db:pull` | Importe le schéma réel depuis la prod |
+
 ## Hébergement local
 
 `npm run build` produit un dossier `dist/` statique et autonome, servable par n'importe quel

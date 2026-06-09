@@ -8,10 +8,16 @@ dist/
 .env
 .env.*
 !.env.example
+!.env.local.example
 
 # Base de données locale — ne JAMAIS committer
 *.db
 backend/
+
+# Supabase CLI (stack Docker locale)
+supabase/.branches
+supabase/.temp
+supabase/.env
 
 # Divers
 .DS_Store
