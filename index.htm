@@ -1100,11 +1100,13 @@
     .app {
       max-width: 430px;
       margin: 0 auto;
-      min-height: 100vh;
+      height: 100vh;
+      max-height: 100vh;
       background: white;
       display: flex;
       flex-direction: column;
       position: relative;
+      overflow: hidden;
     }
     @media (min-width: 600px) {
       .app {
