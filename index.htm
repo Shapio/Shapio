@@ -1100,13 +1100,12 @@
     .app {
       max-width: 430px;
       margin: 0 auto;
-      height: 100vh;
-      max-height: 100vh;
+      min-height: 100vh;
       background: white;
       display: flex;
       flex-direction: column;
       position: relative;
-      overflow: hidden;
+      padding-bottom: 70px;
     }
     @media (min-width: 600px) {
       .app {
@@ -1212,11 +1211,18 @@
       display: flex;
       justify-content: space-around;
       border-top: 1px solid rgba(8, 80, 65, 0.06);
-      flex-shrink: 0;
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.96);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 -2px 12px rgba(17, 20, 16, 0.03);
+      box-shadow: 0 -2px 12px rgba(17, 20, 16, 0.05);
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 430px;
+      box-sizing: border-box;
+      z-index: 100;
     }
 
     .ni {
