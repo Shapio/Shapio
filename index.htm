@@ -4070,7 +4070,7 @@
               <option value="Autre">Autre</option>
             </select>
           </div>
-          <div class="fl">
+          <div class="fl" id="myobj-fl-pts">
             <label for="myobj-pts">Prix par jour (points)</label>
             <input type="number" id="myobj-pts" min="1" max="1000" required />
           </div>
@@ -4083,7 +4083,7 @@
               <option value="usage">Avec usage</option>
             </select>
           </div>
-          <div class="fl">
+          <div class="fl" id="myobj-fl-duree">
             <label for="myobj-duree">Durée max du prêt (jours)</label>
             <div style="display:flex;align-items:center;gap:10px;">
               <input type="number" id="myobj-duree" min="1" max="365" value="7"
@@ -4098,7 +4098,7 @@
               <button type="button" onclick="document.getElementById('myobj-duree').value=30" style="padding:5px 12px;border-radius:100px;border:1px solid rgba(8,80,65,0.2);background:white;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">1 mois</button>
             </div>
           </div>
-          <div class="fl">
+          <div class="fl" id="myobj-fl-dispo">
             <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
               <input type="checkbox" id="myobj-dispo" style="width:18px;height:18px;cursor:pointer;" />
               <span>Disponible au prêt</span>
@@ -5513,10 +5513,12 @@
 
         // Adapter l'affichage pour un DON
         const isDon = (o.type === 'don');
-        const ptsField = document.getElementById('myobj-pts')?.closest('.ao-fl') || document.getElementById('myobj-pts')?.parentElement;
-        const dureeField = document.getElementById('myobj-duree')?.closest('.ao-fl') || document.getElementById('myobj-duree')?.parentElement;
+        const ptsField = document.getElementById('myobj-fl-pts');
+        const dureeField = document.getElementById('myobj-fl-duree');
+        const dispoField = document.getElementById('myobj-fl-dispo');
         if (ptsField) ptsField.style.display = isDon ? 'none' : '';
         if (dureeField) dureeField.style.display = isDon ? 'none' : '';
+        if (dispoField) dispoField.style.display = isDon ? 'none' : '';
         // Bandeau "Don" + état
         let donInfo = document.getElementById('myobj-don-info');
         if (isDon) {
@@ -5525,12 +5527,12 @@
             donInfo.id = 'myobj-don-info';
             donInfo.style.cssText = 'background:#E1F5EE;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--g);font-weight:500;';
             const titreEl = document.getElementById('myobj-titre');
-            const parent = titreEl?.closest('.ao-fl') || titreEl?.parentElement;
+            const parent = titreEl?.closest('.fl');
             if (parent && parent.parentElement) parent.parentElement.insertBefore(donInfo, parent);
           }
           donInfo.innerHTML = o.disponible
             ? '🎁 Ceci est un <strong>don</strong>. Il sera retiré automatiquement une fois récupéré par un membre.'
-            : '✓ Ce <strong>don</strong> a été récupéré. L\'objet n\'est plus disponible.';
+            : '✓ Ce <strong>don</strong> a été récupéré. Tu peux supprimer cette annonce.';
           donInfo.style.display = 'block';
         } else if (donInfo) {
           donInfo.style.display = 'none';
