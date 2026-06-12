@@ -5692,6 +5692,16 @@
         const enCours = (loans || []).filter(l => l.statut === 'en_cours');
         const termines = (loans || []).filter(l => l.statut === 'termine');
 
+        // Charger mes dons (donneur OU récupérateur)
+        let mesDons = [];
+        try {
+          const { data: donsData } = await sb.from('dons')
+            .select('*, obj:object_id(titre), donneur:donneur_id(prenom, nom), recup:recuperateur_id(prenom, nom)')
+            .or('donneur_id.eq.' + profile.id + ',recuperateur_id.eq.' + profile.id)
+            .order('created_at', { ascending: false });
+          mesDons = donsData || [];
+        } catch (e) { console.warn('Chargement dons:', e); }
+
         // Charger les avis que J'AI déjà laissés (pour ne pas reproposer)
         let reviewedLoanIds = new Set();
         try {
@@ -5762,6 +5772,36 @@
             avisBtn +
             '</div>';
         }
+        // --- Transactions de DON ---
+        for (const don of mesDons) {
+          const jeSuisDonneur = (don.donneur_id === profile.id);
+          const titre = (don.obj?.titre || 'Objet').replace(/</g, '&lt;');
+          const d = don.created_at ? new Date(don.created_at).toLocaleDateString('fr-FR', {day:'numeric', month:'long'}) : '';
+          if (jeSuisDonneur) {
+            // Donneur : +points, "Don offert à X"
+            const recupNom = don.recup?.prenom || 'un membre';
+            const montant = (don.pts_credites > 0) ? ('+' + don.pts_credites) : '+0';
+            const color = (don.pts_credites > 0) ? '#1D9E75' : 'var(--mu)';
+            txHtml += '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;margin-bottom:8px;">' +
+              '<div style="display:flex;align-items:center;gap:12px;">' +
+                '<div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>' +
+                '<div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--dk);">Don offert à ' + recupNom + '</div>' +
+                '<div style="font-size:11px;color:var(--mu);">« ' + titre + ' » · ' + d + '</div></div>' +
+                '<div style="font-size:14px;font-weight:600;color:' + color + ';">' + montant + ' pts</div>' +
+              '</div></div>';
+          } else {
+            // Récupérateur : pas de points, "Don reçu de X"
+            const donneurNom = don.donneur?.prenom || 'un membre';
+            txHtml += '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;margin-bottom:8px;">' +
+              '<div style="display:flex;align-items:center;gap:12px;">' +
+                '<div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>' +
+                '<div style="flex:1;"><div style="font-size:14px;font-weight:500;color:var(--dk);">Don reçu de ' + donneurNom + '</div>' +
+                '<div style="font-size:11px;color:var(--mu);">« ' + titre + ' » · ' + d + '</div></div>' +
+                '<div style="font-size:12px;font-weight:500;color:var(--mu);">Gratuit</div>' +
+              '</div></div>';
+          }
+        }
+
         // Bonus inscription (toujours en bas)
         txHtml += '<div style="background:white;border:1px solid rgba(8,80,65,0.08);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px;">' +
           '<div style="width:38px;height:38px;background:#E1F5EE;border-radius:50%;display:flex;align-items:center;justify-content:center;">🎁</div>' +
@@ -5771,9 +5811,15 @@
 
         if (txList) txList.innerHTML = txHtml;
 
-        // Stats résumées
-        const gagnes = termines.filter(l => l.preteur_id === profile.id).reduce((s, l) => s + (l.total_pts || 0), 0);
+        // Stats résumées (prêts + dons)
+        const debutMois = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        const gagnesPrets = termines.filter(l => l.preteur_id === profile.id).reduce((s, l) => s + (l.total_pts || 0), 0);
         const depenses = termines.filter(l => l.emprunteur_id === profile.id).reduce((s, l) => s + (l.total_pts || 0), 0);
+        // Points gagnés via les dons (en tant que donneur)
+        const gagnesDons = mesDons
+          .filter(don => don.donneur_id === profile.id)
+          .reduce((s, don) => s + (don.pts_credites || 0), 0);
+        const gagnes = gagnesPrets + gagnesDons;
         const gagnesEl = document.getElementById('wallet-gagnes');
         const depEl = document.getElementById('wallet-depenses');
         const evolEl = document.getElementById('wallet-month-evol');
@@ -7460,10 +7506,7 @@
       } else if (type === 'DON_CONFIRMED') {
         badge = '🎉 Don finalisé';
         color = '#085041';
-        const ptsTxt = (data.points_credites > 0)
-          ? (data.points_credites + ' pts crédités au donneur.')
-          : 'Plafond mensuel atteint : aucun point cette fois.';
-        intro = 'L\'objet <strong>' + titre + '</strong> a été récupéré. ' + ptsTxt;
+        intro = 'L\'objet <strong>' + titre + '</strong> a bien été récupéré. Merci pour ce don ! 🎁';
       } else if (type === 'DON_REFUSE') {
         badge = '✕ Demande refusée';
         color = '#EF4444';
@@ -7566,9 +7609,9 @@
             contenu: 'DON_CONFIRMED::' + JSON.stringify(payload)
           });
           if (data.plafond_atteint) {
-            alert('🎁 Don finalisé ! Le donneur avait déjà atteint son plafond de 4 dons récompensés ce mois — pas de points cette fois, mais l\'objet est à toi.\n\nTu peux laisser un avis au donneur.');
+            alert('🎁 Don finalisé ! L\'objet est à toi. Merci d\'utiliser Shapio !');
           } else {
-            alert('🎁 Don finalisé ! Le donneur reçoit ' + (data.points_credites || 5) + ' points.\n\nTu peux laisser un avis au donneur.');
+            alert('🎁 Don finalisé ! L\'objet est à toi. Merci d\'utiliser Shapio !');
           }
           if (typeof loadHomeObjects === 'function') loadHomeObjects();
           if (typeof openChat === 'function' && donneurId) openChat(donneurId);
