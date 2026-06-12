@@ -4467,7 +4467,7 @@
         <div class="fbar" id="fbar">
           <div class="fbarinfo">
             <div class="fbarin" id="fbar-pts">– pts</div>
-            <div class="fbarl">par jour · bloqués jusqu'au retour</div>
+            <div class="fbarl" id="fbar-sub">par jour · bloqués jusqu'au retour</div>
           </div>
           <button type="button" class="fmsgbtn" aria-label="Envoyer un message au propriétaire" onclick="contactOwner()">💬</button>
           <button type="button" class="faskbtn" onclick="showFicheConfirm()">Demander à emprunter</button>
@@ -5968,45 +5968,33 @@
       document.getElementById('fbar').style.display = 'flex';
     }
 
-    /* --- Récupérer un don --- */
+    /* --- Demander à récupérer un don (envoie une demande au donneur) --- */
     async function recupererDon() {
       const o = window.currentObject;
-      if (!o) return;
+      if (!o || !o.users) { alert('Erreur : objet introuvable.'); return; }
       const me = await getCurrentProfile();
       if (!me) { alert('Tu dois être connecté pour récupérer un objet.'); return; }
-      if (o.user_id === me.id) { alert('Tu ne peux pas récupérer ton propre don.'); return; }
-
-      const ok = confirm('Tu confirmes vouloir récupérer « ' + (o.titre || 'cet objet') + ' » ?\n\nC\'est un don : l\'objet sera à toi définitivement. Pense à convenir d\'un rendez-vous avec le donneur via la messagerie.');
-      if (!ok) return;
-
-      const btn = document.querySelector('#as-fiche .faskbtn');
-      if (btn) { btn.textContent = 'Récupération…'; btn.disabled = true; }
+      if (o.user_id === me.id || me.id === o.users.id) { alert('Tu ne peux pas récupérer ton propre don.'); return; }
 
       try {
-        const { data, error } = await sb.rpc('confirmer_don', {
-          p_object_id: o.id,
-          p_recuperateur_id: me.id
+        const payload = {
+          type: 'DON_REQUEST',
+          object_id: o.id,
+          object_titre: o.titre
+        };
+        const messageText = 'DON_REQUEST::' + JSON.stringify(payload);
+        const { error } = await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: o.users.id,
+          contenu: messageText
         });
         if (error) throw error;
-
-        if (data && data.success) {
-          // Message selon plafond
-          if (data.plafond_atteint) {
-            alert('🎁 Objet récupéré ! Le donneur a déjà atteint son plafond de 4 dons récompensés ce mois-ci, donc il ne gagne pas de points cette fois — mais l\'objet est à toi.');
-          } else {
-            alert('🎁 Objet récupéré ! Le donneur reçoit ' + (data.points_credites || 5) + ' points. Pense à convenir d\'un rendez-vous via la messagerie.');
-          }
-          // Rafraîchir les listes
-          if (typeof loadHomeObjects === 'function') loadHomeObjects();
-          setTab('home');
-        } else {
-          alert((data && data.message) ? data.message : 'Impossible de récupérer cet objet.');
-          if (btn) { btn.textContent = '🎁 Récupérer cet objet'; btn.disabled = false; }
-        }
+        alert('✅ Demande envoyée à ' + (o.users.prenom || 'au donneur') + ' !\n\n' +
+              'Le donneur va recevoir ta demande. Une fois qu\'il accepte, convenez d\'un rendez-vous via la messagerie. Tu confirmeras la récupération une fois l\'objet en main.');
+        openChat(o.users.id);
       } catch (err) {
         console.error('recupererDon error:', err);
-        alert('Erreur lors de la récupération. Réessaie.');
-        if (btn) { btn.textContent = '🎁 Récupérer cet objet'; btn.disabled = false; }
+        alert('Erreur : ' + (err.message || err));
       }
     }
 
@@ -7173,6 +7161,8 @@
         const askBtn = document.querySelector('#as-fiche .faskbtn');
         if (pts) pts.textContent = isDon ? '🎁' : (o.pts_par_jour ?? '–');
         if (fbarPts) fbarPts.textContent = isDon ? 'Don gratuit' : ((o.pts_par_jour ?? '–') + ' pts');
+        const fbarSub = document.getElementById('fbar-sub');
+        if (fbarSub) fbarSub.textContent = isDon ? 'objet à récupérer' : 'par jour · bloqués jusqu\'au retour';
         // Label "points/jour" sous le prix
         const fptsl = document.querySelector('#as-fiche .fptsl');
         if (fptsl) fptsl.textContent = isDon ? 'objet à récupérer' : 'pts/jour';
@@ -7265,6 +7255,11 @@
           else if (lastTxt.startsWith('LOAN_ACCEPT::')) lastTxt = '✅ Demande acceptée';
           else if (lastTxt.startsWith('LOAN_REFUSE::')) lastTxt = '✕ Demande refusée';
           else if (lastTxt.startsWith('LOAN_COUNTER::')) lastTxt = '↔ Contre-proposition';
+          else if (lastTxt.startsWith('LOAN_RETURNED::')) lastTxt = '🎉 Prêt terminé';
+          else if (lastTxt.startsWith('DON_REQUEST::')) lastTxt = '🎁 Demande de don';
+          else if (lastTxt.startsWith('DON_ACCEPT::')) lastTxt = '✅ Don accepté';
+          else if (lastTxt.startsWith('DON_REFUSE::')) lastTxt = '✕ Demande refusée';
+          else if (lastTxt.startsWith('DON_CONFIRMED::')) lastTxt = '🎉 Don finalisé';
           else lastTxt = lastTxt.slice(0, 60);
           return '<div role="button" tabindex="0" onclick="openChat(\'' + u.id + '\')" style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0ed;cursor:pointer;">' +
             avatar +
@@ -7346,6 +7341,15 @@
         } catch (e) { /* fallback texte brut */ }
       }
 
+      const matchDon = content.match(/^(DON_REQUEST|DON_ACCEPT|DON_REFUSE|DON_CONFIRMED)::(.+)$/);
+      if (matchDon) {
+        try {
+          const type = matchDon[1];
+          const data = JSON.parse(matchDon[2]);
+          return renderDonCard(type, data, m, isMine);
+        } catch (e) { /* fallback texte brut */ }
+      }
+
       // Message texte normal
       return '<div style="max-width:100%;display:flex;flex-direction:column;' + (isMine ? 'align-items:flex-end;' : 'align-items:flex-start;') + '">' +
         '<div class="mb ' + (isMine ? 'mout' : 'min') + '">' + content.replace(/</g, '&lt;') + '</div>' +
@@ -7419,6 +7423,162 @@
         actions +
         '<div style="font-size:10px;color:var(--mu);margin-top:6px;text-align:right;">' + time + '</div>' +
         '</div>';
+    }
+
+    /* --- Carte spéciale de demande/réponse de DON --- */
+    function renderDonCard(type, data, m, isMine) {
+      const time = new Date(m.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      const titre = (data.object_titre || 'Objet').replace(/</g, '&lt;');
+      let badge, color, intro, actions = '';
+
+      if (type === 'DON_REQUEST') {
+        badge = '🎁 Demande de don';
+        color = '#1D9E75';
+        intro = isMine
+          ? 'Tu as demandé à récupérer <strong>' + titre + '</strong>.'
+          : 'Souhaite récupérer ton don <strong>' + titre + '</strong>.';
+        // Le donneur (pas isMine) voit Accepter / Refuser
+        if (!isMine) {
+          actions =
+            '<div style="display:flex;flex-direction:column;gap:6px;margin-top:10px;">' +
+              '<button type="button" onclick="donAccept(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✓ Accepter la demande</button>' +
+              '<button type="button" onclick="donRefuse(\'' + m.id + '\')" style="padding:9px 12px;border:0;border-radius:8px;background:#FEE2E2;color:#EF4444;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✕ Refuser</button>' +
+            '</div>';
+        }
+      } else if (type === 'DON_ACCEPT') {
+        badge = '✅ Don accepté';
+        color = '#22C55E';
+        intro = (isMine ? 'Tu as accepté' : 'A accepté') + ' de donner <strong>' + titre + '</strong>. Convenez d\'un rendez-vous pour la remise.';
+        // Le récupérateur (celui qui reçoit l'acceptation = pas isMine) confirme la récupération
+        if (!isMine && data.object_id) {
+          actions =
+            '<div style="margin-top:10px;">' +
+              '<button type="button" onclick="donConfirmRecu(\'' + data.object_id + '\',\'' + (data.donneur_id || '') + '\')" style="width:100%;padding:10px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">🎁 J\'ai bien récupéré l\'objet</button>' +
+              '<div style="font-size:11px;color:var(--mu);margin-top:6px;text-align:center;">À cliquer une fois l\'objet en main. Le donneur recevra alors ses points.</div>' +
+            '</div>';
+        }
+      } else if (type === 'DON_CONFIRMED') {
+        badge = '🎉 Don finalisé';
+        color = '#085041';
+        const ptsTxt = (data.points_credites > 0)
+          ? (data.points_credites + ' pts crédités au donneur.')
+          : 'Plafond mensuel atteint : aucun point cette fois.';
+        intro = 'L\'objet <strong>' + titre + '</strong> a été récupéré. ' + ptsTxt;
+      } else if (type === 'DON_REFUSE') {
+        badge = '✕ Demande refusée';
+        color = '#EF4444';
+        intro = (isMine ? 'Tu as refusé' : 'A refusé') + ' la demande pour <strong>' + titre + '</strong>.';
+      }
+
+      return '<div style="align-self:stretch;background:#f7f7f4;border-radius:14px;padding:12px;margin:6px 0;border-left:3px solid ' + color + ';">' +
+        '<div style="font-size:11px;color:' + color + ';text-transform:uppercase;letter-spacing:0.5px;font-weight:600;margin-bottom:6px;">' + badge + '</div>' +
+        '<div style="font-size:13px;color:var(--dk);margin-bottom:8px;">' + intro + '</div>' +
+        '<div style="background:white;border-radius:8px;padding:8px 10px;font-size:13px;color:var(--dk);">' +
+          '<div>🎁 Don gratuit · objet définitif</div>' +
+        '</div>' +
+        actions +
+        '<div style="font-size:10px;color:var(--mu);margin-top:6px;text-align:right;">' + time + '</div>' +
+        '</div>';
+    }
+
+    /* --- Actions sur une demande de DON --- */
+    async function donGetOriginal(messageId) {
+      const { data: m, error } = await sb.from('messages').select('*').eq('id', messageId).maybeSingle();
+      if (error) throw error;
+      const match = (m.contenu || '').match(/^DON_REQUEST::(.+)$/);
+      if (!match) throw new Error('Message invalide');
+      return { msg: m, data: JSON.parse(match[1]) };
+    }
+
+    async function donAccept(messageId) {
+      try {
+        const { msg, data } = await donGetOriginal(messageId);
+        const me = await getCurrentProfile();
+        if (!me) return;
+        const recuperateurId = msg.expediteur_id; // celui qui a demandé
+        const payload = {
+          type: 'DON_ACCEPT',
+          object_id: data.object_id,
+          object_titre: data.object_titre,
+          donneur_id: me.id,
+          recuperateur_id: recuperateurId
+        };
+        const { error } = await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: recuperateurId,
+          contenu: 'DON_ACCEPT::' + JSON.stringify(payload)
+        });
+        if (error) throw error;
+        if (typeof openChat === 'function') openChat(recuperateurId);
+      } catch (err) {
+        console.error('donAccept error:', err);
+        alert('Erreur : ' + (err.message || err));
+      }
+    }
+
+    async function donRefuse(messageId) {
+      try {
+        const { msg, data } = await donGetOriginal(messageId);
+        const me = await getCurrentProfile();
+        if (!me) return;
+        const recuperateurId = msg.expediteur_id;
+        const payload = { type: 'DON_REFUSE', object_titre: data.object_titre };
+        await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: recuperateurId,
+          contenu: 'DON_REFUSE::' + JSON.stringify(payload)
+        });
+        if (typeof openChat === 'function') openChat(recuperateurId);
+      } catch (err) {
+        console.error('donRefuse error:', err);
+      }
+    }
+
+    /* --- Le récupérateur confirme avoir reçu l'objet → crédite le donneur --- */
+    async function donConfirmRecu(objectId, donneurId) {
+      const me = await getCurrentProfile();
+      if (!me) { alert('Tu dois être connecté.'); return; }
+      const ok = confirm('Tu confirmes avoir bien récupéré cet objet ?\n\nLe donneur recevra ses points et le don sera finalisé.');
+      if (!ok) return;
+      try {
+        const { data, error } = await sb.rpc('confirmer_don', {
+          p_object_id: objectId,
+          p_recuperateur_id: me.id
+        });
+        if (error) throw error;
+        if (data && data.success) {
+          // Récupérer le titre de l'objet pour le message
+          let titre = 'Objet';
+          try {
+            const { data: obj } = await sb.from('objects').select('titre').eq('id', objectId).maybeSingle();
+            if (obj) titre = obj.titre;
+          } catch (e) {}
+          const payload = {
+            type: 'DON_CONFIRMED',
+            object_id: objectId,
+            object_titre: titre,
+            points_credites: data.points_credites || 0
+          };
+          // Envoyer la confirmation au donneur
+          await sb.from('messages').insert({
+            expediteur_id: me.id,
+            destinataire_id: donneurId,
+            contenu: 'DON_CONFIRMED::' + JSON.stringify(payload)
+          });
+          if (data.plafond_atteint) {
+            alert('🎁 Don finalisé ! Le donneur avait déjà atteint son plafond de 4 dons récompensés ce mois — pas de points cette fois, mais l\'objet est à toi.\n\nTu peux laisser un avis au donneur.');
+          } else {
+            alert('🎁 Don finalisé ! Le donneur reçoit ' + (data.points_credites || 5) + ' points.\n\nTu peux laisser un avis au donneur.');
+          }
+          if (typeof loadHomeObjects === 'function') loadHomeObjects();
+          if (typeof openChat === 'function' && donneurId) openChat(donneurId);
+        } else {
+          alert((data && data.message) ? data.message : 'Impossible de finaliser le don.');
+        }
+      } catch (err) {
+        console.error('donConfirmRecu error:', err);
+        alert('Erreur lors de la confirmation. Réessaie.');
+      }
     }
 
     /* --- Actions sur une demande de prêt --- */
