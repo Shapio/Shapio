@@ -5511,6 +5511,31 @@
         document.getElementById('myobj-success').style.display = 'none';
         clearError('myobj-error');
 
+        // Adapter l'affichage pour un DON
+        const isDon = (o.type === 'don');
+        const ptsField = document.getElementById('myobj-pts')?.closest('.ao-fl') || document.getElementById('myobj-pts')?.parentElement;
+        const dureeField = document.getElementById('myobj-duree')?.closest('.ao-fl') || document.getElementById('myobj-duree')?.parentElement;
+        if (ptsField) ptsField.style.display = isDon ? 'none' : '';
+        if (dureeField) dureeField.style.display = isDon ? 'none' : '';
+        // Bandeau "Don" + état
+        let donInfo = document.getElementById('myobj-don-info');
+        if (isDon) {
+          if (!donInfo) {
+            donInfo = document.createElement('div');
+            donInfo.id = 'myobj-don-info';
+            donInfo.style.cssText = 'background:#E1F5EE;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--g);font-weight:500;';
+            const titreEl = document.getElementById('myobj-titre');
+            const parent = titreEl?.closest('.ao-fl') || titreEl?.parentElement;
+            if (parent && parent.parentElement) parent.parentElement.insertBefore(donInfo, parent);
+          }
+          donInfo.innerHTML = o.disponible
+            ? '🎁 Ceci est un <strong>don</strong>. Il sera retiré automatiquement une fois récupéré par un membre.'
+            : '✓ Ce <strong>don</strong> a été récupéré. L\'objet n\'est plus disponible.';
+          donInfo.style.display = 'block';
+        } else if (donInfo) {
+          donInfo.style.display = 'none';
+        }
+
         go('p-myobject');
       } catch (err) {
         console.error('openMyObject error:', err);
@@ -5532,9 +5557,10 @@
       const etat = document.getElementById('myobj-etat').value;
       const dispo = document.getElementById('myobj-dispo').checked;
 
+      const isDon = (window.currentMyObject.type === 'don');
       if (!titre) { showError('myobj-error', 'Le titre est obligatoire.'); return; }
-      if (pts < 1 || pts > 1000) { showError('myobj-error', 'Le prix doit être entre 1 et 1000 points.'); return; }
-      if (duree < 1 || duree > 365) { showError('myobj-error', 'La durée doit être entre 1 et 365 jours.'); return; }
+      if (!isDon && (pts < 1 || pts > 1000)) { showError('myobj-error', 'Le prix doit être entre 1 et 1000 points.'); return; }
+      if (!isDon && (duree < 1 || duree > 365)) { showError('myobj-error', 'La durée doit être entre 1 et 365 jours.'); return; }
 
       const btn = document.querySelector('#p-myobject .obtn');
       btn.textContent = 'Enregistrement…'; btn.disabled = true;
@@ -6880,16 +6906,28 @@
         grid.innerHTML = objects.map(o => {
           const c = catIcons[o.categorie] || catIcons['Autre'];
           const photo = (o.photos && o.photos[0]) ? `<img src="${o.photos[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:14px;" alt="${o.titre}"/>` : `<span aria-hidden="true">${c.ico}</span>`;
-          const statusClass = o.disponible ? 'post-on' : 'post-off';
-          const statusLbl = o.disponible ? 'Dispo' : 'Indispo';
+          const isDon = (o.type === 'don');
+          // État affiché
+          let statusClass, statusLbl;
+          if (isDon) {
+            if (o.disponible) { statusClass = 'post-on'; statusLbl = 'Don dispo'; }
+            else { statusClass = 'post-off'; statusLbl = '✓ Donné'; }
+          } else {
+            statusClass = o.disponible ? 'post-on' : 'post-off';
+            statusLbl = o.disponible ? 'Dispo' : 'Indispo';
+          }
+          // Badge prix ou Don
+          const priceBadge = isDon
+            ? `<div class="popts" style="background:var(--g);color:#fff;">🎁 Don</div>`
+            : `<div class="popts">${o.pts_par_jour} pts</div>`;
           return `<div class="pocard" role="button" tabindex="0" onclick="openMyObject('${o.id}')">
             <div class="poimg" style="background:${c.bg};">${photo}
-              <div class="popts">${o.pts_par_jour} pts</div>
+              ${priceBadge}
               <div class="post ${statusClass}">${statusLbl}</div>
             </div>
             <div class="poinfo">
               <div class="ponm">${o.titre}</div>
-              <div class="popr">0 prêts</div>
+              <div class="popr">${isDon ? 'Don' : '0 prêts'}</div>
             </div>
           </div>`;
         }).join('') + addBtn;
