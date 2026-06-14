@@ -4489,6 +4489,7 @@
             <div id="pub-name" style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);">Membre</div>
             <div id="pub-ville" style="font-size:13px;color:var(--mu);margin-top:2px;">📍 –</div>
             <div id="pub-since" style="font-size:12px;color:var(--mu);margin-top:2px;">–</div>
+            <div id="pub-dons-badge" style="display:none;margin-top:8px;"><span style="display:inline-flex;align-items:center;gap:4px;background:#E1F5EE;color:var(--g);font-size:12px;padding:4px 12px;border-radius:100px;font-weight:600;">🎁 <span id="pub-dons-label">0 dons</span></span></div>
           </div>
 
           <!-- Stats -->
@@ -4688,11 +4689,12 @@
             <div class="pname" id="profile-name" style="font-family:'DM Serif Display',serif;font-size:24px;color:var(--dk);">Chargement…</div>
             <div class="pvbadge" id="profile-badge" style="display:none;background:#E1F5EE;color:var(--g);font-size:11px;padding:3px 8px;border-radius:100px;font-weight:500;">✓ Vérifié</div>
           </div>
-          <div class="psub" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);margin-bottom:18px;">
+          <div class="psub" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--mu);margin-bottom:18px;flex-wrap:wrap;">
             <span>📍</span>
             <span id="profile-ville">–</span>
             <span>·</span>
             <span id="profile-since">Membre depuis 2026</span>
+            <span id="profile-dons-badge" style="display:none;align-items:center;gap:4px;background:#E1F5EE;color:var(--g);font-size:12px;padding:3px 10px;border-radius:100px;font-weight:600;margin-left:2px;">🎁 <span id="profile-dons-label">0 dons</span></span>
           </div>
 
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;">
@@ -7000,6 +7002,23 @@
         const note = document.getElementById('pub-note');
         if (note) note.textContent = (u.note_moyenne > 0) ? u.note_moyenne.toFixed(1) : '–';
 
+        // Badge dons effectués
+        try {
+          const { count } = await sb.from('dons')
+            .select('id', { count: 'exact', head: true })
+            .eq('donneur_id', userId);
+          const donsBadge = document.getElementById('pub-dons-badge');
+          const donsLabel = document.getElementById('pub-dons-label');
+          if (donsBadge && donsLabel) {
+            if (count && count > 0) {
+              donsLabel.textContent = count + (count > 1 ? ' dons' : ' don');
+              donsBadge.style.display = 'block';
+            } else {
+              donsBadge.style.display = 'none';
+            }
+          }
+        } catch (e) { console.warn('dons count public:', e); }
+
         // Niveau de confiance (on ne sait pas si son email est confirmé côté autre user, on suppose true par défaut s'il est connecté)
         // Pour le public, on ne peut PAS lire auth.users.email_confirmed_at d'un autre user via le client.
         // On affiche donc juste les 2 vérifs visibles : identité + téléphone.
@@ -8231,9 +8250,34 @@
 
       window.currentProfile = profile;
 
+      // Badge dons (compteur)
+      if (typeof loadDonsCount === 'function') loadDonsCount(profile.id);
+
       // Charger objets après update
       if (typeof loadHomeObjects === 'function') loadHomeObjects();
       if (typeof loadMyObjects === 'function') loadMyObjects();
+    }
+
+    /* --- Compter les dons effectués (pour le badge profil) --- */
+    async function loadDonsCount(userId) {
+      try {
+        const { count, error } = await sb.from('dons')
+          .select('id', { count: 'exact', head: true })
+          .eq('donneur_id', userId);
+        if (error) throw error;
+        const badge = document.getElementById('profile-dons-badge');
+        const label = document.getElementById('profile-dons-label');
+        if (badge && label) {
+          if (count && count > 0) {
+            label.textContent = count + (count > 1 ? ' dons' : ' don');
+            badge.style.display = 'inline-flex';
+          } else {
+            badge.style.display = 'none';
+          }
+        }
+      } catch (e) {
+        console.warn('loadDonsCount:', e);
+      }
     }
 
     /* --- Mettre à jour la jauge de confiance 0/3 → 3/3 --- */
