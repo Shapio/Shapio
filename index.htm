@@ -1189,11 +1189,13 @@
     .app {
       max-width: 430px;
       margin: 0 auto;
-      min-height: 100vh;
+      height: 100vh;
+      height: 100dvh;
       background: white;
       display: flex;
       flex-direction: column;
       position: relative;
+      overflow: hidden;
     }
     @media (min-width: 600px) {
       .app {
@@ -8516,6 +8518,13 @@
       const original = checkBtn ? checkBtn.textContent : '';
       if (checkBtn) { checkBtn.textContent = 'Vérification…'; checkBtn.disabled = true; }
       try {
+        // S'assurer qu'une session existe sur CET appareil avant de tenter un refresh
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session?.user) {
+          alert('Tu dois d\'abord te connecter sur cet appareil.\n\nConnecte-toi avec ton email et ton mot de passe : ton email sera reconnu comme confirmé automatiquement.');
+          return;
+        }
+
         // Forcer une session fraîche depuis le serveur
         let user = null;
         try {
@@ -8537,7 +8546,7 @@
         }
       } catch (e) {
         console.error('recheckEmailConfirmed error:', e);
-        alert('Erreur : ' + (e.message || e));
+        alert('Impossible de vérifier pour le moment. Reconnecte-toi : ton email sera reconnu comme confirmé.');
       } finally {
         if (checkBtn) { checkBtn.textContent = original || 'J\'ai confirmé'; checkBtn.disabled = false; }
       }
