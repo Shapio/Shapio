@@ -4621,11 +4621,15 @@
           <div style="background:linear-gradient(135deg,#085041,#0a6b58);border-radius:20px;padding:24px;color:white;margin-bottom:20px;">
             <div style="font-size:11px;opacity:0.7;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:8px;">Solde disponible</div>
             <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:18px;">
-              <div class="wcn" style="font-family:'DM Serif Display',serif;font-size:48px;">50</div>
+              <div class="wcn" style="font-family:'DM Serif Display',serif;font-size:48px;color:#E8B84B;">50</div>
               <div style="font-size:14px;opacity:0.8;">points</div>
             </div>
-            <div style="background:rgba(255,255,255,0.15);border-radius:100px;height:6px;overflow:hidden;margin-bottom:8px;">
-              <div class="wcbar" style="background:white;height:100%;width:50%;border-radius:100px;"></div>
+            <div style="background:rgba(255,255,255,0.15);border-radius:100px;height:6px;overflow:hidden;margin-bottom:4px;">
+              <div class="wcbar" style="background:#E8B84B;height:100%;width:16%;border-radius:100px;"></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-size:10px;opacity:0.6;margin-bottom:8px;">
+              <span>0</span>
+              <span>300 max</span>
             </div>
             <div style="display:flex;justify-content:space-between;font-size:11px;opacity:0.7;">
               <span>Évolution ce mois</span>
@@ -4916,8 +4920,8 @@
           </div><!-- /ao-pret-fields -->
 
           <div class="ao-fl">
-            <label for="ao-quartier">Quartier (optionnel)</label>
-            <input type="text" id="ao-quartier" name="neighborhood" placeholder="Ton quartier…" />
+            <label for="ao-ville">Ville *</label>
+            <input type="text" id="ao-ville" name="city" placeholder="Ville où se trouve l'objet…" required />
           </div>
 
           <div class="form-error" id="ao-error" role="alert" aria-live="polite"></div>
@@ -5027,6 +5031,11 @@
       if (tab === 'addobj') {
         const ov = document.getElementById('ao-success-overlay');
         if (ov) ov.style.display = 'none';
+        // Pré-remplir la ville avec celle du profil (modifiable pour l'objet)
+        const villeInput = document.getElementById('ao-ville');
+        if (villeInput && !villeInput.value && window.currentProfile && window.currentProfile.ville) {
+          villeInput.value = window.currentProfile.ville;
+        }
       }
       if (tab === 'msgs' && typeof loadMessages === 'function') loadMessages();
       // Le badge et la pastille ne sont PLUS masqués juste en ouvrant l'onglet.
@@ -5695,9 +5704,17 @@
       const disponible = points - bloques;
 
       const wcn = document.querySelector('#as-wallet .wcn');
-      if (wcn) wcn.textContent = disponible;
+      if (wcn) {
+        wcn.textContent = disponible;
+        wcn.style.color = '#E8B84B'; // doré
+      }
       const wcbar = document.querySelector('#as-wallet .wcbar');
-      if (wcbar) wcbar.style.width = Math.min(disponible, 100) + '%';
+      if (wcbar) {
+        // Jauge progressive de 0 à 300 points (max). 150 pts => 50%.
+        const pct = Math.max(0, Math.min(disponible / 300 * 100, 100));
+        wcbar.style.width = pct + '%';
+        wcbar.style.background = '#E8B84B'; // barre dorée
+      }
       const blockEl = document.getElementById('wallet-bloques');
       if (blockEl) blockEl.textContent = bloques + ' pts';
 
@@ -5712,7 +5729,7 @@
           .order('created_at', { ascending: false });
         if (error) throw error;
 
-        const enCours = (loans || []).filter(l => l.statut === 'en_cours');
+        const enCours = (loans || []).filter(l => l.statut === 'en_cours' || l.statut === 'recupere');
         const termines = (loans || []).filter(l => l.statut === 'termine');
 
         // Charger mes dons (donneur OU récupérateur)
@@ -5747,9 +5764,17 @@
               const roleLabel = jeSuisPreteur ? '🔼 Tu prêtes' : '🔽 Tu empruntes';
               let btn = '';
               if (jeSuisPreteur) {
-                btn = '<button type="button" onclick="confirmerRetour(\'' + l.id + '\')" style="width:100%;margin-top:10px;padding:9px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;">📦 Confirmer le retour</button>';
+                if (l.statut === 'recupere') {
+                  btn = '<button type="button" onclick="confirmerRetour(\'' + l.id + '\')" style="width:100%;margin-top:10px;padding:9px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;">📦 Confirmer le retour</button>';
+                } else {
+                  btn = '<div style="margin-top:8px;font-size:11px;color:var(--mu);text-align:center;">En attente : l\'emprunteur doit confirmer qu\'il a récupéré l\'objet.</div>';
+                }
               } else {
-                btn = '<div style="margin-top:8px;font-size:11px;color:var(--mu);text-align:center;">En attente de confirmation du retour par le prêteur.</div>';
+                if (l.statut === 'en_cours') {
+                  btn = '<button type="button" onclick="confirmerRecuperation(\'' + l.id + '\')" style="width:100%;margin-top:10px;padding:9px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;font-weight:500;cursor:pointer;">✋ J\'ai récupéré l\'objet</button>';
+                } else {
+                  btn = '<div style="margin-top:8px;font-size:11px;color:var(--mu);text-align:center;">En attente de confirmation du retour par le prêteur.</div>';
+                }
               }
               return '<div style="background:white;border:1px solid rgba(8,80,65,0.1);border-radius:14px;padding:14px;margin-bottom:10px;">' +
                 '<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px;">' +
@@ -5757,6 +5782,7 @@
                   '<span style="font-size:10px;font-weight:600;color:' + roleColor + ';white-space:nowrap;">' + roleLabel + '</span>' +
                 '</div>' +
                 '<div style="font-size:12px;color:var(--mu);margin-bottom:4px;">' + autre + '</div>' +
+                (l.statut === 'recupere' ? '<div style="display:inline-block;font-size:10px;font-weight:600;color:#22C55E;background:#E1F5EE;padding:2px 8px;border-radius:100px;margin-bottom:4px;">✋ Objet récupéré</div>' : '') +
                 '<div style="font-size:12px;color:var(--dk);">📅 ' + (l.jours || 0) + ' jour(s) · 💎 ' + (l.total_pts || 0) + ' pts ' + (jeSuisPreteur ? 'à recevoir' : 'bloqués') + '</div>' +
                 btn +
                 '</div>';
@@ -6411,12 +6437,16 @@
       const isDon = objType === 'don';
       const pts = isDon ? 0 : (parseInt(document.getElementById('ao-pts-input').value) || 10);
       const duree = isDon ? null : (parseInt(document.getElementById('ao-duree')?.value) || 7);
-      const quartier = document.getElementById('ao-quartier')?.value.trim() || '';
+      const ville = document.getElementById('ao-ville')?.value.trim() || '';
       const fileInput = document.getElementById('ao-photo-file');
       const file = fileInput?.files?.[0];
 
       if (!title) {
         showError('ao-error', 'Merci de donner un titre à ton objet.');
+        return;
+      }
+      if (!ville) {
+        showError('ao-error', 'Merci d\'indiquer la ville où se trouve l\'objet.');
         return;
       }
       if (!window.currentProfile) {
@@ -6458,7 +6488,7 @@
           pts_par_jour: pts,
           duree_max: duree,
           disponible: true,
-          ville: window.currentProfile.ville || '',
+          ville: ville,
           code_postal: window.currentProfile.code_postal || '',
           photos: photoUrl ? [photoUrl] : [],
           etat: etat,
@@ -6471,7 +6501,7 @@
         document.getElementById('ao-title').value = '';
         if (document.getElementById('ao-desc')) document.getElementById('ao-desc').value = '';
         if (document.getElementById('ao-pts-input')) document.getElementById('ao-pts-input').value = '10';
-        if (document.getElementById('ao-quartier')) document.getElementById('ao-quartier').value = '';
+        if (document.getElementById('ao-ville')) document.getElementById('ao-ville').value = (window.currentProfile && window.currentProfile.ville) || '';
         if (fileInput) fileInput.value = '';
         // Réinitialiser l'aperçu photo
         const photoBtn = document.getElementById('ao-photo-btn');
@@ -7357,6 +7387,7 @@
           let lastTxt = c.last.contenu || '';
           if (lastTxt.startsWith('LOAN_REQUEST::')) lastTxt = '📦 Demande d\'emprunt';
           else if (lastTxt.startsWith('LOAN_ACCEPT::')) lastTxt = '✅ Demande acceptée';
+          else if (lastTxt.startsWith('LOAN_PICKEDUP::')) lastTxt = '✋ Objet récupéré';
           else if (lastTxt.startsWith('LOAN_REFUSE::')) lastTxt = '✕ Demande refusée';
           else if (lastTxt.startsWith('LOAN_COUNTER::')) lastTxt = '↔ Contre-proposition';
           else if (lastTxt.startsWith('LOAN_RETURNED::')) lastTxt = '🎉 Prêt terminé';
@@ -7456,7 +7487,7 @@
       const content = m.contenu || '';
 
       // Détection messages structurés
-      const match = content.match(/^(LOAN_REQUEST|LOAN_ACCEPT|LOAN_REFUSE|LOAN_COUNTER|LOAN_RETURNED)::(.+)$/);
+      const match = content.match(/^(LOAN_REQUEST|LOAN_ACCEPT|LOAN_PICKEDUP|LOAN_REFUSE|LOAN_COUNTER|LOAN_RETURNED)::(.+)$/);
       if (match) {
         try {
           const type = match[1];
@@ -7507,14 +7538,25 @@
         badge = '✅ Demande acceptée';
         color = '#22C55E';
         intro = (isMine ? 'Tu as accepté' : 'A accepté') + ' la demande d\'emprunt pour <strong>' + titre + '</strong>.';
-        // Le prêteur (celui qui a envoyé l'acceptation = isMine) peut confirmer le retour
         if (isMine && data.loan_id) {
+          // Le prêteur (isMine) : bouton confirmer le retour + rappel sur la récupération
           actions =
             '<div style="margin-top:10px;">' +
               '<button type="button" onclick="confirmerRetour(\'' + data.loan_id + '\')" style="width:100%;padding:10px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">📦 Confirmer le retour de l\'objet</button>' +
-              '<div style="font-size:11px;color:var(--mu);margin-top:6px;text-align:center;">À cliquer quand l\'emprunteur t\'a rendu l\'objet. Les points seront alors transférés.</div>' +
+              '<div style="font-size:11px;color:var(--mu);margin-top:6px;text-align:center;">À cliquer une fois que l\'emprunteur a confirmé avoir récupéré l\'objet, puis te l\'a rendu. Les points seront alors transférés.</div>' +
+            '</div>';
+        } else if (!isMine && data.loan_id) {
+          // L'emprunteur (!isMine) : bouton pour confirmer la récupération de l'objet
+          actions =
+            '<div style="margin-top:10px;">' +
+              '<button type="button" onclick="confirmerRecuperation(\'' + data.loan_id + '\')" style="width:100%;padding:10px 12px;border:0;border-radius:8px;background:var(--g);color:white;font-family:inherit;font-size:13px;cursor:pointer;font-weight:500;">✋ J\'ai récupéré l\'objet</button>' +
+              '<div style="font-size:11px;color:var(--mu);margin-top:6px;text-align:center;">Confirme quand tu as récupéré l\'objet. Le prêteur pourra ensuite valider le retour à la fin du prêt.</div>' +
             '</div>';
         }
+      } else if (type === 'LOAN_PICKEDUP') {
+        badge = '✋ Objet récupéré';
+        color = '#22C55E';
+        intro = (isMine ? 'Tu as confirmé avoir récupéré' : 'A confirmé avoir récupéré') + ' <strong>' + titre + '</strong>.';
       } else if (type === 'LOAN_RETURNED') {
         badge = '🎉 Prêt terminé';
         color = '#085041';
@@ -7937,6 +7979,59 @@
       } catch (e) { return false; }
     }
 
+    /* --- L'emprunteur confirme avoir récupéré l'objet --- */
+    async function confirmerRecuperation(loanId) {
+      if (!loanId) { alert('Prêt introuvable.'); return; }
+      try {
+        const me = await getCurrentProfile();
+        if (!me) return;
+
+        const { data: loan, error: loanErr } = await sb.from('loans')
+          .select('*, obj:object_id(titre)')
+          .eq('id', loanId)
+          .single();
+        if (loanErr || !loan) { alert('Prêt introuvable.'); return; }
+
+        if (loan.statut === 'recupere') { alert('Tu as déjà confirmé la récupération de cet objet.'); return; }
+        if (loan.statut === 'termine') { alert('Ce prêt est déjà terminé.'); return; }
+
+        if (!confirm('Confirmer que tu as bien récupéré l\'objet « ' + (loan.obj?.titre || 'Objet') + ' » ?')) return;
+
+        const { error: rpcErr } = await sb.rpc('confirmer_recuperation', { p_loan_id: loanId });
+        if (rpcErr) {
+          console.error('confirmer_recuperation error:', rpcErr);
+          let m = rpcErr.message || 'Erreur';
+          if (m.includes('emprunteur')) m = '❌ Seul l\'emprunteur peut confirmer la récupération.';
+          else if (m.includes('pas en cours')) m = 'Ce prêt n\'est pas en cours.';
+          alert(m);
+          return;
+        }
+
+        // Message "objet récupéré" dans le chat (notifie le prêteur)
+        const preteurId = loan.preteur_id;
+        const payload = {
+          type: 'LOAN_PICKEDUP',
+          object_titre: loan.obj?.titre || 'Objet',
+          days: loan.jours || 0,
+          total: loan.total_pts || 0,
+          loan_id: loanId
+        };
+        await sb.from('messages').insert({
+          expediteur_id: me.id,
+          destinataire_id: preteurId,
+          contenu: 'LOAN_PICKEDUP::' + JSON.stringify(payload)
+        });
+
+        alert('✋ Récupération confirmée ! Le prêteur pourra valider le retour à la fin du prêt.');
+
+        const activeScreen = document.querySelector('.ascreen.active')?.id;
+        if (activeScreen === 'as-chat') await openChat(preteurId);
+      } catch (e) {
+        console.error('confirmerRecuperation error:', e);
+        alert('Erreur : ' + (e.message || e));
+      }
+    }
+
     /* --- Confirmer le retour d'un objet (transfert définitif des points) --- */
     async function confirmerRetour(loanId) {
       if (!loanId) { alert('Prêt introuvable.'); return; }
@@ -7960,8 +8055,9 @@
         if (rpcErr) {
           console.error('confirmer_retour error:', rpcErr);
           let m = rpcErr.message || 'Erreur';
-          if (m.includes('prêteur')) m = '❌ Seul le prêteur peut confirmer le retour.';
-          else if (m.includes('pas en cours')) m = 'Ce prêt n\'est plus en cours.';
+          if (m.includes('récupéré')) m = '⏳ L\'emprunteur doit d\'abord confirmer qu\'il a récupéré l\'objet. Tu pourras valider le retour ensuite.';
+          else if (m.includes('prêteur')) m = '❌ Seul le prêteur peut confirmer le retour.';
+          else if (m.includes('pas en cours') || m.includes('clôturé')) m = 'Ce prêt n\'est plus en cours.';
           alert(m);
           return;
         }
