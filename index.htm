@@ -5029,16 +5029,9 @@
         if (ov) ov.style.display = 'none';
       }
       if (tab === 'msgs' && typeof loadMessages === 'function') loadMessages();
-      if (tab === 'notif' || tab === 'msgs' || tab === 'chat') {
-        const dot = document.getElementById('notif-dot');
-        if (dot) dot.classList.add('hidden');
-        // On considère tous les messages actuels comme "vus"
-        if (window.lastSeenMessageCount !== undefined) {
-          window.lastSeenMessageCount = window.knownMessageCount || window.lastSeenMessageCount;
-        }
-        const badge = document.getElementById('msgs-badge');
-        if (badge) badge.style.display = 'none';
-      }
+      // Le badge et la pastille ne sont PLUS masqués juste en ouvrant l'onglet.
+      // Ils reflètent les messages réellement non lus (lu=false en base) et ne
+      // disparaissent qu'à l'ouverture effective de chaque conversation (openChat).
 
       document.querySelectorAll('.ascreen').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.ni').forEach(n => {
@@ -6417,6 +6410,7 @@
       const objType = window.aoType || 'pret';
       const isDon = objType === 'don';
       const pts = isDon ? 0 : (parseInt(document.getElementById('ao-pts-input').value) || 10);
+      const duree = isDon ? null : (parseInt(document.getElementById('ao-duree')?.value) || 7);
       const quartier = document.getElementById('ao-quartier')?.value.trim() || '';
       const fileInput = document.getElementById('ao-photo-file');
       const file = fileInput?.files?.[0];
@@ -6462,6 +6456,7 @@
           description: desc,
           categorie: cat,
           pts_par_jour: pts,
+          duree_max: duree,
           disponible: true,
           ville: window.currentProfile.ville || '',
           code_postal: window.currentProfile.code_postal || '',
@@ -7342,9 +7337,13 @@
           const other = (m.expediteur_id === me.id) ? m.destinataire : m.expediteur;
           if (!other) continue;
           if (!convs[other.id]) {
-            convs[other.id] = { user: other, last: m, count: 0 };
+            convs[other.id] = { user: other, last: m, count: 0, unread: 0 };
           }
           convs[other.id].count++;
+          // Compter les messages reçus non lus de cette personne
+          if (m.destinataire_id === me.id && m.lu === false) {
+            convs[other.id].unread++;
+          }
         }
 
         const items = Object.values(convs).map(c => {
@@ -7366,13 +7365,20 @@
           else if (lastTxt.startsWith('DON_REFUSE::')) lastTxt = '✕ Demande refusée';
           else if (lastTxt.startsWith('DON_CONFIRMED::')) lastTxt = '🎉 Don finalisé';
           else lastTxt = lastTxt.slice(0, 60);
+          const hasUnread = c.unread > 0;
+          const nameWeight = hasUnread ? '700' : '500';
+          const previewColor = hasUnread ? 'var(--dk)' : 'var(--mu)';
+          const previewWeight = hasUnread ? '600' : '400';
+          const unreadDot = hasUnread
+            ? '<span style="flex-shrink:0;min-width:20px;height:20px;padding:0 6px;border-radius:100px;background:#EF4444;color:white;font-size:11px;font-weight:600;line-height:20px;text-align:center;">' + (c.unread > 9 ? '9+' : c.unread) + '</span>'
+            : '<span style="color:var(--mu);">›</span>';
           return '<div role="button" tabindex="0" onclick="openChat(\'' + u.id + '\')" style="display:flex;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid #f0f0ed;cursor:pointer;">' +
             avatar +
             '<div style="flex:1;min-width:0;">' +
-              '<div style="font-weight:500;color:var(--dk);font-size:14px;margin-bottom:2px;">' + name + '</div>' +
-              '<div style="font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + lastTxt + '</div>' +
+              '<div style="font-weight:' + nameWeight + ';color:var(--dk);font-size:14px;margin-bottom:2px;">' + name + '</div>' +
+              '<div style="font-size:12px;color:' + previewColor + ';font-weight:' + previewWeight + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + lastTxt + '</div>' +
             '</div>' +
-            '<span style="color:var(--mu);">›</span>' +
+            unreadDot +
             '</div>';
         }).join('');
 
@@ -7421,6 +7427,19 @@
         if (container) {
           container.innerHTML = (msgs || []).map(m => renderChatMessage(m, me.id)).join('');
           container.scrollTop = container.scrollHeight;
+        }
+
+        // Marquer comme LUS les messages reçus de cette personne (ouverture réelle de la conversation)
+        try {
+          await sb.from('messages')
+            .update({ lu: true })
+            .eq('destinataire_id', me.id)
+            .eq('expediteur_id', otherUserId)
+            .eq('lu', false);
+          // Mettre à jour le badge immédiatement sans attendre le prochain polling
+          if (typeof checkNewMessages === 'function') checkNewMessages();
+        } catch (e) {
+          console.warn('Marquage lu échoué:', e);
         }
 
         setTab('chat');
@@ -7692,16 +7711,36 @@
       return { msg: m, data: JSON.parse(match[2]) };
     }
 
+    // Verrou anti-double-clic : empêche d'accepter plusieurs fois la même demande
+    window._loanProcessing = window._loanProcessing || new Set();
+    function loanLockButtons(messageId, locked) {
+      try {
+        document.querySelectorAll('[onclick*="loanAccept(\'' + messageId + '\')"], [onclick*="loanRefuse(\'' + messageId + '\')"]').forEach(function (btn) {
+          btn.disabled = locked;
+          btn.style.opacity = locked ? '0.5' : '1';
+          btn.style.pointerEvents = locked ? 'none' : 'auto';
+        });
+      } catch (e) {}
+    }
+
     async function loanAccept(messageId) {
+      // Si cette demande est déjà en cours de traitement, on bloque immédiatement
+      if (window._loanProcessing.has(messageId)) return;
+      window._loanProcessing.add(messageId);
+      loanLockButtons(messageId, true);
       try {
         const { msg, data } = await loanGetOriginal(messageId);
         const me = await getCurrentProfile();
-        if (!me) return;
+        if (!me) { window._loanProcessing.delete(messageId); loanLockButtons(messageId, false); return; }
         // L'expéditeur de la demande = l'emprunteur
         const emprunteurId = msg.expediteur_id;
 
         if (!confirm('Accepter ce prêt ?\n\n' + (data.object_titre || 'Objet') + '\n' +
-          (data.days || 1) + ' jour(s) · ' + (data.total || 0) + ' pts seront bloqués chez l\'emprunteur.')) return;
+          (data.days || 1) + ' jour(s) · ' + (data.total || 0) + ' pts seront bloqués chez l\'emprunteur.')) {
+          window._loanProcessing.delete(messageId);
+          loanLockButtons(messageId, false);
+          return;
+        }
 
         // Appel de la fonction SQL atomique : vérifie le solde, bloque les points, crée le prêt
         const { data: loanId, error: rpcErr } = await sb.rpc('accepter_pret', {
@@ -7719,7 +7758,10 @@
           if (m.includes('insuffisant')) m = '❌ L\'emprunteur n\'a pas assez de points disponibles pour ce prêt.';
           else if (m.includes('Auto-prêt')) m = '❌ Tu ne peux pas accepter ta propre demande.';
           else if (m.includes('TES objets')) m = '❌ Tu ne peux accepter que pour tes propres objets.';
+          else if (m.includes('déjà') || m.includes('traité') || m.includes('already')) m = 'Cette demande a déjà été traitée.';
           alert(m);
+          window._loanProcessing.delete(messageId);
+          loanLockButtons(messageId, false);
           return;
         }
 
@@ -7736,10 +7778,14 @@
         await getCurrentProfile();
 
         alert('✅ Prêt accepté ! Les points sont bloqués chez l\'emprunteur jusqu\'au retour de l\'objet.\n\nTu pourras confirmer le retour dans ton wallet ou la conversation.');
+        // On NE libère PAS le verrou en cas de succès : la demande est définitivement traitée.
+        // Les boutons restent désactivés jusqu'au rechargement de la conversation.
         await openChat(emprunteurId);
       } catch (e) {
         console.error('loanAccept error:', e);
         alert('Erreur : ' + (e.message || e));
+        window._loanProcessing.delete(messageId);
+        loanLockButtons(messageId, false);
       }
     }
 
@@ -8370,8 +8416,7 @@
        NOTIFICATIONS : nouveaux messages reçus
        (badge sur l'onglet Messages + son + auto-refresh)
        ============================================ */
-    window.knownMessageCount = 0;
-    window.lastSeenMessageCount = 0;
+    window.knownUnreadCount = 0;
     window.notifInitialized = false;
     let notifPollingTimer = null;
 
@@ -8418,44 +8463,32 @@
       try {
         const me = await getCurrentProfile();
         if (!me) return;
+        // Compter les messages REÇUS et NON LUS (statut réel en base, survit au refresh)
         const { count, error } = await sb.from('messages')
           .select('id', { count: 'exact', head: true })
-          .eq('destinataire_id', me.id);
+          .eq('destinataire_id', me.id)
+          .eq('lu', false);
         if (error) { console.warn('[notif] erreur count:', error); return; }
-        const total = count || 0;
+        const unread = count || 0;
+
+        // Détecter un nouveau message arrivé (pour le son) sans dépendre de l'écran
+        const prev = (typeof window.knownUnreadCount === 'number') ? window.knownUnreadCount : unread;
+        window.knownUnreadCount = unread;
 
         const activeScreen = document.querySelector('.ascreen.active')?.id;
         const onMessages = (activeScreen === 'as-msgs' || activeScreen === 'as-chat');
 
-        // Première mesure : initialiser sans alerter
-        if (!window.notifInitialized) {
-          window.notifInitialized = true;
-          window.knownMessageCount = total;
-          window.lastSeenMessageCount = total;
-          return;
+        // Son uniquement si le nombre de non-lus augmente et qu'on n'est pas déjà dans la messagerie
+        if (window.notifInitialized && unread > prev && !onMessages) {
+          playNotifSound();
+        }
+        window.notifInitialized = true;
+
+        // Si on est sur la liste des messages, la rafraîchir pour refléter les non-lus
+        if (activeScreen === 'as-msgs' && typeof loadMessages === 'function') {
+          loadMessages();
         }
 
-        const prev = window.knownMessageCount;
-        window.knownMessageCount = total;
-
-        // Nouveau(x) message(s) reçu(s)
-        if (total > prev) {
-          if (onMessages) {
-            // On est sur les messages → rafraîchir la liste/chat en direct
-            window.lastSeenMessageCount = total;
-            if (activeScreen === 'as-msgs' && typeof loadMessages === 'function') loadMessages();
-            else if (activeScreen === 'as-chat' && window.currentChatUserId && typeof openChat === 'function') {
-              openChat(window.currentChatUserId);
-            }
-          } else {
-            // Sinon : badge + son
-            playNotifSound();
-          }
-        }
-
-        // Badge = messages reçus non encore "vus"
-        if (onMessages) window.lastSeenMessageCount = total;
-        const unread = Math.max(0, total - window.lastSeenMessageCount);
         updateMsgsBadge(unread);
       } catch (e) {
         console.error('checkNewMessages error:', e);
