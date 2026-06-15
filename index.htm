@@ -4744,6 +4744,7 @@
                   <div class="ptico" id="trust-email-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
                   <div class="ptlbl" id="trust-email-lbl" style="flex:1;font-size:13px;color:var(--mu);">Email confirmé</div>
                   <button type="button" id="trust-email-btn" onclick="resendConfirmEmail()" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;">Renvoyer</button>
+                  <button type="button" id="trust-email-check" onclick="recheckEmailConfirmed()" style="background:none;border:0;color:var(--g);font-size:13px;cursor:pointer;font-family:inherit;text-decoration:underline;">J'ai confirmé</button>
                 </div>
                 <div class="ptrow" id="trust-id-row" style="display:flex;align-items:center;gap:10px;padding:6px 0;">
                   <div class="ptico" id="trust-id-ico" style="width:22px;height:22px;background:white;border:1px solid rgba(8,80,65,0.2);color:var(--mu);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">–</div>
@@ -8429,7 +8430,18 @@
       // Email vérifié = depuis Supabase Auth (auth.users.email_confirmed_at)
       let emailVerified = false;
       try {
-        const { data: { user } } = await sb.auth.getUser();
+        // Rafraîchir la session auprès du serveur : capte une validation faite
+        // sur un AUTRE appareil (ex : email confirmé sur téléphone).
+        let user = null;
+        try {
+          const { data: refreshed } = await sb.auth.refreshSession();
+          user = refreshed?.user || null;
+        } catch (e) { /* refresh peut échouer si session déjà fraîche */ }
+        // Fallback : lecture directe si le refresh n'a rien renvoyé
+        if (!user) {
+          const { data } = await sb.auth.getUser();
+          user = data?.user || null;
+        }
         emailVerified = !!(user?.email_confirmed_at || user?.confirmed_at);
       } catch (e) { /* silent */ }
 
@@ -8472,6 +8484,7 @@
       const ico = document.getElementById(prefix + '-ico');
       const lbl = document.getElementById(prefix + '-lbl');
       const btn = document.getElementById(prefix + '-btn');
+      const checkBtn = document.getElementById(prefix + '-check');
       if (!ico || !lbl) return;
       if (verified) {
         ico.textContent = '✓';
@@ -8479,18 +8492,54 @@
         lbl.textContent = defaultLbl;
         lbl.style.color = '';
         if (btn) btn.style.display = 'none';
+        if (checkBtn) checkBtn.style.display = 'none';
       } else if (pending) {
         ico.textContent = '⏳';
         ico.style.background = '#FEF3C7'; ico.style.color = '#92400E'; ico.style.border = '0';
         lbl.textContent = defaultLbl + ' — En cours de validation';
         lbl.style.color = 'var(--mu)';
         if (btn) btn.style.display = 'none';
+        if (checkBtn) checkBtn.style.display = 'none';
       } else {
         ico.textContent = '–';
         ico.style.background = 'white'; ico.style.color = 'var(--mu)'; ico.style.border = '1px solid rgba(8,80,65,0.2)';
         lbl.textContent = defaultLbl;
         lbl.style.color = 'var(--mu)';
         if (btn) btn.style.display = 'inline-block';
+        if (checkBtn) checkBtn.style.display = 'inline-block';
+      }
+    }
+
+    /* --- Forcer la re-vérification du statut email (validation faite sur un autre appareil) --- */
+    async function recheckEmailConfirmed() {
+      const checkBtn = document.getElementById('trust-email-check');
+      const original = checkBtn ? checkBtn.textContent : '';
+      if (checkBtn) { checkBtn.textContent = 'Vérification…'; checkBtn.disabled = true; }
+      try {
+        // Forcer une session fraîche depuis le serveur
+        let user = null;
+        try {
+          const { data: refreshed } = await sb.auth.refreshSession();
+          user = refreshed?.user || null;
+        } catch (e) { /* session déjà fraîche */ }
+        if (!user) {
+          const { data } = await sb.auth.getUser();
+          user = data?.user || null;
+        }
+        const verified = !!(user?.email_confirmed_at || user?.confirmed_at);
+
+        if (verified) {
+          const profile = window.currentProfile || await getCurrentProfile();
+          if (profile && typeof updateTrustUI === 'function') await updateTrustUI(profile);
+          alert('✅ Ton email est bien confirmé !');
+        } else {
+          alert('Ton email n\'apparaît pas encore comme confirmé.\n\nVérifie que tu as bien cliqué sur le lien reçu par email, puis réessaie. Pense à regarder dans tes spams.');
+        }
+      } catch (e) {
+        console.error('recheckEmailConfirmed error:', e);
+        alert('Erreur : ' + (e.message || e));
+      } finally {
+        if (checkBtn) { checkBtn.textContent = original || 'J\'ai confirmé'; checkBtn.disabled = false; }
       }
     }
 
@@ -8608,6 +8657,16 @@
       // Détecter si l'utilisateur arrive depuis un lien de confirmation email
       if (hash && hash.includes('type=signup')) {
         go('p-app');
+        // Charger le profil + UI pour refléter immédiatement l'email confirmé
+        try {
+          const profile = await getCurrentProfile();
+          if (profile) {
+            window.currentProfile = profile;
+            updateProfileUI(profile);
+            if (typeof loadHomeObjects === 'function') loadHomeObjects();
+            startNotificationPolling();
+          }
+        } catch (e) { /* silent */ }
         return;
       }
 
@@ -8631,6 +8690,20 @@
         if (!links || !toggle) return;
         if (!links.classList.contains('open')) return;
         if (!links.contains(e.target) && !toggle.contains(e.target)) closeNav();
+      });
+
+      // Re-vérifier le statut email quand l'utilisateur revient sur l'onglet/la page.
+      // Cas typique : email confirmé sur téléphone, puis retour sur l'ordinateur.
+      document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState !== 'visible') return;
+        try {
+          const { data: { session } } = await sb.auth.getSession();
+          if (!session || !session.user) return;
+          const profile = window.currentProfile || await getCurrentProfile();
+          if (profile && typeof updateTrustUI === 'function') {
+            updateTrustUI(profile);
+          }
+        } catch (e) { /* silent */ }
       });
     });
   </script>
