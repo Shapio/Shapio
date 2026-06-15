@@ -4589,12 +4589,13 @@
           <div class="chatmsgs" style="flex:1;overflow-y:auto;">
             <div style="background:#f7f7f4;border-radius:14px;padding:16px;margin:6px 0;line-height:1.6;font-size:14px;color:var(--dk);">
               <div style="font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:10px;">👋 Bienvenue sur Shapio !</div>
-              <p style="margin:0 0 12px;">Shapio, c'est le prêt d'objets entre voisins, sans argent. On utilise un système de <strong>points</strong> pour s'échanger des services en toute confiance.</p>
+              <p style="margin:0 0 12px;">Shapio, c'est le prêt <strong>et le don</strong> d'objets entre voisins, sans argent. On utilise un système de <strong>points</strong> pour s'échanger des services en toute confiance.</p>
               <div style="font-weight:600;margin:14px 0 8px;color:var(--g);">📌 Quelques règles à connaître</div>
               <ul style="margin:0 0 12px;padding-left:18px;">
                 <li style="margin-bottom:6px;">Tu démarres avec <strong>50 points</strong> offerts.</li>
                 <li style="margin-bottom:6px;">Quand tu empruntes, tes points sont <strong>bloqués</strong> le temps du prêt, puis transférés au prêteur au retour de l'objet.</li>
                 <li style="margin-bottom:6px;">Quand tu prêtes, tu <strong>gagnes des points</strong> que tu pourras utiliser à ton tour.</li>
+                <li style="margin-bottom:6px;">Tu peux aussi <strong>donner</strong> un objet dont tu ne te sers plus : tu gagnes <strong>+5 points</strong> quand un voisin le récupère (jusqu'à 4 dons récompensés par mois).</li>
                 <li style="margin-bottom:6px;">Prends soin des objets empruntés et rends-les <strong>à temps</strong> et en bon état.</li>
                 <li style="margin-bottom:6px;">Sois <strong>respectueux et courtois</strong> dans tes échanges. La communauté repose sur la confiance.</li>
                 <li style="margin-bottom:6px;">Après chaque prêt, laisse un <strong>avis</strong> : ça aide tout le monde.</li>
@@ -6956,7 +6957,7 @@
             </div>
             <div class="poinfo">
               <div class="ponm">${o.titre}</div>
-              <div class="popr">${isDon ? 'Don' : '0 prêts'}</div>
+              ${isDon ? '<div class="popr">Don</div>' : ''}
             </div>
           </div>`;
         }).join('') + addBtn;
@@ -7325,7 +7326,7 @@
         '<div style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#085041,#1D9E75);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:\'DM Serif Display\',serif;color:white;font-size:22px;">S</div>' +
         '<div style="flex:1;min-width:0;">' +
           '<div style="font-weight:600;color:var(--dk);font-size:14px;margin-bottom:2px;display:flex;align-items:center;gap:5px;">Shapio <span style="background:var(--g);color:white;border-radius:50%;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center;font-size:9px;">✓</span></div>' +
-          '<div style="font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">👋 Bienvenue sur Shapio ! Quelques règles à connaître…</div>' +
+          '<div style="font-size:12px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">👋 Bienvenue sur Shapio ! Prête et donne entre voisins…</div>' +
         '</div>' +
         '<span style="color:var(--mu);">›</span>' +
         '</div>';
